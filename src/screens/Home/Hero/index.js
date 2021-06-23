@@ -79,10 +79,10 @@ const Hero = () => {
         <div className={cn("container", styles.container)}>
           <div className={styles.head}>
             <div className={styles.stage}>
-              Create, explore, & collect digital art NFTs.
+              Explore, collect, & trade digital card NFTs.
             </div>
             <h2 className={cn("h3", styles.title)}>
-              The new creative economy.
+              Bringing the <span className = 'text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
             </h2>
             <Link className={cn("button-stroke", styles.button)} to="/search01">
               Start your search
