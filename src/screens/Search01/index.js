@@ -9,7 +9,7 @@ import Dropdown from "../../components/Dropdown";
 // data
 import { bids } from "../../mocks/bids";
 
-const navLinks = ["All items", "Art", "Game", "Photography", "Music", "Video"];
+const navLinks = ["All items", "Cards", "Packs", "Promotional Items"];
 
 const dateOptions = ["Newest", "Oldest"];
 const likesOptions = ["Most liked", "Least liked"];

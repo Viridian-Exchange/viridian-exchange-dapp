@@ -9,7 +9,7 @@ import Theme from "../Theme";
 
 const items = [
   {
-    title: "Crypter.",
+    title: "Viridian Exchange",
     menu: [
       {
         title: "Discover",
@@ -51,12 +51,12 @@ const Footers = () => {
             <Link className={styles.logo} to="/">
               <Image
                 className={styles.pic}
-                src="/images/logo-dark.png"
-                srcDark="/images/logo-light.png"
+                src="logo.svg"
+                srcDark="logo.svg"
                 alt="Fitness Pro"
               />
             </Link>
-            <div className={styles.info}>The New Creative Economy.</div>
+            <div className={styles.info}>The Future of Collectibles Trade.</div>
             <div className={styles.version}>
               <div className={styles.details}>Dark theme</div>
               <Theme className="theme-big" />
@@ -86,7 +86,7 @@ const Footers = () => {
         </div>
         <div className={styles.foot}>
           <div className={styles.copyright}>
-            Copyright © 2021 UI8 LLC. All rights reserved
+            Copyright © 2021 Viridian Exchange LLC. All rights reserved
           </div>
           <div className={styles.note}>
             We use cookies for better service. <a href="/#">Accept</a>

@@ -55,7 +55,7 @@ const User = ({ className }) => {
               <div className={styles.line}>
                 <div className={styles.preview}>
                   <img
-                    src="/images/content/etherium-circle.jpg"
+                    src="/images/content/ve_circle.png"
                     alt="Etherium"
                   />
                 </div>
