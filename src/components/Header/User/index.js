@@ -61,7 +61,7 @@ const User = ({ className }) => {
                 </div>
                 <div className={styles.details}>
                   <div className={styles.info}>Balance</div>
-                  <div className={styles.price}>4.689 ETH</div>
+                  <div className={styles.price}>4.689 VEXT</div>
                 </div>
               </div>
               <button
