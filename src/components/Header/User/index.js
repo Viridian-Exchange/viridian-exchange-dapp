@@ -39,7 +39,7 @@ const User = ({ className }) => {
             <img src="/images/content/avatar-user.jpg" alt="Avatar" />
           </div>
           <div className={styles.wallet}>
-            7.00698 <span className={styles.currency}>ETH</span>
+            129,042 <span className={styles.currency}>VEXT</span>
           </div>
         </div>
         {visible && (

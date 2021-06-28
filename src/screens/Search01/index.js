@@ -12,9 +12,10 @@ import { bids } from "../../mocks/bids";
 const navLinks = ["All items", "Cards", "Packs", "Promotional Items"];
 
 const dateOptions = ["Newest", "Oldest"];
-const likesOptions = ["Most liked", "Least liked"];
+const likesOptions = ["Most liked", "Least liked", "Most to Least Expensive"];
 const colorOptions = ["All colors", "Black", "Green", "Pink", "Purple"];
-const creatorOptions = ["Verified only", "All", "Most liked"];
+const creatorOptions = ["Verified only", "All", "Most Liked"];
+const pricesOptions = ["Most to Least Expensive", "Least to Most Expensive"];
 
 const Search = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -22,6 +23,7 @@ const Search = () => {
   const [likes, setLikes] = useState(likesOptions[0]);
   const [color, setColor] = useState(colorOptions[0]);
   const [creator, setCreator] = useState(creatorOptions[0]);
+  const [prices, setPrices] = useState(colorOptions[0]);
 
   const [search, setSearch] = useState("");
 
@@ -39,7 +41,7 @@ const Search = () => {
     <div className={cn("section-pt80", styles.section)}>
       <div className={cn("container", styles.container)}>
         <div className={styles.top}>
-          <div className={styles.title}>Type your keywords</div>
+          <div className={styles.title}>Explore the Marketplace</div>
           <form
             className={styles.search}
             action=""
@@ -166,22 +168,22 @@ const Search = () => {
                 <div className={styles.label}>Price</div>
                 <Dropdown
                   className={styles.dropdown}
-                  value={likes}
-                  setValue={setLikes}
-                  options={likesOptions}
+                  value={prices}
+                  setValue={setPrices}
+                  options={pricesOptions}
                 />
               </div>
+                <div className={styles.item}>
+                    <div className={styles.label}>Popularity</div>
+                    <Dropdown
+                        className={styles.dropdown}
+                        value={likes}
+                        setValue={setLikes}
+                        options={likesOptions}
+                    />
+                </div>
               <div className={styles.item}>
-                <div className={styles.label}>Color</div>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={color}
-                  setValue={setColor}
-                  options={colorOptions}
-                />
-              </div>
-              <div className={styles.item}>
-                <div className={styles.label}>Creator</div>
+                <div className={styles.label}>Collector</div>
                 <Dropdown
                   className={styles.dropdown}
                   value={creator}
