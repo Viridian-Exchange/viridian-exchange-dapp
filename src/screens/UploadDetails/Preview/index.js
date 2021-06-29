@@ -14,8 +14,8 @@ const Preview = ({ className, onClose }) => {
         <div className={styles.card}>
           <div className={styles.preview}>
             <img
-              srcSet="/images/content/card-pic-6.jpg"
-              src="/images/content/card-pic-6@2x.jpg"
+              srcSet="/images/content/charizardd.png"
+              src="/images/content/charizardd.png"
               alt="Card"
             />
           </div>

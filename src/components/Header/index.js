@@ -88,7 +88,7 @@ const Headers = () => {
           className={cn("button-small", styles.button)}
           to="/upload-variants"
         >
-          Upload
+          Deposit Cards
         </Link>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}
