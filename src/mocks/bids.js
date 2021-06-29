@@ -1,65 +1,50 @@
 export const bids = [
   {
-    title: "Amazing digital art",
+    title: "Charizard Base Set Unlimited Holo #4",
     price: "2.45 ETH",
-    highestBid: "0.001 ETH",
-    counter: "3 in stock",
+    highestBid: "1.98 ETH",
+    counter: "\uD83D\uDC8E PSA GM MT 10",
     bid: 'New bid <span role="img" aria-label="fire">🔥</span>',
-    image: "/images/content/card-pic-1.jpg",
-    image2x: "/images/content/card-pic-1@2x.jpg",
+    image: "/images/content/charizardd.png",
+    image2x: "/images/content/charizardd.png",
     category: "green",
     categoryText: "purchasing !",
     url: "/",
     users: [
       {
-        avatar: "/images/content/avatar-1.jpg",
-      },
-      {
         avatar: "/images/content/avatar-3.jpg",
-      },
-      {
-        avatar: "/images/content/avatar-4.jpg",
       },
     ],
   },
   {
-    title: "Ribbon Hunter",
-    price: "2.45 ETH",
-    highestBid: "0.001 ETH",
-    counter: "3 in stock",
+    title: "Dark Dragonite Team Rocket 1st Edition #5",
+    price: ".89 ETH",
+    highestBid: "0.74 ETH",
+    counter: "PSA 9",
     bid: 'New bid <span role="img" aria-label="fire">🔥</span>',
-    image: "/images/content/card-pic-2.jpg",
-    image2x: "/images/content/card-pic-2@2x.jpg",
+    image: "/images/content/dark_dragonite.jpg",
+    image2x: "/images/content/dark_dragonite.jpg",
     category: "green",
     categoryText: "purchasing !",
     url: "/",
     users: [
       {
         avatar: "/images/content/avatar-1.jpg",
-      },
-      {
-        avatar: "/images/content/avatar-4.jpg",
       },
     ],
   },
   {
-    title: "Amazing digital art",
-    price: "2.45 ETH",
-    highestBid: "0.001 ETH",
-    counter: "3 in stock",
+    title: "Venusaur CD Promo JAPANESE Holo #3",
+    price: ".78 ETH",
+    highestBid: "0.66 ETH",
+    counter: "PSA 9",
     bid: 'New bid <span role="img" aria-label="fire">🔥</span>',
-    image: "/images/content/card-pic-3.jpg",
-    image2x: "/images/content/card-pic-3@2x.jpg",
+    image: "/images/content/venusaur.jpg",
+    image2x: "/images/content/venusaur.jpg",
     category: "green",
     categoryText: "purchasing !",
     url: "/",
     users: [
-      {
-        avatar: "/images/content/avatar-1.jpg",
-      },
-      {
-        avatar: "/images/content/avatar-3.jpg",
-      },
       {
         avatar: "/images/content/avatar-4.jpg",
       },

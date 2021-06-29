@@ -11,13 +11,13 @@ import Connect from "../../../components/Connect";
 
 const items = [
   {
-    title: "the creator network®",
+    title: "Base Set Charizard PSA 10",
     creator: "Enrico Cole",
     currency: "1.00 ETH",
     price: "$3,618.36",
     avatar: "/images/content/avatar-creator.jpg",
-    image: "/images/content/video-preview.jpg",
-    image2x: "/images/content/video-preview@2x.jpg",
+    image: "/images/content/charizardd.png",
+    image2x: "/images/content/charizardd.png",
   },
   {
     title: "Marco carrillo®",

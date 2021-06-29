@@ -70,7 +70,7 @@ const Control = ({ className }) => {
           </button>
         </div>
         <div className={styles.note}>
-          You can sell this token on Crypter Marketplace
+          You can sell this token on Viridian Exchange
         </div>
       </div>
       <Modal

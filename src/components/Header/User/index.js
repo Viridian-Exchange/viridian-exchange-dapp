@@ -55,19 +55,18 @@ const User = ({ className }) => {
   }
 
   //alert(account);
-
   if (connected) {
-    return (
-        <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
-          <div className={cn(styles.user, className)}>
-            <div className={styles.head} onClick={() => setVisible(!visible)}>
-              <div className={styles.avatar}>
-                <img src="/images/content/avatar-user.jpg" alt="Avatar"/>
-              </div>
-              <div className={styles.wallet}>
-                {balance} <span className={styles.currency}>VEXT</span>
-              </div>
-            </div>
+  return (
+    <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
+      <div className={cn(styles.user, className)}>
+        <div className={styles.head} onClick={() => setVisible(!visible)}>
+          <div className={styles.avatar}>
+            <img src="/images/content/avatar-user.jpg" alt="Avatar" />
+          </div>
+          <div className={styles.wallet}>
+            {balance} <span className={styles.currency}>VEXT</span>
+          </div>
+        </div>
             {visible && (
                 <div className={styles.body}>
                   <div className={styles.name}>Enrico Cole</div>
