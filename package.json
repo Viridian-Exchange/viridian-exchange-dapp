@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^12.1.10",
     "body-scroll-lock": "^3.1.5",
     "classnames": "^2.3.1",
+    "fs": "^0.0.1-security",
     "immutable": "^4.0.0-rc.12",
     "node-sass": "^5.0.0",
     "react": "^17.0.1",

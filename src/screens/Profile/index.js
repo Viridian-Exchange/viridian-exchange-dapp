@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import { Link } from "react-router-dom";
 import styles from "./Profile.module.sass";
@@ -6,10 +6,16 @@ import Icon from "../../components/Icon";
 import User from "./User";
 import Items from "./Items";
 import Followers from "./Followers";
+//import VEAbi from '../../abis/ViridianExchange.json';
+//import VNFTAbi from '../../abis/ViridianNFT.json';
+import Web3 from "web3";
 
 // data
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
+import vNFTJSON from '../../abis/ViridianNFT.json';
+
+let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 const navLinks = [
   "On Sale",
@@ -181,9 +187,55 @@ const followers = [
   },
 ];
 
+async function getOwnedNFTs() {
+  const vnftContractAddress = "0x870Ba550637Da66038F7258c2910796BED6933D6";
+  //console.log(JSON.stringify(vNFTJSON));
+  let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
+  return await vnftABI.methods.getOwnedNFTs().call()
+}
+
+
 const Profile = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [nfts, setNfts] = useState([]);
+  const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
+  let nftCopy = nfts;
+
+  async function extractMetadata(nft, i) {
+    setFetchedAndParsed(true);
+    console.log('Fetching from uri: ' + nft.uri);
+    const extractedObject = await fetch(nft.uri + '?x-request=xhr', {
+      mode: 'cors', // no-cors, *cors, same-origin=
+      headers: {
+        'Access-Control-Allow-Origin': '*'
+      },
+    });
+    console.log(JSON.stringify(extractedObject.json()));
+    // nft['uri'] = await extractedObject;
+    // nftCopy[i] = nft;
+  }
+
+  useEffect(async () => {
+    //alert('called');
+
+    //console.log('Getting owned NFTs');
+    if (!fetchedAndParsed) {
+      setNfts(await getOwnedNFTs());
+      //console.log(nfts);
+
+      if (nfts.length > 0) {
+        for (let i = 0; i < nfts.length; i++) {
+          // await nfts.forEach((nft, i) => {
+          //   extractMetadata(nft, i)
+          // });
+          await extractMetadata(nfts[i], i);
+        }
+        setNfts(nftCopy);
+      }
+    }
+  }, [nfts]);
+
 
   return (
     <div className={styles.profile}>
@@ -248,9 +300,9 @@ const Profile = () => {
                 {activeIndex === 0 && (
                   <Items class={styles.items} items={bids.slice(0, 3)} />
                 )}
-                {activeIndex === 1 && (
-                  <Items class={styles.items} items={bids.slice(0, 6)} />
-                )}
+                {activeIndex === 1 && [
+                  <Items class={styles.items} items={bids} />, <div>{JSON.stringify(nfts)}</div>
+                ]}
                 {activeIndex === 2 && (
                   <Items class={styles.items} items={bids.slice(0, 2)} />
                 )}

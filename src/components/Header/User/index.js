@@ -44,7 +44,9 @@ const User = ({ className }) => {
         // You should disable this button while the request is pending!
         await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
           setAccount(accounts[0]);
+          //alert(JSON.stringify(account));
         });
+        //alert(JSON.stringify(web3));
         await web3.eth.getBalance(account).then((balance) =>
         setBalance(balance))
         setConnected(true);
