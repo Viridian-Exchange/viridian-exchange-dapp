@@ -188,7 +188,7 @@ const followers = [
 ];
 
 async function getOwnedNFTs() {
-  const vnftContractAddress = "0x870Ba550637Da66038F7258c2910796BED6933D6";
+  const vnftContractAddress = "0xB3f48f931Ba07a0C0dC39174B13c496644803e5f";
   //console.log(JSON.stringify(vNFTJSON));
   let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
   return await vnftABI.methods.getOwnedNFTs().call()
@@ -200,18 +200,26 @@ const Profile = () => {
   const [visible, setVisible] = useState(false);
   const [nfts, setNfts] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
-  let nftCopy = nfts;
+  const nftsCopy = [];
 
   async function extractMetadata(nft, i) {
     setFetchedAndParsed(true);
     console.log('Fetching from uri: ' + nft.uri);
-    const extractedObject = await fetch(nft.uri + '?x-request=xhr', {
-      mode: 'cors', // no-cors, *cors, same-origin=
-      headers: {
-        'Access-Control-Allow-Origin': '*'
-      },
+    //const extractedObject =
+    await fetch(nft.uri, {
+      mode: "cors",
+      method: "GET"
+    }).then(async res => {
+      console.log(res);
+      console.log(res.status);
+      if (res.ok) {
+        const resJson = await res.json();
+        console.log(JSON.stringify(resJson));
+        const newNFT = {id: nft.id, uri: resJson}
+        nftsCopy.push(newNFT);
+      }
     });
-    console.log(JSON.stringify(extractedObject.json()));
+    //console.log("JSON: " + JSON.stringify(extractedObject));
     // nft['uri'] = await extractedObject;
     // nftCopy[i] = nft;
   }
@@ -231,7 +239,7 @@ const Profile = () => {
           // });
           await extractMetadata(nfts[i], i);
         }
-        setNfts(nftCopy);
+        setNfts(nftsCopy);
       }
     }
   }, [nfts]);
@@ -298,16 +306,16 @@ const Profile = () => {
             <div className={styles.group}>
               <div className={styles.item}>
                 {activeIndex === 0 && (
-                  <Items class={styles.items} items={bids.slice(0, 3)} />
+                  <Items class={styles.items} items={bids} />
                 )}
                 {activeIndex === 1 && [
-                  <Items class={styles.items} items={bids} />, <div>{JSON.stringify(nfts)}</div>
+                  <Items class={styles.items} nfts={nfts} />
                 ]}
                 {activeIndex === 2 && (
-                  <Items class={styles.items} items={bids.slice(0, 2)} />
+                  <Items class={styles.items} items={bids} />
                 )}
                 {activeIndex === 3 && (
-                  <Items class={styles.items} items={bids.slice(0, 3)} />
+                  <Items class={styles.items} items={bids} />
                 )}
                 {activeIndex === 4 && (
                   <Followers className={styles.followers} items={following} />
