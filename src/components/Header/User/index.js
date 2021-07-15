@@ -48,12 +48,17 @@ const User = ({ className }) => {
         });
         //alert(JSON.stringify(web3));
         await web3.eth.getBalance(account).then((balance) =>
-        setBalance(balance))
+        setBalance(round(balance * .000000000000000001, 4)))
         setConnected(true);
         //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
       } catch (error) {
         console.error(error);
       }
+  }
+
+  const round = (number, decimalPlaces) => {
+    const factorOfTen = Math.pow(10, decimalPlaces)
+    return Math.round(number * factorOfTen) / factorOfTen
   }
 
   //alert(account);
