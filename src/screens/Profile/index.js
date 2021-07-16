@@ -18,9 +18,9 @@ import vNFTJSON from '../../abis/ViridianNFT.json';
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 const navLinks = [
+  "VNFTs",
   "On Sale",
-  "Collectibles",
-  "Created",
+  "Offers",
   "Likes",
   "Following",
   "Followers",
@@ -198,7 +198,8 @@ async function getOwnedNFTs() {
 const Profile = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
-  const [nfts, setNfts] = useState([]);
+  const [ownedNFTs, setOwnedNFTs] = useState([]);
+  const [listedNFTs, setListedNFTs] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
 
@@ -229,20 +230,20 @@ const Profile = () => {
 
     //console.log('Getting owned NFTs');
     if (!fetchedAndParsed) {
-      setNfts(await getOwnedNFTs());
-      //console.log(nfts);
+      setOwnedNFTs(await getOwnedNFTs());
+      //console.log(ownedNFTs);
 
-      if (nfts.length > 0) {
-        for (let i = 0; i < nfts.length; i++) {
-          // await nfts.forEach((nft, i) => {
+      if (ownedNFTs.length > 0) {
+        for (let i = 0; i < ownedNFTs.length; i++) {
+          // await ownedNFTs.forEach((nft, i) => {
           //   extractMetadata(nft, i)
           // });
-          await extractMetadata(nfts[i], i);
+          await extractMetadata(ownedNFTs[i], i);
         }
-        setNfts(nftsCopy);
+        setOwnedNFTs(nftsCopy);
       }
     }
-  }, [nfts]);
+  }, [ownedNFTs]);
 
 
   return (
@@ -306,16 +307,16 @@ const Profile = () => {
             <div className={styles.group}>
               <div className={styles.item}>
                 {activeIndex === 0 && (
-                  <Items class={styles.items} items={bids} />
+                  <Items class={styles.items} nfts={ownedNFTs} />
                 )}
                 {activeIndex === 1 && [
-                  <Items class={styles.items} nfts={nfts} />
+                  <Items class={styles.items} nfts={[]} />
                 ]}
                 {activeIndex === 2 && (
                   <Items class={styles.items} items={bids} />
                 )}
                 {activeIndex === 3 && (
-                  <Items class={styles.items} items={bids} />
+                    <Items class={styles.items} items={bids} />
                 )}
                 {activeIndex === 4 && (
                   <Followers className={styles.followers} items={following} />

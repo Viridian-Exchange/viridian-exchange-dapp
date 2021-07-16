@@ -110,7 +110,7 @@ function App() {
         />
         <Route
           exact
-          path="/item"
+          path="/item/:id"
           render={() => (
             <Page>
               <Item />

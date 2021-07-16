@@ -4,17 +4,18 @@ import styles from "./Item.module.sass";
 import Users from "./Users";
 import Control from "./Control";
 import Options from "./Options";
+import { useLocation } from "react-router-dom";
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
 const categories = [
   {
     category: "black",
-    content: "art",
+    content: "Pokemon",
   },
   {
     category: "purple",
-    content: "unlockable",
+    content: "Graded",
   },
 ];
 
@@ -32,8 +33,10 @@ const users = [
   },
 ];
 
-const Item = () => {
+const Item = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
+  //const {passedState} = props.location.state
+  const location = useLocation();
 
   return (
     <>
@@ -56,15 +59,15 @@ const Item = () => {
                 ))}
               </div>
               <img
-                srcSet="/images/content/item-pic@2x.jpg 2x"
-                src="/images/content/item-pic.jpg"
+                //srcSet="/images/content/item-pic@2x.jpg 2x"
+                src={location.state.uri.image}
                 alt="Item"
               />
             </div>
             <Options className={styles.options} />
           </div>
           <div className={styles.details}>
-            <h1 className={cn("h3", styles.title)}>The amazing art</h1>
+            <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
             <div className={styles.cost}>
               <div className={cn("status-stroke-green", styles.price)}>
                 2.5 ETH
