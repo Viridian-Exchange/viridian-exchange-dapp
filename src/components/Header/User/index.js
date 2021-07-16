@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
@@ -32,6 +32,17 @@ const User = ({ className }) => {
   const [account, setAccount] = useState("");
   const [balance, setBalance] = useState(0);
 
+  useEffect(() => {
+    if (Web3.givenProvider) {
+      const connect = async () => {
+        //alert("connecting wallet")
+        await connectWallet();
+        console.log(connected);
+      }
+      //connect().then(() => setConnected(true));
+    }
+  }, [web3.givenProvider]);
+
   const isMetaMaskInstalled = () => {
     //Have to check the ethereum binding on the window object to see if it's installed
     const {ethereum} = window;
@@ -47,9 +58,9 @@ const User = ({ className }) => {
           //alert(JSON.stringify(account));
         });
         //alert(JSON.stringify(web3));
-        await web3.eth.getBalance(account).then((balance) =>
-        setBalance(round(balance * .000000000000000001, 4)))
-        setConnected(true);
+        await web3.eth.getBalance(account).then(async (balance) =>
+        await setBalance(round(balance * .000000000000000001, 4)));
+        await setConnected(true);
         //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
       } catch (error) {
         console.error(error);
@@ -151,7 +162,7 @@ const User = ({ className }) => {
     return (
         <OutsideClickHandler onOutsideClick={() => {}}>
           <div className={cn(styles.user, className)}>
-            <div className={styles.head} onClick={() => connectWallet()}>
+            <div className={styles.head} onClick={async () => await connectWallet()}>
               <div className={styles.disconnectedWallet}>
                 Connect Wallet
               </div>

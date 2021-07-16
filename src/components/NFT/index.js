@@ -36,7 +36,7 @@ const Card = ({ className, item }) => {
           </button>
         </div>
       </div>
-      <Link className={styles.link} to={item.url}>
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { uri: uri} }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{uri.name}</div>

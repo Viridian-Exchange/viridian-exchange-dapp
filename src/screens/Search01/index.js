@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import cn from "classnames";
 import styles from "./Search01.module.sass";
 import { Range, getTrackBackground } from "react-range";
 import Icon from "../../components/Icon";
 import Card from "../../components/Card";
 import Dropdown from "../../components/Dropdown";
-
+import VEJSON from '../../abis/ViridianExchange.json';
+import Web3 from "web3";
 // data
 import { bids } from "../../mocks/bids";
+import NFT from "../../components/NFT";
+import vNFTJSON from "../../abis/ViridianNFT.json";
+import veJSON from "../../abis/ViridianExchange.json";
+
+let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
 
 const navLinks = ["All items", "Cards", "Packs", "Promotional Items"];
 
@@ -28,6 +35,65 @@ const Search = () => {
   const [search, setSearch] = useState("");
 
   const [values, setValues] = useState([5]);
+
+  const [nfts, setNfts] = useState([]);
+  const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
+  const nftsCopy = [];
+
+    async function getListings() {
+        const veContractAddress = "0x690fC5E34134dAD12DB94fc26F852F0dBbd55698";
+        //console.log(JSON.stringify(vNFTJSON));
+        let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+        return await veABI.methods.getListings().call()
+    }
+
+    async function tokenURI(_tokenId) {
+        const vNFTContractAddress = "0x2B62E206aE6d534838794a6B86d8b95d1E152554";
+        let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+        return await vNFTABI.methods.tokenURI(_tokenId).call()
+    }
+
+    async function extractMetadata(nft, i) {
+        setFetchedAndParsed(true);
+        console.log('Fetching from uri: ' + nft.uri);
+        //const extractedObject =
+        await fetch(tokenURI(nft.tokenId), {
+            mode: "cors",
+            method: "GET"
+        }).then(async res => {
+            console.log(res);
+            console.log(res.status);
+            if (res.ok) {
+                const resJson = await res.json();
+                console.log(JSON.stringify(resJson));
+                const newNFT = {id: nft.tokenId, uri: resJson}
+                nftsCopy.push(newNFT);
+            }
+        });
+        //console.log("JSON: " + JSON.stringify(extractedObject));
+        // nft['uri'] = await extractedObject;
+        // nftCopy[i] = nft;
+    }
+
+    useEffect(async () => {
+        //alert('called');
+
+        //console.log('Getting owned NFTs');
+        if (!fetchedAndParsed) {
+            setNfts(await getListings());
+            console.log("Listings: " + JSON.stringify(nfts));
+
+            if (nfts.length > 0) {
+                for (let i = 0; i < nfts.length; i++) {
+                    // await nfts.forEach((nft, i) => {
+                    //   extractMetadata(nft, i)
+                    // });
+                    await extractMetadata(nfts[i], i);
+                }
+                setNfts(nftsCopy);
+            }
+        }
+    }, [nfts]);
 
   const handleSubmit = (e) => {
     alert();
@@ -199,8 +265,8 @@ const Search = () => {
           </div>
           <div className={styles.wrapper}>
             <div className={styles.list}>
-              {bids.map((x, index) => (
-                <Card className={styles.card} item={x} key={index} />
+              {nfts.map((x, index) => (
+                  <NFT className={styles.card} item={x} key={index}/>
               ))}
             </div>
             <div className={styles.btns}>
