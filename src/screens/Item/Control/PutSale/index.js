@@ -3,11 +3,16 @@ import cn from "classnames";
 import styles from "./PutSale.module.sass";
 import Icon from "../../../../components/Icon";
 import Switch from "../../../../components/Switch";
+import veJSON from "../../../../abis/ViridianExchange.json";
+import TextInput from "../../../../components/TextInput";
+import Web3 from "web3";
+
+let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 const items = [
   {
     title: "Enter your price",
-    value: "ETH",
+    value: "VEXT",
   },
   {
     title: "Service fee",
@@ -19,8 +24,19 @@ const items = [
   },
 ];
 
-const PutSale = ({ className }) => {
+const PutSale = (props, { className }) => {
   const [price, setPrice] = useState(false);
+
+  async function putUpForSale(_nftId, _price, _royalty, _isAuction, _endTime) {
+      const veContractAddress = "0x85F960df1e248ba13186c357f152DFe00Ae674C0";
+      //console.log(JSON.stringify(vNFTJSON));
+      let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress, {gasLimit: "20000000000"});
+      return await veABI.methods.putUpForSale(_nftId, _price, _royalty, _isAuction, _endTime, "0xB3f48f931Ba07a0C0dC39174B13c496644803e5f").call();
+  }
+
+  function handlePriceChance(event) {
+      setPrice(event.target.value);
+  }
 
   return (
     <div className={cn(className, styles.sale)}>
@@ -38,15 +54,27 @@ const PutSale = ({ className }) => {
         <Switch className={styles.switch} value={price} setValue={setPrice} />
       </div>
       <div className={styles.table}>
-        {items.map((x, index) => (
-          <div className={styles.row} key={index}>
-            <div className={styles.col}>{x.title}</div>
-            <div className={styles.col}>{x.value}</div>
-          </div>
-        ))}
+        {items.map((x, index) => {
+            if (index === 0 && price) {
+                return (
+                    <div className={styles.row} key={index}>
+                        <div className={styles.col}>{x.title}</div>
+                        <TextInput placeholder={"VEXT"} onChange={handlePriceChance} className={styles.col}/>
+                    </div>
+                );
+            }
+            else {
+                return (
+                    <div className={styles.row} key={index}>
+                        <div className={styles.col}>{x.title}</div>
+                        <div className={styles.col}>{x.value}</div>
+                    </div>
+                );
+            }
+        })}
       </div>
       <div className={styles.btns}>
-        <button className={cn("button", styles.button)}>Continue</button>
+        <button className={cn("button", styles.button)} onClick = {async () => {await putUpForSale(props.state.id, price, 0, false, 0).then((e) => alert(e))}}>Continue</button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>
       </div>
     </div>

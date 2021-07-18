@@ -33,7 +33,7 @@ const users = [
   },
 ];
 
-const Item = (props) => {
+const Item = () => {
   const [activeIndex, setActiveIndex] = useState(0);
   //const {passedState} = props.location.state
   const location = useLocation();
@@ -103,7 +103,7 @@ const Item = (props) => {
               ))}
             </div>
             <Users className={styles.users} items={users} />
-            <Control className={styles.control} />
+            <Control className={styles.control} state={location.state} />
           </div>
         </div>
       </div>

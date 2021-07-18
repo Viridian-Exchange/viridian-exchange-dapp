@@ -9,7 +9,7 @@ import PutSale from "./PutSale";
 import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
 
-const Control = ({ className }) => {
+const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
   const [visibleModalBid, setVisibleModalBid] = useState(false);
   const [visibleModalAccept, setVisibleModalAccept] = useState(false);
@@ -97,7 +97,7 @@ const Control = ({ className }) => {
         visible={visibleModalSale}
         onClose={() => setVisibleModalSale(false)}
       >
-        <PutSale />
+        <PutSale state={props.state} />
       </Modal>
     </>
   );
