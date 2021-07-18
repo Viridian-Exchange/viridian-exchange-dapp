@@ -41,16 +41,16 @@ const Search = () => {
   const nftsCopy = [];
 
     async function getListings() {
-        const veContractAddress = "0x690fC5E34134dAD12DB94fc26F852F0dBbd55698";
+        const veContractAddress = "0x85F960df1e248ba13186c357f152DFe00Ae674C0";
         //console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        return await veABI.methods.getListings().call()
+        return await veABI.methods.getListings().call();
     }
 
     async function tokenURI(_tokenId) {
-        const vNFTContractAddress = "0x2B62E206aE6d534838794a6B86d8b95d1E152554";
+        const vNFTContractAddress = "0xB3f48f931Ba07a0C0dC39174B13c496644803e5f";
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-        return await vNFTABI.methods.tokenURI(_tokenId).call()
+        return await vNFTABI.methods.tokenURI(_tokenId).call();
     }
 
     async function extractMetadata(nft, i) {
