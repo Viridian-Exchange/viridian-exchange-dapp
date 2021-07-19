@@ -37,6 +37,7 @@ const Search = () => {
   const [values, setValues] = useState([5]);
 
   const [nfts, setNfts] = useState([]);
+  const [listings, setListings] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
 
@@ -53,47 +54,54 @@ const Search = () => {
         return await vNFTABI.methods.tokenURI(_tokenId).call();
     }
 
-    async function extractMetadata(nft, i) {
-        setFetchedAndParsed(true);
-        console.log('Fetching from uri: ' + nft.uri);
-        //const extractedObject =
-        await fetch(tokenURI(nft.tokenId), {
-            mode: "cors",
-            method: "GET"
-        }).then(async res => {
-            console.log(res);
-            console.log(res.status);
-            if (res.ok) {
-                const resJson = await res.json();
-                console.log(JSON.stringify(resJson));
-                const newNFT = {id: nft.tokenId, uri: resJson}
-                nftsCopy.push(newNFT);
-            }
-        });
+    async function parseListing(listing) {
+        //console.log('Fetching from uri: ' + listing.uri);
+        //const extractedObject =calert(listing)
+        if (listing) {
+            await tokenURI(listing.tokenId).then(async (e) => {
+                console.log(JSON.stringify(e));
+                await fetch(e, {
+                    mode: "cors",
+                    method: "GET"
+                }).then(async (res) => {
+                    console.log(res);
+                    console.log(res.status);
+                    if (res.ok) {
+                        const resJson = await res.json();
+                        console.log(JSON.stringify(resJson));
+                        const newNFT = {id: listing.tokenId, uri: resJson}
+                        console.log(newNFT);
+                        nftsCopy.push(newNFT);
+                    }
+            });
+            });
+        }
         //console.log("JSON: " + JSON.stringify(extractedObject));
-        // nft['uri'] = await extractedObject;
-        // nftCopy[i] = nft;
+        // listing['uri'] = await extractedObject;
+        // nftCopy[i] = listing;
     }
 
     useEffect(async () => {
         //alert('called');
 
         //console.log('Getting owned NFTs');
-        if (!fetchedAndParsed) {
-            setNfts(await getListings());
-            console.log("Listings: " + JSON.stringify(nfts));
 
-            if (nfts.length > 0) {
-                for (let i = 0; i < nfts.length; i++) {
-                    // await nfts.forEach((nft, i) => {
-                    //   extractMetadata(nft, i)
-                    // });
-                    await extractMetadata(nfts[i], i);
-                }
-                setNfts(nftsCopy);
-            }
+        await getListings().then((e) => {
+            setListings(e);
+            console.log("Listings: " + JSON.stringify(e));
+        });
+
+        for (let i = 0; i < listings.length; i++) {
+            // await nfts.forEach((nft, i) => {
+            //   extractMetadata(nft, i)
+            // });
+            await parseListing(listings[i]);
         }
-    }, [nfts]);
+        setNfts(nftsCopy);
+        if (!fetchedAndParsed) {
+            setFetchedAndParsed(true);
+        }
+    }, [fetchedAndParsed]);
 
   const handleSubmit = (e) => {
     alert();
