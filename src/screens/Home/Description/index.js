@@ -9,12 +9,12 @@ const Description = () => {
     <div className={styles.section}>
       <div className={cn("container", styles.container)}>
         <div className={styles.wrap}>
-          <div className={styles.stage}>Save your time with Stacks</div>
+          <div className={styles.stage}>The premier physically-backed nft exchange</div>
           <h1 className={cn("h1", styles.title)}>
             Bringing the <span className='text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
           </h1>
           <div className={styles.text}>
-            A creative agency that lead and inspire
+            Send your cards in today
           </div>
           <div className={styles.btns}>
             <Link className={cn("button", styles.button)} to="/upload-variants">
@@ -28,20 +28,11 @@ const Description = () => {
         <div className={styles.gallery}>
           <div className={styles.preview}>
             <Image
-              srcSet="/images/content/cubes@2x.png 2x"
-              srcSetDark="/images/content/cubes-dark@2x.png 2x"
-              src="/images/content/cubes.png"
-              srcDark="/images/content/cubes-dark.png"
+              srcSet="/images/content/zardxeth.png"
+              srcSetDark="/images/content/zardxeth.png"
+              src="/images/content/zardxeth.png"
+              srcDark="/images/content/zardxeth.png"
               alt="Cubes"
-            />
-          </div>
-          <div className={styles.preview}>
-            <Image
-              srcSet="/images/content/cube@2x.png 2x"
-              srcSetDark="/images/content/cube-dark@2x.png 2x"
-              src="/images/content/cube.png"
-              srcDark="/images/content/cube-dark.png"
-              alt="Cube"
             />
           </div>
         </div>
