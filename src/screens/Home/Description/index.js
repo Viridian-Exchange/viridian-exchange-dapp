@@ -9,16 +9,16 @@ const Description = () => {
     <div className={styles.section}>
       <div className={cn("container", styles.container)}>
         <div className={styles.wrap}>
-          <div className={styles.stage}>The premier physically-backed nft exchange</div>
+          <div className={styles.stage}>Secured by the Ethereum Blockchain</div>
           <h1 className={cn("h1", styles.title)}>
             Bringing the <span className='text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
           </h1>
           <div className={styles.text}>
-            Send your cards in today
+            The premier physically-backed nft exchange
           </div>
           <div className={styles.btns}>
             <Link className={cn("button", styles.button)} to="/upload-variants">
-              Create item
+              Submit cards
             </Link>
             <Link className={cn("button-stroke", styles.button)} to="/search01">
               Discover more
@@ -28,10 +28,10 @@ const Description = () => {
         <div className={styles.gallery}>
           <div className={styles.preview}>
             <Image
-              srcSet="/images/content/zardxeth.png"
-              srcSetDark="/images/content/zardxeth.png"
-              src="/images/content/zardxeth.png"
-              srcDark="/images/content/zardxeth.png"
+              srcSet="/images/content/bitmap_2_cards.png"
+              srcSetDark="/images/content/bitmap_2_cards.png"
+              src="/images/content/bitmap_2_cards.png"
+              srcDark="/images/content/bitmap_2_cards.png"
               alt="Cubes"
             />
           </div>

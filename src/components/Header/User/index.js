@@ -15,11 +15,6 @@ const items = [
     url: "/profile",
   },
   {
-    title: "My items",
-    icon: "image",
-    url: "/item",
-  },
-  {
     title: "Disconnect",
     icon: "exit",
     url: "/connect-wallet",
