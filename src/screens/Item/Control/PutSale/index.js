@@ -6,6 +6,7 @@ import Switch from "../../../../components/Switch";
 import veJSON from "../../../../abis/ViridianExchange.json";
 import TextInput from "../../../../components/TextInput";
 import Web3 from "web3";
+import config from "../../../../../local-dev-config";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
@@ -28,7 +29,7 @@ const PutSale = (props, { className }) => {
   const [price, setPrice] = useState(false);
 
   async function putUpForSale(_nftId, _price, _royalty, _endTime, _isVEXT) {
-      const veContractAddress = "0x85F960df1e248ba13186c357f152DFe00Ae674C0";
+      const veContractAddress = config.dev_contract_addresses.ve_contract;
       //console.log(JSON.stringify(vNFTJSON));
       let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress, {gasLimit: "20000000000"});
       console.log(veABI);
