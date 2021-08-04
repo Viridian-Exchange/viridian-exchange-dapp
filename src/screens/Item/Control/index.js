@@ -14,6 +14,9 @@ const Control = (props, { className }) => {
   const [visibleModalBid, setVisibleModalBid] = useState(false);
   const [visibleModalAccept, setVisibleModalAccept] = useState(false);
   const [visibleModalSale, setVisibleModalSale] = useState(false);
+  const [currentUser, setCurrentUser] = useState(false);
+  const [isListing, setIsListing] = useState(false);
+  const [offers, setOffers] = useState([]);
 
   return (
     <>

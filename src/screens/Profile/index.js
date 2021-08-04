@@ -191,7 +191,19 @@ async function getOwnedNFTs() {
   const vnftContractAddress = "0xB3f48f931Ba07a0C0dC39174B13c496644803e5f";
   //console.log(JSON.stringify(vNFTJSON));
   let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
-  return await vnftABI.methods.getOwnedNFTs().call()
+  let nftIds = await vnftABI.methods.getOwnedNFTs().call();
+  let nfts = [];
+
+  for (let i = 0; i < nftIds.length; i++) {
+    let nftId = nftIds[i]
+    let uri = await vnftABI.methods.tokenURI(nftId).call();
+    console.log(uri);
+    nfts.push({id: nftId, uri: uri});
+  }
+
+  console.log(nfts);
+
+  return nfts;
 }
 
 
