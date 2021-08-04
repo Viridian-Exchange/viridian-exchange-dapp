@@ -9,6 +9,7 @@ import Followers from "./Followers";
 //import VEAbi from '../../abis/ViridianExchange.json';
 //import VNFTAbi from '../../abis/ViridianNFT.json';
 import Web3 from "web3";
+import config from "../../../local-dev-config";
 
 // data
 import { bids } from "../../mocks/bids";
@@ -188,7 +189,7 @@ const followers = [
 ];
 
 async function getOwnedNFTs() {
-  const vnftContractAddress = "0xB3f48f931Ba07a0C0dC39174B13c496644803e5f";
+  const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
   //console.log(JSON.stringify(vNFTJSON));
   let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
   let nftIds = await vnftABI.methods.getOwnedNFTs().call();
