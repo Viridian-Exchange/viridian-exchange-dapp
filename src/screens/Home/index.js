@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Hero from "./Hero";
 import Selection from "./Selection";
 import Popular from "./Popular";
@@ -7,12 +7,16 @@ import Collections from "./Collections";
 import Discover from "./Discover";
 import Description from "./Description";
 
-const Home = () => {
+const Home = (props) => {
+    // useEffect(async () => {
+    //     alert(JSON.stringify(props))
+    // }, []);
+
   return (
     <>
         <Description />
       <Popular />
-      <HotBid classSection="section" />
+      <HotBid classSection="section" listings={props.listings} setListings={props.listings}/>
     </>
   );
 };

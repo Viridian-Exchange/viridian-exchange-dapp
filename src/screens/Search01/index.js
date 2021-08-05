@@ -25,7 +25,7 @@ const colorOptions = ["All colors", "Black", "Green", "Pink", "Purple"];
 const creatorOptions = ["Verified only", "All", "Most Liked"];
 const pricesOptions = ["Most to Least Expensive", "Least to Most Expensive"];
 
-const Search = () => {
+const Search = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [date, setDate] = useState(dateOptions[0]);
   const [likes, setLikes] = useState(likesOptions[0]);
@@ -86,7 +86,7 @@ const Search = () => {
                     console.log(res.status);
                     if (res.ok) {
                         const resJson = await res.json();
-                        alert(JSON.stringify(resJson));
+                        //alert(JSON.stringify(resJson));
                         const newNFT = {id: listing.tokenId, uri: resJson}
                         console.log(newNFT);
                         nftsCopy.push(newNFT);
@@ -100,6 +100,7 @@ const Search = () => {
     }
 
     useEffect(async () => {
+        alert(JSON.stringify(props))
         //alert('called');
 
         //console.log('Getting owned NFTs');
@@ -128,6 +129,9 @@ const Search = () => {
         }
 
         setNfts(nftsCopy);
+
+        props.setListings(nftsCopy);
+        alert(props.listings);
         if (!fetchedAndParsed) {
             setFetchedAndParsed(true);
         }

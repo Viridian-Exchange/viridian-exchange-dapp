@@ -1,18 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import Slider from "react-slick";
 import styles from "./HotBid.module.sass";
 import Icon from "../Icon";
-import Card from "../Card";
+import NFT from "../NFT";
 
 // data
-import { bids } from "../../mocks/bids";
 
 const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
 );
 
-const Hot = ({ classSection }) => {
+const Hot = (props, { classSection }) => {
+  // useEffect(async () => {
+  //   alert(JSON.stringify(props.listings))
+  // }, []);
+
   const settings = {
     infinite: false,
     speed: 500,
@@ -58,8 +61,8 @@ const Hot = ({ classSection }) => {
           <h3 className={cn("h3", styles.title)}>Hot listings</h3>
           <div className={styles.inner}>
             <Slider className="bid-slider" {...settings}>
-              {bids.map((x, index) => (
-                <Card key={index} className={styles.card} item={x} />
+              {props.listings.map((x, index) => (
+                <NFT key={index} className={styles.card} item={x} />
               ))}
             </Slider>
           </div>
