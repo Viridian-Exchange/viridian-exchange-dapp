@@ -6,6 +6,9 @@ import styles from "./User.module.sass";
 import Icon from "../../Icon";
 import Theme from "../../Theme";
 import Web3 from "web3";
+import config from "../../../local-dev-config";
+import vTJSON from "../../../abis/ViridianToken.json";
+import BigNumber from "bignumber.js";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 const items = [
@@ -25,7 +28,8 @@ const User = ({ className }) => {
   const [visible, setVisible] = useState(false);
   const [connected, setConnected] = useState(false);
   const [account, setAccount] = useState("");
-  const [balance, setBalance] = useState(0);
+  const [ethBalance, setEthBalance] = useState(0);
+  const [vextBalance, setVextBalance] = useState(0);
 
   useEffect(() => {
     if (Web3.givenProvider) {
@@ -54,12 +58,39 @@ const User = ({ className }) => {
         });
         //alert(JSON.stringify(web3));
         await web3.eth.getBalance(account).then(async (balance) =>
-        await setBalance(round(balance * .000000000000000001, 4)));
+        await setEthBalance(round(balance * .000000000000000001, 4)));
+        await setVextBalance(await getVEXTBalance());
         await setConnected(true);
         //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
       } catch (error) {
         console.error(error);
       }
+  }
+
+  async function getVEXTBalance() {
+    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    //console.log(JSON.stringify(vNFTJSON));
+    let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
+    return await vtABI.methods.balanceOf(account).call();
+  }
+
+  function parseVextBalance(vextBalance) {
+    //alert("BEF: " + vextBalance);
+    vextBalance = new BigNumber(vextBalance);
+    vextBalance = vextBalance.shiftedBy(-18);
+    vextBalance = vextBalance.toNumber();
+    //alert(vextBalance);
+    //alert(vextBalance < 1000000.0);
+    if (10000 < vextBalance && vextBalance < 1000000.0) {
+      return (vextBalance / 1000).toFixed(2) + "K"
+    }
+    else if (vextBalance > 1000000.0) {
+      //alert("DIV: " + vextBalance / 1000000)
+      return (vextBalance / 1000000).toFixed(2) + "M"
+    }
+    else {
+      return vextBalance.toFixed(2);
+    }
   }
 
   const round = (number, decimalPlaces) => {
@@ -77,7 +108,7 @@ const User = ({ className }) => {
             <img src="/images/content/avatar-user.jpg" alt="Avatar" />
           </div>
           <div className={styles.wallet}>
-            {balance} <span className={styles.currency}>VEXT</span>
+            {parseVextBalance(vextBalance)} <span className={styles.currency}>VEXT</span>
           </div>
         </div>
             {visible && (
@@ -99,7 +130,7 @@ const User = ({ className }) => {
                       </div>
                       <div className={styles.details}>
                         <div className={styles.info}>Balance</div>
-                        <div className={styles.price}>{balance} VEXT</div>
+                        <div className={styles.price}>{parseVextBalance(vextBalance)} VEXT</div>
                       </div>
                     </div>
                     <button
