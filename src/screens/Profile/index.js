@@ -195,8 +195,9 @@ async function getOwnedNFTs() {
   let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
   let nftIds = await vnftABI.methods.getOwnedNFTs().call();
   let nfts = [];
+  //alert(JSON.stringify(vnftABI.methods));
 
-  await console.log(vnftABI.methods);
+  //await console.log(vnftABI.methods);
 
   if(nftIds) {
     for (let i = 0; i < nftIds.length; i++) {

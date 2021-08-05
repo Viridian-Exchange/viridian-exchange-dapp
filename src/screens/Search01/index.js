@@ -46,22 +46,38 @@ const Search = () => {
         const veContractAddress = config.dev_contract_addresses.ve_contract;
         //console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+        // await console.log("ABIMETHODS");
+        // await console.log(veABI.methods);
         return await veABI.methods.getListings().call();
     }
 
-    async function tokenURI(_tokenId) {
+    async function getListingFromId(listingId) {
+        const veContractAddress = config.dev_contract_addresses.ve_contract;
+        //console.log(JSON.stringify(vNFTJSON));
+        let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+        // await console.log("ABIMETHODS");
+        // await console.log(veABI.methods);
+        return await veABI.methods.getListingsFromId(listingId).call();
+    }
+
+    async function tokenURI(tokenId) {
         const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
 
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-        return await vNFTABI.methods.tokenURI(_tokenId).call();
+        await console.log("ABIMETHODS: " + tokenId);
+        let nft = vNFTABI.methods.tokenURI(tokenId).call();
+
+        //alert(nft);
+
+        return nft;
     }
 
     async function parseListing(listing) {
-        //console.log('Fetching from uri: ' + listing.uri);
+        //console.log('Fetching from uri: ' + JSON.stringify(listing.tokenId));
         //const extractedObject =calert(listing)
         if (listing) {
             await tokenURI(listing.tokenId).then(async (e) => {
-                console.log(JSON.stringify(e));
+                console.log("FETCHING THIS: " + JSON.stringify(e));
                 await fetch(e, {
                     mode: "cors",
                     method: "GET"
@@ -70,7 +86,7 @@ const Search = () => {
                     console.log(res.status);
                     if (res.ok) {
                         const resJson = await res.json();
-                        console.log(JSON.stringify(resJson));
+                        alert(JSON.stringify(resJson));
                         const newNFT = {id: listing.tokenId, uri: resJson}
                         console.log(newNFT);
                         nftsCopy.push(newNFT);
@@ -80,7 +96,7 @@ const Search = () => {
         }
         //console.log("JSON: " + JSON.stringify(extractedObject));
         // listing['uri'] = await extractedObject;
-        // nftCopy[i] = listing;
+        //nftCopy[i] = listing;
     }
 
     useEffect(async () => {
@@ -88,17 +104,29 @@ const Search = () => {
 
         //console.log('Getting owned NFTs');
 
-        await getListings().then((e) => {
-            setListings(e);
+        await getListings().then(async (e) => {
             console.log("Listings: " + JSON.stringify(e));
+            await setListings(e);
+
+            //alert(listings.length);
         });
 
-        for (let i = 0; i < listings.length; i++) {
-            // await nfts.forEach((nft, i) => {
-            //   extractMetadata(nft, i)
-            // });
-            await parseListing(listings[i]);
+
+        //await parseListing(listings[0]);
+
+        if (listings) {
+            for (let i = 0; i < listings.length; i++) {
+                // await nfts.forEach((nft, i) => {
+                //   extractMetadata(nft, i)
+                // });
+                let listing = listings[i];
+                console.log("LSTNG: " + listing)
+                if(listing) {
+                    await parseListing(await getListingFromId(listing));
+                }
+            }
         }
+
         setNfts(nftsCopy);
         if (!fetchedAndParsed) {
             setFetchedAndParsed(true);
