@@ -9,12 +9,13 @@ import Followers from "./Followers";
 //import VEAbi from '../../abis/ViridianExchange.json';
 //import VNFTAbi from '../../abis/ViridianNFT.json';
 import Web3 from "web3";
-import config from "../../../local-dev-config";
+import config from "../../local-dev-config";
 
 // data
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
 import vNFTJSON from '../../abis/ViridianNFT.json';
+import vTJSON from '../../abis/ViridianToken.json';
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
@@ -195,18 +196,21 @@ async function getOwnedNFTs() {
   let nftIds = await vnftABI.methods.getOwnedNFTs().call();
   let nfts = [];
 
-  for (let i = 0; i < nftIds.length; i++) {
-    let nftId = nftIds[i]
-    let uri = await vnftABI.methods.tokenURI(nftId).call();
-    console.log(uri);
-    nfts.push({id: nftId, uri: uri});
+  await console.log(vnftABI.methods);
+
+  if(nftIds) {
+    for (let i = 0; i < nftIds.length; i++) {
+      let nftId = nftIds[i]
+      let uri = await vnftABI.methods.tokenURI(nftId).call();
+      console.log(uri);
+      nfts.push({id: nftId, uri: uri});
+    }
   }
 
-  console.log(nfts);
+  //console.log(nfts);
 
   return nfts;
 }
-
 
 const Profile = () => {
   const [activeIndex, setActiveIndex] = useState(0);

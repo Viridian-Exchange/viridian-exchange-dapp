@@ -6,7 +6,7 @@ import Switch from "../../../../components/Switch";
 import veJSON from "../../../../abis/ViridianExchange.json";
 import TextInput from "../../../../components/TextInput";
 import Web3 from "web3";
-import config from "../../../../../local-dev-config";
+import config from "../../../../local-dev-config";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 

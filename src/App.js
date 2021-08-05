@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import "./styles/app.sass";
 import Page from "./components/Page";
 import Home from "./screens/Home";
+import PayPal from "./screens/PayPal";
 import UploadVariants from "./screens/UploadVariants";
 import UploadDetails from "./screens/UploadDetails";
 import ConnectWallet from "./screens/ConnectWallet";
@@ -36,6 +37,15 @@ function App() {
             </Page>
           )}
         />
+          <Route
+              exact
+              path="/paypal"
+              render={() => (
+                  <Page>
+                      <PayPal/>
+                  </Page>
+              )}
+          />
         <Route
           exact
           path="/upload-details"
