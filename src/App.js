@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
 import "./styles/app.sass";
 import Page from "./components/Page";
 import Home from "./screens/Home";
@@ -16,6 +17,10 @@ import Item from "./screens/Item";
 import PageList from "./screens/PageList";
 
 function App() {
+    const [listings, setListings] = useState([]);
+
+
+
   return (
     <Router>
       <Switch>
@@ -24,7 +29,7 @@ function App() {
           path="/"
           render={() => (
             <Page>
-              <Home />
+              <Home listings={listings} setListings={setListings} />
             </Page>
           )}
         />
@@ -87,7 +92,7 @@ function App() {
           path="/search01"
           render={() => (
             <Page>
-              <Search01 />
+              <Search01 listings={listings} setListings={setListings} hi={"HI"}/>
             </Page>
           )}
         />
@@ -96,7 +101,7 @@ function App() {
           path="/search02"
           render={() => (
             <Page>
-              <Search02 />
+              <Search02 listings={listings} setListings={setListings}/>
             </Page>
           )}
         />
