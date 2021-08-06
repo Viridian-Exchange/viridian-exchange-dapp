@@ -61,7 +61,7 @@ const Hot = (props, { classSection }) => {
           <h3 className={cn("h3", styles.title)}>Hot listings</h3>
           <div className={styles.inner}>
             <Slider className="bid-slider" {...settings}>
-              {props.listings.map((x, index) => (
+              {props.nfts.map((x, index) => (
                 <NFT key={index} className={styles.card} item={x} />
               ))}
             </Slider>
