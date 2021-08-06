@@ -6,7 +6,7 @@ const Faq = () => {
   return (
     <>
       <Hero />
-      <HotBid classSection="section-pb" />
+      {/*<HotBid classSection="section-pb" />*/}
     </>
   );
 };
