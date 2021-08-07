@@ -7,16 +7,18 @@ import User from "./User";
 import Items from "./Items";
 import Followers from "./Followers";
 //import VEAbi from '../../abis/ViridianExchange.json';
-//import VNFTAbi from '../../abis/ViridianNFT.json';
 import Web3 from "web3";
-import config from "../../../local-dev-config";
+import config from "../../local-dev-config";
+import { useLocation } from "react-router-dom";
 
 // data
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
 import vNFTJSON from '../../abis/ViridianNFT.json';
 
+
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
 
 const navLinks = [
   "VNFTs",
@@ -189,19 +191,26 @@ const followers = [
 ];
 
 async function getOwnedNFTs() {
-  const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
+
   //console.log(JSON.stringify(vNFTJSON));
+
+  // NFT Contract Calls
+  const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
   let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
   let nftIds = await vnftABI.methods.getOwnedNFTs().call();
   let nfts = [];
 
-  for (let i = 0; i < nftIds.length; i++) {
-    let nftId = nftIds[i]
-    let uri = await vnftABI.methods.tokenURI(nftId).call();
-    console.log(uri);
-    nfts.push({id: nftId, uri: uri});
-  }
+  // await console.log(JSON.stringify(vNFTJSON['abi']));
+  console.log(vnftContractAddress);
 
+  if (nftIds) {
+    for (let i = 0; i < nftIds.length; i++) {
+      let nftId = nftIds[i]
+      let uri = await vnftABI.methods.tokenURI(nftId).call();
+      console.log(uri);
+      nfts.push({id: nftId, uri: uri});
+    }
+  }
   console.log(nfts);
 
   return nfts;
@@ -215,6 +224,9 @@ const Profile = () => {
   const [listedNFTs, setListedNFTs] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
+
+
+  const location = useLocation();
 
   async function extractMetadata(nft, i) {
     setFetchedAndParsed(true);
@@ -302,7 +314,7 @@ const Profile = () => {
       </div>
       <div className={styles.body}>
         <div className={cn("container", styles.container)}>
-          <User className={styles.user} item={socials} />
+          <User className={styles.user} item={socials} account = {location.state.account}/>
           <div className={styles.wrapper}>
             <div className={styles.nav}>
               {navLinks.map((x, index) => (
