@@ -25,7 +25,7 @@ const colorOptions = ["All colors", "Black", "Green", "Pink", "Purple"];
 const creatorOptions = ["Verified only", "All", "Most Liked"];
 const pricesOptions = ["Most to Least Expensive", "Least to Most Expensive"];
 
-const Search = () => {
+const Search = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [date, setDate] = useState(dateOptions[0]);
   const [likes, setLikes] = useState(likesOptions[0]);
@@ -37,73 +37,7 @@ const Search = () => {
 
   const [values, setValues] = useState([5]);
 
-  const [nfts, setNfts] = useState([]);
-  const [listings, setListings] = useState([]);
-  const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
-  const nftsCopy = [];
-
-    async function getListings() {
-        const veContractAddress = config.dev_contract_addresses.ve_contract;
-        //console.log(JSON.stringify(vNFTJSON));
-        let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        return await veABI.methods.getListings().call();
-    }
-
-    async function tokenURI(_tokenId) {
-        const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
-
-        let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-        return await vNFTABI.methods.tokenURI(_tokenId).call();
-    }
-
-    async function parseListing(listing) {
-        //console.log('Fetching from uri: ' + listing.uri);
-        //const extractedObject =calert(listing)
-        if (listing) {
-            await tokenURI(listing.tokenId).then(async (e) => {
-                console.log(JSON.stringify(e));
-                await fetch(e, {
-                    mode: "cors",
-                    method: "GET"
-                }).then(async (res) => {
-                    console.log(res);
-                    console.log(res.status);
-                    if (res.ok) {
-                        const resJson = await res.json();
-                        console.log(JSON.stringify(resJson));
-                        const newNFT = {id: listing.tokenId, uri: resJson}
-                        console.log(newNFT);
-                        nftsCopy.push(newNFT);
-                    }
-            });
-            });
-        }
-        //console.log("JSON: " + JSON.stringify(extractedObject));
-        // listing['uri'] = await extractedObject;
-        // nftCopy[i] = listing;
-    }
-
-    useEffect(async () => {
-        //alert('called');
-
-        //console.log('Getting owned NFTs');
-
-        await getListings().then((e) => {
-            setListings(e);
-            console.log("Listings: " + JSON.stringify(e));
-        });
-
-        for (let i = 0; i < listings.length; i++) {
-            // await nfts.forEach((nft, i) => {
-            //   extractMetadata(nft, i)
-            // });
-            await parseListing(listings[i]);
-        }
-        setNfts(nftsCopy);
-        if (!fetchedAndParsed) {
-            setFetchedAndParsed(true);
-        }
-    }, [fetchedAndParsed]);
+  //alert(props.listings)
 
   const handleSubmit = (e) => {
     alert();
@@ -275,9 +209,9 @@ const Search = () => {
           </div>
           <div className={styles.wrapper}>
             <div className={styles.list}>
-              {nfts.map((x, index) => (
-                  <NFT className={styles.card} item={x} key={index}/>
-              ))}
+              {props.nfts.map((x, index) => [
+                  <NFT className={styles.card} item={x} key={index} isListing={true} account={props.account}/>
+              ])}
             </div>
             <div className={styles.btns}>
               <button className={cn("button-stroke", styles.button)}>
