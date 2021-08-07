@@ -12,7 +12,7 @@ import { bids } from "../../mocks/bids";
 import NFT from "../../components/NFT";
 import vNFTJSON from "../../abis/ViridianNFT.json";
 import veJSON from "../../abis/ViridianExchange.json";
-import config from "../../../local-dev-config";
+import config from "../../local-dev-config";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 

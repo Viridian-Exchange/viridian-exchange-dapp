@@ -1,19 +1,54 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import cn from "classnames";
 import styles from "./User.module.sass";
 import Icon from "../../../components/Icon";
 import Report from "../../../components/Report";
 import Modal from "../../../components/Modal";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
+import config from "../../../local-dev-config";
+import vNFTJSON from "../../../abis/ViridianNFT.json";
+import Web3 from "web3";
 // import { isStepDivisible } from "react-range/lib/utils";
+import veJSON from '../../../abis/ViridianExchange.json';
 
 const shareUrlFacebook = "https://ui8.net";
 const shareUrlTwitter = "https://ui8.net";
 
-const User = ({ className, item }) => {
+let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
+//TODO: check in useeffect if it is the current user (is accounts[0] the same as the account passed in as props?)
+// Get current user OBJ from using abi.getUserFromAddress, and set this to userInfo const
+//
+
+const User = ({ className, item, account }) => {
   const [visible, setVisible] = useState(false);
   const [visibleShare, setVisibleShare] = useState(false);
   const [visibleModalReport, setVisibleModalReport] = useState(false);
+  // const [userInfo, setUserInfo] = useState({});
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+
+
+
+  //TODO: setUserInfo here with getUserInfo()
+  // then also check if current address is the same as the address pulled.
+
+
+  // TODO: prompt for user info setting, or have them edit it manually (set default values)
+  //  once wallet connected, check if fields are empty, if certain empty, prompt
+  //  would you like to set up your profile now? (links to "edit profile" screen) or "skip for now"
+
+
+
+
+  // useEffect(async () => {
+  //   let current_address = web3.eth.accounts[0];
+  //   if (account == current_address) {
+  //     setUserInfo(getUserInfo());
+  //   }
+  // }, );
+
+
+
 
   return (
     <>
@@ -23,7 +58,7 @@ const User = ({ className, item }) => {
         </div>
         <div className={styles.name}>Enrico Cole</div>
         <div className={styles.code}>
-          <div className={styles.number}>0xc4c16a645...b21a</div>
+          <div className={styles.number}>{account}</div>
           <button className={styles.copy}>
             <Icon name="copy" size="16" />
           </button>
