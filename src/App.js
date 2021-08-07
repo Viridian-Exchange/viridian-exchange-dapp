@@ -21,6 +21,7 @@ import vNFTJSON from "./abis/ViridianNFT.json";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
+import { getUsers, signUpUser } from "../src/smartContracts/ViridianExchangeMethods";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
     const [ethBalance, setEthBalance] = useState(0);
     const [vextBalance, setVextBalance] = useState(0);
     const nftsCopy = [];
+    const [users, setUsers] = useState([]);
 
     const isMetaMaskInstalled = () => {
         //Have to check the ethereum binding on the window object to see if it's installed
@@ -210,6 +212,8 @@ function App() {
         if (!fetchedAndParsed) {
             setFetchedAndParsed(true);
         }
+
+        setUsers(await getUsers());
     }, [fetchedAndParsed]);
 
 
