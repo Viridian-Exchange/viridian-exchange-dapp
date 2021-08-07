@@ -7,12 +7,9 @@ import Icon from "../../Icon";
 import Theme from "../../Theme";
 import Web3 from "web3";
 import config from "../../../local-dev-config";
-<<<<<<< HEAD
 import veJSON from "../../../abis/ViridianExchange.json";
-=======
 import vTJSON from "../../../abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
->>>>>>> 743d989c46a2a53f82fd8b6415642eaf2867a52c
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
@@ -33,7 +30,6 @@ const User = ({ className }) => {
   const [visible, setVisible] = useState(false);
   const [connected, setConnected] = useState(false);
   const [account, setAccount] = useState("");
-<<<<<<< HEAD
   const [balance, setBalance] = useState(0);
   const [userInfo, setUserInfo] = useState({});
 
