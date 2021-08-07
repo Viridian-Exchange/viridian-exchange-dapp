@@ -16,7 +16,7 @@ const Home = (props) => {
     <>
         <Description />
       <Popular />
-      <HotBid classSection="section" nfts={props.nfts} setListings={props.setListings}/>
+      <HotBid classSection="section" nfts={props.nfts} setListings={props.setListings} account={props.account}/>
     </>
   );
 };

@@ -33,7 +33,7 @@ const users = [
   },
 ];
 
-const Item = () => {
+const Item = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   //const {passedState} = props.location.state
   const location = useLocation();
@@ -102,8 +102,9 @@ const Item = () => {
                 </button>
               ))}
             </div>
-            <Users className={styles.users} items={users} />
-            <Control className={styles.control} state={location.state} />
+            {/*{JSON.stringify(location.state.isListing)}*/}
+            <Users className={styles.users} items={users} owner={location.state.nftOwner} />
+            <Control className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>
         </div>
       </div>
