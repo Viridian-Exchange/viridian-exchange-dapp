@@ -12,6 +12,7 @@ import { bids } from "../../mocks/bids";
 import NFT from "../../components/NFT";
 import vNFTJSON from "../../abis/ViridianNFT.json";
 import veJSON from "../../abis/ViridianExchange.json";
+import config from "../../local-dev-config";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
@@ -42,14 +43,15 @@ const Search = () => {
   const nftsCopy = [];
 
     async function getListings() {
-        const veContractAddress = "0x85F960df1e248ba13186c357f152DFe00Ae674C0";
+        const veContractAddress = config.dev_contract_addresses.ve_contract;
         //console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
         return await veABI.methods.getListings().call();
     }
 
     async function tokenURI(_tokenId) {
-        const vNFTContractAddress = "0xB3f48f931Ba07a0C0dC39174B13c496644803e5f";
+        const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
         return await vNFTABI.methods.tokenURI(_tokenId).call();
     }
