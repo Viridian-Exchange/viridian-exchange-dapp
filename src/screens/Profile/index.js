@@ -249,7 +249,7 @@ const Profile = (props) => {
   useEffect(() => {
     console.log(JSON.stringify(props.nfts));
     getOwnedListings();
-    console.log(ownedListings)
+    console.log(ownedListings);
   }, []);
 
   async function ownerOf(tokenId) {
