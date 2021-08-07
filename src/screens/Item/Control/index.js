@@ -14,9 +14,61 @@ const Control = (props, { className }) => {
   const [visibleModalBid, setVisibleModalBid] = useState(false);
   const [visibleModalAccept, setVisibleModalAccept] = useState(false);
   const [visibleModalSale, setVisibleModalSale] = useState(false);
-  const [currentUser, setCurrentUser] = useState(false);
+  //const [currentUser, setCurrentUser] = useState(false);
   const [isListing, setIsListing] = useState(false);
   const [offers, setOffers] = useState([]);
+
+  function offerButtons() {
+    if ((props.owner.toLowerCase() === props.account.toLowerCase()) && props.isListing) {
+      return (
+          <div className={styles.btns}>
+              <button className={cn("button-stroke", styles.button)}>
+                  View all
+              </button>
+              <button
+                  className={cn("button", styles.button)}
+                  onClick={() => setVisibleModalAccept(true)}
+              >
+                  Accept
+              </button>
+          </div>);
+    }
+  }
+
+    function buyButtons() {
+        if ((props.owner.toLowerCase() !== props.account.toLowerCase()) && props.isListing) {
+            return (
+                <div className={styles.btns}>
+                    <button
+                        className={cn("button", styles.button)}
+                        onClick={() => setVisibleModalPurchase(true)}
+                    >
+                        Purchase now
+                    </button>
+                    <button
+                        className={cn("button-stroke", styles.button)}
+                        onClick={() => setVisibleModalBid(true)}
+                    >
+                        Place a bid
+                    </button>
+                </div>);
+        }
+    }
+
+    function putOnSaleButton() {
+        if ((props.owner.toLowerCase() === props.account.toLowerCase()) && !props.isListing) {
+            return (
+                <div className={styles.foot}>
+                    <button
+                        className={cn("button", styles.button)}
+                        onClick={() => setVisibleModalSale(true)}
+                    >
+                        Put on sale
+                    </button>
+                </div>
+            );
+        }
+    }
 
   return (
     <>
@@ -35,43 +87,14 @@ const Control = (props, { className }) => {
             </div>
           </div>
         </div>
-        <div className={styles.btns}>
-          <button
-            className={cn("button", styles.button)}
-            onClick={() => setVisibleModalPurchase(true)}
-          >
-            Purchase now
-          </button>
-          <button
-            className={cn("button-stroke", styles.button)}
-            onClick={() => setVisibleModalBid(true)}
-          >
-            Place a bid
-          </button>
-        </div>
-        <div className={styles.btns}>
-          <button className={cn("button-stroke", styles.button)}>
-            View all
-          </button>
-          <button
-            className={cn("button", styles.button)}
-            onClick={() => setVisibleModalAccept(true)}
-          >
-            Accept
-          </button>
-        </div>
+          {/*{JSON.stringify(props.isListing)}*/}
+          {buyButtons()}
+          {offerButtons()}
         <div className={styles.text}>
           Service fee <span className={styles.percent}>1.5%</span>{" "}
           <span>2.563 ETH</span> <span>$4,540.62</span>
         </div>
-        <div className={styles.foot}>
-          <button
-            className={cn("button", styles.button)}
-            onClick={() => setVisibleModalSale(true)}
-          >
-            Put on sale
-          </button>
-        </div>
+          {putOnSaleButton()}
         <div className={styles.note}>
           You can sell this token on Viridian Exchange
         </div>

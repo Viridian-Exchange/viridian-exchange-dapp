@@ -209,9 +209,9 @@ const Search = (props) => {
           </div>
           <div className={styles.wrapper}>
             <div className={styles.list}>
-              {props.nfts.map((x, index) => (
-                  <NFT className={styles.card} item={x} key={index}/>
-              ))}
+              {props.nfts.map((x, index) => [
+                  <NFT className={styles.card} item={x} key={index} isListing={true} account={props.account}/>
+              ])}
             </div>
             <div className={styles.btns}>
               <button className={cn("button-stroke", styles.button)}>
