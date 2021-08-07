@@ -14,6 +14,13 @@ import ProfileEdit from "./screens/ProfileEdit";
 import Item from "./screens/Item";
 import PageList from "./screens/PageList";
 
+//TODO: show address, list of followers, description, etc on profile page
+// function in the smart contract to add a user that is followed
+// (triggered by follow button press-> calls the function which takes in an address and adds the user to the list of following)
+// front end will pull the followee user and be able to show the profile on the initial user
+// , and call in the CLI, once followers working, you will see another profile show up
+// use item flow -> Profile/user flow
+// get current user wallet, then abi->getuserfromaddress->return json of user struct
 function App() {
   return (
     <Router>
@@ -92,7 +99,7 @@ function App() {
         />
         <Route
           exact
-          path="/profile"
+          path="/profile/:address"
           render={() => (
             <Page>
               <Profile />
