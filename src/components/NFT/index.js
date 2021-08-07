@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
 
-const Card = ({ className, item }) => {
+const NFT = ({ className, item, account, isListing }, props) => {
   const [visible, setVisible] = useState(false);
   const [uri, setURI] = useState(item.uri);
 
@@ -36,7 +36,8 @@ const Card = ({ className, item }) => {
           </button>
         </div>
       </div>
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { uri: uri, id: item.id } }}>
+      {/*{JSON.stringify(isListing)}*/}
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { uri: uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{uri.name}</div>
@@ -68,4 +69,4 @@ const Card = ({ className, item }) => {
   );
 };
 
-export default Card;
+export default NFT;

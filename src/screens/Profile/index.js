@@ -11,10 +11,12 @@ import Web3 from "web3";
 import config from "../../local-dev-config";
 import { useLocation } from "react-router-dom";
 
+
 // data
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
 import vNFTJSON from '../../abis/ViridianNFT.json';
+import vTJSON from '../../abis/ViridianToken.json';
 
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
@@ -199,6 +201,7 @@ async function getOwnedNFTs() {
   let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
   let nftIds = await vnftABI.methods.getOwnedNFTs().call();
   let nfts = [];
+  //alert(JSON.stringify(vnftABI.methods));
 
   // await console.log(JSON.stringify(vNFTJSON['abi']));
   console.log(vnftContractAddress);
@@ -212,18 +215,54 @@ async function getOwnedNFTs() {
     }
   }
   console.log(nfts);
+  //await console.log(vnftABI.methods);
+
+
+  //console.log(nfts);
 
   return nfts;
 }
 
-
-const Profile = () => {
+const Profile = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
   const [ownedNFTs, setOwnedNFTs] = useState([]);
   const [listedNFTs, setListedNFTs] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
+  const [ownedListings, setOwnedListings] = useState([]);
+  const [ownedOffers, setOwnedOffers] = useState([]);
+
+  function getOwnedListings() {
+    let curNFTs = props.nfts;
+
+    // TODO: Filter listings not owned by the current wallet, maybe write a tool for filtering listings to help
+    //  with the search bar
+    // curNFTs.forEach((nft, index) =>  {
+    //   //if (nft.owner != )
+    //   curNFTs.splice(index, 1);
+    // });
+
+    setOwnedListings(curNFTs);
+  }
+
+  useEffect(() => {
+    console.log(JSON.stringify(props.nfts));
+    getOwnedListings();
+    console.log(ownedListings)
+  }, []);
+
+  async function ownerOf(tokenId) {
+    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+    await console.log("ABIMETHODS: " + tokenId);
+    let owner = vNFTABI.methods.ownerOf(tokenId).call();
+
+    //alert(nft);
+
+    return owner;
+  }
 
 
   const location = useLocation();
@@ -238,12 +277,16 @@ const Profile = () => {
     }).then(async res => {
       console.log(res);
       console.log(res.status);
-      if (res.ok) {
-        const resJson = await res.json();
-        console.log(JSON.stringify(resJson));
-        const newNFT = {id: nft.id, uri: resJson}
-        nftsCopy.push(newNFT);
-      }
+      await ownerOf(nft.id).then(async (owner) => {
+        if (res.ok) {
+          //alert("Owner OF: " + owner);
+          const resJson = await res.json();
+          //alert(JSON.stringify(resJson));
+          const newNFT = {id: nft.id, uri: resJson, owner: owner}
+          console.log(newNFT);
+          nftsCopy.push(newNFT);
+        }
+      });
     });
     //console.log("JSON: " + JSON.stringify(extractedObject));
     // nft['uri'] = await extractedObject;
@@ -332,16 +375,16 @@ const Profile = () => {
             <div className={styles.group}>
               <div className={styles.item}>
                 {activeIndex === 0 && (
-                  <Items class={styles.items} nfts={ownedNFTs} />
+                  <Items class={styles.items} nfts={ownedNFTs} isListing={false} account={props.account} />
                 )}
                 {activeIndex === 1 && [
-                  <Items class={styles.items} nfts={[]} />
+                  <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                 ]}
                 {activeIndex === 2 && (
-                  <Items class={styles.items} items={bids} />
+                  <Items class={styles.items} items={[]} />
                 )}
                 {activeIndex === 3 && (
-                    <Items class={styles.items} items={bids} />
+                    <Items class={styles.items} items={[]} />
                 )}
                 {activeIndex === 4 && (
                   <Followers className={styles.followers} items={following} />

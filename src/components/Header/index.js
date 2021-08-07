@@ -17,8 +17,8 @@ const nav = [
     title: "How it works",
   },
   {
-    url: "/item",
-    title: "Create item",
+    url: "/paypal",
+    title: "Buy $VEXT",
   },
   {
     url: "/profile",
@@ -42,7 +42,7 @@ const Headers = () => {
             className={styles.pic}
             src="logo_words.svg"
             srcDark="logo_words.svg"
-            alt="Fitness Pro"
+            alt="Viridian Exchange"
           />
         </Link>
         <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
@@ -84,11 +84,17 @@ const Headers = () => {
           </Link>
         </div>
         <Notification className={styles.notification} />
+        {/*<Link*/}
+        {/*  className={cn("button-small", styles.button)}*/}
+        {/*  to="/upload-variants"*/}
+        {/*>*/}
+        {/*  Buy $VEXT*/}
+        {/*</Link>*/}
         <Link
-          className={cn("button-small", styles.button)}
-          to="/upload-variants"
+            className={cn("button-small", styles.button)}
+            to="/paypal"
         >
-          Deposit Cards
+          Buy $VEXT
         </Link>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}

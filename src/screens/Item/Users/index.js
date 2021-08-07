@@ -2,7 +2,7 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Users.module.sass";
 
-const Users = ({ className, items }) => {
+const Users = ({ className, items, owner }) => {
   return (
     <div className={cn(styles.users, className)}>
       <div className={styles.list}>
@@ -18,7 +18,7 @@ const Users = ({ className, items }) => {
             </div>
             <div className={styles.details}>
               <div className={styles.position}>{x.position}</div>
-              <div className={styles.name}>{x.name}</div>
+              <div className={styles.name}>{owner}</div>
             </div>
           </div>
         ))}
