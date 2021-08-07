@@ -221,6 +221,7 @@ function App() {
         }
 
         setUsers(await getUsers());
+        console.log("USERS: " + await getUsers());
     }, [fetchedAndParsed]);
 
 
@@ -233,7 +234,7 @@ function App() {
           path="/"
           render={() => (
             <Page>
-              <Home listings={listings} setListings={setListings} nfts={nfts} account={account} isListing={true} />
+              <Home users={users} listings={listings} setListings={setListings} nfts={nfts} account={account} isListing={true} />
             </Page>
           )}
         />

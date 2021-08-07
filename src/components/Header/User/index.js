@@ -84,7 +84,7 @@ const User = ({ className }) => {
         // You should disable this button while the request is pending!
         await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
           setAccount(accounts[0]);
-          alert(account);
+          //alert(account);
           //alert(JSON.stringify(account));
         });
         //alert(JSON.stringify(web3));

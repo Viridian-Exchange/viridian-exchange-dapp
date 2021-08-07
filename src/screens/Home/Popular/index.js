@@ -98,7 +98,7 @@ const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
 const dateOptions = ["Today", "Morning", "Dinner", "Evening"];
 const directionOptions = ["Sellers", "Buyers"];
 
-const Popular = () => {
+const Popular = (props) => {
   const settings = {
     infinite: false,
     speed: 500,
@@ -143,6 +143,7 @@ const Popular = () => {
 
   return (
     <div className={cn("section-bg", styles.section)}>
+      {/*{JSON.stringify(props.users)}*/}
       <div className={cn("container", styles.container)}>
         <div className={styles.top}>
           <div className={styles.box}>
@@ -166,37 +167,37 @@ const Popular = () => {
         </div>
         <div className={styles.wrapper}>
           <Slider className="popular-slider" {...settings}>
-            {items.map((x, index) => (
+            {props.users.map((x, index) => (
               <div className={styles.slide} key={index}>
                 <div className={styles.item}>
                   <div className={styles.head}>
                     <div
                       className={styles.rating}
-                      style={{ backgroundColor: x.color }}
+                      style={{ backgroundColor: items[index].color }}
                     >
                       <div className={styles.icon}>
-                        <img src={x.sign} alt="Rating" />
+                        <img src={items[index].sign} alt="Rating" />
                       </div>
-                      <div className={styles.number}>#{x.number}</div>
+                      <div className={styles.number}>#{items[index].number}</div>
                     </div>
                     <div className={styles.control}>
                       <Add className={styles.button} />
-                      <Link className={styles.button} to={x.url}>
+                      <Link className={styles.button} to={items[index].url}>
                         <Icon name="arrow-expand" size="24" />
                       </Link>
                     </div>
                   </div>
                   <div className={styles.body}>
                     <div className={styles.avatar}>
-                      <img src={x.avatar} alt="Avatar" />
+                      <img src={items[index].avatar} alt="Avatar" />
                       <div className={styles.reward}>
-                        <img src={x.reward} alt="Reward" />
+                        <img src={items[index].reward} alt="Reward" />
                       </div>
                     </div>
-                    <div className={styles.name}>{x.name}</div>
+                    <div className={styles.name}>{props.users[index]}</div>
                     <div
                       className={styles.price}
-                      dangerouslySetInnerHTML={{ __html: x.price }}
+                      dangerouslySetInnerHTML={{ __html: items[index].price }}
                     />
                   </div>
                 </div>
