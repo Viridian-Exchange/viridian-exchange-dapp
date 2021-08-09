@@ -1,35 +1,12 @@
 import config from "../local-dev-config";
-import vNFTJSON from "../abis/ViridianNFT.json";
+import vTJSON from "../abis/ViridianToken.json";
 import Web3 from "web3";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
-export async function tokenURI(tokenId) {
-    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+export async function approve(from, exchangeAddress, amount) {
+    const vTContractAddress = config.dev_contract_addresses.vt_contract;
 
-    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
-    let nft = vNFTABI.methods.tokenURI(tokenId).call();
+    let vTABI = new web3.eth.Contract(vTJSON['abi'], vTContractAddress);
 
-    //alert(nft);
-
-    return nft;
-}
-
-export async function ownerOf(tokenId) {
-    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
-
-    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
-    let owner = await vNFTABI.methods.ownerOf(tokenId).call();
-
-    //alert(nft);
-
-    return owner;
-}
-
-export async function setApprovalForAll(from, exchangeAddress) {
-    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
-
-    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-    await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send({from: from});
+    return await vTABI.methods.approve(exchangeAddress, amount).send({from: from});
 }

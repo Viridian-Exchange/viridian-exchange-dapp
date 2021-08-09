@@ -3,32 +3,34 @@ import cn from "classnames";
 import styles from "./Checkout.module.sass";
 import Icon from "../../../../components/Icon";
 import LoaderCircle from "../../../../components/LoaderCircle";
+import {buyNFTWithVEXT} from "../../../../smartContracts/ViridianExchangeMethods";
 
-const items = [
-  {
-    title: "0.007",
-    value: "ETH",
-  },
-  {
-    title: "Your balance",
-    value: "8.498 ETH",
-  },
-  {
-    title: "Service fee",
-    value: "0 ETH",
-  },
-  {
-    title: "You will pay",
-    value: "0.007 ETH",
-  },
-];
 
-const Checkout = ({ className }) => {
+const Checkout = (props, { className }) => {
+    const items = [
+        {
+            title: props.price,
+            value: "VEXT",
+        },
+        {
+            title: "Your balance",
+            value: "8.498 ETH",
+        },
+        {
+            title: "Service fee",
+            value: "0 ETH",
+        },
+        {
+            title: "You will pay",
+            value: "0.007 ETH",
+        },
+    ];
+
   return (
     <div className={cn(className, styles.checkout)}>
       <div className={cn("h4", styles.title)}>Checkout</div>
       <div className={styles.info}>
-        You are about to purchase <strong>C O I N Z</strong> from{" "}
+        You are about to purchase a <strong>Viridian NFT</strong> from{" "}
         <strong>UI8</strong>
       </div>
       <div className={styles.table}>
@@ -73,7 +75,8 @@ const Checkout = ({ className }) => {
         </div>
       </div>
       <div className={styles.btns}>
-        <button className={cn("button", styles.button)}>
+          {/*{JSON.stringify(props)}*/}
+        <button className={cn("button", styles.button)} onClick={async () => await buyNFTWithVEXT(props.account, props.tokenId, props.price)}>
           I understand, continue
         </button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>

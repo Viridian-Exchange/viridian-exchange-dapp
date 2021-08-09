@@ -7,6 +7,7 @@ import veJSON from "../../../../abis/ViridianExchange.json";
 import TextInput from "../../../../components/TextInput";
 import Web3 from "web3";
 import config from "../../../../local-dev-config";
+import {putUpForSale} from "../../../../smartContracts/ViridianExchangeMethods";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
@@ -27,14 +28,6 @@ const items = [
 
 const PutSale = (props, { className }) => {
   const [price, setPrice] = useState(false);
-
-  async function putUpForSale(_nftId, _price, _royalty, _endTime, _isVEXT) {
-      const veContractAddress = config.dev_contract_addresses.ve_contract;
-      //console.log(JSON.stringify(vNFTJSON));
-      let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress, {gasLimit: "20000000000"});
-      console.log(veABI);
-      return await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, false).call();
-  }
 
   function handlePriceChance(event) {
       setPrice(event.target.value);
@@ -76,7 +69,9 @@ const PutSale = (props, { className }) => {
         })}
       </div>
       <div className={styles.btns}>
-        <button className={cn("button", styles.button)} onClick = {async () => {await putUpForSale(props.state.id, price, 0, 0, false).then((e) => alert(JSON.stringify(e)))}}>Continue</button>
+          {/*{props.account}*/}
+          {/*{props.id}*/}
+        <button className={cn("button", styles.button)} onClick = {async () => {await putUpForSale(props.account, props.state.id, price, 0, 0).then((e) => alert(JSON.stringify(e)))}}>Continue</button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>
       </div>
     </div>
