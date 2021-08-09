@@ -192,37 +192,6 @@ const followers = [
   },
 ];
 
-async function getOwnedNFTs() {
-
-  //console.log(JSON.stringify(vNFTJSON));
-
-  // NFT Contract Calls
-  const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
-  let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
-  let nftIds = await vnftABI.methods.getOwnedNFTs().call();
-  let nfts = [];
-  //alert(JSON.stringify(vnftABI.methods));
-
-  // await console.log(JSON.stringify(vNFTJSON['abi']));
-  console.log(vnftContractAddress);
-
-  if (nftIds) {
-    for (let i = 0; i < nftIds.length; i++) {
-      let nftId = nftIds[i]
-      let uri = await vnftABI.methods.tokenURI(nftId).call();
-      console.log(uri);
-      nfts.push({id: nftId, uri: uri});
-    }
-  }
-  console.log(nfts);
-  //await console.log(vnftABI.methods);
-
-
-  //console.log(nfts);
-
-  return nfts;
-}
-
 const Profile = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -232,6 +201,42 @@ const Profile = (props) => {
   const nftsCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
   const [ownedOffers, setOwnedOffers] = useState([]);
+
+  async function getOwnedNFTs() {
+    //alert('gettingOwnedNFTs');
+
+    //console.log(JSON.stringify(vNFTJSON));
+
+    // NFT Contract Calls
+    const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
+    let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
+    //alert(JSON.stringify(vnftABI.methods));
+    let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: props.account});
+    let nfts = [];
+    //alert(JSON.stringify(vnftABI.methods));
+
+    // await console.log(JSON.stringify(vNFTJSON['abi']));
+    console.log(vnftContractAddress);
+
+    if (nftIds) {
+      //alert(JSON.stringify(nftIds));
+      for (let i = 0; i < nftIds.length; i++) {
+        let nftId = nftIds[i]
+        let uri = await vnftABI.methods.tokenURI(nftId).call();
+        //console.log("XXX: " + uri);
+        nfts.push({id: nftId, uri: uri});
+      }
+
+      //alert(nfts);
+    }
+    //alert(nfts);
+    //await console.log(vnftABI.methods);
+
+
+    //console.log(nfts);
+
+    return nfts;
+  }
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
@@ -299,13 +304,14 @@ const Profile = (props) => {
     //console.log('Getting owned NFTs');
     if (!fetchedAndParsed) {
       setOwnedNFTs(await getOwnedNFTs());
-      //console.log(ownedNFTs);
+      //alert(ownedNFTs);
 
       if (ownedNFTs.length > 0) {
         for (let i = 0; i < ownedNFTs.length; i++) {
           // await ownedNFTs.forEach((nft, i) => {
           //   extractMetadata(nft, i)
           // });
+          //alert(JSON.stringify(ownedNFTs[i]));
           await extractMetadata(ownedNFTs[i], i);
         }
         setOwnedNFTs(nftsCopy);

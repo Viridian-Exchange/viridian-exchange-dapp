@@ -20,9 +20,24 @@ export async function ownerOf(tokenId) {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     await console.log("ABIMETHODS: " + tokenId);
-    let owner = vNFTABI.methods.ownerOf(tokenId).call();
+    let owner = await vNFTABI.methods.ownerOf(tokenId).call();
 
     //alert(nft);
 
     return owner;
+}
+
+export async function setApprovalForAll(from, exchangeAddress) {
+    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+    await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send({from: from});
+}
+
+export async function isApprovedForAll(owner, operator) {
+    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+
+    await vNFTABI.methods.isApprovedForAll(owner, operator).call();
 }

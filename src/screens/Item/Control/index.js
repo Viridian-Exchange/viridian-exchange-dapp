@@ -103,7 +103,7 @@ const Control = (props, { className }) => {
         visible={visibleModalPurchase}
         onClose={() => setVisibleModalPurchase(false)}
       >
-        <Checkout />
+        <Checkout price={props.price} account={props.account} tokenId={props.state.id} />
         <SuccessfullyPurchased />
       </Modal>
       <Modal
@@ -123,7 +123,7 @@ const Control = (props, { className }) => {
         visible={visibleModalSale}
         onClose={() => setVisibleModalSale(false)}
       >
-        <PutSale state={props.state} />
+        <PutSale account={props.account} state={props.state} price={props.price} />
       </Modal>
     </>
   );
