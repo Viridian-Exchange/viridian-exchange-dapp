@@ -65,7 +65,8 @@ const Item = (props) => {
                 alt="Item"
               />
             </div>
-            <Options className={styles.options} />
+            {/*{location.state.listingId}*/}
+            <Options className={styles.options} id={location.state.listingId} account={props.account} />
           </div>
           <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>

@@ -68,14 +68,10 @@ export async function buyNFTWithVEXT(from, _listingId, amount) {
     });
 }
 
-// export async function waitForTxToBeMined(txHash) {
-//     let txReceipt
-//     while (!txReceipt) {
-//         try {
-//             txReceipt = await eth.getTransactionReceipt(txHash)
-//         } catch (err) {
-//             return "Failure"
-//         }
-//     }
-//     return "Success"
-// }
+export async function pullFromSale(from, _listingId) {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+
+    return await veABI.methods.pullFromSale(_listingId).send({from: from});
+}

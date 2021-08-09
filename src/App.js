@@ -158,7 +158,7 @@ function App() {
                         //alert("Owner OF: " + owner);
                         const resJson = await res.json();
                         //alert(JSON.stringify(resJson));
-                        const newNFT = {id: listing.tokenId, uri: resJson, owner: owner, price: listing.price}
+                        const newNFT = {listingId: listing.listingId, id: listing.tokenId, uri: resJson, owner: owner, price: listing.price}
                         console.log(newNFT);
                         nftsCopy.push(newNFT);
                     }
