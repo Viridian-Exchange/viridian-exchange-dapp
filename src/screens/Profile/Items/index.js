@@ -9,7 +9,7 @@ const Items = ({ className, items, nfts, isListing, account }, props) => {
     if (nfts) {
         return (
             <div className={cn(styles.items, className)}>
-                {/*{JSON.stringify(nfts)}*/}
+                {JSON.stringify(nfts)}
                 <div className={styles.list}>
                     {nfts.map((x, index) => (
                         <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>
