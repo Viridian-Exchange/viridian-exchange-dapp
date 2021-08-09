@@ -1,8 +1,9 @@
 import React from "react";
 import cn from "classnames";
 import styles from "./RemoveSale.module.sass";
+import {removeFromSale} from "../../smartContracts/ViridianExchangeMethods";
 
-const RemoveSale = ({ className }) => {
+const RemoveSale = (props, { className }) => {
   return (
     <div className={cn(className, styles.transfer)}>
       <div className={cn("h4", styles.title)}>Remove from sale</div>
@@ -11,7 +12,7 @@ const RemoveSale = ({ className }) => {
         anytime
       </div>
       <div className={styles.btns}>
-        <button className={cn("button", styles.button)}>Remove now</button>
+        <button onClick={async () => {await removeFromSale(props.id)}} className={cn("button", styles.button)}>Remove now</button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>
       </div>
     </div>

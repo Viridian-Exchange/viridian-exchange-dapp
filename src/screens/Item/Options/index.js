@@ -4,7 +4,7 @@ import styles from "./Options.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 
-const Options = ({ className, items }) => {
+const Options = (props, { className, items }) => {
   return (
     <div className={cn(styles.options, className)}>
       <button className={cn("button-circle-stroke", styles.button)}>
@@ -15,7 +15,7 @@ const Options = ({ className, items }) => {
       >
         <Icon name="heart-fill" size="24" />
       </button>
-      <Actions className={styles.actions} />
+      <Actions className={styles.actions} id={props.id} />
     </div>
   );
 };
