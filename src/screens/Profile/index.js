@@ -195,48 +195,12 @@ const followers = [
 const Profile = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
-  const [ownedNFTs, setOwnedNFTs] = useState([]);
+  //const [ownedNFTs, setOwnedNFTs] = useState([]);
   const [listedNFTs, setListedNFTs] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
   const [ownedOffers, setOwnedOffers] = useState([]);
-
-  async function getOwnedNFTs() {
-    //alert('gettingOwnedNFTs');
-
-    //console.log(JSON.stringify(vNFTJSON));
-
-    // NFT Contract Calls
-    const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
-    let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
-    //alert(JSON.stringify(vnftABI.methods));
-    let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: props.account});
-    let nfts = [];
-    //alert(JSON.stringify(vnftABI.methods));
-
-    // await console.log(JSON.stringify(vNFTJSON['abi']));
-    console.log(vnftContractAddress);
-
-    if (nftIds) {
-      //alert(JSON.stringify(nftIds));
-      for (let i = 0; i < nftIds.length; i++) {
-        let nftId = nftIds[i]
-        let uri = await vnftABI.methods.tokenURI(nftId).call();
-        //console.log("XXX: " + uri);
-        nfts.push({id: nftId, uri: uri});
-      }
-
-      //alert(nfts);
-    }
-    //alert(nfts);
-    //await console.log(vnftABI.methods);
-
-
-    //console.log(nfts);
-
-    return nfts;
-  }
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
@@ -248,14 +212,42 @@ const Profile = (props) => {
     //   curNFTs.splice(index, 1);
     // });
 
-    setOwnedListings(curNFTs);
+    let ol = []
+
+    curNFTs.forEach((nft) => {
+      //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
+      if (nft.owner.toLowerCase() === props.account) {
+        ol.push(nft);
+      }
+    });
+
+    setOwnedListings(ol);
   }
 
-  useEffect(() => {
+  useEffect(async() => {
     console.log(JSON.stringify(props.nfts));
     getOwnedListings();
     console.log(ownedListings);
-  }, []);
+
+    //console.log('Getting owned NFTs');
+    if (!fetchedAndParsed) {
+      //setOwnedNFTs(await getOwnedNFTs());
+      //alert(ownedNFTs);
+
+      if (props.ownedNFTs.length > 0) {
+        for (let i = 0; i < props.ownedNFTs.length; i++) {
+          // await ownedNFTs.forEach((nft, i) => {
+          //   extractMetadata(nft, i)
+          // });
+          //alert(JSON.stringify(ownedNFTs[i]));
+          await extractMetadata(props.ownedNFTs[i], i);
+        }
+        props.setOwnedNFTs(nftsCopy);
+      }
+
+      setFetchedAndParsed(true);
+    }
+  }, [props.ownedNFTs]);
 
   async function ownerOf(tokenId) {
     const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
@@ -273,7 +265,6 @@ const Profile = (props) => {
   const location = useLocation();
 
   async function extractMetadata(nft, i) {
-    setFetchedAndParsed(true);
     console.log('Fetching from uri: ' + nft.uri);
     //const extractedObject =
     await fetch(nft.uri, {
@@ -297,27 +288,6 @@ const Profile = (props) => {
     // nft['uri'] = await extractedObject;
     // nftCopy[i] = nft;
   }
-
-  useEffect(async () => {
-    //alert('called');
-
-    //console.log('Getting owned NFTs');
-    if (!fetchedAndParsed) {
-      setOwnedNFTs(await getOwnedNFTs());
-      //alert(ownedNFTs);
-
-      if (ownedNFTs.length > 0) {
-        for (let i = 0; i < ownedNFTs.length; i++) {
-          // await ownedNFTs.forEach((nft, i) => {
-          //   extractMetadata(nft, i)
-          // });
-          //alert(JSON.stringify(ownedNFTs[i]));
-          await extractMetadata(ownedNFTs[i], i);
-        }
-        setOwnedNFTs(nftsCopy);
-      }
-    }
-  }, [ownedNFTs]);
 
 
   return (
@@ -378,10 +348,11 @@ const Profile = (props) => {
                 </button>
               ))}
             </div>
+            {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
             <div className={styles.group}>
               <div className={styles.item}>
                 {activeIndex === 0 && (
-                  <Items class={styles.items} nfts={ownedNFTs} isListing={false} account={props.account} />
+                    <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={props.account} />
                 )}
                 {activeIndex === 1 && [
                   <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>

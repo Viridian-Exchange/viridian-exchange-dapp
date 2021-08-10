@@ -17,6 +17,7 @@ const Control = (props, { className }) => {
   //const [currentUser, setCurrentUser] = useState(false);
   const [isListing, setIsListing] = useState(false);
   const [offers, setOffers] = useState([]);
+  const [purchased, setPurchased] = useState(false);
 
   function offerButtons() {
     if ((props.owner.toLowerCase() === props.account.toLowerCase()) && props.isListing) {
@@ -104,7 +105,9 @@ const Control = (props, { className }) => {
         onClose={() => setVisibleModalPurchase(false)}
       >
         <Checkout price={props.price} account={props.account} tokenId={props.state.id} />
-        <SuccessfullyPurchased />
+          {purchased &&
+              <SuccessfullyPurchased/>
+          }
       </Modal>
       <Modal
         visible={visibleModalBid}
