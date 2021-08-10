@@ -41,7 +41,6 @@ const OfferScreen = (props) => {
 
   return (
     <>
-      {/*{JSON.stringify(location.state)}*/}
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
           <div className={styles.bg}>
@@ -60,20 +59,15 @@ const OfferScreen = (props) => {
                   </div>
                 ))}
               </div>
-              <img
-                //srcSet="/images/content/item-pic@2x.jpg 2x"
-                src={location.state.uri.image}
-                alt="Item"
-              />
             </div>
             {/*{location.state.listingId}*/}
-            <Options className={styles.options} id={location.state.listingId} account={props.account} />
+            <Options className={styles.options} id={1} account={props.account} />
           </div>
           <div className={styles.details}>
-            <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
+            <h1 className={cn("h3", styles.title)}></h1>
             <div className={styles.cost}>
               <div className={cn("status-stroke-green", styles.price)}>
-                {location.state.price} VEXT
+                100 VEXT
               </div>
               <div className={cn("status-stroke-black", styles.price)}>
                 $4,429.87
@@ -106,8 +100,8 @@ const OfferScreen = (props) => {
               ))}
             </div>
             {/*{JSON.stringify(isListing)}*/}
-            <Users className={styles.users} items={users} owner={location.state.nftOwner} />
-            <Control price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
+            <Users className={styles.users} items={users} owner={1} />
+            {/*<Control />*/}
           </div>
         </div>
       </div>

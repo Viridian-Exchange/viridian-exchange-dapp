@@ -25,6 +25,7 @@ const NFT = ({ className, item, account, isListing }, props) => {
 
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
   return (
+      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: { } }}>
     <div className={cn(styles.card, className)}>
         <Users items={users}/>
       <div className={styles.preview}>
@@ -38,22 +39,13 @@ const NFT = ({ className, item, account, isListing }, props) => {
           >
             {item.categoryText}
           </div>
-          <button
-            className={cn(styles.favorite, { [styles.active]: visible })}
-            onClick={() => setVisible(!visible)}
-          >
-            <Icon name="heart" size="20" />
-          </button>
-          <button className={cn("button-small", styles.button)}>
-            <span>Place a bid</span>
-            <Icon name="scatter-up" size="16" />
-          </button>
         </div>
       </div>
       {/*{JSON.stringify(item.listingId)}*/}
       {/*<Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>*/}
       {/*</Link>*/}
     </div>
+</Link>
   );
 };
 
