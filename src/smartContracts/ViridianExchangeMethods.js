@@ -75,3 +75,11 @@ export async function pullFromSale(from, _listingId) {
 
     return await veABI.methods.pullFromSale(_listingId).send({from: from});
 }
+
+export async function makeOffer(from, _to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT) {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+
+    return await veABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send({from: from});
+}

@@ -45,6 +45,10 @@ const Items = ({ className, items, nfts, isListing, account, offers }, props) =>
             </div>
         );
     }
+    else {
+        return null;
+    }
+
 };
 
 export default Items;

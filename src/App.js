@@ -11,6 +11,7 @@ import Faq from "./screens/Faq";
 import Activity from "./screens/Activity";
 import Search01 from "./screens/Search01";
 import Search02 from "./screens/Search02";
+import OfferScreen from "./screens/OfferScreen";
 import Profile from "./screens/Profile";
 import ProfileEdit from "./screens/ProfileEdit";
 import Item from "./screens/Item";
@@ -378,6 +379,15 @@ function App() {
             </Page>
           )}
         />
+          <Route
+              exact
+              path="/offer/:id"
+              render={() => (
+                  <Page>
+                      <OfferScreen account={account}/>
+                  </Page>
+              )}
+          />
         <Route
           exact
           path="/pagelist"

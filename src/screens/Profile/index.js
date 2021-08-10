@@ -6,17 +6,19 @@ import Icon from "../../components/Icon";
 import User from "./User";
 import Items from "./Items";
 import Followers from "./Followers";
+import OfferBuilder from "../../components/OfferBuilder"
 //import VEAbi from '../../abis/ViridianExchange.json';
 import Web3 from "web3";
 import config from "../../local-dev-config";
 import { useLocation } from "react-router-dom";
-
 
 // data
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
 import vNFTJSON from '../../abis/ViridianNFT.json';
 import vTJSON from '../../abis/ViridianToken.json';
+import RemoveSale from "../../components/RemoveSale";
+import Modal from "../../components/Modal";
 
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
@@ -195,6 +197,7 @@ const followers = [
 const Profile = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
+  const [visibleOfferBuilder, setVisibleOfferBuilder] = useState(false);
   //const [ownedNFTs, setOwnedNFTs] = useState([]);
   const [listedNFTs, setListedNFTs] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
@@ -292,6 +295,12 @@ const Profile = (props) => {
 
   return (
     <div className={styles.profile}>
+      <Modal
+          visible={visibleOfferBuilder}
+          onClose={() => setVisibleOfferBuilder(false)}
+      >
+        <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNfts={[]} account={props.account} />
+      </Modal>
       <div
         className={cn(styles.head, { [styles.active]: visible })}
         style={{
@@ -300,6 +309,14 @@ const Profile = (props) => {
       >
         <div className={cn("container", styles.container)}>
           <div className={styles.btns}>
+            <button
+                className={cn("button", styles.button)}
+                onClick={() => setVisibleOfferBuilder(true)}
+                // type="button" hide after form customization
+                type="button"
+            >
+              <span>Make Offer</span>
+            </button>
             <button
               className={cn("button-stroke button-small", styles.button)}
               onClick={() => setVisible(true)}
