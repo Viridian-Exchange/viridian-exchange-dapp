@@ -4,8 +4,9 @@ import styles from "./Items.module.sass";
 import Card from "../../../components/Card";
 import NFT from "../../../components/NFT";
 import Loader from "../../../components/Loader";
+import Offer from "../../../components/Offer";
 
-const Items = ({ className, items, nfts, isListing, account }, props) => {
+const Items = ({ className, items, nfts, isListing, account, offers }, props) => {
     if (nfts) {
         return (
             <div className={cn(styles.items, className)}>
@@ -26,6 +27,18 @@ const Items = ({ className, items, nfts, isListing, account }, props) => {
                 <div className={styles.list}>
                     {items.map((x, index) => (
                         <Card className={styles.card} item={x} key={index}/>
+                    ))}
+                </div>
+                <Loader className={styles.loader}/>
+            </div>
+        );
+    }
+    else if (offers) {
+        return (
+            <div className={cn(styles.items, className)}>
+                <div className={styles.list}>
+                    {offers.map((x, index) => (
+                        <Offer className={styles.card} item={x} key={index}/>
                     ))}
                 </div>
                 <Loader className={styles.loader}/>
