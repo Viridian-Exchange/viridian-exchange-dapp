@@ -358,7 +358,7 @@ const Profile = (props) => {
                   <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                 ]}
                 {activeIndex === 2 && (
-                  <Items class={styles.items} items={[]} />
+                  <Items class={styles.items} offers={['1', '2', '3']} />
                 )}
                 {activeIndex === 3 && (
                     <Items class={styles.items} items={[]} />
