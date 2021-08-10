@@ -34,6 +34,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 function App() {
     const [listings, setListings] = useState([]);
     const [nfts, setNfts] = useState([]);
+    const [ownedNfts, setOwnedNfts] = useState([]);
     const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
@@ -114,7 +115,7 @@ function App() {
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
         // await console.log("ABIMETHODS");
         // await console.log(veABI.methods);
-        return await veABI.methods.getListingsFromId(listingId).call();
+        return await veABI.methods.getListingFromId(listingId).call();
     }
 
     async function tokenURI(tokenId) {
@@ -139,6 +140,42 @@ function App() {
         //alert(nft);
 
         return owner;
+    }
+
+    async function getOwnedNFTs() {
+        //alert('gettingOwnedNFTs');
+
+        //console.log(JSON.stringify(vNFTJSON));
+
+        // NFT Contract Calls
+        const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
+        let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
+        //alert(JSON.stringify(vnftABI.methods));
+        let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: account});
+        let nfts = [];
+        //alert(JSON.stringify(vnftABI.methods));
+
+        // await console.log(JSON.stringify(vNFTJSON['abi']));
+        console.log(vnftContractAddress);
+
+        if (nftIds) {
+            //alert(JSON.stringify(nftIds));
+            for (let i = 0; i < nftIds.length; i++) {
+                let nftId = nftIds[i]
+                let uri = await vnftABI.methods.tokenURI(nftId).call();
+                //console.log("XXX: " + uri);
+                nfts.push({id: nftId, uri: uri});
+            }
+
+            //alert(nfts);
+        }
+        //alert(nfts);
+        //await console.log(vnftABI.methods);
+
+
+        //console.log(nfts);
+
+        setOwnedNfts(nfts);
     }
 
     async function parseListing(listing) {
@@ -191,6 +228,10 @@ function App() {
             //setFetchedAndParsed(false);
             //alert(listings);
         });
+
+        await getOwnedNFTs();
+
+        //alert(JSON.stringify(ownedNfts));
 
 
         //await parseListing(listings[0]);
@@ -315,7 +356,7 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page>
-              <Profile nfts={nfts} account={account} />
+              <Profile nfts={nfts} account={account} ownedNFTs={ownedNfts} setOwnedNFTs={setOwnedNfts} />
             </Page>
           )}
         />

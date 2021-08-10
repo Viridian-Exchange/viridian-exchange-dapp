@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState} from "react";
 import cn from "classnames";
 import styles from "./Checkout.module.sass";
 import Icon from "../../../../components/Icon";
@@ -7,6 +7,8 @@ import {buyNFTWithVEXT} from "../../../../smartContracts/ViridianExchangeMethods
 
 
 const Checkout = (props, { className }) => {
+    const [purchasing, setPurchasing] = useState(false);
+
     const items = [
         {
             title: props.price,
@@ -14,17 +16,19 @@ const Checkout = (props, { className }) => {
         },
         {
             title: "Your balance",
-            value: "8.498 ETH",
+            value: "8.498 VEXT",
         },
         {
             title: "Service fee",
-            value: "0 ETH",
+            value: "0 VEXT",
         },
         {
             title: "You will pay",
-            value: "0.007 ETH",
+            value: props.price + " VEXT",
         },
     ];
+
+
 
   return (
     <div className={cn(className, styles.checkout)}>
@@ -41,16 +45,17 @@ const Checkout = (props, { className }) => {
           </div>
         ))}
       </div>
-      <div className={styles.attention}>
-        <div className={styles.preview}>
-          <Icon name="info-circle" size="32" />
-        </div>
-        <div className={styles.details}>
-          <div className={styles.subtitle}>This creator is not verified</div>
-          <div className={styles.text}>Purchase this item at your own risk</div>
-        </div>
-      </div>
-      <div className={cn("h4", styles.title)}>Follow steps</div>
+      {/*<div className={styles.attention}>*/}
+      {/*  <div className={styles.preview}>*/}
+      {/*    <Icon name="info-circle" size="32" />*/}
+      {/*  </div>*/}
+      {/*  <div className={styles.details}>*/}
+      {/*    <div className={styles.subtitle}>Make sure you have enough crypto to pay gas</div>*/}
+      {/*    <div className={styles.text}></div>*/}
+      {/*  </div>*/}
+      {/*</div>*/}
+      {/*<div className={cn("h4", styles.title)}>Follow steps</div>*/}
+        {purchasing &&
       <div className={styles.line}>
         <div className={styles.icon}>
           <LoaderCircle className={styles.loader} />
@@ -61,19 +66,19 @@ const Checkout = (props, { className }) => {
             Sending transaction with your wallet
           </div>
         </div>
-      </div>
-      <div className={styles.attention}>
-        <div className={styles.preview}>
-          <Icon name="info-circle" size="32" />
-        </div>
-        <div className={styles.details}>
-          <div className={styles.subtitle}>This creator is not verified</div>
-          <div className={styles.text}>Purchase this item at your own risk</div>
-        </div>
-        <div className={styles.avatar}>
-          <img src="/images/content/avatar-3.jpg" alt="Avatar" />
-        </div>
-      </div>
+      </div> }
+      {/*<div className={styles.attention}>*/}
+      {/*  <div className={styles.preview}>*/}
+      {/*    <Icon name="info-circle" size="32" />*/}
+      {/*  </div>*/}
+      {/*  <div className={styles.details}>*/}
+      {/*    <div className={styles.subtitle}>This creator is not verified</div>*/}
+      {/*    <div className={styles.text}>Purchase this item at your own risk</div>*/}
+      {/*  </div>*/}
+      {/*  <div className={styles.avatar}>*/}
+      {/*    <img src="/images/content/avatar-3.jpg" alt="Avatar" />*/}
+      {/*  </div>*/}
+      {/*</div>*/}
       <div className={styles.btns}>
           {/*{JSON.stringify(props)}*/}
         <button className={cn("button", styles.button)} onClick={async () => await buyNFTWithVEXT(props.account, props.tokenId, props.price)}>

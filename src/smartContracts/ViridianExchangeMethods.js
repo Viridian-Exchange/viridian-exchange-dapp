@@ -11,11 +11,11 @@ export async function getUsers() {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let users = await veABI.methods.getUsers().call();
+    //let users = await veABI.methods.getUsers().call();
 
     //alert(JSON.stringify(users));
 
-    return users;
+    return [];
 }
 
 export async function signUpUser() {
