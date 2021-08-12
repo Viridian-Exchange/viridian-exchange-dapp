@@ -77,7 +77,7 @@ const items = [
 //   );
 // }
 
-const Upload = () => {
+const Upload = (props) => {
   return (
     <div className={styles.page}>
       <Control className={styles.control} item={breadcrumbs} />
@@ -106,36 +106,42 @@ const Upload = () => {
               Use <span>PayPal</span> to purchase <span>$VEXT</span> tokens with <span>USD</span>
             </div>
           </div>
-          <PayPalButton
-              createOrder={(data, actions) => {
-                return actions.order.create({
-                  purchase_units: [{
-                    amount: {
-                      currency_code: "USD",
-                      value: 10 //amount
-                    }
-                  }],
-                  application_context: {
-                    shipping_preference: "NO_SHIPPING"
-                  }
-                });
-              }}
-              onApprove={(data, actions) => {
-                // Capture the funds from the transaction
-                return actions.order.capture().then(function(details) {
-                  // Show a success message to your buyer
-                  alert("Transaction completed by " + details.payer.name.given_name);
+          {/*<PayPalButton*/}
+          {/*    createOrder={(data, actions) => {*/}
+          {/*      return actions.order.create({*/}
+          {/*        purchase_units: [{*/}
+          {/*          amount: {*/}
+          {/*            currency_code: "USD",*/}
+          {/*            value: 10 //amount*/}
+          {/*          }*/}
+          {/*        }],*/}
+          {/*        application_context: {*/}
+          {/*          shipping_preference: "NO_SHIPPING"*/}
+          {/*        }*/}
+          {/*      });*/}
+          {/*    }}*/}
+          {/*    onApprove={(data, actions) => {*/}
+          {/*      // Capture the funds from the transaction*/}
+          {/*      return actions.order.capture().then(function(details) {*/}
+          {/*        // Show a success message to your buyer*/}
+          {/*        alert("Transaction completed by " + details.payer.name.given_name);*/}
 
-                  // OPTIONAL: Call your server to save the transaction
-                  return fetch("/paypal-transaction-complete", {
-                    method: "post",
-                    body: JSON.stringify({
-                      orderID: data.orderID
-                    })
-                  });
-                });
-              }}
-          />
+          {/*        // OPTIONAL: Call your server to save the transaction*/}
+          {/*        return fetch("/paypal-transaction-complete", {*/}
+          {/*          method: "post",*/}
+          {/*          body: JSON.stringify({*/}
+          {/*            orderID: data.orderID*/}
+          {/*          })*/}
+          {/*        });*/}
+          {/*      });*/}
+          {/*    }}*/}
+          {/*/>*/}
+          <a
+              href={"https://buy.ramp.network/?userAddress=" + props.account}
+              target="_blank"
+          >
+            Buy Crypto for wallet {props.account} with USD
+          </a>
           <div className={styles.note}>
             There may not be enough $VEXT for your order depending on the size, try again later when our stores are restored or trade on Uniswap in the meantime.
           </div>
