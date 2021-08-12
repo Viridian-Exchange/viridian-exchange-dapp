@@ -298,8 +298,11 @@ const Profile = (props) => {
       <Modal
           visible={visibleOfferBuilder}
           onClose={() => setVisibleOfferBuilder(false)}
+          width="100ex"
       >
-        <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNfts={[]} account={props.account} />
+        <div>
+          <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNfts={[]} account={props.account} />
+        </div>
       </Modal>
       <div
         className={cn(styles.head, { [styles.active]: visible })}

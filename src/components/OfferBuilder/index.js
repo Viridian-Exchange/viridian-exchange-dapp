@@ -9,7 +9,7 @@ import Modal from "../../components/Modal";
 import Preview from "./Preview";
 import Cards from "./Cards";
 import FolowSteps from "./FolowSteps";
-import Items from "../../screens/Profile/Items";
+import Items from "./SelectItems";
 import Dropdown from "../Dropdown";
 import Flexbox from 'flexbox-react';
 
@@ -39,7 +39,8 @@ const options = ["Your Inventory", "Their Inventory"];
 const OfferBuilder = (props) => {
   //const [currentUserItemsVisible, setCurrentUserItemsVisible] = useState(true);
   const [option, setOption] = useState(options[0]);
-  const [selectedNFTs, setSelectedNFTs] = useState([]);
+  const [selectedRecNFTs, setRecSelectedNFTs] = useState([]);
+  const [selectedGiveNFTs, setGiveSelectedNFTs] = useState([]);
 
   return (
     <div>
@@ -54,9 +55,11 @@ const OfferBuilder = (props) => {
                 options={options}
             />
           </div>
-        {option === options[0] && <Items class={props.class} nfts={props.nfts} isListing={false} account={props.account}
+        {option === options[0] && <Items giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
+                                         recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={false} class={props.class} nfts={props.nfts} isListing={false} account={props.account}
                                          style={{marginTop: "20ex", marginBottom: "2ex"}}/>}
-        {option === options[1] && <Items class={props.class} nfts={[{"id":"2","uri":{"name":"Charizard","description":"Base Set","image":"https://viridian-images.s3.us-east-2.amazonaws.com/CD12.png"},"owner":"0x4A680E6c256efe9DDA9aC19A96e205f7791158Ee"}]} isListing={false} account={props.account}
+        {option === options[1] && <Items giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
+                                         recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={false} selected={false} class={props.class} nfts={[{"id":"2","uri":{"name":"Charizard","description":"Base Set","image":"https://viridian-images.s3.us-east-2.amazonaws.com/CD12.png"},"owner":"0x4A680E6c256efe9DDA9aC19A96e205f7791158Ee"}]} isListing={false} account={props.account}
                                          style={{marginTop: "20ex", marginBottom: "2ex"}}/>}
         </Flexbox>
         <Flexbox flexDirection="column" style={{marginLeft: '5ex', marginTop: '3ex'}}>
@@ -69,7 +72,8 @@ const OfferBuilder = (props) => {
               placeholder="$VEXT Amount"
               required
           />
-          <Items class={props.class} nfts={props.nfts} isListing={false} account={props.account} />
+          <Items class={props.class} nfts={selectedGiveNFTs} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
+                 recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={true} isListing={false} account={props.account} />
           <TextInput
               style={{marginBottom: '2ex'}}
               className={styles.field}
@@ -79,7 +83,9 @@ const OfferBuilder = (props) => {
               placeholder="$VEXT Amount"
               required
           />
-          <Items class={props.class} nfts={[{"id":"2","uri":{"name":"Charizard","description":"Base Set","image":"https://viridian-images.s3.us-east-2.amazonaws.com/CD12.png"},"owner":"0x4A680E6c256efe9DDA9aC19A96e205f7791158Ee"}]} isListing={false} account={props.account}/>
+          <Items class={props.class} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
+                 recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs}
+                 nfts={selectedRecNFTs} give={false} isListing={false} selected={true} account={props.account}/>
         </Flexbox>
       </Flexbox>
       </div>

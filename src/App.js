@@ -294,7 +294,7 @@ function App() {
               path="/paypal"
               render={() => (
                   <Page>
-                      <PayPal/>
+                      <PayPal account={account}/>
                   </Page>
               )}
           />
