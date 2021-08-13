@@ -14,46 +14,23 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
             {/*{JSON.stringify("GIVE: " + giveSelectedNFTs)}*/}
             {/*{JSON.stringify("REC: " + recSelectedNFTs)}*/}
             <div className={styles.list}>
-                {/*{giveSelectedNFTs.map((x, index) => {*/}
-                {/*    if (give) {*/}
-                {/*        return (<button onClick={() => {*/}
-                {/*                        setGiveSelectedNFTs(giveSelectedNFTs.splice(index, 1));*/}
-                {/*                        }}>*/}
-                {/*                        {index}*/}
-                {/*                        {}*/}
-                {/*                        <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>*/}
-                {/*                    </button>);*/}
-                {/*    }*/}
-                {/*})*/}
-                {/*}*/}
-                {/*{recSelectedNFTs.map((x, index) => {*/}
-                {/*    if (!give) {*/}
-                {/*        return (<button onClick={() => {*/}
-                {/*                        setRecSelectedNFTs(recSelectedNFTs.splice(index, 1));*/}
-                {/*                        }}>*/}
-                {/*                        {index}*/}
-                {/*                        <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>*/}
-                {/*                    </button>);*/}
-                {/*    }*/}
-                {/*})*/}
-                {/*}*/}
                 {nfts.map((x, index) => {
-                    // <div>{x.uri.image}</div>,
                     if (selected) {
                         if (give) {
                             return (<button onClick={() => {
-                                setGiveSelectedNFTs([...giveSelectedNFTs].splice(giveSelectedNFTs.indexOf(x), 1));
+                                let giveNFTCopy = [...giveSelectedNFTs];
+                                giveNFTCopy.splice(index, 1)
+                                setGiveSelectedNFTs(giveNFTCopy);
                                 }}>
-                                {index}
-                                {}
                                 <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>
                             </button>);
                         }
                         else {
                             return (<button onClick={() => {
-                                setRecSelectedNFTs([...recSelectedNFTs].splice(recSelectedNFTs.indexOf(x), 1));
+                                let recNFTCopy = [...recSelectedNFTs];
+                                recNFTCopy.splice(index, 1)
+                                setRecSelectedNFTs(recNFTCopy);
                                 }}>
-                                {index}
                                 <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>
                             </button>);
                         }
@@ -65,17 +42,19 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                                     setGiveSelectedNFTs([...giveSelectedNFTs].concat(x));
                                 }
                             }}>
-                                {index}
+                                {/*<div style={{color: 'white'}}>{giveSelectedNFTs.includes(x) + "III"}</div>*/}
                                 <NFT className={styles.card} item={x} key={index} isListing={isListing}
                                      account={account}/>
                             </button>);
                         } else {
                             return (<button onClick={() => {
-                                if (!giveSelectedNFTs.includes(x)) {
+                                if (!recSelectedNFTs.includes(x)) {
                                     setRecSelectedNFTs([...recSelectedNFTs].concat(x));
                                 }
                             }}>
-                                {index}
+                                {/*<div style={{color: 'white'}}>{recSelectedNFTs.includes(x) + "III"}</div>*/}
+                                {/*<div style={{color: 'white'}}>{JSON.stringify(recSelectedNFTs)}</div>*/}
+                                {/*<div style={{color: 'white'}}>{JSON.stringify(x === recSelectedNFTs[0])}</div>*/}
                                 <NFT className={styles.card} item={x} key={index} isListing={isListing}
                                      account={account}/>
                             </button>);

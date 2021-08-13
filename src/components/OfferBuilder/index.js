@@ -44,7 +44,7 @@ const OfferBuilder = (props) => {
 
   return (
     <div>
-      {JSON.stringify(props)}
+      {/*{JSON.stringify(props)}*/}
       <Flexbox flexDirection="row">
         <Flexbox flexDirection="column">
           <div style={{marginBottom: "2ex"}}>
