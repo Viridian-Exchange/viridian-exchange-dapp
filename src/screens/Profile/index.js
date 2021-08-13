@@ -333,7 +333,7 @@ const Profile = (props) => {
             </button>
             <Link
               className={cn("button-stroke button-small", styles.button)}
-              to="profile-edit"
+              to="/profile-edit"
             >
               <span>Edit profile</span>
               <Icon name="image" size="16" />
@@ -357,7 +357,7 @@ const Profile = (props) => {
       </div>
       <div className={styles.body}>
         <div className={cn("container", styles.container)}>
-          <User className={styles.user} item={socials} account = {location.state.account}/>
+          <User className={styles.user} item={socials} account = {props.account}/>
           <div className={styles.wrapper}>
             <div className={styles.nav}>
               {navLinks.map((x, index) => (

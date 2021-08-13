@@ -21,7 +21,17 @@ import vNFTJSON from "./abis/ViridianNFT.json";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
+import Modal from "./components/Modal";
+import {FetchUser, HandleAddUser, HandleUpdateUser} from "./apis/UserAPI";
+
+
+
+
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
+
+
+
 
 //TODO: show address, list of followers, description, etc on profile page
 // function in the smart contract to add a user that is followed
@@ -38,6 +48,9 @@ function App() {
     const [account, setAccount] = useState("");
     const [ethBalance, setEthBalance] = useState(0);
     const [vextBalance, setVextBalance] = useState(0);
+    const [userInfo, setUserInfo] = useState({});
+    const [promptSetup, setPromptSetup] = useState(false);
+    const [userFetched, setUserFetched] = useState(false);
     const nftsCopy = [];
 
     const isMetaMaskInstalled = () => {
@@ -46,25 +59,44 @@ function App() {
         return Boolean(ethereum && ethereum.isMetaMask);
     };
 
+    function newUserCheck() {
+        if (connected && (JSON.stringify(userInfo) == "{}")) {
+            setPromptSetup(true);
+        }
+        if (!connected) {
+            alert("not connected!");
+        }
+
+
+    }
+
     async function connectWallet() {
         try {
             // Will open the MetaMask UI
             // You should disable this button while the request is pending!
             await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
                 setAccount(accounts[0]);
+                alert(accounts[0]);
                 //alert(JSON.stringify(account));
             });
+
+
             //alert(JSON.stringify(web3));
             await web3.eth.getBalance(account).then(async (balance) =>
                 await setEthBalance(round(balance * .000000000000000001, 4)));
             await setVextBalance(await getVEXTBalance());
             await setConnected(true);
+            // await setUserInfo(await getUserInfo());
+
+
+
             //alert(account);
             //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
         } catch (error) {
             console.error(error);
         }
     }
+
 
     async function getVEXTBalance() {
         const vtContractAddress = config.dev_contract_addresses.vt_contract;
@@ -170,6 +202,32 @@ function App() {
     }
 
     useEffect(async () => {
+        //TODO: when userinfo changes, send this info to the blockchain
+        // await FetchUser(setUserInfo, account);
+
+
+        // alert(JSON.stringify(userInfo.displayName));
+
+    }, [userInfo]);
+
+    useEffect(async () => {
+        // Update the document title using the browser API
+        //await alert(JSON.stringify(currentUser) + " vs. " + Auth.currentUserInfo().username);
+        newUserCheck();
+        if (JSON.stringify(userInfo) != "{}" && JSON.stringify(userInfo) != null) {
+            if (userInfo.username != "") {
+                await FetchUser(setUserInfo, userInfo.username).then(data => {
+                    console.log("Setting current user to: " + JSON.stringify(data.users.Item));
+                    setUserInfo(data.users.Item);
+                    newUserCheck();
+                    console.log("Current User: " + JSON.stringify(userInfo));
+                });
+            }
+        }
+    }, [connected]);
+
+
+    useEffect(async () => {
         //alert(JSON.stringify(props))
         //alert('called');
 
@@ -177,6 +235,7 @@ function App() {
         if (Web3.givenProvider) {
             //alert("Connecting wallet")
             await connectWallet();
+
             //await alert(connected);
             //connect().then(() => setConnected(true));
         }
@@ -189,7 +248,6 @@ function App() {
             //setFetchedAndParsed(false);
             //alert(listings);
         });
-
 
         //await parseListing(listings[0]);
 
@@ -222,14 +280,17 @@ function App() {
 
 
   return (
+
     <Router>
       <Switch>
         <Route
           exact
           path="/"
           render={() => (
-            <Page>
-              <Home listings={listings} setListings={setListings} nfts={nfts} account={account} isListing={true} />
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
+              <Home listings={listings} setListings={setListings} nfts={nfts}
+                    account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
+              setUserInfo = {setUserInfo}/>
             </Page>
           )}
         />
@@ -237,7 +298,7 @@ function App() {
           exact
           path="/upload-variants"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <UploadVariants />
             </Page>
           )}
@@ -246,7 +307,7 @@ function App() {
               exact
               path="/paypal"
               render={() => (
-                  <Page>
+                  <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
                       <PayPal/>
                   </Page>
               )}
@@ -255,7 +316,7 @@ function App() {
           exact
           path="/upload-details"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <UploadDetails />
             </Page>
           )}
@@ -264,7 +325,7 @@ function App() {
           exact
           path="/connect-wallet"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <ConnectWallet />
             </Page>
           )}
@@ -273,7 +334,7 @@ function App() {
           exact
           path="/faq"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <Faq />
             </Page>
           )}
@@ -282,7 +343,7 @@ function App() {
           exact
           path="/activity"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <Activity />
             </Page>
           )}
@@ -291,7 +352,7 @@ function App() {
           exact
           path="/search01"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <Search01 listings={listings} setListings={setListings} nfts={nfts} account={account} />
             </Page>
           )}
@@ -300,7 +361,7 @@ function App() {
           exact
           path="/search02"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <Search02 listings={listings} setListings={setListings} nfts={nfts} account={account} />
             </Page>
           )}
@@ -309,8 +370,8 @@ function App() {
           exact
           path="/profile/:address"
           render={() => (
-            <Page>
-              <Profile nfts={nfts} account={account} />
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
+              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
             </Page>
           )}
         />
@@ -318,8 +379,8 @@ function App() {
           exact
           path="/profile-edit"
           render={() => (
-            <Page>
-              <ProfileEdit />
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
+              <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
             </Page>
           )}
         />
@@ -327,7 +388,7 @@ function App() {
           exact
           path="/item/:id"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <Item account={account}/>
             </Page>
           )}
@@ -336,7 +397,7 @@ function App() {
           exact
           path="/pagelist"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected}>
               <PageList />
             </Page>
           )}
