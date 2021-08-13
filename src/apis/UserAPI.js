@@ -70,7 +70,7 @@ export const HandleAddUserSimple = async (setUserInfo, address) => {
             "bio": "",
             "website": "",
             "twitter": "",
-            "profilePhotoURL": "",
+            "profilePhotoURL": "https://source.boringavatars.com/marble/120/" + address,
             "coverPhotoURL": "",
             "following": [],
             "followers": [],
@@ -161,14 +161,21 @@ export const FetchUser = async (setUserInfo, address) => {
     // add call to AWS API Gateway to fetch users here
     // then set them in state
     try {
-        const res = await axios.get(`${config.api.invokeUrl}/user/${address}`);
-        const res_user = res.data;
-        user.users = res_user;
+        await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
+            if (res.data.Item) {
+                await setUserInfo(res.data.Item);
+            }
+            alert(JSON.stringify(res.data.Item));
+            return res.status;
+        });
+        // const res_user = res.data;
+        // user.users = res_user;
         // alert("Success: " + JSON.stringify(res));
         //console.log (JSON.stringify(user));
         // alert("auth user: " + JSON.stringify(user.users.Item));
-        setUserInfo(user.users.Item);
-        return user;
+
+
+
     } catch (err) {
         alert(`An error has occurred: ${err}`);
     }

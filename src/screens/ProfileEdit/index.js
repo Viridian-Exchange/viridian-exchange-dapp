@@ -130,7 +130,7 @@ const ProfileEdit = (props) => {
             <div className={styles.col}>
               <div className={styles.user}>
                 <div className={styles.avatar}>
-                  <img src="/images/content/avatar-1.jpg" alt="Avatar" />
+                  <img src={props.userInfo.profilePhotoURL} alt="Avatar" />
                 </div>
                 <div className={styles.details}>
                   <div className={styles.stage}>Profile photo</div>

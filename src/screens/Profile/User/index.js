@@ -20,7 +20,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 // Get current user OBJ from using abi.getUserFromAddress, and set this to userInfo const
 //
 
-const User = ({ className, item, account }) => {
+const User = ({ className, item, account, userInfo }) => {
   const [visible, setVisible] = useState(false);
   const [visibleShare, setVisibleShare] = useState(false);
   const [visibleModalReport, setVisibleModalReport] = useState(false);
@@ -54,9 +54,9 @@ const User = ({ className, item, account }) => {
     <>
       <div className={cn(styles.user, className)}>
         <div className={styles.avatar}>
-          <img src="/images/content/avatar-big.jpg" alt="Avatar" />
+          <img src={userInfo.profilePhotoURL} alt="Avatar" />
         </div>
-        <div className={styles.name}>Enrico Cole</div>
+        <div className={styles.name}>{userInfo.displayName}</div>
         <div className={styles.code}>
           <div className={styles.number}>{account}</div>
           <button className={styles.copy}>
@@ -64,8 +64,7 @@ const User = ({ className, item, account }) => {
           </button>
         </div>
         <div className={styles.info}>
-          A wholesome farm owner in Montana. Upcoming gallery solo show in
-          Germany
+          {userInfo.bio}
         </div>
         <a
           className={styles.site}
@@ -74,7 +73,7 @@ const User = ({ className, item, account }) => {
           rel="noopener noreferrer"
         >
           <Icon name="globe" size="16" />
-          <span>https://ui8.net</span>
+          <span>{userInfo.website}</span>
         </a>
         <div className={styles.control}>
           <div className={styles.btns}>
