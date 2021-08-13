@@ -170,7 +170,7 @@ function App() {
 
             //alert(nfts);
         }
-        //alert(nfts);
+        alert(nftIds);
         //await console.log(vnftABI.methods);
 
 
