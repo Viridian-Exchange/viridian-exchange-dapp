@@ -103,7 +103,7 @@ const Upload = (props) => {
             </div>
             <h1 className={cn("h3", styles.title)}>With USD</h1>
             <div className={styles.info}>
-              Use <span>PayPal</span> to purchase <span>$VEXT</span> tokens with <span>USD</span>
+              Use <span>Ramp</span> to purchase <span>Crypto</span> tokens with <span>USD</span> to convert to <span>$VEXT</span>
             </div>
           </div>
           {/*<PayPalButton*/}
