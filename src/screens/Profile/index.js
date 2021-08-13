@@ -249,7 +249,7 @@ const Profile = (props) => {
   useEffect(() => {
     console.log(JSON.stringify(props.nfts));
     getOwnedListings();
-    console.log(ownedListings)
+    console.log(ownedListings);
   }, []);
 
   async function ownerOf(tokenId) {
@@ -357,7 +357,7 @@ const Profile = (props) => {
       </div>
       <div className={styles.body}>
         <div className={cn("container", styles.container)}>
-          <User className={styles.user} item={socials} account = {props.account}/>
+          <User className={styles.user} item={socials} account = {props.account} userInfo = {props.userInfo}/>
           <div className={styles.wrapper}>
             <div className={styles.nav}>
               {navLinks.map((x, index) => (

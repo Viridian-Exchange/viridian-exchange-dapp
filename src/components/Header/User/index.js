@@ -10,6 +10,7 @@ import config from "../../../local-dev-config";
 import veJSON from "../../../abis/ViridianExchange.json";
 import vTJSON from "../../../abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
+import {FetchUser} from "../../../apis/UserAPI";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
@@ -26,10 +27,9 @@ const items = (account) => [
   },
 ];
 
-const User = ({ className, account, setAccount, connected, setConnected}) => {
+const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo}) => {
   const [visible, setVisible] = useState(false);
   const [balance, setBalance] = useState(0);
-  const [userInfo, setUserInfo] = useState({});
 
 
 
@@ -48,6 +48,7 @@ const User = ({ className, account, setAccount, connected, setConnected}) => {
         //alert("connecting wallet")
         await connectWallet();
         console.log(connected);
+        alert()
       }
       //connect().then(() => setConnected(true));
     }
@@ -62,30 +63,35 @@ const User = ({ className, account, setAccount, connected, setConnected}) => {
 
 
   async function connectWallet() {
-    alert("user index connectwallet")
-      try {
-        // Will open the MetaMask UI
-        // You should disable this button while the request is pending!
-        await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
-          setAccount(accounts[0]);
-          //alert(JSON.stringify(account));
-        });
-        //alert(JSON.stringify(web3));
-        await web3.eth.getBalance(account).then(async (balance) =>
-        await setEthBalance(round(balance * .000000000000000001, 4)));
-        await setVextBalance(await getVEXTBalance());
-        await setConnected(true);
-
-        //instantiate user
-        // setUserInfo(getUserInfo());
-        // alert(JSON.stringify(userInfo));
-        // alert(JSON.stringify(userInfo));
+    try {
+      // Will open the MetaMask UI
+      // You should disable this button while the request is pending!
+      await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (accounts) => {
+        setAccount(accounts[0]);
+        if (accounts[0]) {
+          await FetchUser(setUserInfo, accounts[0]);
+        }
+        alert(accounts[0]);
+        //alert(JSON.stringify(account));
+      });
 
 
-        //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
-      } catch (error) {
-        console.error(error);
-      }
+      //alert(JSON.stringify(web3));
+      await web3.eth.getBalance(account).then(async (balance) =>
+          await setEthBalance(round(balance * .000000000000000001, 4)));
+      await setVextBalance(await getVEXTBalance());
+      await setConnected(true);
+      // await setUserInfo(await getUserInfo());
+
+
+
+
+
+      //alert(account);
+      //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async function getVEXTBalance() {
@@ -127,7 +133,7 @@ const User = ({ className, account, setAccount, connected, setConnected}) => {
       <div className={cn(styles.user, className)}>
         <div className={styles.head} onClick={() => setVisible(!visible)}>
           <div className={styles.avatar}>
-            <img src="/images/content/avatar-user.jpg" alt="Avatar" />
+            <img src={userInfo.profilePhotoURL} alt="Avatar" />
           </div>
           <div className={styles.wallet}>
             {parseVextBalance(vextBalance)} <span className={styles.currency}>VEXT</span>
