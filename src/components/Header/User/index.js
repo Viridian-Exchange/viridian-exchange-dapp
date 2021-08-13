@@ -26,23 +26,12 @@ const items = (account) => [
   },
 ];
 
-const User = ({ className }) => {
+const User = ({ className, account, setAccount, connected, setConnected}) => {
   const [visible, setVisible] = useState(false);
-  const [connected, setConnected] = useState(false);
-  const [account, setAccount] = useState("");
   const [balance, setBalance] = useState(0);
   const [userInfo, setUserInfo] = useState({});
 
-  //create consts for all user fields, then set them to the json in one function
-  //TODO: Useeffect for when userInfo changes, sends to blockchain
-  const [userAddress, setUserAddress] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [coverPhotoURL, setCoverPhotoURL] = useState("");
-  const [avatarURL, setAvatarURL] = useState("");
-  const [bio, setBio] = useState("");
-  const [following, setFollowing] = useState([]);
-  const [followers, setFollowers] = useState([]);
-  const [likes, setLikes] = useState([]);
+
 
 
 
@@ -71,20 +60,14 @@ const User = ({ className }) => {
     return Boolean(ethereum && ethereum.isMetaMask);
   };
 
-  async function getUserInfo() {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let userInfo = await veABI.methods.getUserFromAddress(account).call();
-    return userInfo;
-  }
 
   async function connectWallet() {
+    alert("user index connectwallet")
       try {
         // Will open the MetaMask UI
         // You should disable this button while the request is pending!
         await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
           setAccount(accounts[0]);
-          alert(account);
           //alert(JSON.stringify(account));
         });
         //alert(JSON.stringify(web3));

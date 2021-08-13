@@ -26,7 +26,7 @@ const nav = [
   },
 ];
 
-const Headers = () => {
+const Headers = (props) => {
   const [visibleNav, setVisibleNav] = useState(false);
   const [search, setSearch] = useState("");
 
@@ -102,7 +102,7 @@ const Headers = () => {
         >
           Connect Wallet
         </Link> */}
-        <User className={styles.user} />
+        <User className={styles.user} account = {props.account} setAccount = {props.setAccount} connected = {props.connected} setConnected = {props.setConnected}/>
         <button
           className={cn(styles.burger, { [styles.active]: visibleNav })}
           onClick={() => setVisibleNav(!visibleNav)}

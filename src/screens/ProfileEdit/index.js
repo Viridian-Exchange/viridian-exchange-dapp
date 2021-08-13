@@ -1,4 +1,4 @@
-import React from "react";
+import {React, useState, useEffect} from "react";
 import { Link } from "react-router-dom";
 import cn from "classnames";
 import styles from "./ProfileEdit.module.sass";
@@ -6,6 +6,10 @@ import Control from "../../components/Control";
 import TextInput from "../../components/TextInput";
 import TextArea from "../../components/TextArea";
 import Icon from "../../components/Icon";
+import ImageUpload from "../../ImageUpload";
+import S3FileUpload from "react-s3";
+import config from "../../config";
+import {HandleAddUserSimple, HandleUpdateUser} from "../../apis/UserAPI";
 
 const breadcrumbs = [
   {
@@ -17,7 +21,98 @@ const breadcrumbs = [
   },
 ];
 
-const ProfileEdit = () => {
+//todo: pass setUser to here
+// put all user setting/getting in app.js
+
+const ProfileEdit = (props) => {
+
+  //create consts for all user fields, then set them to the json in one function
+  //TODO: Useeffect for when userInfo changes, sends to blockchain
+  const [displayName, setDisplayName] = useState("");
+  const [bio, setBio] = useState("");
+  const [website, setWebsite] = useState("");
+  const [twitter, setTwitter] = useState("");
+  // const [coverPhotoURL, setCoverPhotoURL] = useState("");
+  const [profilePhotoURL, setProfilePhotoURL] = useState("");
+
+  const [files, setFiles] = useState([]);
+  const [successMessage, setSuccessMessage] = useState(false);
+  // const [following, setFollowing] = useState([]);
+  // const [followers, setFollowers] = useState([]);
+  // const [likes, setLikes] = useState([]);
+  //TODO: IF USER DOESNT UPLOAD IMAGE, IT FUCKS UP, FIX THIS
+  // USER INFO IS ALSO NOT SETTING
+
+  const s3Upload = async (files, e) => {
+    let file = files[0];
+    let blob = file.slice(0, file.size, 'image/png');
+    let newFile = new File([blob], props.account + '.png', {type: 'image/png'});
+    if (JSON.stringify(props.userInfo) == "{}") {
+      await HandleAddUserSimple(props.setUserInfo, props.account);
+    }
+    await S3FileUpload.uploadFile(newFile, config.s3)
+        .then(async(data) => {setProfilePhotoURL(data.location); alert((data.location));});
+
+  };
+
+  const addCardToS3PlusDB = async (e) => {
+    await s3Upload(files, e).then(async () => {
+      await updateUser();
+    });
+  };
+
+  const updateUser = async () => {
+    if (profilePhotoURL !== "") {
+      await HandleUpdateUser(props.setUserInfo, props.account, displayName, bio, website, twitter, profilePhotoURL,
+          props.userInfo.coverPhotoURL, props.userInfo.following, props.userInfo.followers, props.userInfo.likes).then(setSuccessMessage(true));
+    }
+
+  }
+
+
+
+  const successfulMessage1 = () => {
+    if (successMessage) {
+      return "Profile Updated Successfully!";
+    }
+    else {
+      return "Update Profile";
+    }
+  };
+
+  const successfulMessage = () => {
+    if (successMessage) {
+      return <div className={styles.btns}>
+        <button className={cn("button", styles.button)} onClick={(e) => {addCardToS3PlusDB(e)}}>
+          Profile Updated Successfully!
+        </button>
+        <Icon name="check" size="18" fill={"#BF9A36"} />
+      </div>
+    }
+    else {
+      return <div className={styles.btns}>
+        <button className={cn("button", styles.button)} onClick={(e) => {addCardToS3PlusDB(e)}}>
+          Update Profile
+        </button>
+        <Link className={cn("button-stroke", styles.button)} to="/">Cancel</Link>
+        {/*<button className={cn("button-stroke", styles.button)}>Cancel</button>*/}
+      </div>
+    }
+  };
+
+
+
+  useEffect(async () => {
+    await updateUser();
+    alert(JSON.stringify(props.userInfo));
+
+    // alert(JSON.stringify(userInfo.displayName));
+
+  }, [profilePhotoURL]);
+
+
+
+
   return (
     <div className={styles.page}>
       <Control className={styles.control} item={breadcrumbs} />
@@ -54,7 +149,8 @@ const ProfileEdit = () => {
                     >
                       Upload
                     </button>
-                    <input className={styles.load} type="file" />
+                    {JSON.stringify(profilePhotoURL)}
+                    <ImageUpload fileName = {props.account + 'png'} files = {files} setFiles = {setFiles} />
                   </div>
                 </div>
               </div>
@@ -69,15 +165,8 @@ const ProfileEdit = () => {
                       label="display name"
                       name="Name"
                       type="text"
+                      onChange = {e => setDisplayName(e.target.value)}
                       placeholder="Enter your display name"
-                      required
-                    />
-                    <TextInput
-                      className={styles.field}
-                      label="Custom url"
-                      name="Url"
-                      type="text"
-                      placeholder="ui8.net/Your custom URL"
                       required
                     />
                     <TextArea
@@ -85,6 +174,7 @@ const ProfileEdit = () => {
                       label="Bio"
                       name="Bio"
                       placeholder="About yourselt in a few words"
+                      onChange = {e => setBio(e.target.value)}
                       required="required"
                     />
                   </div>
@@ -97,6 +187,7 @@ const ProfileEdit = () => {
                       label="portfolio or website"
                       name="Portfolio"
                       type="text"
+                      onChange={e => setWebsite(e.target.value)}
                       placeholder="Enter URL"
                       required
                     />
@@ -106,6 +197,7 @@ const ProfileEdit = () => {
                         label="twitter"
                         name="Twitter"
                         type="text"
+                        onChange = {e => setTwitter(e.target.value)}
                         placeholder="@twitter username"
                         required
                       />
@@ -131,15 +223,7 @@ const ProfileEdit = () => {
                 To update your settings you should sign message through your
                 wallet. Click 'Update profile' then sign the message
               </div>
-              <div className={styles.btns}>
-                <button className={cn("button", styles.button)}>
-                  Update Profile
-                </button>
-                <button className={styles.clear}>
-                  <Icon name="circle-close" size="24" />
-                  Clear all
-                </button>
-              </div>
+              {successfulMessage()}
             </div>
           </div>
         </div>
