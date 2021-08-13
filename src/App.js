@@ -158,6 +158,7 @@ function App() {
 
         // await console.log(JSON.stringify(vNFTJSON['abi']));
         console.log(vnftContractAddress);
+        console.log("test");
 
         if (nftIds) {
             //alert(JSON.stringify(nftIds));
