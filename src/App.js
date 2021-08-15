@@ -22,7 +22,17 @@ import vNFTJSON from "./abis/ViridianNFT.json";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
+import Modal from "./components/Modal";
+import {FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
+
+
+
+
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
+
+
+
 
 //TODO: show address, list of followers, description, etc on profile page
 // function in the smart contract to add a user that is followed
@@ -40,6 +50,10 @@ function App() {
     const [account, setAccount] = useState("");
     const [ethBalance, setEthBalance] = useState(0);
     const [vextBalance, setVextBalance] = useState(0);
+    const [userInfo, setUserInfo] = useState({});
+    const [promptSetup, setPromptSetup] = useState(false);
+    const [userFetched, setUserFetched] = useState(false);
+    const [checkUserPrompt, setCheckUserPrompt] = useState(false);
     const nftsCopy = [];
     const [users, setUsers] = useState([]);
 
@@ -49,25 +63,45 @@ function App() {
         return Boolean(ethereum && ethereum.isMetaMask);
     };
 
+    async function newUserCheck() {
+        if (connected && (JSON.stringify(userInfo)) === "{}") {
+            await setPromptSetup(true);
+        }
+    }
+
     async function connectWallet() {
         try {
             // Will open the MetaMask UI
             // You should disable this button while the request is pending!
-            await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
+            await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (accounts) => {
                 setAccount(accounts[0]);
+                if (accounts[0]) {
+                    await FetchUser(setUserInfo, accounts[0]);
+                }
                 //alert(JSON.stringify(account));
             });
+
+
             //alert(JSON.stringify(web3));
-            await web3.eth.getBalance(account).then(async (balance) =>
-                await setEthBalance(round(balance * .000000000000000001, 4)));
-            await setVextBalance(await getVEXTBalance());
             await setConnected(true);
+            // await web3.eth.getBalance(account).then(async (balance) =>
+            //     await setEthBalance(round(balance * .000000000000000001, 4)));
+            await setVextBalance(await getVEXTBalance());
+
+
+            // await setUserInfo(await getUserInfo());
+
+
+
+
+
             //alert(account);
             //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
         } catch (error) {
             console.error(error);
         }
     }
+
 
     async function getVEXTBalance() {
         const vtContractAddress = config.dev_contract_addresses.vt_contract;
@@ -209,17 +243,47 @@ function App() {
         //nftCopy[i] = listing;
     }
 
+
+    // useEffect(async () => {
+    //     // Update the document title using the browser API
+    //     //await alert(JSON.stringify(currentUser) + " vs. " + Auth.currentUserInfo().username);
+    //     if (connected && account) {
+    //         await FetchUser(setUserInfo, account, setPromptSetup).then(async (res) => {
+    //                 await newUserCheck();
+    //         });
+    //     }
+    //
+    //
+    //
+    // }, [connected]);
+
+
     useEffect(async () => {
         //alert(JSON.stringify(props))
         //alert('called');
 
-        //alert(JSON.stringify(Web3.givenProvider));
-        if (Web3.givenProvider) {
-            //alert("Connecting wallet")
-            await connectWallet();
-            //await alert(connected);
-            //connect().then(() => setConnected(true));
-        }
+        if (!checkUserPrompt) {
+
+            //alert(JSON.stringify(Web3.givenProvider));
+            if (Web3.givenProvider) {
+                //alert("Connecting wallet")
+                await connectWallet();
+
+                //await alert(connected);
+                //connect().then(() => setConnected(true));
+            }
+
+            //console.log('Getting owned NFTs');
+            await getListings().then(async (e) => {
+                console.log("Listings: " + JSON.stringify(e));
+                await setListings(e);
+
+                //setFetchedAndParsed(false);
+                //alert(listings);
+            });
+
+            //await parseListing(listings[0]);
+
 
         //console.log('Getting owned NFTs');
         await getListings().then(async (e) => {
@@ -232,51 +296,68 @@ function App() {
 
         await getOwnedNFTs();
 
-        //alert(JSON.stringify(ownedNfts));
 
+            if (listings) {
+                //alert("WENIS")
+                //alert(listings)
+                for (let i = 0; i < listings.length; i++) {
+                    // await nfts.forEach((nft, i) => {
+                    //   extractMetadata(nft, i)
+                    // });
+                    let listing = listings[i];
+                    //alert(listing);
+                    console.log("LSTNG: " + listing)
+                    if (listing && !listing.name) {
+                        await parseListing(await getListingFromId(listing));
+                    }
 
-        //await parseListing(listings[0]);
-
-        if (listings) {
-            //alert("WENIS")
-            //alert(listings)
-            for (let i = 0; i < listings.length; i++) {
-                // await nfts.forEach((nft, i) => {
-                //   extractMetadata(nft, i)
-                // });
-                let listing = listings[i];
-                //alert(listing);
-                console.log("LSTNG: " + listing)
-                if(listing && !listing.name) {
-                    await parseListing(await getListingFromId(listing));
                 }
+            }
+
+            //alert(nftsCopy);
+
+            setNfts(nftsCopy);
+
+            //setListings(nftsCopy);
+            if (!fetchedAndParsed) {
+                setFetchedAndParsed(true);
+
             }
         }
 
-        //alert(nftsCopy);
-
-        setNfts(nftsCopy);
-
-        //setListings(nftsCopy);
-        if (!fetchedAndParsed) {
-            setFetchedAndParsed(true);
+        if (fetchedAndParsed && !checkUserPrompt) {
+            setCheckUserPrompt(true);
         }
+
 
         // setUsers(await getUsers());
         // console.log("USERS: " + await getUsers());
-    }, [fetchedAndParsed]);
+
+
+        if (connected && account) {
+            await newUserCheck();
+
+        }
+
+    }, [fetchedAndParsed, checkUserPrompt]);
+
+
+
 
 
 
   return (
+
     <Router>
       <Switch>
         <Route
           exact
           path="/"
           render={() => (
-            <Page>
-              <Home users={users} listings={listings} setListings={setListings} nfts={nfts} account={account} isListing={true} />
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+              <Home listings={listings} setListings={setListings} nfts={nfts}
+                    account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
+              userInfo = {userInfo} setUserInfo = {setUserInfo}/>
             </Page>
           )}
         />
@@ -284,7 +365,7 @@ function App() {
           exact
           path="/upload-variants"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <UploadVariants />
             </Page>
           )}
@@ -293,8 +374,10 @@ function App() {
               exact
               path="/paypal"
               render={() => (
-                  <Page>
-                      <PayPal account={account}/>
+
+                  <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                      <PayPal/>
+>>>
                   </Page>
               )}
           />
@@ -302,7 +385,7 @@ function App() {
           exact
           path="/upload-details"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <UploadDetails />
             </Page>
           )}
@@ -311,7 +394,7 @@ function App() {
           exact
           path="/connect-wallet"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <ConnectWallet />
             </Page>
           )}
@@ -320,7 +403,7 @@ function App() {
           exact
           path="/faq"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Faq />
             </Page>
           )}
@@ -329,7 +412,7 @@ function App() {
           exact
           path="/activity"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Activity />
             </Page>
           )}
@@ -338,7 +421,7 @@ function App() {
           exact
           path="/search01"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Search01 listings={listings} setListings={setListings} nfts={nfts} account={account} />
             </Page>
           )}
@@ -347,7 +430,7 @@ function App() {
           exact
           path="/search02"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Search02 listings={listings} setListings={setListings} nfts={nfts} account={account} />
             </Page>
           )}
@@ -356,8 +439,8 @@ function App() {
           exact
           path="/profile/:address"
           render={() => (
-            <Page>
-              <Profile nfts={nfts} account={account} ownedNFTs={ownedNfts} setOwnedNFTs={setOwnedNfts} />
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
             </Page>
           )}
         />
@@ -365,8 +448,8 @@ function App() {
           exact
           path="/profile-edit"
           render={() => (
-            <Page>
-              <ProfileEdit />
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+              <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
             </Page>
           )}
         />
@@ -374,7 +457,7 @@ function App() {
           exact
           path="/item/:id"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Item account={account}/>
             </Page>
           )}
@@ -392,7 +475,7 @@ function App() {
           exact
           path="/pagelist"
           render={() => (
-            <Page>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <PageList />
             </Page>
           )}

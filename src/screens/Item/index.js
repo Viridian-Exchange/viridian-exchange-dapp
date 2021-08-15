@@ -104,6 +104,7 @@ const Item = (props) => {
                 </button>
               ))}
             </div>
+
             {/*{JSON.stringify(isListing)}*/}
             <Users className={styles.users} items={users} owner={location.state.nftOwner} />
             <Control price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />

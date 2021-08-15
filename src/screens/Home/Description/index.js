@@ -3,9 +3,13 @@ import cn from "classnames";
 import { Link } from "react-router-dom";
 import styles from "./Description.module.sass";
 import Image from "../../../components/Image";
+import RemoveSale from "../../../components/RemoveSale";
+import Modal from "../../../components/Modal";
 
 const Description = () => {
+
   return (
+
     <div className={styles.section}>
       <div className={cn("container", styles.container)}>
         <div className={styles.wrap}>
