@@ -63,32 +63,6 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
 
 
   async function connectWallet() {
-<<<<<<< HEAD
-      try {
-        // Will open the MetaMask UI
-        // You should disable this button while the request is pending!
-        await window.ethereum.request({ method: 'eth_requestAccounts' }).then((accounts) => {
-          setAccount(accounts[0]);
-          //alert(account);
-          //alert(JSON.stringify(account));
-        });
-        //alert(JSON.stringify(web3));
-        await web3.eth.getBalance(account).then(async (balance) =>
-        await setEthBalance(round(balance * .000000000000000001, 4)));
-        await setVextBalance(await getVEXTBalance());
-        await setConnected(true);
-
-        //instantiate user
-        // setUserInfo(getUserInfo());
-        // alert(JSON.stringify(userInfo));
-        // alert(JSON.stringify(userInfo));
-
-
-        //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
-      } catch (error) {
-        console.error(error);
-      }
-=======
     try {
       // Will open the MetaMask UI
       // You should disable this button while the request is pending!
@@ -120,7 +94,6 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
     } catch (error) {
       console.error(error);
     }
->>>>>>> top-users
   }
 
   async function getVEXTBalance() {
