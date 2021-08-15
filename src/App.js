@@ -355,7 +355,7 @@ function App() {
           path="/"
           render={() => (
             <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Home listings={listings} setListings={setListings} nfts={nfts}
+              <Home users = {users} listings={listings} setListings={setListings} nfts={nfts}
                     account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
               userInfo = {userInfo} setUserInfo = {setUserInfo}/>
             </Page>
@@ -440,7 +440,7 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
+              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}/>
             </Page>
           )}
         />
