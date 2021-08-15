@@ -10,6 +10,7 @@ import config from "../../../local-dev-config";
 import veJSON from "../../../abis/ViridianExchange.json";
 import vTJSON from "../../../abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
+import {FetchUser} from "../../../apis/UserAPI";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
@@ -26,23 +27,11 @@ const items = (account) => [
   },
 ];
 
-const User = ({ className }) => {
+const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo}) => {
   const [visible, setVisible] = useState(false);
-  const [connected, setConnected] = useState(false);
-  const [account, setAccount] = useState("");
   const [balance, setBalance] = useState(0);
-  const [userInfo, setUserInfo] = useState({});
 
-  //create consts for all user fields, then set them to the json in one function
-  //TODO: Useeffect for when userInfo changes, sends to blockchain
-  const [userAddress, setUserAddress] = useState("");
-  const [displayName, setDisplayName] = useState("");
-  const [coverPhotoURL, setCoverPhotoURL] = useState("");
-  const [avatarURL, setAvatarURL] = useState("");
-  const [bio, setBio] = useState("");
-  const [following, setFollowing] = useState([]);
-  const [followers, setFollowers] = useState([]);
-  const [likes, setLikes] = useState([]);
+
 
 
 
@@ -59,6 +48,7 @@ const User = ({ className }) => {
         //alert("connecting wallet")
         await connectWallet();
         console.log(connected);
+        alert()
       }
       //connect().then(() => setConnected(true));
     }
@@ -71,14 +61,9 @@ const User = ({ className }) => {
     return Boolean(ethereum && ethereum.isMetaMask);
   };
 
-  async function getUserInfo() {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let userInfo = await veABI.methods.getUserFromAddress(account).call();
-    return userInfo;
-  }
 
   async function connectWallet() {
+<<<<<<< HEAD
       try {
         // Will open the MetaMask UI
         // You should disable this button while the request is pending!
@@ -103,6 +88,39 @@ const User = ({ className }) => {
       } catch (error) {
         console.error(error);
       }
+=======
+    try {
+      // Will open the MetaMask UI
+      // You should disable this button while the request is pending!
+      await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (accounts) => {
+        setAccount(accounts[0]);
+        if (accounts[0]) {
+          await FetchUser(setUserInfo, accounts[0]).then(async() => await setConnected(true));
+        }
+        // alert(accounts[0]);
+        //alert(JSON.stringify(account));
+      });
+
+
+      //alert(JSON.stringify(web3));
+      // await web3.eth.getBalance(account).then(async (balance) =>
+      //     await setEthBalance(round(balance * .000000000000000001, 4)));
+      await setVextBalance(await getVEXTBalance());
+
+      alert("setting connected from user/index");
+
+      // await setUserInfo(await getUserInfo());
+
+
+
+
+
+      //alert(account);
+      //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
+    } catch (error) {
+      console.error(error);
+    }
+>>>>>>> top-users
   }
 
   async function getVEXTBalance() {
@@ -144,7 +162,7 @@ const User = ({ className }) => {
       <div className={cn(styles.user, className)}>
         <div className={styles.head} onClick={() => setVisible(!visible)}>
           <div className={styles.avatar}>
-            <img src="/images/content/avatar-user.jpg" alt="Avatar" />
+            <img src={userInfo.profilePhotoURL} alt="Avatar" />
           </div>
           <div className={styles.wallet}>
             {parseVextBalance(vextBalance)} <span className={styles.currency}>VEXT</span>
@@ -152,7 +170,7 @@ const User = ({ className }) => {
         </div>
             {visible && (
                 <div className={styles.body}>
-                  <div className={styles.name}>Enrico Cole</div>
+                  <div className={styles.name}>{userInfo.displayName}</div>
                   <div className={styles.code}>
                     <div className={styles.number}>{account}</div>
                     <button className={styles.copy}>

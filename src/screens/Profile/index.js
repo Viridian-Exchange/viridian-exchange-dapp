@@ -232,6 +232,7 @@ const Profile = (props) => {
     getOwnedListings();
     console.log(ownedListings);
 
+
     //console.log('Getting owned NFTs');
     if (!fetchedAndParsed) {
       //setOwnedNFTs(await getOwnedNFTs());
@@ -251,6 +252,7 @@ const Profile = (props) => {
       setFetchedAndParsed(true);
     }
   }, [props.ownedNFTs]);
+
 
   async function ownerOf(tokenId) {
     const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
@@ -329,7 +331,7 @@ const Profile = (props) => {
             </button>
             <Link
               className={cn("button-stroke button-small", styles.button)}
-              to="profile-edit"
+              to="/profile-edit"
             >
               <span>Edit profile</span>
               <Icon name="image" size="16" />
@@ -354,7 +356,7 @@ const Profile = (props) => {
       <div className={styles.body}>
         {JSON.stringify(props)}
         <div className={cn("container", styles.container)}>
-          <User className={styles.user} item={socials} account = {location.state.account}/>
+          <User className={styles.user} item={socials} account = {props.account} userInfo = {props.userInfo}/>
           <div className={styles.wrapper}>
             <div className={styles.nav}>
               {navLinks.map((x, index) => (

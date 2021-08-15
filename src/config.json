@@ -1,0 +1,12 @@
+{
+  "api": {
+    "invokeUrl": "https://zeptfvj0tg.execute-api.us-east-2.amazonaws.com/PROD"
+  },
+  "s3": {
+    "bucketName": "viridian-images",
+    "dirName": "",
+    "region": "us-east-2",
+    "accessKeyId": "AKIA3VJBGFCNWRDEQRHR",
+    "secretAccessKey": "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"
+  }
+}
