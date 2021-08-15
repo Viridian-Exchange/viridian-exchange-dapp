@@ -75,16 +75,17 @@ function App() {
                 if (accounts[0]) {
                     await FetchUser(setUserInfo, accounts[0]);
                 }
-                alert(accounts[0]);
                 //alert(JSON.stringify(account));
             });
 
 
             //alert(JSON.stringify(web3));
-            await web3.eth.getBalance(account).then(async (balance) =>
-                await setEthBalance(round(balance * .000000000000000001, 4)));
-            await setVextBalance(await getVEXTBalance());
             await setConnected(true);
+            // await web3.eth.getBalance(account).then(async (balance) =>
+            //     await setEthBalance(round(balance * .000000000000000001, 4)));
+            await setVextBalance(await getVEXTBalance());
+
+
             // await setUserInfo(await getUserInfo());
 
 

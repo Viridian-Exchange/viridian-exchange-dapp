@@ -112,13 +112,13 @@ export const HandleUpdateUser = async (setUserInfo, address, displayName, bio, w
         //
         // alert(JSON.stringify(params));
         //alert(JSON.stringify(params));
-        await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(res => {
+        await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
             //alert(JSON.parse(res.config.data));
             //TODO: Figure out why this causes problems!!!
 
-            //console.log("UPLOAD SUCCESS: " + JSON.stringify(params));
-            //alert(res.data.Item.username);
-            //
+            if (res.data.Item) {
+                await setUserInfo(res.data.Item);
+            }
             params['username'] = address
             setUserInfo(params);
             return res;
@@ -162,10 +162,11 @@ export const FetchUser = async (setUserInfo, address) => {
     // then set them in state
     try {
         await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
+            alert("address from fetch:" + address);
             if (res.data.Item) {
                 await setUserInfo(res.data.Item);
             }
-            alert(JSON.stringify(res.data.Item));
+            alert(JSON.stringify("FETCH: " + res.data.Item));
             return res.status;
         });
         // const res_user = res.data;
