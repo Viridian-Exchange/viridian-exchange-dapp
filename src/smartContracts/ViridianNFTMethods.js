@@ -39,5 +39,5 @@ export async function isApprovedForAll(owner, operator) {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
 
-    await vNFTABI.methods.isApprovedForAll(owner, operator).call();
+    return await vNFTABI.methods.isApprovedForAll(owner, operator).call();
 }

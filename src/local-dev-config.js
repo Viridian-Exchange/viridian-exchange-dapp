@@ -1,8 +1,8 @@
 module.exports = {
     dev_contract_addresses: {
-        vnft_contract: "0xB3f48f931Ba07a0C0dC39174B13c496644803e5f",
-        ve_contract: "0x85F960df1e248ba13186c357f152DFe00Ae674C0",
-        vt_contract: "0x54539ECb869D3F9F034885d67177eFd3ef89a982",
+        vnft_contract: "0xE648ea0AAA49a520d33C6173D221Adf122234667",
+        ve_contract: "0xdDA852794ed7edb7D5cC0E491635C0D105fF8693",
+        vt_contract: "0x690fC5E34134dAD12DB94fc26F852F0dBbd55698",
     },
 
     prod_contract_addresses: {
