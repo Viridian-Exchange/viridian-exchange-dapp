@@ -22,7 +22,6 @@ import vNFTJSON from "./abis/ViridianNFT.json";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
-import { getUsers, signUpUser } from "../src/smartContracts/ViridianExchangeMethods";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 //TODO: show address, list of followers, description, etc on profile page
@@ -105,8 +104,8 @@ function App() {
         const veContractAddress = config.dev_contract_addresses.ve_contract;
         //console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        // await console.log("ABIMETHODS");
-        // await console.log(veABI.methods);
+        await console.log("ABIMETHODS");
+        await console.log(veABI.methods);
         return await veABI.methods.getListings().call();
     }
 
@@ -115,7 +114,7 @@ function App() {
         //console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
         // await console.log("ABIMETHODS");
-        // await console.log(veABI.methods);
+        await console.log(veABI.methods);
         return await veABI.methods.getListingFromId(listingId).call();
     }
 
@@ -263,8 +262,8 @@ function App() {
             setFetchedAndParsed(true);
         }
 
-        setUsers(await getUsers());
-        console.log("USERS: " + await getUsers());
+        // setUsers(await getUsers());
+        // console.log("USERS: " + await getUsers());
     }, [fetchedAndParsed]);
 
 

@@ -7,58 +7,68 @@ import { isApprovedForAll, setApprovalForAll } from "./ViridianNFTMethods";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
-export async function getUsers() {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    //let users = await veABI.methods.getUsers().call();
-
-    //alert(JSON.stringify(users));
-
-    return [];
-}
-
-export async function signUpUser() {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let users = veABI.methods.signUpUser().call();
-
-    //alert(nft);
-
-    return users;
-}
-
-export async function getUserFromAddress(userAddr) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let users = veABI.methods.getUserFromAddress(userAddr).call();
-
-    //alert(nft);
-
-    return users;
-}
+// export async function getUsers() {
+//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//
+//     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+//     //let users = await veABI.methods.getUsers().call();
+//
+//     //alert(JSON.stringify(users));
+//
+//     return [];
+// }
+//
+// export async function signUpUser() {
+//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//
+//     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+//     let users = veABI.methods.signUpUser().call();
+//
+//     //alert(nft);
+//
+//     return users;
+// }
+//
+// export async function getUserFromAddress(userAddr) {
+//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//
+//     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+//     let users = veABI.methods.getUserFromAddress(userAddr).call();
+//
+//     //alert(nft);
+//
+//     return users;
+// }
 
 export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
-
-    if (!(await isApprovedForAll(from, veContractAddress))) {
-        await setApprovalForAll(from, veContractAddress);
-    }
+    //alert(await isApprovedForAll(from, veContractAddress));
+    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
+        //alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            await setApprovalForAll(from, veContractAddress);
+        }});
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
     console.log(veABI.methods);
     //alert(web3.eth.accounts[0]);
-    return await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, false).send({ from: from });
+    try {
+        await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true).send({from: from});
+    } catch(e) {
+        alert(e);
+    }
 }
 
 export async function buyNFTWithVEXT(from, _listingId, amount) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
 
-    if (!(await isApprovedForAll(from, veContractAddress))) {
-        await setApprovalForAll(from, veContractAddress);
-    }
+    //alert(from);
+
+    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
+        //alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            await setApprovalForAll(from, veContractAddress);
+        }});
 
     await approve(from, veContractAddress, amount).then(async (e) => {
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);

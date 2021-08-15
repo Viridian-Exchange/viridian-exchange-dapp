@@ -71,13 +71,15 @@ const PutSale = (props, { className }) => {
         })}
       </div>
       <div className={styles.btns}>
-          {/*{props.account}*/}
-          {/*{props.id}*/}
+          {props.account}
+          {JSON.stringify(props.state)}
         <button className={cn("button", styles.button)} onClick = {async () => {
+            // alert(price);
             await setSaleLoading(true); await putUpForSale(props.account, props.state.id, price, 0, 0).then((e) => {
                 alert(JSON.stringify(e));
                 setSaleLoading(false);
-            }); }}>
+            });
+            }}>
             {!saleLoading && "Continue"} {saleLoading &&
             <Loader className={styles.loader} />} </button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>

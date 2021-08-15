@@ -352,6 +352,7 @@ const Profile = (props) => {
         </div>
       </div>
       <div className={styles.body}>
+        {JSON.stringify(props)}
         <div className={cn("container", styles.container)}>
           <User className={styles.user} item={socials} account = {location.state.account}/>
           <div className={styles.wrapper}>
