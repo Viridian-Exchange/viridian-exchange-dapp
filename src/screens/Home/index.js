@@ -19,7 +19,6 @@ const Home = (props) => {
         <Modal
             visible={props.promptSetup}
             onClose={async () => {
-                alert("closed prematurely");
                 await HandleAddUserSimple(props.setUserInfo, props.account).then(() => {
                 props.setPromptSetup(false);});
             }}

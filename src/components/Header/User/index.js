@@ -69,18 +69,20 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
       await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (accounts) => {
         setAccount(accounts[0]);
         if (accounts[0]) {
-          await FetchUser(setUserInfo, accounts[0]);
+          await FetchUser(setUserInfo, accounts[0]).then(async() => await setConnected(true));
         }
-        alert(accounts[0]);
+        // alert(accounts[0]);
         //alert(JSON.stringify(account));
       });
 
 
       //alert(JSON.stringify(web3));
-      await web3.eth.getBalance(account).then(async (balance) =>
-          await setEthBalance(round(balance * .000000000000000001, 4)));
+      // await web3.eth.getBalance(account).then(async (balance) =>
+      //     await setEthBalance(round(balance * .000000000000000001, 4)));
       await setVextBalance(await getVEXTBalance());
-      await setConnected(true);
+
+      alert("setting connected from user/index");
+
       // await setUserInfo(await getUserInfo());
 
 
@@ -141,7 +143,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
         </div>
             {visible && (
                 <div className={styles.body}>
-                  <div className={styles.name}>Enrico Cole</div>
+                  <div className={styles.name}>{userInfo.displayName}</div>
                   <div className={styles.code}>
                     <div className={styles.number}>{account}</div>
                     <button className={styles.copy}>

@@ -9,7 +9,7 @@ import Icon from "../../components/Icon";
 import ImageUpload from "../../ImageUpload";
 import S3FileUpload from "react-s3";
 import config from "../../config";
-import {HandleAddUserSimple, HandleUpdateUser} from "../../apis/UserAPI";
+import {HandleAddUserSimple, HandleUpdateUser, FetchUser} from "../../apis/UserAPI";
 
 const breadcrumbs = [
   {
@@ -28,47 +28,53 @@ const ProfileEdit = (props) => {
 
   //create consts for all user fields, then set them to the json in one function
   //TODO: Useeffect for when userInfo changes, sends to blockchain
-  const [displayName, setDisplayName] = useState("");
-  const [bio, setBio] = useState("");
-  const [website, setWebsite] = useState("");
-  const [twitter, setTwitter] = useState("");
+  const [displayName, setDisplayName] = useState(props.userInfo.displayName);
+  const [bio, setBio] = useState(props.userInfo.bio);
+  const [website, setWebsite] = useState(props.userInfo.website);
+  const [twitter, setTwitter] = useState(props.userInfo.twitter);
   // const [coverPhotoURL, setCoverPhotoURL] = useState("");
-  const [profilePhotoURL, setProfilePhotoURL] = useState("");
-
+  const [profilePhotoURL, setProfilePhotoURL] = useState(props.userInfo.profilePhotoURL);
+  const [refetch, setRefetch] = useState(false);
   const [files, setFiles] = useState([]);
   const [successMessage, setSuccessMessage] = useState(false);
+  const [imageUploaded, setImageUploaded] = useState(false);
   // const [following, setFollowing] = useState([]);
   // const [followers, setFollowers] = useState([]);
   // const [likes, setLikes] = useState([]);
   //TODO: IF USER DOESNT UPLOAD IMAGE, IT FUCKS UP, FIX THIS
   // USER INFO IS ALSO NOT SETTING
 
-  const s3Upload = async (files, e) => {
-    let file = files[0];
-    let blob = file.slice(0, file.size, 'image/png');
-    let newFile = new File([blob], props.account + '.png', {type: 'image/png'});
-    if (JSON.stringify(props.userInfo) == "{}") {
-      await HandleAddUserSimple(props.setUserInfo, props.account);
+  const s3Upload = async (files) => {
+      alert(files);
+      let file = files[0];
+      let blob = file.slice(0, file.size, 'image/png');
+      let newFile = new File([blob], props.account + '.png', {type: 'image/png'});
+      if (JSON.stringify(props.userInfo) == "{}") {
+        await HandleAddUserSimple(props.setUserInfo, props.account);
+      }
+      await S3FileUpload.uploadFile(newFile, config.s3)
+          .then(async(data) => {setProfilePhotoURL(data.location); alert((data));});
+
     }
-    await S3FileUpload.uploadFile(newFile, config.s3)
-        .then(async(data) => {setProfilePhotoURL(data.location); alert((data.location));});
 
-  };
 
-  const addCardToS3PlusDB = async (e) => {
-    await s3Upload(files, e).then(async () => {
+
+  const addCardToS3PlusDB = async () => {
+    if (files.length != 0) {
+      await s3Upload(files).then(async () => {
+        await updateUser();
+      });
+    }
+    else {
       await updateUser();
-    });
+    }
   };
 
   const updateUser = async () => {
-    if (profilePhotoURL !== "") {
       await HandleUpdateUser(props.setUserInfo, props.account, displayName, bio, website, twitter, profilePhotoURL,
-          props.userInfo.coverPhotoURL, props.userInfo.following, props.userInfo.followers, props.userInfo.likes).then(setSuccessMessage(true));
-    }
+          props.userInfo.coverPhotoURL, props.userInfo.following, props.userInfo.followers, props.userInfo.likes);
 
   }
-
 
 
   const successfulMessage1 = () => {
@@ -103,12 +109,15 @@ const ProfileEdit = (props) => {
 
 
   useEffect(async () => {
-    await updateUser();
-    alert(JSON.stringify(props.userInfo));
+    // await updateUser();
+    await FetchUser(props.setUserInfo, props.account).then(async () => {
+      alert("userinfo from fetch: "+ JSON.stringify(props.userInfo));
+    });
+    // alert(JSON.stringify(props.userInfo));
 
     // alert(JSON.stringify(userInfo.displayName));
 
-  }, [profilePhotoURL]);
+  }, []);
 
 
 
@@ -135,22 +144,33 @@ const ProfileEdit = (props) => {
                 <div className={styles.details}>
                   <div className={styles.stage}>Profile photo</div>
                   <div className={styles.text}>
-                    We recommend an image of at least 400x400. Gifs work too{" "}
+                    We recommend an image of at least 400x400.{" "}
                     <span role="img" aria-label="hooray">
                       🙌
                     </span>
                   </div>
                   <div className={styles.file}>
+                    {/*<button*/}
+                    {/*  className={cn(*/}
+                    {/*    "button-stroke button-small",*/}
+                    {/*    styles.button*/}
+                    {/*  )}*/}
+                    {/*>*/}
+                    {/*  Upload*/}
+                    {/*</button>*/}
                     <button
-                      className={cn(
-                        "button-stroke button-small",
-                        styles.button
-                      )}
+                        className={cn(
+                            "button-stroke button-small",
+                            styles.button
+                        )}
                     >
                       Upload
                     </button>
-                    {JSON.stringify(profilePhotoURL)}
-                    <ImageUpload fileName = {props.account + 'png'} files = {files} setFiles = {setFiles} />
+
+                    <input className={styles.load} type="file" onChange = { (e) => {setFiles(e.target.files);}}/>
+
+                    {/*{JSON.stringify(files)}*/}
+                    {/*<ImageUpload fileName = {props.account + 'png'} files = {files} setFiles = {setFiles} />*/}
                   </div>
                 </div>
               </div>
@@ -166,14 +186,14 @@ const ProfileEdit = (props) => {
                       name="Name"
                       type="text"
                       onChange = {e => setDisplayName(e.target.value)}
-                      placeholder="Enter your display name"
+                      placeholder={(displayName !== "") ? displayName: "Enter your desired display name"}
                       required
                     />
                     <TextArea
                       className={styles.field}
                       label="Bio"
                       name="Bio"
-                      placeholder="About yourselt in a few words"
+                      placeholder={(bio !== "") ? bio: "About yourself in a few words"}
                       onChange = {e => setBio(e.target.value)}
                       required="required"
                     />
@@ -188,7 +208,7 @@ const ProfileEdit = (props) => {
                       name="Portfolio"
                       type="text"
                       onChange={e => setWebsite(e.target.value)}
-                      placeholder="Enter URL"
+                      placeholder={(website !== "") ? website: "Enter URL"}
                       required
                     />
                     <div className={styles.box}>
