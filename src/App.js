@@ -59,10 +59,32 @@ function App() {
         return Boolean(ethereum && ethereum.isMetaMask);
     };
 
-    async function newUserCheck() {
-        if (connected && (JSON.stringify(userInfo)) === "{}") {
-            await setPromptSetup(true);
-        }
+    async function newUserCheck(account_from_eth) {
+
+        alert(connected);
+        alert(JSON.stringify(userInfo) === "{}");
+
+            let res = await FetchUser(setUserInfo, account_from_eth);
+            if (!res) {
+                await setPromptSetup(true);
+                alert("New user!")
+                return true;
+            }
+
+
+            //     .then(async (res) => {
+            //
+
+            //
+            // })
+
+
+        // if (connected && (JSON.stringify(userInfo)) === "{}") {
+        //     await setPromptSetup(true);
+        //
+        //
+        // }
+        return false;
     }
 
     async function connectWallet() {
@@ -72,7 +94,15 @@ function App() {
             await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (accounts) => {
                 setAccount(accounts[0]);
                 if (accounts[0]) {
-                    await FetchUser(setUserInfo, accounts[0]);
+                    await setConnected(true);
+                    if (account && connected) {
+                        await newUserCheck(accounts[0]);
+                    }
+
+                    // if (!(await newUserCheck())) {
+                    //     await FetchUser(setUserInfo, accounts[0]);
+                    // }
+
                 }
                 //alert(JSON.stringify(account));
             });
@@ -260,6 +290,7 @@ function App() {
 
         await FetchAllUsers(setUsers);
 
+
         if (!checkUserPrompt) {
 
             //alert(JSON.stringify(Web3.givenProvider));
@@ -321,21 +352,15 @@ function App() {
             }
         }
 
-        if (fetchedAndParsed && !checkUserPrompt) {
+        if (fetchedAndParsed && !checkUserPrompt && connected && account) {
             setCheckUserPrompt(true);
         }
 
 
-        // setUsers(await getUsers());
-        // console.log("USERS: " + await getUsers());
 
 
-        if (connected && account) {
-            await newUserCheck();
 
-        }
-
-    }, [fetchedAndParsed, checkUserPrompt]);
+    }, [fetchedAndParsed, checkUserPrompt, connected]);
 
 
 
@@ -345,14 +370,15 @@ function App() {
   return (
     <Router>
       <Switch>
+
         <Route
           exact
           path="/"
           render={() => (
-            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>\
               <Home users = {users} listings={listings} setListings={setListings} nfts={nfts}
                     account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
-              userInfo = {userInfo} setUserInfo = {setUserInfo}/>
+              userInfo = {userInfo} setUserInfo = {setUserInfo} connected = {connected}/>
             </Page>
           )}
         />
