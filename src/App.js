@@ -11,6 +11,7 @@ import Faq from "./screens/Faq";
 import Activity from "./screens/Activity";
 import Search01 from "./screens/Search01";
 import Search02 from "./screens/Search02";
+import OfferScreen from "./screens/OfferScreen";
 import Profile from "./screens/Profile";
 import ProfileEdit from "./screens/ProfileEdit";
 import Item from "./screens/Item";
@@ -43,6 +44,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 function App() {
     const [listings, setListings] = useState([]);
     const [nfts, setNfts] = useState([]);
+    const [ownedNfts, setOwnedNfts] = useState([]);
     const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
@@ -53,6 +55,7 @@ function App() {
     const [userFetched, setUserFetched] = useState(false);
     const [checkUserPrompt, setCheckUserPrompt] = useState(false);
     const nftsCopy = [];
+    const [users, setUsers] = useState([]);
 
     const isMetaMaskInstalled = () => {
         //Have to check the ethereum binding on the window object to see if it's installed
@@ -165,8 +168,8 @@ function App() {
         const veContractAddress = config.dev_contract_addresses.ve_contract;
         //console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        // await console.log("ABIMETHODS");
-        // await console.log(veABI.methods);
+        await console.log("ABIMETHODS");
+        await console.log(veABI.methods);
         return await veABI.methods.getListings().call();
     }
 
@@ -175,8 +178,8 @@ function App() {
         //console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
         // await console.log("ABIMETHODS");
-        // await console.log(veABI.methods);
-        return await veABI.methods.getListingsFromId(listingId).call();
+        await console.log(veABI.methods);
+        return await veABI.methods.getListingFromId(listingId).call();
     }
 
     async function tokenURI(tokenId) {
@@ -203,6 +206,43 @@ function App() {
         return owner;
     }
 
+    async function getOwnedNFTs() {
+        //alert('gettingOwnedNFTs');
+
+        //console.log(JSON.stringify(vNFTJSON));
+
+        // NFT Contract Calls
+        const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
+        let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
+        //alert(JSON.stringify(vnftABI.methods));
+        let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: account});
+        let nfts = [];
+        //alert(JSON.stringify(vnftABI.methods));
+
+        // await console.log(JSON.stringify(vNFTJSON['abi']));
+        console.log(vnftContractAddress);
+        console.log("test");
+
+        if (nftIds) {
+            //alert(JSON.stringify(nftIds));
+            for (let i = 0; i < nftIds.length; i++) {
+                let nftId = nftIds[i]
+                let uri = await vnftABI.methods.tokenURI(nftId).call();
+                //console.log("XXX: " + uri);
+                nfts.push({id: nftId, uri: uri});
+            }
+
+            //alert(nfts);
+        }
+        //alert(nftIds);
+        //await console.log(vnftABI.methods);
+
+
+        //console.log(nfts);
+
+        setOwnedNfts(nfts);
+    }
+
     async function parseListing(listing) {
         //console.log('Fetching from uri: ' + JSON.stringify(listing.tokenId));
         //const extractedObject =calert(listing)
@@ -220,7 +260,7 @@ function App() {
                         //alert("Owner OF: " + owner);
                         const resJson = await res.json();
                         //alert(JSON.stringify(resJson));
-                        const newNFT = {id: listing.tokenId, uri: resJson, owner: owner}
+                        const newNFT = {listingId: listing.listingId, id: listing.tokenId, uri: resJson, owner: owner, price: listing.price}
                         console.log(newNFT);
                         nftsCopy.push(newNFT);
                     }
@@ -275,6 +315,19 @@ function App() {
 
             //await parseListing(listings[0]);
 
+
+        //console.log('Getting owned NFTs');
+        await getListings().then(async (e) => {
+            console.log("Listings: " + JSON.stringify(e));
+            await setListings(e);
+
+            //setFetchedAndParsed(false);
+            //alert(listings);
+        });
+
+        await getOwnedNFTs();
+
+
             if (listings) {
                 //alert("WENIS")
                 //alert(listings)
@@ -288,6 +341,7 @@ function App() {
                     if (listing && !listing.name) {
                         await parseListing(await getListingFromId(listing));
                     }
+
                 }
             }
 
@@ -305,13 +359,13 @@ function App() {
         if (fetchedAndParsed && !checkUserPrompt && connected && account) {
             setCheckUserPrompt(true);
         }
-        // if (checkUserPrompt) {
-        //     await newUserCheck();
-        // }
+
+
 
 
 
     }, [fetchedAndParsed, checkUserPrompt, connected]);
+
 
 
 
@@ -326,10 +380,10 @@ function App() {
           exact
           path="/"
           render={() => (
-            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Home connected = {connected} listings={listings} setListings={setListings} nfts={nfts}
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>\
+              <Home users = {users} listings={listings} setListings={setListings} nfts={nfts}
                     account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
-              userInfo = {userInfo} setUserInfo = {setUserInfo}/>
+              userInfo = {userInfo} setUserInfo = {setUserInfo} connected = {connected}/>
             </Page>
           )}
         />
@@ -346,6 +400,7 @@ function App() {
               exact
               path="/paypal"
               render={() => (
+
                   <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                       <PayPal/>
                   </Page>
@@ -410,7 +465,7 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
+              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}/>
             </Page>
           )}
         />
@@ -432,6 +487,15 @@ function App() {
             </Page>
           )}
         />
+          <Route
+              exact
+              path="/offer/:id"
+              render={() => (
+                  <Page>
+                      <OfferScreen account={account}/>
+                  </Page>
+              )}
+          />
         <Route
           exact
           path="/pagelist"

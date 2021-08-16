@@ -6,7 +6,6 @@ import Icon from "../Icon";
 
 const NFT = ({ className, item, account, isListing }, props) => {
   const [visible, setVisible] = useState(false);
-  const [uri, setURI] = useState(item.uri);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
 
@@ -14,7 +13,8 @@ const NFT = ({ className, item, account, isListing }, props) => {
   return (
     <div className={cn(styles.card, className)}>
       <div className={styles.preview}>
-        <img src={uri.image} alt="Card" />
+        {/*{uri.image}*/}
+        <img src={item.uri.image} alt="Card" />
         <div className={styles.control}>
           <div
             className={cn(
@@ -36,12 +36,12 @@ const NFT = ({ className, item, account, isListing }, props) => {
           </button>
         </div>
       </div>
-      {/*{JSON.stringify(isListing)}*/}
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { uri: uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>
+      {/*{JSON.stringify(item.listingId)}*/}
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>
         <div className={styles.body}>
           <div className={styles.line}>
-            <div className={styles.title}>{uri.name}</div>
-            <div className={styles.price}>{item.price}</div>
+            <div className={styles.title}>{item.uri.name}</div>
+            <div className={styles.price}>{item.price} VEXT</div>
           </div>
           <div className={styles.line}>
             <div className={styles.users}>
