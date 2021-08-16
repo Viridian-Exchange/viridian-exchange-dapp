@@ -31,8 +31,6 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 const navLinks = [
   "VNFTs",
   "On Sale",
-  "Offers",
-  "Likes",
   "Following",
   "Followers",
 ];
@@ -345,112 +343,193 @@ const Profile = (props) => {
   }
 
 //TODO: UPLOAD THEIR DEFAULT COVER TO S3 THEN PASS THE URL INTO HANDLEADDUSERSIMPLE SO IT SHOWS UP BY DEFAULT
-
-  return (
-    <div className={styles.profile}>
-      <Modal
-          visible={visibleOfferBuilder}
-          onClose={() => setVisibleOfferBuilder(false)}
-          width="100ex"
-      >
-        <div>
-          <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNfts={[]} account={props.account} />
-        </div>
-      </Modal>
-      <div
-        className={cn(styles.head, { [styles.active]: visible })}
-        style={{
-        backgroundImage: "url(" + props.userInfo.coverPhotoURL  + ")"
-        }}
-      >
-        <div className={cn("container", styles.container)}>
-          <div className={styles.btns}>
-            <button
-                className={cn("button", styles.button)}
-                onClick={() => setVisibleOfferBuilder(true)}
-                // type="button" hide after form customization
-                type="button"
-            >
-              <span>Make Offer</span>
-            </button>
-            <button
-              className={cn("button-stroke button-small", styles.button)}
-              onClick={() => setVisible(true)}
-            >
-              <span>Edit cover photo</span>
-              <Icon name="edit" size="16" />
-            </button>
-            <Link
-              className={cn("button-stroke button-small", styles.button)}
-              to="/profile-edit"
-            >
-              <span>Edit profile</span>
-              <Icon name="image" size="16" />
-            </Link>
-          </div>
-          <div className={styles.file}>
-            <input className={styles.load} type="file" onChange = { (e) => {setFiles(e.target.files);}}/>
-            <div className={styles.wrap}>
-              <Icon name="upload-file" size="48" />
-              <div className={styles.info}>Drag and drop your photo here</div>
-              <div className={styles.text}>or click to browse</div>
-              <div className={styles.text}>{(files.length != 0) ? files[0].name:  ""}</div>
+  if (location.state.account === props.account) {
+    return (
+        <div className={styles.profile}>
+          <Modal
+              visible={visibleOfferBuilder}
+              onClose={() => setVisibleOfferBuilder(false)}
+              width="100ex"
+          >
+            <div>
+              <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNfts={[]} account={props.account}/>
             </div>
-            <button
-              className={cn("button-small", styles.button)}
-              onClick={(e) => {addCoverToS3PlusDB(e).then(setVisible(false));}}
-            >
-              Save photo
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className={styles.body}>
-        {JSON.stringify(props)}
-        <div className={cn("container", styles.container)}>
-          <User className={styles.user} item={socials} account = {props.account} userInfo = {props.userInfo}/>
-          <div className={styles.wrapper}>
-            <div className={styles.nav}>
-              {navLinks.map((x, index) => (
+          </Modal>
+          <div
+              className={cn(styles.head, {[styles.active]: visible})}
+              style={{
+                backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
+              }}
+          >
+            <div className={cn("container", styles.container)}>
+              <div className={styles.btns}>
                 <button
-                  className={cn(styles.link, {
-                    [styles.active]: index === activeIndex,
-                  })}
-                  key={index}
-                  onClick={() => setActiveIndex(index)}
+                    className={cn("button", styles.button)}
+                    onClick={() => setVisibleOfferBuilder(true)}
+                    // type="button" hide after form customization
+                    type="button"
                 >
-                  {x}
+                  <span>Make Offer</span>
                 </button>
-              ))}
+                <button
+                    className={cn("button-stroke button-small", styles.button)}
+                    onClick={() => setVisible(true)}
+                >
+                  <span>Edit cover photo</span>
+                  <Icon name="edit" size="16"/>
+                </button>
+                <Link
+                    className={cn("button-stroke button-small", styles.button)}
+                    to="/profile-edit"
+                >
+                  <span>Edit profile</span>
+                  <Icon name="image" size="16"/>
+                </Link>
+              </div>
+              <div className={styles.file}>
+                <input className={styles.load} type="file" onChange={(e) => {
+                  setFiles(e.target.files);
+                }}/>
+                <div className={styles.wrap}>
+                  <Icon name="upload-file" size="48"/>
+                  <div className={styles.info}>Drag and drop your photo here</div>
+                  <div className={styles.text}>or click to browse</div>
+                  <div className={styles.text}>{(files.length != 0) ? files[0].name : ""}</div>
+                </div>
+                <button
+                    className={cn("button-small", styles.button)}
+                    onClick={(e) => {
+                      addCoverToS3PlusDB(e).then(setVisible(false));
+                    }}
+                >
+                  Save photo
+                </button>
+              </div>
             </div>
-            {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
-            <div className={styles.group}>
-              <div className={styles.item}>
-                {activeIndex === 0 && (
-                    <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={props.account} />
-                )}
-                {activeIndex === 1 && [
-                  <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
-                ]}
-                {activeIndex === 2 && (
-                  <Items class={styles.items} offers={['1', '2', '3']} />
-                )}
-                {activeIndex === 3 && (
-                    <Items class={styles.items} items={[]} />
-                )}
-                {activeIndex === 4 && (
-                  <Followers className={styles.followers} items={following} />
-                )}
-                {activeIndex === 5 && (
-                  <Followers className={styles.followers} items={followers} />
-                )}
+          </div>
+          <div className={styles.body}>
+            {JSON.stringify(props)}
+            <div className={cn("container", styles.container)}>
+              <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo}/>
+              <div className={styles.wrapper}>
+                <div className={styles.nav}>
+                  {navLinks.map((x, index) => (
+                      <button
+                          className={cn(styles.link, {
+                            [styles.active]: index === activeIndex,
+                          })}
+                          key={index}
+                          onClick={() => setActiveIndex(index)}
+                      >
+                        {x}
+                      </button>
+                  ))}
+                </div>
+                {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
+                <div className={styles.group}>
+                  <div className={styles.item}>
+                    {activeIndex === 0 && (
+                        <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}/>
+                    )}
+                    {activeIndex === 1 && [
+                      <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                    ]}
+                    {activeIndex === 2 && (
+                        <Items class={styles.items} offers={['1', '2', '3']}/>
+                    )}
+                    {activeIndex === 3 && (
+                        <Items class={styles.items} items={[]}/>
+                    )}
+                    {activeIndex === 4 && (
+                        <Followers className={styles.followers} items={following}/>
+                    )}
+                    {activeIndex === 5 && (
+                        <Followers className={styles.followers} items={followers}/>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
+    );
+  }
+  else {
+    return (
+        <div className={styles.profile}>
+          <div
+              className={cn(styles.head, {[styles.active]: visible})}
+              style={{
+                backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
+              }}
+          >
+            <div className={cn("container", styles.container)}>
+              <div className={styles.file}>
+                <input className={styles.load} type="file" onChange={(e) => {
+                  setFiles(e.target.files);
+                }}/>
+                <div className={styles.wrap}>
+                  <Icon name="upload-file" size="48"/>
+                  <div className={styles.info}>Drag and drop your photo here</div>
+                  <div className={styles.text}>or click to browse</div>
+                  <div className={styles.text}>{(files.length != 0) ? files[0].name : ""}</div>
+                </div>
+                <button
+                    className={cn("button-small", styles.button)}
+                    onClick={(e) => {
+                      addCoverToS3PlusDB(e).then(setVisible(false));
+                    }}
+                >
+                  Save photo
+                </button>
+              </div>
+            </div>
+          </div>
+          <div className={styles.body}>
+            {/*{JSON.stringify(location.state)}*/}
+            <div className={cn("container", styles.container)}>
+              <User className={styles.user} item={socials} curUser={props.account} account={location.state.account} userInfo={location.state}/>
+              <div className={styles.wrapper}>
+                <div className={styles.nav}>
+                  {navLinks.map((x, index) => (
+                      <button
+                          className={cn(styles.link, {
+                            [styles.active]: index === activeIndex,
+                          })}
+                          key={index}
+                          onClick={() => setActiveIndex(index)}
+                      >
+                        {x}
+                      </button>
+                  ))}
+                </div>
+                {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
+                <div className={styles.group}>
+                  <div className={styles.item}>
+                    {activeIndex === 0 && (
+                        <Items class={styles.items} nfts={[]} isListing={false} account={location}/>
+                    )}
+                    {activeIndex === 1 && [
+                      <Items class={styles.items} nfts={[]} isListing={true} account={props.account}/>
+                    ]}
+                    {/*{activeIndex === 2 && (*/}
+                    {/*    <Items class={styles.items} items={[]}/>*/}
+                    {/*)}*/}
+                    {activeIndex === 2 && (
+                        <Followers className={styles.followers} items={following}/>
+                    )}
+                    {activeIndex === 3 && (
+                        <Followers className={styles.followers} items={followers}/>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    );
+  }
+
 };
 
 export default Profile;

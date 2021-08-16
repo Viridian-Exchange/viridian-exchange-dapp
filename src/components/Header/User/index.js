@@ -70,7 +70,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
         setAccount(accounts[0]);
         if (accounts[0]) {
           await FetchUser(setUserInfo, accounts[0]);
-          alert("FETCH FROM USER SCREEN")
+          //alert("FETCH FROM USER SCREEN")
         }
         // alert(accounts[0]);
         //alert(JSON.stringify(account));
