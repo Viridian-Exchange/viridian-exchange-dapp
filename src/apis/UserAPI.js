@@ -216,7 +216,7 @@ export const FetchAllUsers = async(setUsers) => {
             if (res.data.Items) {
                 await setUsers(res.data.Items);
             }
-            alert(JSON.stringify("FETCHAU: " + res.data.Items));
+            //alert(JSON.stringify("FETCHAU: " + res.data.Items));
             return res.status;
         });
         // const res_user = res.data;
