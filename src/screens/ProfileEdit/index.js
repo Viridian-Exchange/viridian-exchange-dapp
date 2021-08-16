@@ -57,8 +57,6 @@ const ProfileEdit = (props) => {
       setProfilePhotoURL(data.location);
       return data.location;
 
-
-
     }
 
 
@@ -187,7 +185,9 @@ const ProfileEdit = (props) => {
 
                     </button>
 
+
                     <input className={styles.load} type="file" onChange = { (e) => {setFiles(e.target.files);}}/>
+                    {(files.length != 0) ? files[0].name:  ""}
 
                     {/*{JSON.stringify(files)}*/}
                     {/*<ImageUpload fileName = {props.account + 'png'} files = {files} setFiles = {setFiles} />*/}
