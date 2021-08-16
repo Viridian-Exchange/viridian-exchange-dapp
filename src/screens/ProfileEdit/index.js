@@ -123,7 +123,6 @@ const ProfileEdit = (props) => {
   useEffect(async () => {
     // await updateUser();
     // if (props.setUserInfo !== "{}") {
-    //   await FetchUser(props.setUserInfo, props.account).then(async () => {
     //     alert("userinfo from fetch: "+ JSON.stringify(props.userInfo));
     //   });
     // }

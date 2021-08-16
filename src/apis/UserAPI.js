@@ -71,7 +71,7 @@ export const HandleAddUserSimple = async (setUserInfo, address) => {
             "website": "",
             "twitter": "",
             "profilePhotoURL": "https://source.boringavatars.com/marble/120/" + address,
-            "coverPhotoURL": "",
+            "coverPhotoURL": "https://viridian-images.s3.us-east-2.amazonaws.com/bg-profile.jpg",
             "following": [],
             "followers": [],
             "likes": []

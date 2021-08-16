@@ -65,12 +65,13 @@ function App() {
         alert(connected);
         alert(JSON.stringify(userInfo) === "{}");
 
-        let res = await FetchUser(setUserInfo, account_from_eth);
-        if (!res) {
-            await setPromptSetup(true);
-            alert("New user!")
-            return true;
-        }
+            let res = await FetchUser(setUserInfo, account_from_eth);
+            if (!res) {
+                await setPromptSetup(true);
+                alert("New user!")
+                return true;
+            }
+
 
             //     .then(async (res) => {
             //
@@ -304,9 +305,9 @@ function App() {
         if (fetchedAndParsed && !checkUserPrompt && connected && account) {
             setCheckUserPrompt(true);
         }
-        if (checkUserPrompt) {
-            await newUserCheck();
-        }
+        // if (checkUserPrompt) {
+        //     await newUserCheck();
+        // }
 
 
 
