@@ -4,7 +4,7 @@ import styles from "./Item.module.sass";
 import Users from "./Users";
 import Control from "./Control";
 import Options from "./Options";
-import { useLocation } from "react-router-dom";
+import { useLocation, withRouter } from 'react-router-dom';
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
@@ -114,4 +114,4 @@ const Item = (props) => {
   );
 };
 
-export default Item;
+export default withRouter(Item);
