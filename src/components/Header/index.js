@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, withRouter } from "react-router-dom";
 import cn from "classnames";
 import styles from "./Header.module.sass";
 import Icon from "../Icon";
@@ -40,8 +40,8 @@ const Headers = () => {
         <Link className={styles.logo} to="/">
           <Image
             className={styles.pic}
-            src="logo_words.svg"
-            srcDark="logo_words.svg"
+            src="/logo_words.svg"
+            srcDark="/logo_words.svg"
             alt="Viridian Exchange"
           />
         </Link>
@@ -112,4 +112,4 @@ const Headers = () => {
   );
 };
 
-export default Headers;
+export default withRouter(Headers);
