@@ -61,9 +61,6 @@ function App() {
 
     async function newUserCheck(account_from_eth) {
 
-        alert(connected);
-        alert(JSON.stringify(userInfo) === "{}");
-
             let res = await FetchUser(setUserInfo, account_from_eth);
             if (!res) {
                 await setPromptSetup(true);
