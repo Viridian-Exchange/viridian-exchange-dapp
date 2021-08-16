@@ -10,6 +10,9 @@ import Followers from "./Followers";
 import Web3 from "web3";
 import config from "../../local-dev-config";
 import { useLocation } from "react-router-dom";
+import ImageUpload from "../../ImageUpload";
+import S3FileUpload from "react-s3";
+import s3config from "../../config";
 
 
 // data
@@ -17,6 +20,7 @@ import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
 import vNFTJSON from '../../abis/ViridianNFT.json';
 import vTJSON from '../../abis/ViridianToken.json';
+import {HandleUpdateUser} from "../../apis/UserAPI";
 
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
@@ -232,6 +236,8 @@ const Profile = (props) => {
   const nftsCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
   const [ownedOffers, setOwnedOffers] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
@@ -293,6 +299,49 @@ const Profile = (props) => {
     // nftCopy[i] = nft;
   }
 
+  const s3Upload = async (files) => {
+
+    let file = files[0];
+    let blob = file.slice(0, file.size, 'image/png');
+    let newFile = new File([blob], props.account + "_cover" + '.png', {type: 'image/png'});
+    // if (JSON.stringify(props.userInfo) == "{}") {
+    //   await HandleAddUserSimple(props.setUserInfo, props.account);
+    // }
+    let data = await S3FileUpload.uploadFile(newFile, s3config.s3);
+    setCoverPhotoURL(data.location);
+    return data.location;
+
+  }
+
+
+
+  const addCoverToS3PlusDB = async () => {
+    if (files.length != 0) {
+      alert("there is a file here!!");
+      await s3Upload(files).then(async(res) => {
+        setCoverPhotoURL(res);
+        await updateUser(res);
+      });
+      // await s3Upload(files).then(async () => {
+      //   await updateUser();
+      // });
+    }
+    else {
+      await updateUser(coverPhotoURL);
+    }
+  };
+
+  const updateUser = async (coverPhotoURL) => {
+    let res = await HandleUpdateUser(props.setUserInfo, props.account, props.userInfo.displayName, props.userInfo.bio, props.userInfo.website, props.userInfo.twitter, props.userInfo.profilePhotoURL,
+        coverPhotoURL, props.userInfo.following, props.userInfo.followers, props.userInfo.likes);
+
+    // if (res.status === 204) {
+    //   setSuccessMessage(true);
+    // }
+    alert("Success!:" + JSON.stringify(res));
+
+  }
+
   useEffect(async () => {
     //alert('called');
 
@@ -313,13 +362,13 @@ const Profile = (props) => {
     }
   }, [ownedNFTs]);
 
-
+//TODO: UPLOAD THEIR DEFAULT COVER TO S3 THEN PASS THE URL INTO HANDLEADDUSERSIMPLE SO IT SHOWS UP BY DEFAULT
   return (
     <div className={styles.profile}>
       <div
         className={cn(styles.head, { [styles.active]: visible })}
         style={{
-          backgroundImage: "url(/images/content/bg-profile.jpg)",
+        backgroundImage: "url(" + props.userInfo.coverPhotoURL  + ")"
         }}
       >
         <div className={cn("container", styles.container)}>
@@ -340,15 +389,16 @@ const Profile = (props) => {
             </Link>
           </div>
           <div className={styles.file}>
-            <input type="file" />
+            <input className={styles.load} type="file" onChange = { (e) => {setFiles(e.target.files);}}/>
             <div className={styles.wrap}>
               <Icon name="upload-file" size="48" />
               <div className={styles.info}>Drag and drop your photo here</div>
               <div className={styles.text}>or click to browse</div>
+              <div className={styles.text}>{(files.length != 0) ? files[0].name:  ""}</div>
             </div>
             <button
               className={cn("button-small", styles.button)}
-              onClick={() => setVisible(false)}
+              onClick={(e) => {addCoverToS3PlusDB(e).then(setVisible(false));}}
             >
               Save photo
             </button>
