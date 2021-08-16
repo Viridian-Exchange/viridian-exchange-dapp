@@ -51,9 +51,9 @@ const Footers = () => {
             <Link className={styles.logo} to="/">
               <Image
                 className={styles.pic}
-                src="logo.svg"
-                srcDark="logo.svg"
-                alt="Fitness Pro"
+                src="/logo.svg"
+                srcDark="/logo.svg"
+                alt="Viridian Exchange"
               />
             </Link>
             <div className={styles.info}>The Future of Collectibles Trade.</div>
