@@ -263,7 +263,7 @@ const Popular = (props) => {
                     {/*</div>*/}
                     <div className={styles.control}>
                       <Add className={styles.button} />
-                      <Link className={styles.button} to={"/Profile/" + x.username}>
+                      <Link className={styles.button} to={"/profile/" + x.username}>
                         <Icon name="arrow-expand" size="24" />
                       </Link>
                     </div>
