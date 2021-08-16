@@ -181,3 +181,35 @@ export const FetchUser = async (setUserInfo, address) => {
         alert(`An error has occurred: ${err}`);
     }
 };
+
+export const FetchAllUsers = async(setUsers) => {
+    const user = {
+        newUser: {
+            "username": ""
+        },
+        users: []
+    };
+
+    // add call to AWS API Gateway to fetch users here
+    // then set them in state
+    try {
+        await axios.get(`${config.api.invokeUrl}/user`).then(async(res) => {
+            console.log(JSON.stringify(res));
+            if (res.data.Items) {
+                await setUsers(res.data.Items);
+            }
+            alert(JSON.stringify("FETCHAU: " + res.data.Items));
+            return res.status;
+        });
+        // const res_user = res.data;
+        // user.users = res_user;
+        // alert("Success: " + JSON.stringify(res));
+        //console.log (JSON.stringify(user));
+        // alert("auth user: " + JSON.stringify(user.users.Item));
+
+
+
+    } catch (err) {
+        alert(`An error has occurred: ${err}`);
+    }
+};
