@@ -18,7 +18,10 @@ const SignupPrompt = ({ className, account, setPromptSetup, setUserInfo}) => {
         Add a display name, profile picture, and bio to personalize your Viridian Exchange experience.
       </div>
       <div className={styles.btns}>
-        <Link className={cn("button", styles.button)} to="/profile-edit">Set up now</Link>
+        <Link className={cn("button", styles.button)} onClick={async () => {
+            await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {
+                setPromptSetup(false);});
+        }} to="/profile-edit">Set up now</Link>
         <button className={cn("button-stroke", styles.button)} onClick={async () => {
             await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {
             setPromptSetup(false);});

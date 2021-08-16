@@ -69,7 +69,8 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
       await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (accounts) => {
         setAccount(accounts[0]);
         if (accounts[0]) {
-          await FetchUser(setUserInfo, accounts[0]).then(async() => await setConnected(true));
+          await FetchUser(setUserInfo, accounts[0]);
+          alert("FETCH FROM USER SCREEN")
         }
         // alert(accounts[0]);
         //alert(JSON.stringify(account));
@@ -80,6 +81,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
       // await web3.eth.getBalance(account).then(async (balance) =>
       //     await setEthBalance(round(balance * .000000000000000001, 4)));
       await setVextBalance(await getVEXTBalance());
+      await setConnected(true);
 
       alert("setting connected from user/index");
 
@@ -135,7 +137,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
       <div className={cn(styles.user, className)}>
         <div className={styles.head} onClick={() => setVisible(!visible)}>
           <div className={styles.avatar}>
-            <img src={userInfo.profilePhotoURL} alt="Avatar" />
+            <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
           </div>
           <div className={styles.wallet}>
             {parseVextBalance(vextBalance)} <span className={styles.currency}>VEXT</span>

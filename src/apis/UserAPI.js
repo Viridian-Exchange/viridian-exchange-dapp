@@ -66,12 +66,12 @@ export const HandleAddUserSimple = async (setUserInfo, address) => {
     try {
         const params = {
             "username": address,
-            "displayName": "",
+            "displayName": "Unnamed",
             "bio": "",
             "website": "",
             "twitter": "",
             "profilePhotoURL": "https://source.boringavatars.com/marble/120/" + address,
-            "coverPhotoURL": "",
+            "coverPhotoURL": "https://viridian-images.s3.us-east-2.amazonaws.com/bg-profile.jpg",
             "following": [],
             "followers": [],
             "likes": []
@@ -112,17 +112,28 @@ export const HandleUpdateUser = async (setUserInfo, address, displayName, bio, w
         //
         // alert(JSON.stringify(params));
         //alert(JSON.stringify(params));
-        await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
-            //alert(JSON.parse(res.config.data));
-            //TODO: Figure out why this causes problems!!!
+        // await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
+        //     //alert(JSON.parse(res.config.data));
+        //     //TODO: Figure out why this causes problems!!!
+        //
+        //     if (res.data.Item) {
+        //         await setUserInfo(res.data.Item);
+        //     }
+        //     params['username'] = address
+        //     setUserInfo(params);
+        //     return res;
+        // });
 
-            if (res.data.Item) {
-                await setUserInfo(res.data.Item);
-            }
-            params['username'] = address
-            setUserInfo(params);
-            return res;
-        });
+        let res = await axios.patch(`${config.api.invokeUrl}/user/${address}`, params);
+        if (res.data.Item) {
+            await setUserInfo(res.data.Item);
+        }
+        params['username'] = address
+        setUserInfo(params);
+        return res;
+
+
+
 
     }catch (err) {
         console.log(`Error updating user: ${err}`);
@@ -161,14 +172,21 @@ export const FetchUser = async (setUserInfo, address) => {
     // add call to AWS API Gateway to fetch users here
     // then set them in state
     try {
-        await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
-            alert("address from fetch:" + address);
-            if (res.data.Item) {
-                await setUserInfo(res.data.Item);
-            }
-            alert(JSON.stringify("FETCH: " + res.data.Item));
-            return res.status;
-        });
+        // await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
+        //     alert("address from fetch:" + address);
+        //     // if (!res.data.Item) {
+        //     //     alert("FAILLL" + JSON.stringify(res.data.Item));
+        //     // }
+        //
+        //
+        // });
+
+        let res = await axios.get(`${config.api.invokeUrl}/user/${address}`);
+        if (res.data.Item) {
+            await setUserInfo(res.data.Item);
+            return res;
+        }
+
         // const res_user = res.data;
         // user.users = res_user;
         // alert("Success: " + JSON.stringify(res));
