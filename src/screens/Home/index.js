@@ -15,7 +15,7 @@ const Home = (props) => {
   return (
     <>
         <Description />
-        {/*{JSON.stringify(props.users)}*/}
+        {JSON.stringify(props.users)}
       <Popular users={props.users} />
       <HotBid classSection="section" nfts={props.nfts} setListings={props.setListings} account={props.account}/>
     </>
