@@ -23,11 +23,7 @@ import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import Modal from "./components/Modal";
-import {FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
-
-
-
-
+import {FetchAllUsers, FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 
@@ -262,6 +258,8 @@ function App() {
         //alert(JSON.stringify(props))
         //alert('called');
 
+        await FetchAllUsers(setUsers);
+
         if (!checkUserPrompt) {
 
             //alert(JSON.stringify(Web3.givenProvider));
@@ -314,8 +312,6 @@ function App() {
                 }
             }
 
-            //alert(nftsCopy);
-
             setNfts(nftsCopy);
 
             //setListings(nftsCopy);
@@ -347,7 +343,6 @@ function App() {
 
 
   return (
-
     <Router>
       <Switch>
         <Route
@@ -377,7 +372,6 @@ function App() {
 
                   <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                       <PayPal/>
->>>
                   </Page>
               )}
           />
