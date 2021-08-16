@@ -27,7 +27,8 @@ const Home = (props) => {
         </Modal>
         {JSON.stringify(props.userInfo)}
         <Description />
-      <Popular />
+        {/*{JSON.stringify(props.users)}*/}
+      <Popular users={props.users} />
       <HotBid classSection="section" nfts={props.nfts} setListings={props.setListings} account={props.account}/>
     </>
   );

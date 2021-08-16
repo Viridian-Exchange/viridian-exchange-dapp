@@ -40,6 +40,7 @@ const Item = (props) => {
 
   return (
     <>
+      {/*{JSON.stringify(location.state)}*/}
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
           <div className={styles.bg}>
@@ -64,13 +65,14 @@ const Item = (props) => {
                 alt="Item"
               />
             </div>
-            <Options className={styles.options} />
+            {/*{location.state.listingId}*/}
+            <Options className={styles.options} id={location.state.listingId} account={props.account} />
           </div>
           <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
             <div className={styles.cost}>
               <div className={cn("status-stroke-green", styles.price)}>
-                2.5 ETH
+                {location.state.price} VEXT
               </div>
               <div className={cn("status-stroke-black", styles.price)}>
                 $4,429.87
@@ -102,9 +104,10 @@ const Item = (props) => {
                 </button>
               ))}
             </div>
-            {/*{JSON.stringify(location.state.isListing)}*/}
-            <Users className={styles.users} items={users} owner={location.state.nftOwner}  />
-            <Control className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
+
+            {/*{JSON.stringify(isListing)}*/}
+            <Users className={styles.users} items={users} owner={location.state.nftOwner} />
+            <Control price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>
         </div>
       </div>

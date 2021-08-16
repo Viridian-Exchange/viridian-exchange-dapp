@@ -6,6 +6,7 @@ import Icon from "../../components/Icon";
 import User from "./User";
 import Items from "./Items";
 import Followers from "./Followers";
+import OfferBuilder from "../../components/OfferBuilder"
 //import VEAbi from '../../abis/ViridianExchange.json';
 import Web3 from "web3";
 import config from "../../local-dev-config";
@@ -14,13 +15,14 @@ import ImageUpload from "../../ImageUpload";
 import S3FileUpload from "react-s3";
 import s3config from "../../config";
 
-
 // data
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
 import vNFTJSON from '../../abis/ViridianNFT.json';
 import vTJSON from '../../abis/ViridianToken.json';
 import {HandleUpdateUser} from "../../apis/UserAPI";
+import RemoveSale from "../../components/RemoveSale";
+import Modal from "../../components/Modal";
 
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
@@ -196,41 +198,11 @@ const followers = [
   },
 ];
 
-async function getOwnedNFTs() {
-
-  //console.log(JSON.stringify(vNFTJSON));
-
-  // NFT Contract Calls
-  const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
-  let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
-  let nftIds = await vnftABI.methods.getOwnedNFTs().call();
-  let nfts = [];
-  //alert(JSON.stringify(vnftABI.methods));
-
-  // await console.log(JSON.stringify(vNFTJSON['abi']));
-  console.log(vnftContractAddress);
-
-  if (nftIds) {
-    for (let i = 0; i < nftIds.length; i++) {
-      let nftId = nftIds[i]
-      let uri = await vnftABI.methods.tokenURI(nftId).call();
-      console.log(uri);
-      nfts.push({id: nftId, uri: uri});
-    }
-  }
-  console.log(nfts);
-  //await console.log(vnftABI.methods);
-
-
-  //console.log(nfts);
-
-  return nfts;
-}
-
 const Profile = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
-  const [ownedNFTs, setOwnedNFTs] = useState([]);
+  const [visibleOfferBuilder, setVisibleOfferBuilder] = useState(false);
+  //const [ownedNFTs, setOwnedNFTs] = useState([]);
   const [listedNFTs, setListedNFTs] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
@@ -249,14 +221,44 @@ const Profile = (props) => {
     //   curNFTs.splice(index, 1);
     // });
 
-    setOwnedListings(curNFTs);
+    let ol = []
+
+    curNFTs.forEach((nft) => {
+      //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
+      if (nft.owner.toLowerCase() === props.account) {
+        ol.push(nft);
+      }
+    });
+
+    setOwnedListings(ol);
   }
 
-  useEffect(() => {
+  useEffect(async() => {
     console.log(JSON.stringify(props.nfts));
     getOwnedListings();
     console.log(ownedListings);
-  }, []);
+
+
+    //console.log('Getting owned NFTs');
+    if (!fetchedAndParsed) {
+      //setOwnedNFTs(await getOwnedNFTs());
+      //alert(ownedNFTs);
+
+      if (props.ownedNFTs.length > 0) {
+        for (let i = 0; i < props.ownedNFTs.length; i++) {
+          // await ownedNFTs.forEach((nft, i) => {
+          //   extractMetadata(nft, i)
+          // });
+          //alert(JSON.stringify(ownedNFTs[i]));
+          await extractMetadata(props.ownedNFTs[i], i);
+        }
+        props.setOwnedNFTs(nftsCopy);
+      }
+
+      setFetchedAndParsed(true);
+    }
+  }, [props.ownedNFTs]);
+
 
   async function ownerOf(tokenId) {
     const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
@@ -274,7 +276,6 @@ const Profile = (props) => {
   const location = useLocation();
 
   async function extractMetadata(nft, i) {
-    setFetchedAndParsed(true);
     console.log('Fetching from uri: ' + nft.uri);
     //const extractedObject =
     await fetch(nft.uri, {
@@ -298,6 +299,7 @@ const Profile = (props) => {
     // nft['uri'] = await extractedObject;
     // nftCopy[i] = nft;
   }
+
 
   const s3Upload = async (files) => {
 
@@ -342,29 +344,19 @@ const Profile = (props) => {
 
   }
 
-  useEffect(async () => {
-    //alert('called');
-
-    //console.log('Getting owned NFTs');
-    if (!fetchedAndParsed) {
-      setOwnedNFTs(await getOwnedNFTs());
-      //console.log(ownedNFTs);
-
-      if (ownedNFTs.length > 0) {
-        for (let i = 0; i < ownedNFTs.length; i++) {
-          // await ownedNFTs.forEach((nft, i) => {
-          //   extractMetadata(nft, i)
-          // });
-          await extractMetadata(ownedNFTs[i], i);
-        }
-        setOwnedNFTs(nftsCopy);
-      }
-    }
-  }, [ownedNFTs]);
-
 //TODO: UPLOAD THEIR DEFAULT COVER TO S3 THEN PASS THE URL INTO HANDLEADDUSERSIMPLE SO IT SHOWS UP BY DEFAULT
+
   return (
     <div className={styles.profile}>
+      <Modal
+          visible={visibleOfferBuilder}
+          onClose={() => setVisibleOfferBuilder(false)}
+          width="100ex"
+      >
+        <div>
+          <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNfts={[]} account={props.account} />
+        </div>
+      </Modal>
       <div
         className={cn(styles.head, { [styles.active]: visible })}
         style={{
@@ -373,6 +365,14 @@ const Profile = (props) => {
       >
         <div className={cn("container", styles.container)}>
           <div className={styles.btns}>
+            <button
+                className={cn("button", styles.button)}
+                onClick={() => setVisibleOfferBuilder(true)}
+                // type="button" hide after form customization
+                type="button"
+            >
+              <span>Make Offer</span>
+            </button>
             <button
               className={cn("button-stroke button-small", styles.button)}
               onClick={() => setVisible(true)}
@@ -406,6 +406,7 @@ const Profile = (props) => {
         </div>
       </div>
       <div className={styles.body}>
+        {JSON.stringify(props)}
         <div className={cn("container", styles.container)}>
           <User className={styles.user} item={socials} account = {props.account} userInfo = {props.userInfo}/>
           <div className={styles.wrapper}>
@@ -422,16 +423,17 @@ const Profile = (props) => {
                 </button>
               ))}
             </div>
+            {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
             <div className={styles.group}>
               <div className={styles.item}>
                 {activeIndex === 0 && (
-                  <Items class={styles.items} nfts={ownedNFTs} isListing={false} account={props.account} />
+                    <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={props.account} />
                 )}
                 {activeIndex === 1 && [
                   <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                 ]}
                 {activeIndex === 2 && (
-                  <Items class={styles.items} items={[]} />
+                  <Items class={styles.items} offers={['1', '2', '3']} />
                 )}
                 {activeIndex === 3 && (
                     <Items class={styles.items} items={[]} />
