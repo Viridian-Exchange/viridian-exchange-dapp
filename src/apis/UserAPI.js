@@ -193,11 +193,12 @@ export const FetchAllUsers = async(setUsers) => {
     // add call to AWS API Gateway to fetch users here
     // then set them in state
     try {
-        await axios.get(`${config.api.invokeUrl}/user/`).then(async(res) => {
-            if (res.data.Item) {
-                await setUsers(res.data.Item);
+        await axios.get(`${config.api.invokeUrl}/user`).then(async(res) => {
+            console.log(JSON.stringify(res));
+            if (res.data.Items) {
+                await setUsers(res.data.Items);
             }
-            alert(JSON.stringify("FETCH: " + res.data.Item));
+            alert(JSON.stringify("FETCH: " + res.data.Items));
             return res.status;
         });
         // const res_user = res.data;
