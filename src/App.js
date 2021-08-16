@@ -22,6 +22,7 @@ import vNFTJSON from "./abis/ViridianNFT.json";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
+import {FetchAllUsers} from "./apis/UserAPI"
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 //TODO: show address, list of followers, description, etc on profile page
@@ -252,6 +253,8 @@ function App() {
                 }
             }
         }
+
+        await FetchAllUsers(setUsers);
 
         //alert(nftsCopy);
 
