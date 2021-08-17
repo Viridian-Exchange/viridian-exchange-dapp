@@ -460,9 +460,10 @@ const Profile = (props) => {
           <div
               className={cn(styles.head, {[styles.active]: visible})}
               style={{
-                backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
+                backgroundImage: "url(" + location.state.coverPhotoURL + ")"
               }}
           >
+            {/*{alert(JSON.stringify(location.state))}*/}
             <div className={cn("container", styles.container)}>
               <div className={styles.file}>
                 <input className={styles.load} type="file" onChange={(e) => {
