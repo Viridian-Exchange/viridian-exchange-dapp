@@ -133,8 +133,6 @@ export const HandleUpdateUser = async (setUserInfo, address, displayName, bio, w
         return res;
 
 
-
-
     }catch (err) {
         console.log(`Error updating user: ${err}`);
     }

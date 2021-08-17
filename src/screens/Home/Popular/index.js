@@ -263,7 +263,7 @@ const Popular = (props) => {
                     {/*</div>*/}
                     <div className={styles.control}>
                       <Add className={styles.button} />
-                      <Link className={styles.button} to={{ pathname: `/profile/${x.username}`, state: {profilePhotoURL: x.profilePhotoURL, bio: x.bio, username: x.username, account: x.username, displayName: x.displayName} }}>
+                      <Link className={styles.button} to={{ pathname: `/profile/${x.username}`, state: {coverPhotoURL: x.coverPhotoURL, profilePhotoURL: x.profilePhotoURL, bio: x.bio, username: x.username, account: x.username, displayName: x.displayName, twitter: x.twitter} }}>
                         <Icon name="arrow-expand" size="24" />
                       </Link>
                     </div>
