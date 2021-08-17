@@ -41,6 +41,7 @@ function App() {
     const [listings, setListings] = useState([]);
     const [nfts, setNfts] = useState([]);
     const [ownedNfts, setOwnedNfts] = useState([]);
+    const [offers, setOffers] = useState([]);
     const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
