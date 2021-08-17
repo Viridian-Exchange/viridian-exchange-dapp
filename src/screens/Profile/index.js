@@ -31,6 +31,8 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 const navLinks = [
   "VNFTs",
   "On Sale",
+  "Offers",
+  "Likes",
   "Following",
   "Followers",
 ];
@@ -408,7 +410,7 @@ const Profile = (props) => {
             </div>
           </div>
           <div className={styles.body}>
-            {JSON.stringify(props)}
+            {/*{JSON.stringify(props)}*/}
             <div className={cn("container", styles.container)}>
               <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo}/>
               <div className={styles.wrapper}>
@@ -491,8 +493,9 @@ const Profile = (props) => {
               <User className={styles.user} item={socials} curUser={props.account} account={location.state.account} userInfo={location.state}/>
               <div className={styles.wrapper}>
                 <div className={styles.nav}>
-                  {navLinks.map((x, index) => (
-                      <button
+                  {navLinks.map((x, index) => {
+                      if (index !== 2 && index !== 3) {
+                      return (<button
                           className={cn(styles.link, {
                             [styles.active]: index === activeIndex,
                           })}
@@ -500,25 +503,28 @@ const Profile = (props) => {
                           onClick={() => setActiveIndex(index)}
                       >
                         {x}
-                      </button>
-                  ))}
+                      </button>)}},
+                  )}
                 </div>
                 {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
                 <div className={styles.group}>
                   <div className={styles.item}>
                     {activeIndex === 0 && (
-                        <Items class={styles.items} nfts={[]} isListing={false} account={location}/>
+                        <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}/>
                     )}
                     {activeIndex === 1 && [
-                      <Items class={styles.items} nfts={[]} isListing={true} account={props.account}/>
+                      <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                     ]}
-                    {/*{activeIndex === 2 && (*/}
-                    {/*    <Items class={styles.items} items={[]}/>*/}
-                    {/*)}*/}
                     {activeIndex === 2 && (
-                        <Followers className={styles.followers} items={following}/>
+                        <Items class={styles.items} items={[]}/>
                     )}
                     {activeIndex === 3 && (
+                        <Items class={styles.items} items={[]}/>
+                    )}
+                    {activeIndex === 4 && (
+                        <Followers className={styles.followers} items={following}/>
+                    )}
+                    {activeIndex === 5 && (
                         <Followers className={styles.followers} items={followers}/>
                     )}
                   </div>
