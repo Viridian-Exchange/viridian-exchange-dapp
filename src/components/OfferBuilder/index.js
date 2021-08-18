@@ -12,6 +12,7 @@ import FolowSteps from "./FolowSteps";
 import Items from "./SelectItems";
 import Dropdown from "../Dropdown";
 import Flexbox from 'flexbox-react';
+import {makeOffer} from "../../smartContracts/ViridianExchangeMethods";
 
 const royaltiesOptions = ["10%", "20%", "30%"];
 
@@ -41,6 +42,12 @@ const OfferBuilder = (props) => {
   const [option, setOption] = useState(options[0]);
   const [selectedRecNFTs, setRecSelectedNFTs] = useState([]);
   const [selectedGiveNFTs, setGiveSelectedNFTs] = useState([]);
+  const [selectedRecIds, setRecSelectedIds] = useState([]);
+  const [selectedGiveIds, setGiveSelectedIds] = useState([]);
+  const [giveAmount, setGiveAmount] = useState(0);
+  const [recAmount, setRecAmount] = useState(0);
+
+
 
   return (
     <div>
@@ -59,7 +66,7 @@ const OfferBuilder = (props) => {
                                          recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={false} class={props.class} nfts={props.nfts} isListing={false} account={props.account}
                                          style={{marginTop: "20ex", marginBottom: "2ex"}}/>}
         {option === options[1] && <Items giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
-                                         recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={false} selected={false} class={props.class} nfts={[{"id":"2","uri":{"name":"Charizard","description":"Base Set","image":"https://viridian-images.s3.us-east-2.amazonaws.com/CD12.png"},"owner":"0x4A680E6c256efe9DDA9aC19A96e205f7791158Ee"}]} isListing={false} account={props.account}
+                                         recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={false} selected={false} class={props.class} nfts={props.otherNFTs} isListing={false} account={props.account}
                                          style={{marginTop: "20ex", marginBottom: "2ex"}}/>}
         </Flexbox>
         <Flexbox flexDirection="column" style={{marginLeft: '5ex', marginTop: '3ex'}}>
@@ -88,6 +95,10 @@ const OfferBuilder = (props) => {
                  nfts={selectedRecNFTs} give={false} isListing={false} selected={true} account={props.account}/>
         </Flexbox>
       </Flexbox>
+      <div className={styles.btns}>
+        <button className={cn("button", styles.button)} onClick={async () => await makeOffer(props.account, props.to, selectedGiveIds, giveAmount, selectedRecIds, recAmount, true)
+        }> <span>Send Offer</span> </button>
+      </div>
       </div>
   );
 };

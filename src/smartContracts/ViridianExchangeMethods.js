@@ -40,6 +40,17 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 //     return users;
 // }
 
+export async function getOffers() {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let offers = await veABI.methods.getOffers().call();
+
+    //alert(JSON.stringify(users));
+
+    return offers;
+}
+
 export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
     //alert(await isApprovedForAll(from, veContractAddress));
