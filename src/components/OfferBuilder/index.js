@@ -72,6 +72,7 @@ const OfferBuilder = (props) => {
         <Flexbox flexDirection="column" style={{marginLeft: '5ex', marginTop: '3ex'}}>
           <TextInput
               style={{marginBottom: '2ex'}}
+              onChange={(e) => {setGiveAmount(e.target.value); console.log(giveAmount);}}
               className={styles.field}
               label="They Receive"
               name="Twitter"
@@ -80,9 +81,10 @@ const OfferBuilder = (props) => {
               required
           />
           <Items class={props.class} nfts={selectedGiveNFTs} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
-                 recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={true} isListing={false} account={props.account} />
+                 recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={true} isListing={false} account={props.curAccount} />
           <TextInput
               style={{marginBottom: '2ex'}}
+              onChange={(e) => setRecAmount(e.target.value)}
               className={styles.field}
               label="You Receive"
               name="Twitter"
