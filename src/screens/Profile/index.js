@@ -502,7 +502,8 @@ const Profile = (props) => {
                   width="100ex"
               >
                 <div>
-                  <OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNFTs={otherNFTs} account={props.account}/>
+                  <OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNFTs={otherNFTs} account={location.state.curAccount}
+                  to={location.state.account}/>
                   {/*<OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNfts={otherNFTs} account={props.account}/>*/}
                 </div>
               </Modal>
