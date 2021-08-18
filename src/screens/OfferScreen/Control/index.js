@@ -8,6 +8,7 @@ import Accept from "./Accept";
 import PutSale from "./PutSale";
 import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
+import { acceptOfferWithVEXT } from "../../../smartContracts/ViridianExchangeMethods";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -20,7 +21,7 @@ const Control = (props, { className }) => {
   const [purchased, setPurchased] = useState(false);
 
   function offerButtons() {
-    if ((props.owner.toLowerCase() === props.account.toLowerCase()) && props.isListing) {
+    //if ((props.owner.toLowerCase() === props.account.toLowerCase()) {
       return (
           <div className={styles.btns}>
               <button className={cn("button-stroke", styles.button)}>
@@ -28,12 +29,14 @@ const Control = (props, { className }) => {
               </button>
               <button
                   className={cn("button", styles.button)}
-                  onClick={() => setVisibleModalAccept(true)}
+                  onClick={async () => {//setVisibleModalAccept(true)
+                      await acceptOfferWithVEXT(props.account, props.offerId, props.toVEXT);
+                  }}
               >
                   Accept
               </button>
           </div>);
-    }
+    //}
   }
 
     function buyButtons() {
@@ -80,22 +83,24 @@ const Control = (props, { className }) => {
           </div>
           <div className={styles.details}>
             <div className={styles.info}>
-              Highest bid by <span>Kohaku Tora</span>
+              Accept offer from <span>Kohaku Tora</span>
             </div>
             <div className={styles.cost}>
               <div className={styles.price}>1.46 ETH</div>
               <div className={styles.price}>$2,764.89</div>
             </div>
+              <div className={styles.cost}>
+              <div className={styles.price}>2 VNFTs</div>
+              <div className={styles.price}>1 VNFT</div>
+              </div>
           </div>
         </div>
-          {/*{JSON.stringify(props.isListing)}*/}
-          {buyButtons()}
+          {"OID: " + JSON.stringify(props.offerId)}
           {offerButtons()}
         <div className={styles.text}>
           Service fee <span className={styles.percent}>1.5%</span>{" "}
           <span>2.563 ETH</span> <span>$4,540.62</span>
         </div>
-          {putOnSaleButton()}
         <div className={styles.note}>
           You can sell this token on Viridian Exchange
         </div>
@@ -104,7 +109,7 @@ const Control = (props, { className }) => {
         visible={visibleModalPurchase}
         onClose={() => setVisibleModalPurchase(false)}
       >
-        <Checkout price={props.price} account={props.account} tokenId={props.state.id} />
+        <Checkout price={props.price} account={props.account} />
           {purchased &&
               <SuccessfullyPurchased/>
           }

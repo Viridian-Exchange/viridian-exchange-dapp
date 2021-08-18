@@ -3,6 +3,7 @@ import cn from "classnames";
 import styles from "./Item.module.sass";
 import Slider from "react-slick";
 import Users from "./Users";
+import Items from "./Items";
 import Control from "./Control";
 import Options from "./Options";
 import { useLocation } from "react-router-dom";
@@ -44,24 +45,13 @@ const OfferScreen = (props) => {
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
           <div className={styles.bg}>
-            <div className={styles.preview}>
-              <div className={styles.categories}>
-                {categories.map((x, index) => (
-                  <div
-                    className={cn(
-                      { "status-black": x.category === "black" },
-                      { "status-purple": x.category === "purple" },
-                      styles.category
-                    )}
-                    key={index}
-                  >
-                    {x.content}
-                  </div>
-                ))}
-              </div>
-            </div>
             {/*{location.state.listingId}*/}
-            <Options className={styles.options} id={1} account={props.account} />
+            HI
+            {JSON.stringify(location)}
+            {JSON.stringify(location.state.toNFTs)}
+            {JSON.stringify(location.state.fromNFTs)}
+            {location.state.toVEXT}
+            {location.state.fromVEXT}
           </div>
           <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}></h1>
@@ -99,9 +89,10 @@ const OfferScreen = (props) => {
                 </button>
               ))}
             </div>
-            {/*{JSON.stringify(isListing)}*/}
+            {JSON.stringify(location.state)}
             <Users className={styles.users} items={users} owner={1} />
-            {/*<Control />*/}
+            <Control account={props.account} offerId={location.state.offerId} toNFTs={location.state.toNFTs} fromNFTs={location.state.fromNFTs}
+              toVEXT={location.state.toVEXT} fromVEXT={location.state.fromVEXT}/>
           </div>
         </div>
       </div>
