@@ -368,13 +368,14 @@ function App() {
   return (
     <Router>
       <Switch>
-
         <Route
           exact
           path="/"
           render={() => (
-            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>\
-              <Home users = {users} listings={listings} setListings={setListings} nfts={nfts}
+            <Page account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                {/*{"ON: " + JSON.stringify(ownedNfts)}*/}
+                <Home nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}
+                  users = {users} listings={listings} setListings={setListings} nfts={nfts}
                     account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
               userInfo = {userInfo} setUserInfo = {setUserInfo} connected = {connected}/>
             </Page>

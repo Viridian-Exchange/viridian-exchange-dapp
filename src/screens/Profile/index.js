@@ -206,11 +206,52 @@ const Profile = (props) => {
   const [listedNFTs, setListedNFTs] = useState([]);
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
+  const oNftsCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
   const [ownedOffers, setOwnedOffers] = useState([]);
   const [otherNFTs, setOtherNFTs] = useState([]);
   const [files, setFiles] = useState([]);
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
+
+  const location = useLocation();
+
+  async function getOtherOwnedNFTs() {
+    //alert('gettingOwnedNFTs');
+
+    //console.log(JSON.stringify(vNFTJSON));
+
+    // NFT Contract Calls
+    const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
+    let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
+    //alert(JSON.stringify(vnftABI.methods));
+    alert(location.state.account)
+    let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
+    let nfts = [];
+    //alert(JSON.stringify(vnftABI.methods));
+
+    // await console.log(JSON.stringify(vNFTJSON['abi']));
+    console.log(vnftContractAddress);
+    console.log("test");
+
+    if (nftIds) {
+      //alert(JSON.stringify(nftIds));
+      for (let i = 0; i < nftIds.length; i++) {
+        let nftId = nftIds[i]
+        let uri = await vnftABI.methods.tokenURI(nftId).call();
+        //console.log("XXX: " + uri);
+        nfts.push({id: nftId, uri: uri});
+      }
+
+      //alert(nfts);
+    }
+    //alert(nftIds);
+    //await console.log(vnftABI.methods);
+
+
+    alert(JSON.stringify(nfts));
+
+    setOtherNFTs(nfts);
+  }
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
@@ -238,6 +279,7 @@ const Profile = (props) => {
     console.log(JSON.stringify(props.nfts));
     getOwnedListings();
     console.log(ownedListings);
+    await getOtherOwnedNFTs();
 
 
     //console.log('Getting owned NFTs');
@@ -245,13 +287,26 @@ const Profile = (props) => {
       //setOwnedNFTs(await getOwnedNFTs());
       //alert(ownedNFTs);
 
+      if (otherNFTs.length > 0) {
+        for (let i = 0; i < otherNFTs.length; i++) {
+          // await ownedNFTs.forEach((nft, i) => {
+          //   extractMetadata(nft, i)
+          // });
+          //alert(JSON.stringify(ownedNFTs[i]));
+          await extractMetadata(oNftsCopy, otherNFTs[i], i);
+        }
+
+        alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
+        setOtherNFTs(oNftsCopy);
+      }
+
       if (props.ownedNFTs.length > 0) {
         for (let i = 0; i < props.ownedNFTs.length; i++) {
           // await ownedNFTs.forEach((nft, i) => {
           //   extractMetadata(nft, i)
           // });
           //alert(JSON.stringify(ownedNFTs[i]));
-          await extractMetadata(props.ownedNFTs[i], i);
+          await extractMetadata(nftsCopy, props.ownedNFTs[i], i);
         }
         props.setOwnedNFTs(nftsCopy);
       }
@@ -273,10 +328,7 @@ const Profile = (props) => {
     return owner;
   }
 
-
-  const location = useLocation();
-
-  async function extractMetadata(nft, i) {
+  async function extractMetadata(nftc, nft, i) {
     console.log('Fetching from uri: ' + nft.uri);
     //const extractedObject =
     await fetch(nft.uri, {
@@ -292,7 +344,7 @@ const Profile = (props) => {
           //alert(JSON.stringify(resJson));
           const newNFT = {id: nft.id, uri: resJson, owner: owner}
           console.log(newNFT);
-          nftsCopy.push(newNFT);
+          nftc.push(newNFT);
         }
       });
     });
@@ -413,7 +465,7 @@ const Profile = (props) => {
                           </button>
                       ))}
                     </div>
-                    {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
+                    {/*<div>{JSON.stringify(location.state)}</div>*/}
                     <div className={styles.group}>
                       <div className={styles.item}>
                         {activeIndex === 0 && (
@@ -450,7 +502,8 @@ const Profile = (props) => {
                   width="100ex"
               >
                 <div>
-                  <OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNfts={otherNFTs} account={props.account}/>
+                  <OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNFTs={otherNFTs} account={props.account}/>
+                  {/*<OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNfts={otherNFTs} account={props.account}/>*/}
                 </div>
               </Modal>
               <div
@@ -515,10 +568,11 @@ const Profile = (props) => {
                     </div>
                     {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
                     <div className={styles.group}>
+                      {/*<div>{JSON.stringify(location.state.ownedNFTs)}</div>*/}
                       <div className={styles.item}>
-                        {activeIndex === 0 && (
-                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}/>
-                        )}
+                        {activeIndex === 0 && [
+                            <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account}/>
+                        ]}
                         {activeIndex === 1 && [
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                         ]}

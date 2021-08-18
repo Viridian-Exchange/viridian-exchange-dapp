@@ -12,8 +12,6 @@ import {HandleAddUserSimple} from "../../apis/UserAPI";
 
 const Home = (props) => {
 
-
-
   return (
     <>
         <Modal
@@ -23,15 +21,16 @@ const Home = (props) => {
                 props.setPromptSetup(false);});
             }}
         >
-            <SignupPrompt account = {props.account} setPromptSetup = {props.setPromptSetup} setUserInfo = {props.setUserInfo}/>
+            <SignupPrompt account = {props.account}
+                          setPromptSetup = {props.setPromptSetup} setUserInfo = {props.setUserInfo}/>
         </Modal>
-        {JSON.stringify(props.userInfo)}
         <Description />
-        {/*{JSON.stringify(props.users)}*/}
-      <Popular users={props.users} />
+        {/*{"ONT: " + JSON.stringify(props.ownedNFTs)}*/}
+      <Popular nfts={props.nfts} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo}
+               ownedNFTs = {props.ownedNFTs} setOwnedNFTs = {props.setOwnedNFTs} users={props.users} />
       <HotBid classSection="section" nfts={props.nfts} setListings={props.setListings} account={props.account}/>
     </>
   );
-};
+}
 
 export default Home;
