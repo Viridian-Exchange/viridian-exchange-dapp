@@ -14,6 +14,7 @@ import { useLocation } from "react-router-dom";
 import ImageUpload from "../../ImageUpload";
 import S3FileUpload from "react-s3";
 import s3config from "../../config";
+import {getOffersFromUser} from "../../smartContracts/ViridianExchangeMethods";
 
 // data
 import { bids } from "../../mocks/bids";
@@ -208,7 +209,7 @@ const Profile = (props) => {
   const nftsCopy = [];
   const oNftsCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
-  const [ownedOffers, setOwnedOffers] = useState([]);
+  const [offers, setOffers] = useState([]);
   const [otherNFTs, setOtherNFTs] = useState([]);
   const [files, setFiles] = useState([]);
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
@@ -224,7 +225,7 @@ const Profile = (props) => {
     const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
-    alert(location.state.account)
+    //alert(location.state.account)
     let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
     let nfts = [];
     //alert(JSON.stringify(vnftABI.methods));
@@ -244,11 +245,20 @@ const Profile = (props) => {
 
       //alert(nfts);
     }
+
+    if (location) {
+      if (location.state.account) {
+        setOffers(await getOffersFromUser(location.state.account));
+      }
+      else {
+        setOffers(await getOffersFromUser(props.account));
+      }
+    }
     //alert(nftIds);
     //await console.log(vnftABI.methods);
 
 
-    alert(JSON.stringify(nfts));
+    //alert(JSON.stringify(nfts));
 
     setOtherNFTs(nfts);
   }
@@ -294,10 +304,12 @@ const Profile = (props) => {
           // });
           //alert(JSON.stringify(ownedNFTs[i]));
           await extractMetadata(oNftsCopy, otherNFTs[i], i);
+
+          await console.log(oNftsCopy);
         }
 
-        alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
-        setOtherNFTs(oNftsCopy);
+        //await alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
+        await setOtherNFTs(oNftsCopy);
       }
 
       if (props.ownedNFTs.length > 0) {
@@ -344,7 +356,7 @@ const Profile = (props) => {
           //alert(JSON.stringify(resJson));
           const newNFT = {id: nft.id, uri: resJson, owner: owner}
           console.log(newNFT);
-          nftc.push(newNFT);
+          await nftc.push(newNFT);
         }
       });
     });
@@ -474,9 +486,11 @@ const Profile = (props) => {
                         {activeIndex === 1 && [
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                         ]}
-                        {activeIndex === 2 && (
-                            <Items class={styles.items} offers={props.offers}/>
-                        )}
+                        {activeIndex === 2 && [
+                          //<div>{JSON.stringify(offers)}</div>,
+                            <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
+                            curDisplayName={props.userInfo.displayName}/>
+                        ]}
                         {activeIndex === 3 && (
                             <Items class={styles.items} items={[]}/>
                         )}
@@ -510,7 +524,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
+                    backgroundImage: "url(" + `props.userInfo.coverPhotoURL` + ")"
                   }}
               >
                 <div className={cn("container", styles.container)}>
@@ -577,9 +591,10 @@ const Profile = (props) => {
                         {activeIndex === 1 && [
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                         ]}
-                        {activeIndex === 2 && (
-                            <Items class={styles.items} items={[]}/>
-                        )}
+                        {activeIndex === 2 && [
+                          // <div>{JSON.stringify(offers)}</div>,
+                          <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} />
+                        ]}
                         {activeIndex === 3 && (
                             <Items class={styles.items} items={[]}/>
                         )}

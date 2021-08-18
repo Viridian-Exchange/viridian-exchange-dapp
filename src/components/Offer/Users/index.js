@@ -21,12 +21,12 @@ const Users = ({ className, items, owner, fromNFTs, toNFTs, fromVEXT, toVEXT }) 
 
     const trade = [
         {
-            NFTs: "2 VNFTs",
-            VEXT: "50K VEXT",
+            NFTs: fromNFTs.length + " VNFTs",
+            VEXT: fromVEXT + " VEXT",
         },
         {
-            NFTs: "3 VNFTs",
-            VEXT: "1M VEXT",
+            NFTs: toNFTs.length + " VNFTs",
+            VEXT: toVEXT + " VEXT",
         },
     ];
   return (
