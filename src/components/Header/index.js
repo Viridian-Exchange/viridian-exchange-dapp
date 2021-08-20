@@ -102,7 +102,7 @@ const Headers = (props) => {
         >
           Connect Wallet
         </Link> */}
-        <User className={styles.user} account = {props.account} setAccount = {props.setAccount}
+        <User vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
               connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>
         <button
           className={cn(styles.burger, { [styles.active]: visibleNav })}
