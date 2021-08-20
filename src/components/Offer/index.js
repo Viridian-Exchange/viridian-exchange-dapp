@@ -5,14 +5,14 @@ import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import Users from "./Users"
 
-const NFT = ({ className, item, account, isListing }, props) => {
+const Offer = ({ className, item, account, isListing, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
 
     const users = [
         {
             name: "Raquel Will",
             position: "You Receive",
-            avatar: "/images/content/avatar-2.jpg",
+            avatar: {curProfilePhoto},
         },
         {
             name: "Selina Mayert",
@@ -24,10 +24,14 @@ const NFT = ({ className, item, account, isListing }, props) => {
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
 
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
+    //TODO: Will likely have to flip how the to and from NFTs and VEXT are displayed as the
   return (
-      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: { } }}>
+      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {offerId: item.offerId, toVEXT: item.toAmt, toNFTs: item.fromNftIds,
+              fromVEXT: item.fromAmt, fromNFTs: item.toNftIds} }}>
     <div className={cn(styles.card, className)}>
-        <Users items={users}/>
+        {"ITM: " + JSON.stringify(item.offerId)}
+        {/*{JSON.stringify(item[1])}*/}
+        <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} />
       <div className={styles.preview}>
         {/*{uri.image}*/}
         <div className={styles.control}>
@@ -49,4 +53,4 @@ const NFT = ({ className, item, account, isListing }, props) => {
   );
 };
 
-export default NFT;
+export default Offer;
