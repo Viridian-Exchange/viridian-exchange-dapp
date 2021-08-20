@@ -40,6 +40,47 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 //     return users;
 // }
 
+export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+
+    //alert(from);
+
+    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
+        //alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            await setApprovalForAll(from, veContractAddress);
+        }});
+
+    await approve(from, veContractAddress, _toAmount).then(async (e) => {
+        let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+        alert(JSON.stringify(e));
+        //alert(web3.eth.accounts[0]);
+        return await veABI.methods.acceptOfferWithVEXT(_offerId).send({from: from});
+    });
+}
+
+export async function getOffers() {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let offers = await veABI.methods.getOffers().call();
+
+    //alert(JSON.stringify(users));
+
+    return offers;
+}
+
+export async function getOffersFromUser(_account) {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let offers = await veABI.methods.getOffersFromUser(_account).call();
+
+    //alert(JSON.stringify(users));
+
+    return offers;
+}
+
 export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
     //alert(await isApprovedForAll(from, veContractAddress));
@@ -91,5 +132,7 @@ export async function makeOffer(from, _to, _nftIds, _amount, _recNftIds, _recAmo
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
-    return await veABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send({from: from});
+    await approve(from, veContractAddress, _amount).then(async (e) => {
+        return await veABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send({from: from});
+    });
 }

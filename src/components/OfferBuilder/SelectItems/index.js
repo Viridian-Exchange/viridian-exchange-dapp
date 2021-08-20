@@ -7,7 +7,7 @@ import Loader from "../../../components/Loader";
 import Offer from "../../../components/Offer";
 
 const Items = ({ className, items, nfts, isListing, account, offers, give, selected, setGiveSelectedNFTs, setRecSelectedNFTs,
-                   giveSelectedNFTs, recSelectedNFTs}, props) => {
+                   giveSelectedNFTs, recSelectedNFTs, selectedGiveIds, setGiveSelectedIds, selectedRecIds, setRecSelectedIds}, props) => {
     // TODO: Don't just map "nfts" everytime, map selected nfts if they are selected
     return (
         <div className={cn(styles.items, className)}>
@@ -21,6 +21,10 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                                 let giveNFTCopy = [...giveSelectedNFTs];
                                 giveNFTCopy.splice(index, 1)
                                 setGiveSelectedNFTs(giveNFTCopy);
+
+                                let giveIdCopy = [...selectedGiveIds];
+                                giveIdCopy.splice(index, 1)
+                                setGiveSelectedIds(giveIdCopy);
                                 }}>
                                 <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>
                             </button>);
@@ -30,6 +34,10 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                                 let recNFTCopy = [...recSelectedNFTs];
                                 recNFTCopy.splice(index, 1)
                                 setRecSelectedNFTs(recNFTCopy);
+
+                                let recIdCopy = [...selectedRecIds];
+                                recIdCopy.splice(index, 1)
+                                setRecSelectedIds(recIdCopy);
                                 }}>
                                 <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>
                             </button>);
@@ -41,6 +49,9 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                                 if (!giveSelectedNFTs.includes(x)) {
                                     setGiveSelectedNFTs([...giveSelectedNFTs].concat(x));
                                 }
+                                if (!selectedGiveIds.includes(x.id)) {
+                                    setGiveSelectedIds([...selectedGiveIds].concat(x.id));
+                                }
                             }}>
                                 {/*<div style={{color: 'white'}}>{giveSelectedNFTs.includes(x) + "III"}</div>*/}
                                 <NFT className={styles.card} item={x} key={index} isListing={isListing}
@@ -50,6 +61,9 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                             return (<button onClick={() => {
                                 if (!recSelectedNFTs.includes(x)) {
                                     setRecSelectedNFTs([...recSelectedNFTs].concat(x));
+                                }
+                                if (!selectedRecIds.includes(x.id)) {
+                                    setRecSelectedIds([...selectedRecIds].concat(x.id));
                                 }
                             }}>
                                 {/*<div style={{color: 'white'}}>{recSelectedNFTs.includes(x) + "III"}</div>*/}

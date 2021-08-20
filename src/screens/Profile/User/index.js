@@ -5,6 +5,7 @@ import Icon from "../../../components/Icon";
 import Report from "../../../components/Report";
 import Modal from "../../../components/Modal";
 import { FacebookShareButton, TwitterShareButton } from "react-share";
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 import config from "../../../local-dev-config";
 import vNFTJSON from "../../../abis/ViridianNFT.json";
 import Web3 from "web3";
@@ -26,6 +27,12 @@ const User = ({ className, item, curUser, account, userInfo }) => {
   const [visibleModalReport, setVisibleModalReport] = useState(false);
   // const [userInfo, setUserInfo] = useState({});
   const [isCurrentUser, setIsCurrentUser] = useState(false);
+
+  const shortenAccount = () => {
+    if (account) {
+      return account.toString().substring(0, 6) + "..." + account.toString().substring(38);
+    }
+  }
 
 
 
@@ -54,12 +61,16 @@ const User = ({ className, item, curUser, account, userInfo }) => {
             <img src={userInfo.profilePhotoURL} alt="Avatar"/>
           </div>
           <div className={styles.name}>{userInfo.displayName}</div>
+          <CopyToClipboard text={account}
+                           // onCopy={() => this.setState({copied: true})}
+              >
           <div className={styles.code}>
-            <div className={styles.number}>{account}</div>
+            <div className={styles.number}>{shortenAccount()}</div>
             <button className={styles.copy}>
               <Icon name="copy" size="16"/>
             </button>
           </div>
+          </CopyToClipboard>
           <div className={styles.info}>
             {userInfo.bio}
           </div>

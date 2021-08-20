@@ -5,7 +5,7 @@ import styles from "./Page.module.sass";
 import Header from "../Header";
 import Footer from "../Footer";
 
-const Page = ({ children, account, setAccount, connected, setConnected, userInfo, setUserInfo }) => {
+const Page = ({ children, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance }) => {
   const { pathname } = useLocation();
 
   useEffect(() => {
@@ -15,7 +15,7 @@ const Page = ({ children, account, setAccount, connected, setConnected, userInfo
 
   return (
     <div className={styles.page}>
-      <Header account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
+      <Header vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
       <div className={styles.inner}>{children}</div>
       <Footer />
     </div>

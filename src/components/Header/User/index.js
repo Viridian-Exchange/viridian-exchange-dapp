@@ -27,7 +27,7 @@ const items = (account) => [
   },
 ];
 
-const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo}) => {
+const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance}) => {
   const [visible, setVisible] = useState(false);
   const [balance, setBalance] = useState(0);
 
@@ -39,8 +39,8 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
 
 
   //Todo: if they press skip for now, then link address to user struct and default profile picture
-  const [ethBalance, setEthBalance] = useState(0);
-  const [vextBalance, setVextBalance] = useState(0);
+  //const [ethBalance, setEthBalance] = useState(0);
+  //const [vextBalance, setVextBalance] = useState(0);
 
   useEffect(() => {
     if (Web3.givenProvider) {
