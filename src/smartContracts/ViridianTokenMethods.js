@@ -8,5 +8,5 @@ export async function approve(from, exchangeAddress, amount) {
 
     let vTABI = new web3.eth.Contract(vTJSON['abi'], vTContractAddress);
 
-    return await vTABI.methods.approve(exchangeAddress, amount).send({from: from});
+    return await vTABI.methods.approve(exchangeAddress, amount).send.request({from: from});
 }

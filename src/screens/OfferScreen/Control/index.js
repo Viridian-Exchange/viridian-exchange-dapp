@@ -30,7 +30,7 @@ const Control = (props, { className }) => {
               <button
                   className={cn("button", styles.button)}
                   onClick={async () => {//setVisibleModalAccept(true)
-                      await acceptOfferWithVEXT(props.account, props.offerId, props.toVEXT);
+                      await acceptOfferWithVEXT(props.account, props.offerId, props.fromVEXT);
                   }}
               >
                   Accept
