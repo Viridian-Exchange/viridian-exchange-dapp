@@ -8,12 +8,14 @@ import Accept from "./Accept";
 import PutSale from "./PutSale";
 import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
+import OpenPack from "./OpenPack"
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
   const [visibleModalBid, setVisibleModalBid] = useState(false);
   const [visibleModalAccept, setVisibleModalAccept] = useState(false);
   const [visibleModalSale, setVisibleModalSale] = useState(false);
+    const [visibleModalPackOpen, setVisibleModalPackOpen] = useState(false);
   //const [currentUser, setCurrentUser] = useState(false);
   const [isListing, setIsListing] = useState(false);
   const [offers, setOffers] = useState([]);
@@ -59,12 +61,19 @@ const Control = (props, { className }) => {
     function putOnSaleButton() {
         if ((props.owner.toLowerCase() === props.account.toLowerCase()) && !props.isListing) {
             return (
-                <div className={styles.foot}>
+                <div className={styles.btns}>
                     <button
                         className={cn("button", styles.button)}
                         onClick={() => setVisibleModalSale(true)}
                     >
                         Put on sale
+                    </button>
+
+                    <button
+                        className={cn("button", styles.button)}
+                        onClick={() => setVisibleModalPackOpen(true)}
+                    >
+                        Open pack
                     </button>
                 </div>
             );
@@ -109,6 +118,12 @@ const Control = (props, { className }) => {
               <SuccessfullyPurchased/>
           }
       </Modal>
+        <Modal
+            visible={visibleModalPackOpen}
+            onClose={() => setVisibleModalPackOpen(false)}
+        >
+            <OpenPack account={props.account} packId={props.state.id} />
+        </Modal>
       <Modal
         visible={visibleModalBid}
         onClose={() => setVisibleModalBid(false)}

@@ -59,11 +59,16 @@ const Item = (props) => {
                   </div>
                 ))}
               </div>
+              {!location.state.isPack &&
               <img
                 //srcSet="/images/content/item-pic@2x.jpg 2x"
                 src={location.state.uri.image}
                 alt="Item"
-              />
+              />}
+              {location.state.isPack &&
+              <video autoPlay loop muted style={{maxWidth: '100ex'}}>
+                <source src={location.state.uri.image} type="video/mp4"/>
+              </video> }
             </div>
             {/*{location.state.listingId}*/}
             <Options className={styles.options} id={location.state.listingId} account={props.account} />

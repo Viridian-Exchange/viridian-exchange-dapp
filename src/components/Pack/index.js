@@ -3,9 +3,8 @@ import cn from "classnames";
 import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
-import VideoLooper from 'react-video-looper'
 
-const NFT = ({ className, item, account, isListing }, props) => {
+const Pack = ({ className, item, account, isListing }, props) => {
   const [visible, setVisible] = useState(false);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
@@ -14,10 +13,10 @@ const NFT = ({ className, item, account, isListing }, props) => {
   return (
     <div className={cn(styles.card, className)}>
       <div className={styles.preview}>
-        <img src={item.uri.image} alt="Card" />
-        {/*<video autoPlay loop muted style={{maxWidth: '30ex'}}>*/}
-        {/*  <source src={item.uri.image} type="video/mp4"/>*/}
-        {/*</video>*/}
+        {/*{item.uri.image}*/}
+        <video autoPlay loop muted style={{maxWidth: '30ex'}}>
+          <source src={item.uri.image} type="video/mp4"/>
+        </video>
         <div className={styles.control}>
           <div
             className={cn(
@@ -40,7 +39,7 @@ const NFT = ({ className, item, account, isListing }, props) => {
         </div>
       </div>
       {/*{JSON.stringify(item.listingId)}*/}
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false } }}>
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>
@@ -72,4 +71,4 @@ const NFT = ({ className, item, account, isListing }, props) => {
   );
 };
 
-export default NFT;
+export default Pack;

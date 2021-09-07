@@ -27,7 +27,8 @@ const Home = (props) => {
         <Description />
         {/*{"ONT: " + JSON.stringify(props.ownedNFTs)}*/}
       <Popular nfts={props.nfts} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo}
-               ownedNFTs = {props.ownedNFTs} setOwnedNFTs = {props.setOwnedNFTs} users={props.users} />
+               ownedNFTs = {props.ownedNFTs} setOwnedNFTs = {props.setOwnedNFTs}
+               ownedPacks = {props.ownedPacks} setOwnedPacks = {props.setOwnedPacks} users={props.users} />
       <HotBid classSection="section" nfts={props.nfts} setListings={props.setListings} account={props.account}/>
     </>
   );
