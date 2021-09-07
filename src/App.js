@@ -41,7 +41,7 @@ function App() {
     const [listings, setListings] = useState([]);
     const [nfts, setNfts] = useState([]);
     const [ownedNfts, setOwnedNfts] = useState([]);
-    //const [offers, setOffers] = useState([]);
+    const [ownedPacks, setOwnedPacks] = useState([]);
     const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
@@ -204,6 +204,7 @@ function App() {
         //alert('gettingOwnedNFTs');
 
         //console.log(JSON.stringify(vNFTJSON));
+        //alert(account);
 
         // NFT Contract Calls
         const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
@@ -235,6 +236,43 @@ function App() {
         //console.log(nfts);
 
         setOwnedNfts(nfts);
+    }
+
+    async function getOwnedPacks() {
+        //alert('gettingOwnedNFTs');
+
+        //console.log(JSON.stringify(vNFTJSON));
+        //alert(account);
+
+        // NFT Contract Calls
+        const vpContractAddress = config.dev_contract_addresses.vp_contract;
+        let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+        //alert(JSON.stringify(vnftABI.methods));
+        let nftIds = await vpABI.methods.getOwnedNFTs().call({from: account});
+        let nfts = [];
+
+        // await console.log(JSON.stringify(vNFTJSON['abi']));
+        console.log(vpContractAddress);
+        console.log("test");
+
+        if (nftIds) {
+            //alert(JSON.stringify(nftIds));
+            for (let i = 0; i < nftIds.length; i++) {
+                let nftId = nftIds[i]
+                let uri = await vpABI.methods.tokenURI(nftId).call();
+                //alert("XXX: " + uri);
+                nfts.push({id: nftId, uri: uri});
+            }
+
+            //alert(nfts);
+        }
+        //alert(nftIds);
+        //await console.log(vnftABI.methods);
+
+
+        //console.log(nfts);
+
+        setOwnedPacks(nfts);
     }
 
     async function parseListing(listing) {
@@ -322,6 +360,7 @@ function App() {
         });
 
         await getOwnedNFTs();
+        await getOwnedPacks();
 
 
             if (listings) {
@@ -375,6 +414,7 @@ function App() {
             <Page vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                 {/*{"ON: " + JSON.stringify(ownedNfts)}*/}
                 <Home nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}
+                      ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks}
                   users = {users} listings={listings} setListings={setListings} nfts={nfts}
                     account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
               userInfo = {userInfo} setUserInfo = {setUserInfo} connected = {connected}/>
@@ -459,7 +499,7 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}/>
+              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} />
             </Page>
           )}
         />

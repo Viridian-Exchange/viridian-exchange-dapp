@@ -31,6 +31,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 const navLinks = [
   "VNFTs",
+  "Packs",
   "On Sale",
   "Offers",
   "Likes",
@@ -208,6 +209,7 @@ const Profile = (props) => {
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
   const oNftsCopy = [];
+  const packsCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
   const [offers, setOffers] = useState([]);
   const [otherNFTs, setOtherNFTs] = useState([]);
@@ -303,7 +305,7 @@ const Profile = (props) => {
           //   extractMetadata(nft, i)
           // });
           //alert(JSON.stringify(ownedNFTs[i]));
-          await extractMetadata(oNftsCopy, otherNFTs[i], i);
+          await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
 
           await console.log(oNftsCopy);
         }
@@ -314,13 +316,17 @@ const Profile = (props) => {
 
       if (props.ownedNFTs.length > 0) {
         for (let i = 0; i < props.ownedNFTs.length; i++) {
-          // await ownedNFTs.forEach((nft, i) => {
-          //   extractMetadata(nft, i)
-          // });
-          //alert(JSON.stringify(ownedNFTs[i]));
-          await extractMetadata(nftsCopy, props.ownedNFTs[i], i);
+          await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
         }
         props.setOwnedNFTs(nftsCopy);
+      }
+
+      if (props.ownedPacks.length > 0) {
+        //alert("EXTRACT")
+        for (let i = 0; i < props.ownedPacks.length; i++) {
+          await extractMetadata(packsCopy, props.ownedPacks[i], i, true);
+        }
+        props.setOwnedPacks(packsCopy);
       }
 
       setFetchedAndParsed(true);
@@ -328,19 +334,27 @@ const Profile = (props) => {
   }, [props.ownedNFTs]);
 
 
-  async function ownerOf(tokenId) {
+  async function ownerOf(tokenId, isPack) {
     const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+    const vpContractAddress = config.dev_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+    let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
     await console.log("ABIMETHODS: " + tokenId);
-    let owner = vNFTABI.methods.ownerOf(tokenId).call();
+    let owner
+    if (!isPack) {
+      owner = vNFTABI.methods.ownerOf(tokenId).call();
+    }
+    else {
+      owner = vpABI.methods.ownerOf(tokenId).call();
+    }
 
     //alert(nft);
 
     return owner;
   }
 
-  async function extractMetadata(nftc, nft, i) {
+  async function extractMetadata(nftc, nft, i, isPack) {
     console.log('Fetching from uri: ' + nft.uri);
     //const extractedObject =
     await fetch(nft.uri, {
@@ -349,10 +363,11 @@ const Profile = (props) => {
     }).then(async res => {
       console.log(res);
       console.log(res.status);
-      await ownerOf(nft.id).then(async (owner) => {
+      await ownerOf(nft.id, isPack).then(async (owner) => {
         if (res.ok) {
           //alert("Owner OF: " + owner);
           const resJson = await res.json();
+          console.log(JSON.stringify(resJson));
           //alert(JSON.stringify(resJson));
           const newNFT = {id: nft.id, uri: resJson, owner: owner}
           console.log(newNFT);
@@ -483,21 +498,24 @@ const Profile = (props) => {
                         {activeIndex === 0 && (
                             <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}/>
                         )}
-                        {activeIndex === 1 && [
+                        {activeIndex === 1 && (
+                            <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}/>
+                        )}
+                        {activeIndex === 2 && [
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                         ]}
-                        {activeIndex === 2 && [
+                        {activeIndex === 3 && [
                           //<div>{JSON.stringify(offers)}</div>,
                             <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
                             curDisplayName={props.userInfo.displayName}/>
                         ]}
-                        {activeIndex === 3 && (
+                        {activeIndex === 4 && (
                             <Items class={styles.items} items={[]}/>
                         )}
-                        {activeIndex === 4 && (
+                        {activeIndex === 5 && (
                             <Followers className={styles.followers} items={following}/>
                         )}
-                        {activeIndex === 5 && (
+                        {activeIndex === 6 && (
                             <Followers className={styles.followers} items={followers}/>
                         )}
                       </div>
@@ -589,19 +607,22 @@ const Profile = (props) => {
                             <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account}/>
                         ]}
                         {activeIndex === 1 && [
-                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                          <Items class={styles.items} nfts={[]} isListing={true} account={props.account}/>
                         ]}
                         {activeIndex === 2 && [
+                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                        ]}
+                        {activeIndex === 3 && [
                           // <div>{JSON.stringify(offers)}</div>,
                           <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} />
                         ]}
-                        {activeIndex === 3 && (
+                        {activeIndex === 4 && (
                             <Items class={styles.items} items={[]}/>
                         )}
-                        {activeIndex === 4 && (
+                        {activeIndex === 5 && (
                             <Followers className={styles.followers} items={following}/>
                         )}
-                        {activeIndex === 5 && (
+                        {activeIndex === 6 && (
                             <Followers className={styles.followers} items={followers}/>
                         )}
                       </div>

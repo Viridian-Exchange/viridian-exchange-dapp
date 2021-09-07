@@ -246,7 +246,7 @@ const Popular = (props) => {
           </div>
         </div>
         <div className={styles.wrapper}>
-          {"ONTE: " + JSON.stringify(props.ownedNFTs)}
+          {/*{"ONTE: " + JSON.stringify(props.ownedNFTs)}*/}
           <Slider className="popular-slider" {...settings}>
             {/*{JSON.stringify(items[2])}*/}
             {props.users.map((x, index) => (
@@ -270,6 +270,7 @@ const Popular = (props) => {
                           userInfo: JSON.stringify(props.userInfo),
                           //setUserInfo: props.setUserInfo,
                           ownedNFTs: props.ownedNFTs,
+                          ownedPacks: props.ownedPacks,
                           //setOwnedNFTs: props.setOwnedNFTs,
                           users: props.users,
 
