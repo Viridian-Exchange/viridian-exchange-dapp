@@ -49,7 +49,7 @@ const OpenPack = (props, { className }) => {
                                 setCards(cardCopy);
 
                                 if (events[0].returnValues["0"]) {
-                                    setRevealing(true);
+                                    //setRevealing(true);
                                     setGetEvents(false);
                                 }
                             }
@@ -101,14 +101,17 @@ const OpenPack = (props, { className }) => {
             <div>
                 <ReactFloaterJs>
                     <div onClick={async () => {
-                        setOpened(true);
-                        setOpenLoading(true);
-                        setGetEvents(true);
-                        await openPack(props.packId, props.account, setRevealing, setCards);
+                        // setOpened(true);
+                        // setOpenLoading(true);
+                        // setGetEvents(true);
+                        await openPack(props.packId, props.account, setRevealing, setCards).then(() =>
+                        {setOpened(true);
+                            setOpenLoading(true);
+                            setGetEvents(true);}).then(() => setTimeout(() => { console.log("revealing"); setRevealing(true); }, 7000));
                         //setOpenLoading(true);
                         //setCards(await openPack(props.packId, props.account, setRevealing, setCards));
                         //setGetEvents(true);
-                        setRevealing(true);
+                        //setRevealing(true);
                         //setOpenLoading(true);
                     }} style={{cursor: 'pointer'}}>
                         <img src="/images/gift.svg" alt="open pack"/>
@@ -138,7 +141,6 @@ const OpenPack = (props, { className }) => {
     //     );
     // }
     else if (opened && !revealing) {
-        //setTimeout(() => {  setRevealing(true); }, 7000);
         return (
             <video autoPlay muted style={{maxWidth: '50ex', cursor: 'pointer'}}>
                 <source src='https://viridian-images.s3.us-east-2.amazonaws.com/OPEN+BAG+GOLD.mp4' type="video/mp4"/>
