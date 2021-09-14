@@ -5,7 +5,7 @@ import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import VideoLooper from 'react-video-looper'
 
-const NFT = ({ className, item, account, isListing }, props) => {
+const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
@@ -40,7 +40,8 @@ const NFT = ({ className, item, account, isListing }, props) => {
         </div>
       </div>
       {/*{JSON.stringify(item.listingId)}*/}
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false } }}>
+      {/*{curProfilePhoto}*/}
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { curProfilePhoto: curProfilePhoto, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>
@@ -57,16 +58,17 @@ const NFT = ({ className, item, account, isListing }, props) => {
             <div className={styles.counter}>{item.counter}</div>
           </div>
         </div>
-        <div className={styles.foot}>
-          <div className={styles.status}>
-            <Icon name="candlesticks-up" size="20" />
-            Highest bid <span>{item.highestBid}</span>
-          </div>
-          <div
-            className={styles.bid}
-            dangerouslySetInnerHTML={{ __html: item.bid }}
-          />
-        </div>
+        {/*TODO: Figure out how to handle bids on specific items*/}
+        {/*<div className={styles.foot}>*/}
+        {/*  <div className={styles.status}>*/}
+        {/*    <Icon name="candlesticks-up" size="20" />*/}
+        {/*    Highest bid <span>{item.highestBid}</span>*/}
+        {/*  </div>*/}
+        {/*  <div*/}
+        {/*    className={styles.bid}*/}
+        {/*    dangerouslySetInnerHTML={{ __html: item.bid }}*/}
+        {/*  />*/}
+        {/*</div>*/}
       </Link>
     </div>
   );
