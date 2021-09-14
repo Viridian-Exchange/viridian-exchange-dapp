@@ -496,13 +496,16 @@ const Profile = (props) => {
                     <div className={styles.group}>
                       <div className={styles.item}>
                         {activeIndex === 0 && (
-                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}/>
+                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         )}
                         {activeIndex === 1 && (
-                            <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}/>
+                            <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         )}
                         {activeIndex === 2 && [
-                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}
+                                 curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         ]}
                         {activeIndex === 3 && [
                           //<div>{JSON.stringify(offers)}</div>,

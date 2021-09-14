@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
 
-const Pack = ({ className, item, account, isListing }, props) => {
+const Pack = ({ className, item, account, isListing, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
@@ -39,7 +39,7 @@ const Pack = ({ className, item, account, isListing }, props) => {
         </div>
       </div>
       {/*{JSON.stringify(item.listingId)}*/}
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true } }}>
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { curProfilePhoto: curProfilePhoto, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>

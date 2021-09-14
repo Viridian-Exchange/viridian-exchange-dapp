@@ -10,15 +10,6 @@ import { Carousel } from 'react-responsive-carousel';
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
-const users = [
-  {
-    name: "Raquel Will",
-    position: "Owner",
-    avatar: "/images/content/avatar-2.jpg",
-    reward: "/images/content/reward-1.svg",
-  },
-];
-
 const Item = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showCategories, setShowCategories] = useState(false);
@@ -37,6 +28,15 @@ const Item = (props) => {
     {
       category: "purple",
       content: location.state.uri.set,
+    },
+  ];
+
+  const users = [
+    {
+      name: "Raquel Will",
+      position: "Owner",
+      avatar: location.state.curProfilePhoto,
+      reward: "/images/content/reward-1.svg",
     },
   ];
 
