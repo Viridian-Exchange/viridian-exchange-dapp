@@ -126,7 +126,7 @@ const OpenPack = (props, { className }) => {
                 {/*    },*/}
                 {/*}}/>*/}
             </div>
-        );
+        )
     }
     // else if (opened && openLoading) {
     //     setOpenLoading(false);

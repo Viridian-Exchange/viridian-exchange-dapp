@@ -60,23 +60,39 @@ const Control = (props, { className }) => {
 
     function putOnSaleButton() {
         if ((props.owner.toLowerCase() === props.account.toLowerCase()) && !props.isListing) {
-            return (
-                <div className={styles.btns}>
-                    <button
-                        className={cn("button", styles.button)}
-                        onClick={() => setVisibleModalSale(true)}
-                    >
-                        Put on sale
-                    </button>
+            if (props.isPack) {
+                return (
+                    <div className={styles.btns}>
+                        <button
+                            className={cn("button", styles.button)}
+                            onClick={() => setVisibleModalSale(true)}
+                        >
+                            Put on sale
+                        </button>
 
-                    <button
-                        className={cn("button", styles.button)}
-                        onClick={() => setVisibleModalPackOpen(true)}
-                    >
-                        Open pack
-                    </button>
-                </div>
-            );
+
+                        <button
+                            className={cn("button", styles.button)}
+                            onClick={() => setVisibleModalPackOpen(true)}
+                        >
+                            Open pack
+                        </button>
+                    </div>
+                );
+            }
+        else {
+                return (
+                    <div className={styles.btns}>
+                        <button
+                            className={cn("button", styles.button)}
+                            onClick={() => setVisibleModalSale(true)}
+                            style={{minWidth: '100%'}}
+                        >
+                            Put on sale
+                        </button>
+                    </div>
+                );
+        }
         }
     }
 
