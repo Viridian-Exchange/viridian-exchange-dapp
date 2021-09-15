@@ -109,13 +109,13 @@ const Item = (props) => {
           <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
             <div className={styles.cost}>
-              <div className={cn("status-stroke-green", styles.price)}>
+              {location.state.price && [<div className={cn("status-stroke-green", styles.price)}>
                 {location.state.price} VEXT
-              </div>
+              </div>,
               <div className={cn("status-stroke-black", styles.price)}>
                 $0
-              </div>
-              {/*<div className={styles.counter}>10 in stock</div>*/}
+              </div>]}
+              <div className={styles.counter}>#2</div>
             </div>
             {/*<div className={styles.info}>*/}
             {/*  This NFT Card will give you Access to Special Airdrops. To learn*/}

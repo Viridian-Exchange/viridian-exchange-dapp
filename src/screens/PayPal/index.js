@@ -85,7 +85,7 @@ const Upload = (props) => {
         <div className={cn("container", styles.container)}>
           <div className={styles.top}>
             <h1 className={cn("h1", styles.title)}>Buy $VEXT</h1>
-            <h1 className={cn("h3", styles.title)}>On Uniswap</h1>
+            <h1 className={cn("h3", styles.title)}>On Quickswap</h1>
             {/*<div><img src={UniLogo} /> <a href="https://app.uniswap.org/#/swap?outputCurrency=0xeAABfaf18b60fEcc299631c77E2FBB03507cfF99" rel="noreferrer">*/}
             {/*  app.uniswap.org*/}
             {/*</a></div>*/}
@@ -138,12 +138,12 @@ const Upload = (props) => {
           {/*/>*/}
           <a
               href={"https://buy.ramp.network/?userAddress=" + props.account}
-              target="_blank"
+              target="_blank" rel="noreferrer"
           >
             Buy Crypto for wallet {props.account} with USD
           </a>
           <div className={styles.note}>
-            There may not be enough $VEXT for your order depending on the size, try again later when our stores are restored or trade on Uniswap in the meantime.
+            There may not be enough $VEXT for your order depending on the size, try again later when our stores are restored or trade on Quickswap in the meantime.
           </div>
         </div>
       </div>
