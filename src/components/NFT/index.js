@@ -59,16 +59,16 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
           </div>
         </div>
         {/*TODO: Figure out how to handle bids on specific items*/}
-        {/*<div className={styles.foot}>*/}
-        {/*  <div className={styles.status}>*/}
-        {/*    <Icon name="candlesticks-up" size="20" />*/}
-        {/*    Highest bid <span>{item.highestBid}</span>*/}
-        {/*  </div>*/}
-        {/*  <div*/}
-        {/*    className={styles.bid}*/}
-        {/*    dangerouslySetInnerHTML={{ __html: item.bid }}*/}
-        {/*  />*/}
-        {/*</div>*/}
+        <div className={styles.foot}>
+          <div className={styles.status}>
+            <Icon name="candlesticks-up" size="20" />
+            Highest bid <span>{item.highestBid}</span>
+          </div>
+          <div
+            className={styles.bid}
+            dangerouslySetInnerHTML={{ __html: item.bid }}
+          />
+        </div>
       </Link>
     </div>
   );
