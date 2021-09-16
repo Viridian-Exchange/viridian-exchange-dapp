@@ -104,7 +104,7 @@ const Item = (props) => {
               </video> }
             </div>
             {/*{location.state.listingId}*/}
-            <Options className={styles.options} id={location.state.listingId} account={props.account} />
+            <Options className={styles.options} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>
           <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
@@ -117,6 +117,7 @@ const Item = (props) => {
               </div>]}
               <div className={styles.counter}>#2</div>
             </div>
+
             {/*<div className={styles.info}>*/}
             {/*  This NFT Card will give you Access to Special Airdrops. To learn*/}
             {/*  more about UI8 please visit{" "}*/}
@@ -143,8 +144,8 @@ const Item = (props) => {
             {/*    </button>*/}
             {/*  ))}*/}
             {/*</div>*/}
-
             {/*{JSON.stringify(isListing)}*/}
+
             <Users account={props.account} className={styles.users} items={users} owner={location.state.nftOwner} />
             <Control isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>

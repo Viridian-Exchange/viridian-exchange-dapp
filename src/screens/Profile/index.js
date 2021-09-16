@@ -10,7 +10,7 @@ import OfferBuilder from "../../components/OfferBuilder"
 //import VEAbi from '../../abis/ViridianExchange.json';
 import Web3 from "web3";
 import config from "../../local-dev-config";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import ImageUpload from "../../ImageUpload";
 import S3FileUpload from "react-s3";
 import s3config from "../../config";
@@ -215,13 +215,20 @@ const Profile = (props) => {
   const [otherNFTs, setOtherNFTs] = useState([]);
   const [files, setFiles] = useState([]);
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
+  const [initialLoaded, setInitialLoaded] = useState(false);
 
   const location = useLocation();
+  const history = useHistory();
 
   async function getOtherOwnedNFTs() {
     //alert('gettingOwnedNFTs');
 
     //console.log(JSON.stringify(vNFTJSON));
+
+    // if (!initialLoaded) {
+    //   setInitialLoaded(true);
+    //   history.push("/");
+    // }
 
     // NFT Contract Calls
     const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
@@ -292,6 +299,7 @@ const Profile = (props) => {
     getOwnedListings();
     console.log(ownedListings);
     await getOtherOwnedNFTs();
+
 
 
     //console.log('Getting owned NFTs');
