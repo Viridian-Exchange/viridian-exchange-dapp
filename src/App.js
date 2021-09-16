@@ -433,7 +433,7 @@ function App() {
         />
           <Route
               exact
-              path="/paypal"
+              path="/BuyVEXT"
               render={() => (
 
                   <Page vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
