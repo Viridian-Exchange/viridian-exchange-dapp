@@ -9,8 +9,19 @@ import Description from "./Description";
 import Modal from "../../components/Modal";
 import SignupPrompt from "../../components/SignupPrompt";
 import {HandleAddUserSimple} from "../../apis/UserAPI";
+import {useHistory} from "react-router-dom";
 
 const Home = (props) => {
+    const [initialLoaded, setInitialLoaded] = useState(false);
+
+    const history = useHistory();
+
+    // useEffect(async () => {
+    //     if (!initialLoaded && props.account) {
+    //         setInitialLoaded(true);
+    //         history.push("/profile/" + props.account);
+    //     }
+    // }, []);
 
   return (
     <>

@@ -53,6 +53,7 @@ function App() {
     const [checkUserPrompt, setCheckUserPrompt] = useState(false);
     const nftsCopy = [];
     const [users, setUsers] = useState([]);
+    const [initialLoaded, setInitialLoaded] = useState(false);
 
     const isMetaMaskInstalled = () => {
         //Have to check the ethereum binding on the window object to see if it's installed
@@ -321,7 +322,7 @@ function App() {
 
 
     useEffect(async () => {
-        //alert(JSON.stringify(props))
+        //alert(JSON.stringify(props));
         //alert('called');
 
         await FetchAllUsers(setUsers);
