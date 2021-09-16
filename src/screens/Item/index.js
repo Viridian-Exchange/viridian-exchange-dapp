@@ -7,6 +7,7 @@ import Options from "./Options";
 import { useLocation, withRouter } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
+import {parseVextAmount} from "../../Utils";
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
@@ -110,10 +111,10 @@ const Item = (props) => {
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
             <div className={styles.cost}>
               {location.state.price && [<div className={cn("status-stroke-green", styles.price)}>
-                {location.state.price} VEXT
+                {parseVextAmount(location.state.price)} VEXT
               </div>,
               <div className={cn("status-stroke-black", styles.price)}>
-                $0
+                ${parseInt(parseVextAmount(location.state.price)) * .02}
               </div>]}
               <div className={styles.counter}>#2</div>
             </div>

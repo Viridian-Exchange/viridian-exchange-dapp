@@ -10,9 +10,7 @@ const Options = ({ className, items, id, account, owner, isListing }) => {
       <button className={cn("button-circle-stroke", styles.button)}>
         <Icon name="share" size="24" />
       </button>
-      <button
-        className={cn("button-circle-stroke", styles.button, styles.favorite)}
-      >
+      <button className={cn("button-circle-stroke", styles.button, styles.favorite)}>
         <Icon name="heart-fill" size="24" />
       </button>
       <Actions className={styles.actions} id={id} account={account} owner={owner} isListing={isListing} />

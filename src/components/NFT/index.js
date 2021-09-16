@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import VideoLooper from 'react-video-looper'
+import {parseVextAmount} from '../../Utils';
 
 const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
@@ -45,7 +46,7 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>
-            <div className={styles.price}>{item.price} VEXT</div>
+            {isListing && <div className={styles.price}>{parseVextAmount(item.price)} VEXT</div>}
           </div>
           <div className={styles.line}>
             <div className={styles.users}>
