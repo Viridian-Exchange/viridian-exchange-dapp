@@ -9,6 +9,7 @@ import Web3 from "web3";
 import config from "../../../../local-dev-config";
 import {putUpForSale} from "../../../../smartContracts/ViridianExchangeMethods";
 import Loader from "../../../../components/Loader";
+import {parseAmountToVext} from "../../../../Utils";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
@@ -37,6 +38,7 @@ const PutSale = (props, { className }) => {
 
   return (
     <div className={cn(className, styles.sale)}>
+        {/*{parseAmountToVext(price)}*/}
       <div className={cn("h4", styles.title)}>Put on sale</div>
       <div className={styles.line}>
         <div className={styles.icon}>
@@ -75,7 +77,7 @@ const PutSale = (props, { className }) => {
           {JSON.stringify(props.state)}
         <button className={cn("button", styles.button)} onClick = {async () => {
             // alert(price);
-            await setSaleLoading(true); await putUpForSale(props.account, props.state.id, price, 0, 0).then((e) => {
+            await setSaleLoading(true); await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0).then((e) => {
                 alert(JSON.stringify(e));
                 setSaleLoading(false);
             });
