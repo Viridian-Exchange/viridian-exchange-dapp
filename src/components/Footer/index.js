@@ -12,12 +12,12 @@ const items = [
     title: "Viridian Exchange",
     menu: [
       {
-        title: "Discover",
-        url: "/search01",
+        title: "Home",
+        url: "/",
       },
       {
-        title: "Connect wallet",
-        url: "/connect-wallet",
+        title: "Discover",
+        url: "/search01",
       },
     ],
   },
@@ -29,8 +29,8 @@ const items = [
         url: "/faq",
       },
       {
-        title: "Create item",
-        url: "/upload-variants",
+        title: "Buy $VEXT",
+        url: "/BuyVEXT",
       },
     ],
   },

@@ -17,7 +17,7 @@ const nav = [
     title: "How it works",
   },
   {
-    url: "/paypal",
+    url: "/BuyVEXT",
     title: "Buy $VEXT",
   },
   {
@@ -92,7 +92,7 @@ const Headers = (props) => {
         {/*</Link>*/}
         <Link
             className={cn("button-small", styles.button)}
-            to="/paypal"
+            to="/BuyVEXT"
         >
           Buy $VEXT
         </Link>
