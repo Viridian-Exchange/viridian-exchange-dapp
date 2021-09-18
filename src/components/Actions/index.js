@@ -9,7 +9,7 @@ import Report from "../Report";
 import Icon from "../Icon";
 import Modal from "../../components/Modal";
 
-const Actions = ({ className, id, account, owner, isListing }) => {
+const Actions = ({ className, id, tokenId, account, owner, isListing }) => {
   const [visible, setVisible] = useState(false);
   const [visibleModalTransfer, setVisibleModalTransfer] = useState(false);
   const [visibleModalRemoveSale, setVisibleModalRemoveSale] = useState(false);
@@ -25,6 +25,11 @@ const Actions = ({ className, id, account, owner, isListing }) => {
                     title: "Change price",
                     icon: "coin",
                     action: () => console.log("coin"),
+                },
+                {
+                    title: "Pull From Sale",
+                    icon: "bag",
+                    action: () => setVisibleModalRemoveSale(true),
                 },
                 {
                     title: "Burn token",
@@ -71,7 +76,7 @@ const Actions = ({ className, id, account, owner, isListing }) => {
 
   return (
     <>
-        {/*{JSON.stringify(owner.toLowerCase() === account.toLowerCase())}*/}
+        {JSON.stringify(id)}        {/*{JSON.stringify(owner.toLowerCase() === account.toLowerCase())}*/}
       <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
         <div
           className={cn(styles.actions, className, {
@@ -98,7 +103,7 @@ const Actions = ({ className, id, account, owner, isListing }) => {
         visible={visibleModalTransfer}
         onClose={() => setVisibleModalTransfer(false)}
       >
-        <Transfer />
+        <Transfer tokenId={tokenId} account={account} setVisibleModalTransfer={setVisibleModalTransfer} />
       </Modal>
       <Modal
         visible={visibleModalRemoveSale}
@@ -110,13 +115,13 @@ const Actions = ({ className, id, account, owner, isListing }) => {
         visible={visibleModalBurn}
         onClose={() => setVisibleModalBurn(false)}
       >
-        <Burn />
+        <Burn tokenId={tokenId} account={account} />
       </Modal>
       <Modal
         visible={visibleModalReport}
         onClose={() => setVisibleModalReport(false)}
       >
-        <Report />
+        <Report tokenId={tokenId} id={id} account={account} />
       </Modal>
     </>
   );

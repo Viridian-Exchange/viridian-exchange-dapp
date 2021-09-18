@@ -42,3 +42,21 @@ export async function isApprovedForAll(owner, operator) {
 
     return await vNFTABI.methods.isApprovedForAll(owner, operator).call();
 }
+
+export async function safeTransferFrom(from, to, tokenId) {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+
+    return await vNFTABI.methods.safeTransferFrom(from, to, tokenId).send({from: from});
+}
+
+export async function burn(from, tokenId) {
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
+    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+
+    return await vNFTABI.methods.burn(tokenId).send({from: from});
+}

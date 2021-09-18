@@ -136,13 +136,19 @@ export async function pullFromSale(from, _listingId, price) {
 
     const batch = new web3.BatchRequest();
 
-    let vtABI = new web3.eth.Contract(veJSON['abi'], vtContractAddress);
+    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
 
-    batch.add(await approve(from, veContractAddress, vtABI.methods.allowance(from, veContractAddress) - price));
+    let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
+
+    console.log(allowance.toString())
+
+    if(allowance.toString() !== "0") {
+        batch.add(await approve(from, veContractAddress, allowance - price));
+    }
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
-    batch.add(await veABI.methods.pullFromSale(_listingId).send({from: from}));
+    batch.add(await veABI.methods.pullFromSale(_listingId).send.request({from: from}));
 
     return batch.execute();
 }

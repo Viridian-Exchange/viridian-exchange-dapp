@@ -20,12 +20,13 @@ export function parseVextAmount(vextAmount) {
 }
 
 export function parseAmountToVext(amount) {
+    //BigNumber.config({ EXPONENTIAL_AT: 1 });
     amount = new BigNumber(amount);
 
     amount = amount.shiftedBy(18);
-    amount = amount.toNumber();
+    //amount = amount.toNumber();
 
-    alert("AMT: " + amount);
+    alert("AMT: " + amount.toFixed());
 
-    return amount.toString();
+    return amount.toFixed();
 }
