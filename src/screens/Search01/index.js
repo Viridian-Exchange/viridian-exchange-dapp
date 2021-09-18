@@ -13,9 +13,9 @@ import NFT from "../../components/NFT";
 import vNFTJSON from "../../abis/ViridianNFT.json";
 import veJSON from "../../abis/ViridianExchange.json";
 import config from "../../local-dev-config";
+import Fuse from "fuse.js";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
-
 
 const navLinks = ["All items", "Cards", "Packs", "Promotional Items"];
 
@@ -36,6 +36,28 @@ const Search = (props) => {
   const [search, setSearch] = useState("");
 
   const [values, setValues] = useState([5]);
+
+  const options = {
+        // isCaseSensitive: false,
+        // includeScore: false,
+        // shouldSort: true,
+        // includeMatches: false,
+        // findAllMatches: false,
+        // minMatchCharLength: 1,
+        // location: 0,
+        // threshold: 0.6,
+        // distance: 100,
+        // useExtendedSearch: false,
+        // ignoreLocation: false,
+        // ignoreFieldNorm: false,
+        keys: [
+            "cardName",
+            "cardNum",
+            "grade"
+        ]
+    };
+
+    const fuse = new Fuse(props.nfts, options);
 
   //alert(props.listings)
 
