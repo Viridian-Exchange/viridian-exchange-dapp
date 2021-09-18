@@ -88,7 +88,13 @@ export async function getOffersFromUser(_account) {
 
 export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
     const batch = new web3.BatchRequest();
+
+    let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
+
+    batch.add(await approve(from, veContractAddress, allowance + _price));
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
@@ -140,11 +146,9 @@ export async function pullFromSale(from, _listingId, price) {
 
     let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
 
-    console.log(allowance.toString())
+    console.log(allowance.toString());
 
-    if(allowance.toString() !== "0") {
-        batch.add(await approve(from, veContractAddress, allowance - price));
-    }
+    batch.add(await approve(from, veContractAddress, allowance - price));
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
