@@ -76,9 +76,9 @@ const PutSale = (props, { className }) => {
           {props.account}
           {JSON.stringify(props.state)}
         <button className={cn("button", styles.button)} onClick = {async () => {
-            // alert(price);
+            //alert(price);
             await setSaleLoading(true); await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0).then((e) => {
-                alert(JSON.stringify(e));
+                alert("E: " + JSON.stringify(e));
                 setSaleLoading(false);
             });
             }}>

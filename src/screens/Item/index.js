@@ -105,7 +105,7 @@ const Item = (props) => {
               </video> }
             </div>
             {/*{location.state.listingId}*/}
-            <Options className={styles.options} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
+            <Options className={styles.options} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>
           <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
@@ -116,7 +116,7 @@ const Item = (props) => {
               <div className={cn("status-stroke-black", styles.price)}>
                 ${parseInt(parseVextAmount(location.state.price)) * .02}
               </div>]}
-              <div className={styles.counter}>#2</div>
+              <div className={styles.counter}>#{location.state.id}</div>
             </div>
 
             {/*<div className={styles.info}>*/}
