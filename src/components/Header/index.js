@@ -6,6 +6,7 @@ import Icon from "../Icon";
 import Image from "../Image";
 import Notification from "./Notification";
 import User from "./User";
+import Fuse from "fuse.js";
 
 const nav = [
   {
@@ -83,7 +84,11 @@ const Headers = (props) => {
             Upload
           </Link>
         </div>
-        <Notification className={styles.notification} />
+
+
+        {/*<Notification className={styles.notification} />*/}
+
+
         {/*<Link*/}
         {/*  className={cn("button-small", styles.button)}*/}
         {/*  to="/upload-variants"*/}
