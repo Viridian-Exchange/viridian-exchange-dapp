@@ -59,8 +59,6 @@ const Search = (props) => {
 
     const fuse = new Fuse(props.nfts, options);
 
-  //alert(props.listings)
-
   const handleSubmit = (e) => {
     alert();
   };
@@ -74,24 +72,24 @@ const Search = (props) => {
       <div className={cn("container", styles.container)}>
         <div className={styles.top}>
           <div className={styles.title}>Explore the Marketplace</div>
-          <form
-            className={styles.search}
-            action=""
-            onSubmit={() => handleSubmit()}
-          >
-            <input
-              className={styles.input}
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              name="search"
-              placeholder="Search ..."
-              required
-            />
-            <button className={styles.result}>
-              <Icon name="search" size="16" />
-            </button>
-          </form>
+          {/*<form*/}
+          {/*  className={styles.search}*/}
+          {/*  action=""*/}
+          {/*  onSubmit={() => handleSubmit()}*/}
+          {/*>*/}
+          {/*  <input*/}
+          {/*    className={styles.input}*/}
+          {/*    type="text"*/}
+          {/*    value={search}*/}
+          {/*    onChange={(e) => setSearch(e.target.value)}*/}
+          {/*    name="search"*/}
+          {/*    placeholder="Search ..."*/}
+          {/*    required*/}
+          {/*  />*/}
+          {/*  <button className={styles.result}>*/}
+          {/*    <Icon name="search" size="16" />*/}
+          {/*  </button>*/}
+          {/*</form>*/}
         </div>
         <div className={styles.sorting}>
           <div className={styles.dropdown}>
