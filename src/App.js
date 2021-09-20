@@ -328,6 +328,8 @@ function App() {
 
         await FetchAllUsers(setUsers);
 
+        //alert("hi")
+
 
         if (!checkUserPrompt) {
 
@@ -339,6 +341,7 @@ function App() {
                 //await alert(connected);
                 //connect().then(() => setConnected(true));
             }
+        }
 
             //console.log('Getting owned NFTs');
             await getListings().then(async (e) => {
@@ -393,7 +396,6 @@ function App() {
                 setFetchedAndParsed(true);
 
             }
-        }
 
         if (fetchedAndParsed && !checkUserPrompt && connected && account) {
             setCheckUserPrompt(true);
@@ -412,6 +414,7 @@ function App() {
 
   return (
     <Router>
+        {JSON.stringify(fetchedAndParsed)}
       <Switch>
         <Route
           exact
@@ -505,7 +508,7 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Profile cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} />
+              <Profile cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed}/>
             </Page>
           )}
         />
