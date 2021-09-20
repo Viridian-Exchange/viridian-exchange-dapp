@@ -107,7 +107,34 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
     console.log(veABI.methods);
     //alert(web3.eth.accounts[0]);
     try {
-        batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true).send.request({from: from}));
+        batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true, true).send.request({from: from}));
+        batch.execute();
+    } catch(e) {
+        alert(e);
+    }
+}
+
+export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime) {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
+    const batch = new web3.BatchRequest();
+
+    let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
+
+    batch.add(await approve(from, veContractAddress, allowance + _price));
+    //alert(await isApprovedForAll(from, veContractAddress));
+    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
+        alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            batch.add(await setApprovalForAll(from, veContractAddress));
+        }});
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    console.log(veABI.methods);
+    //alert(web3.eth.accounts[0]);
+    try {
+        batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true, false).send.request({from: from}));
         batch.execute();
     } catch(e) {
         alert(e);
