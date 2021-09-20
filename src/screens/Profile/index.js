@@ -225,11 +225,6 @@ const Profile = (props) => {
 
     //console.log(JSON.stringify(vNFTJSON));
 
-    // if (!initialLoaded) {
-    //   setInitialLoaded(true);
-    //   history.push("/");
-    // }
-
     // NFT Contract Calls
     const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
@@ -266,7 +261,6 @@ const Profile = (props) => {
     //alert(nftIds);
     //await console.log(vnftABI.methods);
 
-
     //alert(JSON.stringify(nfts));
 
     setOtherNFTs(nfts);
@@ -274,6 +268,8 @@ const Profile = (props) => {
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
+
+    //alert("CNFTS: " + JSON.stringify(curNFTs));
 
     // TODO: Filter listings not owned by the current wallet, maybe write a tool for filtering listings to help
     //  with the search bar
@@ -300,10 +296,15 @@ const Profile = (props) => {
     console.log(ownedListings);
     await getOtherOwnedNFTs();
 
+    // if (!initialLoaded) {
+    //   await setInitialLoaded(true);
+    //   //await history.push("/");
+    // }
+
 
 
     //console.log('Getting owned NFTs');
-    if (!fetchedAndParsed) {
+    //if (!fetchedAndParsed) {
       //setOwnedNFTs(await getOwnedNFTs());
       //alert(ownedNFTs);
 
@@ -336,10 +337,8 @@ const Profile = (props) => {
         }
         props.setOwnedPacks(packsCopy);
       }
-
-      setFetchedAndParsed(true);
-    }
-  }, [props.ownedNFTs]);
+    //}
+  }, [props.ownedNFTs, props.nfts, props.ownedPacks]);
 
 
   async function ownerOf(tokenId, isPack) {
@@ -438,6 +437,8 @@ const Profile = (props) => {
       if (location.state.account === props.account) {
         return (
             <div className={styles.profile}>
+              {/*{JSON.stringify(props.cameFromHome)}*/}
+              {JSON.stringify(props.ownedNFTs)}
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
@@ -484,6 +485,7 @@ const Profile = (props) => {
               </div>
               <div className={styles.body}>
                 {/*{JSON.stringify(props)}*/}
+                {/*{JSON.stringify(initialLoaded)}*/}
                 <div className={cn("container", styles.container)}>
                   <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo}/>
                   <div className={styles.wrapper}>
@@ -611,6 +613,7 @@ const Profile = (props) => {
                       )}
                     </div>
                     {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
+                    {/*<div>{JSON.stringify(props.nfts)}HI</div>*/}
                     <div className={styles.group}>
                       {/*<div>{JSON.stringify(location.state.ownedNFTs)}</div>*/}
                       <div className={styles.item}>

@@ -342,7 +342,7 @@ function App() {
 
             //console.log('Getting owned NFTs');
             await getListings().then(async (e) => {
-                console.log("Listings: " + JSON.stringify(e));
+                //alert("Listings: " + JSON.stringify(e));
                 await setListings(e);
 
                 //setFetchedAndParsed(false);
@@ -383,6 +383,9 @@ function App() {
             }
 
             setNfts(nftsCopy);
+
+            //alert(JSON.stringify(nftsCopy))
+
             setFilteredNFTs(nftsCopy);
 
             //setListings(nftsCopy);
@@ -502,7 +505,7 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} />
+              <Profile cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} />
             </Page>
           )}
         />
