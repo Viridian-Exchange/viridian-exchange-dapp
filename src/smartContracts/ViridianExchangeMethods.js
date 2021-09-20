@@ -1,5 +1,6 @@
 import config from "../local-dev-config";
 import veJSON from "../abis/ViridianExchange.json";
+import voJSON from "../abis/ViridianExchangeOffers.json";
 import vtJSON from "../abis/ViridianToken.json";
 import Web3 from "web3";
 import {approve} from "./ViridianTokenMethods";
@@ -42,33 +43,33 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 // }
 
 export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
     //alert(from);
 
     const batch = new web3.BatchRequest();
 
-    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
+    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
-            batch.add(await setApprovalForAll(from, veContractAddress));
+            batch.add(await setApprovalForAll(from, voContractAddress));
         }});
 
-    batch.add(await approve(from, veContractAddress, _toAmount));
+    batch.add(await approve(from, voContractAddress, _toAmount));
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
     //alert(JSON.stringify(e));
     //alert(web3.eth.accounts[0]);
-    batch.add(await veABI.methods.acceptOfferWithVEXT(_offerId).send.request({from: from}));
+    batch.add(await voABI.methods.acceptOfferWithVEXT(_offerId).send.request({from: from}));
 
     return batch.execute();
 }
 
 export async function getOffers() {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let offers = await veABI.methods.getOffers().call();
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+    let offers = await voABI.methods.getOffers().call();
 
     //alert(JSON.stringify(users));
 
@@ -76,10 +77,10 @@ export async function getOffers() {
 }
 
 export async function getOffersFromUser(_account) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let offers = await veABI.methods.getOffersFromUser(_account).call();
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+    let offers = await voABI.methods.getOffersFromUser(_account).call();
 
     //alert(JSON.stringify(users));
 
@@ -158,20 +159,20 @@ export async function pullFromSale(from, _listingId, price) {
 }
 
 export async function makeOffer(from, _to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let voABI = new web3.eth.Contract(veJSON['abi'], voContractAddress);
 
     const batch = new web3.BatchRequest();
 
-    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
+    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
-            batch.add(await setApprovalForAll(from, veContractAddress));
+            batch.add(await setApprovalForAll(from, voContractAddress));
         }});
 
-    batch.add(await approve(from, veContractAddress, _amount));
-    batch.add(await veABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send.request({from: from}));
+    batch.add(await approve(from, voContractAddress, _amount));
+    batch.add(await voABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send.request({from: from}));
 
     batch.execute();
 }
