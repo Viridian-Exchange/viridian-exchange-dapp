@@ -10,18 +10,18 @@ const items = [
     title: "General",
     icon: "home",
     items: [
-      "How does it work",
-      "How to start with Stacks",
-      "Dose it suppport Dark Mode",
-      "Does it support Auto-Layout",
-      "What is Stacks Design System",
+      "How does Viridian Exchange work",
+      "How to create & connect a wallet",
+      "How to purchase $VEXT",
+      "What Cryptocurrencies does Viridian Exchange support",
+      "",
     ],
   },
   {
-    title: "Support",
+    title: "DApp",
     icon: "circle-and-square",
     items: [
-      "How to start with Stacks",
+      "What is a DApp",
       "Dose it suppport Dark Mode",
       "Does it support Auto-Layout",
       "What is Stacks Design System",
@@ -30,24 +30,24 @@ const items = [
     ],
   },
   {
-    title: "Hosting",
+    title: "VNFTs & Packs",
     icon: "lightning",
     items: [
-      "How does it work",
-      "How to start with Stacks",
-      "Dose it suppport Dark Mode",
-      "What is Stacks Design System",
+      "What is a VNFT",
+      "What is a Viridian Pack",
+      "How do I get VNFTs and Packs",
+      "How do I sell VNFTs and Packs",
     ],
   },
   {
-    title: "Product",
+    title: "VE Physical logistics",
     icon: "pen",
     items: [
-      "How does it work",
-      "How to start with Stacks",
-      "Dose it suppport Dark Mode",
-      "Does it support Auto-Layout",
-      "What is Stacks Design System",
+      "How to submit a card to be minted as a VNFT",
+      "How to withdraw your VNFTs",
+      "How do we back the VNFTs",
+      "Where do we store the cards",
+      "How to we validate the authenticity of cards",
     ],
   },
 ];
@@ -65,8 +65,7 @@ const Hero = () => {
           <div className={styles.stage}>learn how to get started</div>
           <h1 className={cn("h2", styles.title)}>Frequently asked questions</h1>
           <div className={styles.info}>
-            Join Stacks community now to get free updates and also alot of
-            freebies are waiting for you or{" "}
+            Join Viridian Exchange's communities to get project updates or if you have questions not covered here contact support {" "}
             <a href="/#" rel="noopener noreferrer">
               Contact Support
             </a>

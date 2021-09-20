@@ -69,8 +69,8 @@ const Headers = (props) => {
     console.log("CFS: " + JSON.stringify(curFuseSearch));
     let fuseResultsMod = [];
     if (pattern) {
-      curFuseSearch.map((card, index) => {
-        let curName = card.item.cardName;
+      curFuseSearch.map((nft, index) => {
+        let curName = nft.name;
         //TODO: Figure out if more complex search results are necessary
         //let curNameNum = card.item.cardName + " - " + card.item.cardNum;
         if (!fuseResultsMod.includes({key: curName, text: curName, value: curName})) {
@@ -141,7 +141,11 @@ const Headers = (props) => {
             <input
               className={styles.input}
               type="text"
-              onChange={(e) => {setPattern(e.target.value); setSearchString(e.target.value); setFuseResults([]);}}
+              onChange={(e) => {
+                setPattern(e.target.value);
+                setSearchString(e.target.value);
+                setFuseResults([]);
+              }}
               value={searchString}
               name="search"
               placeholder="Search"
@@ -185,8 +189,8 @@ const Headers = (props) => {
               connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>
         <button
           className={cn(styles.burger, { [styles.active]: visibleNav })}
-          onClick={() => setVisibleNav(!visibleNav)}
-        ></button>
+          onClick={() => setVisibleNav(!visibleNav)}>
+        </button>
       </div>
     </header>
   );
