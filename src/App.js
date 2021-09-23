@@ -190,6 +190,17 @@ function App() {
         return nft;
     }
 
+    async function packURI(tokenId) {
+        const vpContractAddress = config.dev_contract_addresses.vp_contract;
+        let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+        //alert(JSON.stringify(vnftABI.methods));
+        let nft = vpABI.methods.tokenURI(tokenId).call();
+
+        //alert(nft);
+
+        return nft;
+    }
+
     async function ownerOf(tokenId) {
         const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
 
@@ -281,26 +292,65 @@ function App() {
         //console.log('Fetching from uri: ' + JSON.stringify(listing.tokenId));
         //const extractedObject =calert(listing)
         if (listing) {
-            await tokenURI(listing.tokenId).then(async (e) => {
-                console.log("FETCHING THIS: " + JSON.stringify(e));
-                await fetch(e, {
-                    mode: "cors",
-                    method: "GET"
-                }).then(async (res) => {
-                    console.log(res);
-                    console.log(res.status);
-                    await ownerOf(listing.tokenId).then(async (owner) => {
-                    if (res.ok) {
-                        //alert("Owner OF: " + owner);
-                        const resJson = await res.json();
-                        //alert(JSON.stringify(resJson));
-                        const newNFT = {listingId: listing.listingId, id: listing.tokenId, uri: resJson, owner: owner, price: listing.price}
-                        console.log(newNFT);
-                        nftsCopy.push(newNFT);
-                    }
+            //alert(JSON.stringify(listing.isVNFT));
+            if (listing.isVNFT) {
+                await tokenURI(listing.tokenId).then(async (e) => {
+                    console.log("FETCHING THIS: " + JSON.stringify(e));
+                    await fetch(e, {
+                        mode: "cors",
+                        method: "GET"
+                    }).then(async (res) => {
+                        console.log(res);
+                        console.log(res.status);
+                        await ownerOf(listing.tokenId).then(async (owner) => {
+                            if (res.ok) {
+                                //alert("Owner OF: " + owner);
+                                const resJson = await res.json();
+                                //alert(JSON.stringify(resJson));
+                                const newNFT = {
+                                    listingId: listing.listingId,
+                                    id: listing.tokenId,
+                                    uri: resJson,
+                                    owner: owner,
+                                    price: listing.price,
+                                    isVNFT: listing.isVNFT
+                                }
+                                console.log(newNFT);
+                                nftsCopy.push(newNFT);
+                            }
+                        });
+                    });
                 });
+            }
+            else {
+                await packURI(listing.tokenId).then(async (e) => {
+                    console.log("FETCHING THIS: " + JSON.stringify(e));
+                    await fetch(e, {
+                        mode: "cors",
+                        method: "GET"
+                    }).then(async (res) => {
+                        console.log(res);
+                        console.log(res.status);
+                        await ownerOf(listing.tokenId).then(async (owner) => {
+                            if (res.ok) {
+                                //alert("Owner OF: " + owner);
+                                const resJson = await res.json();
+                                //alert(JSON.stringify(resJson));
+                                const newNFT = {
+                                    listingId: listing.listingId,
+                                    id: listing.tokenId,
+                                    uri: resJson,
+                                    owner: owner,
+                                    price: listing.price,
+                                    isVNFT: listing.isVNFT
+                                }
+                                console.log(newNFT);
+                                nftsCopy.push(newNFT);
+                            }
+                        });
+                    });
                 });
-            });
+            }
         }
         //console.log("JSON: " + JSON.stringify(extractedObject));
         // listing['uri'] = await extractedObject;
@@ -414,7 +464,7 @@ function App() {
 
   return (
     <Router>
-        {JSON.stringify(fetchedAndParsed)}
+        {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
         <Route
           exact

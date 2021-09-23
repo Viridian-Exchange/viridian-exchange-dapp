@@ -38,8 +38,7 @@ const Pack = ({ className, item, account, isListing, curProfilePhoto }, props) =
           </button>
         </div>
       </div>
-      {/*{JSON.stringify(item.listingId)}*/}
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { curProfilePhoto: curProfilePhoto, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true } }}>
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>

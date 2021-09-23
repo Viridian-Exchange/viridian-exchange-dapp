@@ -107,6 +107,7 @@ const Control = (props, { className }) => {
             <div className={styles.info}>
               Highest bid by <span>Kohaku Tora</span>
             </div>
+              {JSON.stringify(props.isVNFT)}
             <div className={styles.cost}>
               <div className={styles.price}>1.46 ETH</div>
               <div className={styles.price}>$2,764.89</div>
@@ -157,7 +158,7 @@ const Control = (props, { className }) => {
         visible={visibleModalSale}
         onClose={() => setVisibleModalSale(false)}
       >
-        <PutSale account={props.account} state={props.state} price={props.price} />
+        <PutSale account={props.account} state={props.state} price={props.price} isPack={props.isPack} isVNFT={props.isVNFT} />
       </Modal>
     </>
   );

@@ -14,6 +14,7 @@ import vNFTJSON from "../../abis/ViridianNFT.json";
 import veJSON from "../../abis/ViridianExchange.json";
 import config from "../../local-dev-config";
 import Fuse from "fuse.js";
+import Pack from "../../components/Pack";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
@@ -229,9 +230,14 @@ const Search = (props) => {
           </div>
           <div className={styles.wrapper}>
             <div className={styles.list}>
-              {props.nfts.map((x, index) => [
-                  <NFT className={styles.card} item={x} key={index} isListing={true} account={props.account}/>
-              ])}
+              {props.nfts.map((x, index) => {
+                  if (x.isVNFT) {
+                      return (<NFT className={styles.card} item={x} key={index} isListing={true} account={props.account} />);
+                  }
+                  else {
+                      return (<Pack className={styles.card} item={x} key={index} isListing={true} account={props.account}/>);
+                  }
+              })}
             </div>
             <div className={styles.btns}>
               <button className={cn("button-stroke", styles.button)}>

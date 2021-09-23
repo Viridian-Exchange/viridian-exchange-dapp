@@ -526,6 +526,7 @@ const Profile = (props) => {
                                    curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         )}
                         {activeIndex === 2 && [
+                          <div>{JSON.stringify(ownedListings)}</div>,
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}
                                  curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         ]}

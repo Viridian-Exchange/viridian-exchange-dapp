@@ -13,11 +13,21 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
             <div className={cn(styles.items, className)}>
                 {/*{JSON.stringify(curProfilePhoto)}*/}
                 <div className={styles.list}>
-                    {nfts.map((x, index) => [
+                    {nfts.map((x, index) => {
+                        if (x.isVNFT) {
                         // <div>{x.uri.image}</div>,
-                        <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}
-                             curProfilePhoto = {curProfilePhoto}/>
-                    ])}
+                            return (<NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}
+                                 curProfilePhoto={curProfilePhoto}/>);
+                        }
+                        else if (x.isVNFT === false) {
+                            return (<Pack className={styles.card} item={x} key={index} isListing={isListing} account={account}
+                                         curProfilePhoto={curProfilePhoto}/>);
+                        }
+                        else {
+                            return (<NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}
+                                         curProfilePhoto={curProfilePhoto}/>);
+                        }
+                    })}
                 </div>
                 <Loader className={styles.loader}/>
             </div>
