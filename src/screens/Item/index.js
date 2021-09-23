@@ -148,7 +148,7 @@ const Item = (props) => {
             {/*{JSON.stringify(isListing)}*/}
 
             <Users account={props.account} className={styles.users} items={users} owner={location.state.nftOwner} />
-            <Control isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
+            <Control isVNFT={location.state.isVNFT} isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>
         </div>
       </div>

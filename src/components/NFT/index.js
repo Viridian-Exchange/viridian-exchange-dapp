@@ -42,7 +42,7 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
       </div>
       {/*{JSON.stringify(item.listingId)}*/}
       {/*{curProfilePhoto}*/}
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { curProfilePhoto: curProfilePhoto, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false } }}>
+      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>

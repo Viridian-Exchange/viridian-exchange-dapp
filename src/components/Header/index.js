@@ -106,7 +106,7 @@ const Headers = (props) => {
 
   const handleSubmit = (e) => {
     setRunFuse(!runFuse);
-    //handleSetSearching(pattern, props.setSearching);
+    handleSetSearching(pattern, props.setSearching);
   };
 
   return (
@@ -144,7 +144,7 @@ const Headers = (props) => {
               onChange={(e) => {
                 setPattern(e.target.value);
                 setSearchString(e.target.value);
-                setFuseResults([]);
+                //setFuseResults([]);
               }}
               value={searchString}
               name="search"
