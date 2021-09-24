@@ -95,7 +95,9 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
 
     let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
 
-    batch.add(await approve(from, veContractAddress, allowance + _price));
+    alert("ALLOW: " + allowance);
+
+    batch.add(await approve(from, veContractAddress, Number.parseInt(allowance) + Number.parseInt(_price)));
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
@@ -122,7 +124,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime)
 
     let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
 
-    batch.add(await approve(from, veContractAddress, allowance + _price));
+    batch.add(await approve(from, veContractAddress, Number.parseInt(allowance) + Number.parseInt( _price)));
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
@@ -176,7 +178,7 @@ export async function pullFromSale(from, _listingId, price) {
 
     console.log(allowance.toString());
 
-    batch.add(await approve(from, veContractAddress, allowance - price));
+    batch.add(await approve(from, veContractAddress, Number.parseInt(allowance) - Number.parseInt(price)));
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
