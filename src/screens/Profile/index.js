@@ -213,8 +213,54 @@ const Profile = (props) => {
   const [otherNFTs, setOtherNFTs] = useState([]);
   const [files, setFiles] = useState([]);
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [followed, setFollowed] = useState(false);
+
+
+  // TODO: THIS WILL SET DIFFERENTLY DEPENDING ON WHETHER ITS ON CURRENT USER PROFILE OR ANOTHER USERS PROFILE PAGE
+  const [followersInfo, setFollowersInfo] = useState([]);
+  const [followingInfo, setFollowingInfo] = useState([]);
 
   const location = useLocation();
+
+  async function getFollowers() {
+
+  }
+
+
+  async function getFollowing(otherAccount) {
+    if (!otherAccount) {
+      let userList = props.users;
+      let following = props.userInfo.following;
+      console.log("Following: " + following);
+
+      if (following) {
+        userList.reduce((acc, val) => {
+          if (!!following.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowingInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
+    else {
+      let userList = props.users;
+      let following = location.state.following;
+      console.log("Following: " + following);
+
+      if (following) {
+        userList.reduce((acc, val) => {
+          if (!!following.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowingInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
+  }
+
 
   async function getOtherOwnedNFTs() {
     //alert('gettingOwnedNFTs');
@@ -286,7 +332,9 @@ const Profile = (props) => {
   }
 
   useEffect(async() => {
+
     console.log(JSON.stringify(props.nfts));
+
     getOwnedListings();
     console.log(ownedListings);
     await getOtherOwnedNFTs();
@@ -325,7 +373,12 @@ const Profile = (props) => {
 
       setFetchedAndParsed(true);
     }
-  }, [props.ownedNFTs]);
+    if (location) {
+      if (location.state.account === props.account) {
+        getFollowing(false);
+      }
+    }
+  }, [props.ownedNFTs, location.state.account]);
 
 
   async function ownerOf(tokenId) {
@@ -462,7 +515,7 @@ const Profile = (props) => {
               <div className={styles.body}>
                 {/*{JSON.stringify(props)}*/}
                 <div className={cn("container", styles.container)}>
-                  <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo}/>
+                  <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo} isCurrentUser={true}/>
                   <div className={styles.wrapper}>
                     <div className={styles.nav}>
                       {navLinks.map((x, index) => (
@@ -495,7 +548,7 @@ const Profile = (props) => {
                             <Items class={styles.items} items={[]}/>
                         )}
                         {activeIndex === 4 && (
-                            <Followers className={styles.followers} items={following}/>
+                            <Followers className={styles.followers} items={followingInfo}/>
                         )}
                         {activeIndex === 5 && (
                             <Followers className={styles.followers} items={followers}/>
@@ -524,7 +577,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + `props.userInfo.coverPhotoURL` + ")"
+                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
                   }}
               >
                 <div className={cn("container", styles.container)}>
@@ -562,8 +615,8 @@ const Profile = (props) => {
               <div className={styles.body}>
                 {/*{JSON.stringify(location.state)}*/}
                 <div className={cn("container", styles.container)}>
-                  <User className={styles.user} item={socials} curUser={props.account} account={location.state.account}
-                        userInfo={location.state}/>
+                  <User className={styles.user} item={socials} userInfo = {props.userInfo} curUser={props.account} curUserInfo = {props.userInfo} account={location.state.account}
+                        otherUserInfo={location.state} isCurrentUser={false} setUserInfo={props.setUserInfo}/>
                   <div className={styles.wrapper}>
                     <div className={styles.nav}>
                       {navLinks.map((x, index) => {
@@ -599,7 +652,7 @@ const Profile = (props) => {
                             <Items class={styles.items} items={[]}/>
                         )}
                         {activeIndex === 4 && (
-                            <Followers className={styles.followers} items={following}/>
+                            <Followers className={styles.followers} items={followingInfo}/>
                         )}
                         {activeIndex === 5 && (
                             <Followers className={styles.followers} items={followers}/>

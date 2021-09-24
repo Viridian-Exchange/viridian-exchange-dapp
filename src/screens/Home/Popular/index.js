@@ -274,7 +274,7 @@ const Popular = (props) => {
                           users: props.users,
 
                         curAccount: props.account, profilePhotoURL: x.profilePhotoURL, bio: x.bio,
-                          username: x.username, account: x.username, displayName: x.displayName} }}>
+                          username: x.username, account: x.username, displayName: x.displayName, following: x.following, followers: x.followers, likes: x.likes} }}>
                         <Icon name="arrow-expand" size="24" />
                       </Link>
                     </div>

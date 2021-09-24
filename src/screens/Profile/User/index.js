@@ -11,6 +11,9 @@ import vNFTJSON from "../../../abis/ViridianNFT.json";
 import Web3 from "web3";
 // import { isStepDivisible } from "react-range/lib/utils";
 import veJSON from '../../../abis/ViridianExchange.json';
+import {HandleAddFollowing, HandleUpdateUser, HandleAddFollower} from "../../../apis/UserAPI";
+
+
 
 const shareUrlFacebook = "https://ui8.net";
 const shareUrlTwitter = "https://ui8.net";
@@ -21,12 +24,11 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 // Get current user OBJ from using abi.getUserFromAddress, and set this to userInfo const
 //
 
-const User = ({ className, item, curUser, account, userInfo }) => {
+const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurrentUser, otherUserInfo, setUserInfo}) => {
   const [visible, setVisible] = useState(false);
   const [visibleShare, setVisibleShare] = useState(false);
   const [visibleModalReport, setVisibleModalReport] = useState(false);
-  // const [userInfo, setUserInfo] = useState({});
-  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [following, setFollowing] = useState([]);
 
   const shortenAccount = () => {
     if (account) {
@@ -34,6 +36,70 @@ const User = ({ className, item, curUser, account, userInfo }) => {
     }
   }
 
+  function checkFollowing() {
+    if (!isCurrentUser) {
+      if (curUserInfo) {
+        if (curUserInfo.following) {
+          if (curUserInfo.following.includes(account)) {
+            setVisible(true);
+            return true;
+          }
+          else {
+            setVisible(false);
+            return false;
+          }
+
+        }
+      }
+    }
+  }
+
+  useEffect(async() => {
+    checkFollowing();
+    alert("useeffect called");
+
+    if (following.length !== 0) {
+      let res = await HandleAddFollowing(setUserInfo, curUserInfo, following);
+    }
+  }, [following, curUserInfo])
+
+
+  async function handleFollowing() {
+    // THIS WILL ONLY WORK IF IT RUNS ONLY WHEN ON SOMEONE ELSES PAGE
+    if (!curUserInfo.following.includes(account)) {
+
+      let followcopy = [...curUserInfo.following];
+      await followcopy.push(account);
+      await setFollowing(followcopy);
+
+
+      // let followers = otherUserInfo.followers;
+      // followers.push(curUserInfo.username)
+      // otherUserInfo.followers = followers
+
+
+      // let res = await HandleAddFollowing(setUserInfo, curUserInfo, following);
+      // alert(JSON.stringify(res));
+      //     .then(async () => {
+      //   await HandleAddFollower(otherUserInfo, followers)
+      // })
+
+      // HandleAddFollowing(setUserInfo, curUserInfo)
+
+      //TODO: add profile 0x address to current user's following list
+      //then also add the current user's address to the person's following list
+
+      //the current page users follower/following should be a state variable set by filtering eh?
+    }
+    else {
+      let followcopy = [...curUserInfo.following];
+      followcopy = followcopy.filter(function( obj ) {
+        return obj !== account;
+      });
+      await setFollowing(followcopy);
+
+    }
+  }
 
 
   //TODO: setUserInfo here with getUserInfo()
@@ -45,119 +111,217 @@ const User = ({ className, item, curUser, account, userInfo }) => {
   //  would you like to set up your profile now? (links to "edit profile" screen) or "skip for now"
 
 
-
-
   // useEffect(async () => {
   //   let current_address = web3.eth.accounts[0];
   //   if (account == current_address) {
   //     setUserInfo(getUserInfo());
   //   }
   // }, );
-  return (
-      <>
-        <div className={cn(styles.user, className)}>
-          {/*{JSON.stringify(userInfo)}*/}
-          <div className={styles.avatar}>
-            <img src={userInfo.profilePhotoURL} alt="Avatar"/>
-          </div>
-          <div className={styles.name}>{userInfo.displayName}</div>
-          <CopyToClipboard text={account}
-                           // onCopy={() => this.setState({copied: true})}
-              >
-          <div className={styles.code}>
-            <div className={styles.number}>{shortenAccount()}</div>
-            <button className={styles.copy}>
-              <Icon name="copy" size="16"/>
-            </button>
-          </div>
-          </CopyToClipboard>
-          <div className={styles.info}>
-            {userInfo.bio}
-          </div>
-          <a
-              className={styles.site}
-              href="https://ui8.net"
-              target="_blank"
-              rel="noopener noreferrer"
-          >
-            <Icon name="globe" size="16"/>
-            <span>{userInfo.website}</span>
-          </a>
-          <div className={styles.control}>
-            <div className={styles.btns}>
-              <button
-                  className={cn(
-                      "button button-small",
-                      {[styles.active]: visible},
-                      styles.button
-                  )}
-                  onClick={() => setVisible(!visible)}
-              >
-                <span>Follow</span>
-                <span>Unfollow</span>
-              </button>
-              <button
-                  className={cn(
-                      "button-circle-stroke button-small",
-                      {[styles.active]: visibleShare},
-                      styles.button
-                  )}
-                  onClick={() => setVisibleShare(!visibleShare)}
-              >
-                <Icon name="share" size="20"/>
-              </button>
-              <button
-                  className={cn("button-circle-stroke button-small", styles.button)}
-                  onClick={() => setVisibleModalReport(true)}
-              >
-                <Icon name="report" size="20"/>
-              </button>
+  if (!isCurrentUser) {
+    return (
+        <>
+          <div className={cn(styles.user, className)}>
+            {/*{JSON.stringify(userInfo)}*/}
+            <div className={styles.avatar}>
+              <img src={otherUserInfo.profilePhotoURL} alt="Avatar"/>
             </div>
-            <div className={cn(styles.box, {[styles.active]: visibleShare})}>
-              <div className={styles.stage}>Share link to this page</div>
-              <div className={styles.share}>
-                <TwitterShareButton
-                    className={styles.direction}
-                    url={shareUrlTwitter}
+            <div className={styles.name}>{otherUserInfo.displayName}</div>
+            <CopyToClipboard text={account}
+                // onCopy={() => this.setState({copied: true})}
+            >
+              <div className={styles.code}>
+                <div className={styles.number}>{shortenAccount()}</div>
+                <button className={styles.copy}>
+                  <Icon name="copy" size="16"/>
+                </button>
+              </div>
+            </CopyToClipboard>
+            <div className={styles.info}>
+              {otherUserInfo.bio}
+            </div>
+            <a
+                className={styles.site}
+                href="https://ui8.net"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+              <Icon name="globe" size="16"/>
+              <span>{otherUserInfo.website}</span>
+            </a>
+            <div className={styles.control}>
+              <div className={styles.btns}>
+                <button
+                    className={cn(
+                        "button button-small",
+                        {[styles.active]: visible},
+                        styles.button
+                    )}
+                    onClick={async () => {
+                      await handleFollowing().then(setVisible(!visible));
+                    }}
                 >
+                  <span>Follow</span>
+                  <span>Unfollow</span>
+                </button>
+                <button
+                    className={cn(
+                        "button-circle-stroke button-small",
+                        {[styles.active]: visibleShare},
+                        styles.button
+                    )}
+                    onClick={() => setVisibleShare(!visibleShare)}
+                >
+                  <Icon name="share" size="20"/>
+                </button>
+                <button
+                    className={cn("button-circle-stroke button-small", styles.button)}
+                    onClick={() => setVisibleModalReport(true)}
+                >
+                  <Icon name="report" size="20"/>
+                </button>
+              </div>
+              <div className={cn(styles.box, {[styles.active]: visibleShare})}>
+                <div className={styles.stage}>Share link to this page</div>
+                <div className={styles.share}>
+                  <TwitterShareButton
+                      className={styles.direction}
+                      url={shareUrlTwitter}
+                  >
               <span>
                 <Icon name="twitter" size="20"/>
               </span>
-                </TwitterShareButton>
-                <FacebookShareButton
-                    className={styles.direction}
-                    url={shareUrlFacebook}
-                >
+                  </TwitterShareButton>
+                  <FacebookShareButton
+                      className={styles.direction}
+                      url={shareUrlFacebook}
+                  >
               <span>
                 <Icon name="facebook" size="20"/>
               </span>
-                </FacebookShareButton>
+                  </FacebookShareButton>
+                </div>
               </div>
             </div>
+            <div className={styles.socials}>
+              {item.map((x, index) => (
+                  <a
+                      className={styles.social}
+                      href={x.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={index}
+                  >
+                    <Icon name={x.title} size="20"/>
+                  </a>
+              ))}
+            </div>
+            <div className={styles.note}>Member since Mar 15, 2021</div>
           </div>
-          <div className={styles.socials}>
-            {item.map((x, index) => (
-                <a
-                    className={styles.social}
-                    href={x.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    key={index}
+          <Modal
+              visible={visibleModalReport}
+              onClose={() => setVisibleModalReport(false)}
+          >
+            <Report/>
+          </Modal>
+        </>
+    );
+  }
+  else {
+    return (
+        <>
+          <div className={cn(styles.user, className)}>
+            {/*{JSON.stringify(userInfo)}*/}
+            <div className={styles.avatar}>
+              <img src={userInfo.profilePhotoURL} alt="Avatar"/>
+            </div>
+            <div className={styles.name}>{userInfo.displayName}</div>
+            <CopyToClipboard text={account}
+                // onCopy={() => this.setState({copied: true})}
+            >
+              <div className={styles.code}>
+                <div className={styles.number}>{shortenAccount()}</div>
+                <button className={styles.copy}>
+                  <Icon name="copy" size="16"/>
+                </button>
+              </div>
+            </CopyToClipboard>
+            <div className={styles.info}>
+              {userInfo.bio}
+            </div>
+            <a
+                className={styles.site}
+                href="https://ui8.net"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+              <Icon name="globe" size="16"/>
+              <span>{userInfo.website}</span>
+            </a>
+            <div className={styles.control}>
+              <div className={styles.btns}>
+                <button
+                    className={cn(
+                        "button-circle-stroke button-small",
+                        {[styles.active]: visibleShare},
+                        styles.button
+                    )}
+                    onClick={() => setVisibleShare(!visibleShare)}
                 >
-                  <Icon name={x.title} size="20"/>
-                </a>
-            ))}
+                  <Icon name="share" size="20"/>
+                </button>
+                <button
+                    className={cn("button-circle-stroke button-small", styles.button)}
+                    onClick={() => setVisibleModalReport(true)}
+                >
+                  <Icon name="report" size="20"/>
+                </button>
+              </div>
+              <div className={cn(styles.box, {[styles.active]: visibleShare})}>
+                <div className={styles.stage}>Share link to this page</div>
+                <div className={styles.share}>
+                  <TwitterShareButton
+                      className={styles.direction}
+                      url={shareUrlTwitter}
+                  >
+              <span>
+                <Icon name="twitter" size="20"/>
+              </span>
+                  </TwitterShareButton>
+                  <FacebookShareButton
+                      className={styles.direction}
+                      url={shareUrlFacebook}
+                  >
+              <span>
+                <Icon name="facebook" size="20"/>
+              </span>
+                  </FacebookShareButton>
+                </div>
+              </div>
+            </div>
+            <div className={styles.socials}>
+              {item.map((x, index) => (
+                  <a
+                      className={styles.social}
+                      href={x.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      key={index}
+                  >
+                    <Icon name={x.title} size="20"/>
+                  </a>
+              ))}
+            </div>
+            <div className={styles.note}>Member since Mar 15, 2021</div>
           </div>
-          <div className={styles.note}>Member since Mar 15, 2021</div>
-        </div>
-        <Modal
-            visible={visibleModalReport}
-            onClose={() => setVisibleModalReport(false)}
-        >
-          <Report/>
-        </Modal>
-      </>
-  );
+          <Modal
+              visible={visibleModalReport}
+              onClose={() => setVisibleModalReport(false)}
+          >
+            <Report/>
+          </Modal>
+        </>
+    );
+  }
 };
 
 export default User;
