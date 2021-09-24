@@ -24,6 +24,14 @@ import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import Modal from "./components/Modal";
 import {FetchAllUsers, FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
+// import Amplify, {API, graphqlOperation} from "aws-amplify";
+//
+//
+//
+// import gqlconfig from "./gqlconfig"
+// import {listUsers} from "./graphql_constants"
+// import {graphqlMutation} from "aws-appsync-react";
+
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 
@@ -53,6 +61,26 @@ function App() {
     const [checkUserPrompt, setCheckUserPrompt] = useState(false);
     const nftsCopy = [];
     const [users, setUsers] = useState([]);
+    const [gqlUsers, setGQLUsers] = useState([]);
+
+
+    // Amplify.configure(gqlconfig);
+
+    // const fetchUsers = async () => {
+    //     try {
+    //         let userData = await API.graphql(graphqlOperation(listUsers));
+    //         let userList = userData.data.listUsers.items;
+    //         alert("GRAPHQL FETCH: " + JSON.stringify(userList));
+    //         setGQLUsers(userList);
+    //     }
+    //     catch(error) {
+    //         console.log("");
+    //     }
+    // }
+    //
+    // useEffect(async() => {
+    //      await fetchUsers();
+    // }, [])
 
     const isMetaMaskInstalled = () => {
         //Have to check the ethereum binding on the window object to see if it's installed
@@ -459,7 +487,7 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}/>
+              <Profile nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} users = {users}/>
             </Page>
           )}
         />
