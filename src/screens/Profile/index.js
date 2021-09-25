@@ -231,40 +231,46 @@ const Profile = (props) => {
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
-    let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
-    let nfts = [];
-    //alert(JSON.stringify(vnftABI.methods));
-
-    // await console.log(JSON.stringify(vNFTJSON['abi']));
-    console.log(vnftContractAddress);
-    console.log("test");
-
-    if (nftIds) {
-      //alert(JSON.stringify(nftIds));
-      for (let i = 0; i < nftIds.length; i++) {
-        let nftId = nftIds[i]
-        let uri = await vnftABI.methods.tokenURI(nftId).call();
-        //console.log("XXX: " + uri);
-        nfts.push({id: nftId, uri: uri});
-      }
-
-      //alert(nfts);
-    }
-
-    if (location) {
+    if(location.state) {
       if (location.state.account) {
-        setOffers(await getOffersFromUser(location.state.account));
+      let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
+      let nfts = [];
+      //alert(JSON.stringify(vnftABI.methods));
+
+      // await console.log(JSON.stringify(vNFTJSON['abi']));
+      console.log(vnftContractAddress);
+      console.log("test");
+
+      if (nftIds) {
+        //alert(JSON.stringify(nftIds));
+        for (let i = 0; i < nftIds.length; i++) {
+          let nftId = nftIds[i]
+          let uri = await vnftABI.methods.tokenURI(nftId).call();
+          //console.log("XXX: " + uri);
+          nfts.push({id: nftId, uri: uri});
+        }
+
+        //alert(nfts);
       }
-      else {
-        setOffers(await getOffersFromUser(props.account));
+
+      if (location) {
+        if (location.state.account) {
+          setOffers(await getOffersFromUser(location.state.account));
+        } else {
+          setOffers(await getOffersFromUser(props.account));
+        }
       }
+      //alert(nftIds);
+      //await console.log(vnftABI.methods);
+
+      //alert(JSON.stringify(nfts));
+
+      setOtherNFTs(nfts);
+        }
     }
-    //alert(nftIds);
-    //await console.log(vnftABI.methods);
+    else {
 
-    //alert(JSON.stringify(nfts));
-
-    setOtherNFTs(nfts);
+    }
   }
 
   function getOwnedListings() {
@@ -292,15 +298,17 @@ const Profile = (props) => {
   }
 
   useEffect(async() => {
+    if (location.state) {
     console.log(JSON.stringify(props.nfts));
     getOwnedListings();
     console.log(ownedListings);
     await getOtherOwnedNFTs();
 
-    // if (!initialLoaded) {
-    //   await setInitialLoaded(true);
-    //   //await history.push("/");
-    // }
+    if (!location.state) {
+      // await setInitialLoaded(true);
+      // await history.push("/");
+      // await history.push(location.pathname);
+    }
 
 
 
@@ -338,8 +346,8 @@ const Profile = (props) => {
         }
         props.setOwnedPacks(packsCopy);
       }
-    //}
-  }, [props.ownedNFTs, props.nfts, props.ownedPacks]);
+    }
+  }, [props.ownedNFTs, props.nfts, props.ownedPacks, location]);
 
 
   async function ownerOf(tokenId, isPack) {
@@ -662,7 +670,7 @@ const Profile = (props) => {
       }
     }
     else {
-      return "NOTHIN"
+      return JSON.stringify(location);
     }
   }
 

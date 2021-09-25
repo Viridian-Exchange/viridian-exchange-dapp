@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import "./styles/app.sass";
 import Page from "./components/Page";
@@ -56,6 +56,9 @@ function App() {
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [filteredNfts, setFilteredNFTs] = useState([]);
 
+    //const history = useHistory();
+    //const location = useLocation();
+
     const isMetaMaskInstalled = () => {
         //Have to check the ethereum binding on the window object to see if it's installed
         const {ethereum} = window;
@@ -70,6 +73,9 @@ function App() {
                 alert("New user!")
                 return true;
             }
+
+            //alert(JSON.stringify(history))
+        //history.replace(location.pathname, { state: "penis"});
 
 
             //     .then(async (res) => {
@@ -463,14 +469,14 @@ function App() {
 
 
   return (
-    <Router>
+    <Router forceRefresh={true}>
         {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
         <Route
           exact
           path="/"
           render={() => (
-            <Page nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                 {/*{"ON: " + JSON.stringify(ownedNfts)}*/}
                 <Home nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}
                       ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks}
@@ -557,7 +563,7 @@ function App() {
           exact
           path="/profile/:address"
           render={() => (
-            <Page nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Profile cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed}/>
             </Page>
           )}
@@ -598,6 +604,9 @@ function App() {
             </Page>
           )}
         />
+      <Route path="*">
+          <Redirect to="/" />
+      </Route>
       </Switch>
     </Router>
   );
