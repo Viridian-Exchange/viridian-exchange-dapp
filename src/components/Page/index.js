@@ -57,25 +57,43 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
               }
           }
           else if (savedPath.includes("item")) {
-              //TODO: Switch this to getting the item info here and then passing it in through the location state
-              nfts.map((item) => {
-                  alert(JSON.stringify(savedPath.split("/")[2]) === JSON.stringify(item.id))
-                  if (JSON.stringify(savedPath.split("/")[2]) === JSON.stringify(item.id)) {
-                      history.replace(savedPath, {
-                          //TODO: Pass in profile
-                          //curProfilePhoto: curProfilePhoto,
-                          isVNFT: item.isVNFT,
-                          listingId: item.listingId,
-                          price: item.price,
-                          uri: item.uri,
-                          id: item.id,
-                          nftOwner: item.owner,
-                          account: account,
-                          isListing: true,
-                          isPack: !item.isVNFT
-                      });
-                  }
-              });
+              //TODO: Switch this to getting the item info here and then passing it in through the location state, probably also split up the url for packs and cards
+              // nfts.map((item) => {
+              //     alert(JSON.stringify(savedPath.split("/")[2]) === JSON.stringify(item.id))
+              //     if (JSON.stringify(savedPath.split("/")[2]) === JSON.stringify(item.id)) {
+              //         history.replace(savedPath, {
+              //             //TODO: Pass in profile
+              //             //curProfilePhoto: curProfilePhoto,
+              //             isVNFT: item.isVNFT,
+              //             listingId: item.listingId,
+              //             price: item.price,
+              //             uri: item.uri,
+              //             id: item.id,
+              //             nftOwner: item.owner,
+              //             account: account,
+              //             isListing: true,
+              //             isPack: !item.isVNFT
+              //         });
+              //     }
+              // });
+
+              // if (JSON.stringify(savedPath.split("/")[1]) == "pack") {
+              //     history.replace(savedPath,
+              //         {curProfilePhoto: curProfilePhoto,
+              //             listingId: item.listingId,
+              //             isVNFT: item.isVNFT,
+              //             //price: item.price,
+              //             uri: item.uri,
+              //             id: item.id,
+              //             nftOwner: item.owner,
+              //             account: account,
+              //             isListing: isListing,
+              //             isPack: false });
+              //
+              // }
+              // else if (JSON.stringify(savedPath.split("/")[1]) == "vnft") {
+              //
+              // }
           }
       }
       //alert(JSON.stringify(location.state))
