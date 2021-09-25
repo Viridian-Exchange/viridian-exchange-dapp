@@ -579,7 +579,7 @@ function App() {
         />
         <Route
           exact
-          path="/item/:id"
+          path="/item/:type/:id"
           render={() => (
             <Page nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Item account={account}/>
