@@ -38,13 +38,18 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
 
   function checkFollowing() {
     if (!isCurrentUser) {
+      alert("yes");
       if (curUserInfo) {
+        alert("ok");
         if (curUserInfo.following) {
+          alert('following exists');
           if (curUserInfo.following.includes(account)) {
+            alert("set visible true");
             setVisible(true);
             return true;
           }
           else {
+            alert("set visible false");
             setVisible(false);
             return false;
           }
@@ -58,7 +63,8 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
     checkFollowing();
     alert("useeffect called");
 
-    if (following.length !== 0) {
+    if (following.includes(account)) {
+      alert("this should be sending patch with added user")
       let res = await HandleAddFollowing(setUserInfo, curUserInfo, following);
     }
   }, [following, curUserInfo])
@@ -96,8 +102,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
       followcopy = followcopy.filter(function( obj ) {
         return obj !== account;
       });
-      await setFollowing(followcopy);
-
+      await setFollowing(followcopy).then(async () => await HandleAddFollowing(setUserInfo, curUserInfo, following));
     }
   }
 
