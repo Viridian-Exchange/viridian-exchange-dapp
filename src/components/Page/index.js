@@ -29,7 +29,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
 
           //alert(savedPath.split("/"))
           if (savedPath.includes("profile")) {
-              history.replace("/");
+              //history.replace("/");
 
               //savedPath = pathname;
 
@@ -55,6 +55,27 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                       }
                   });
               }
+          }
+          else if (savedPath.includes("item")) {
+              //TODO: Switch this to getting the item info here and then passing it in through the location state
+              nfts.map((item) => {
+                  alert(JSON.stringify(savedPath.split("/")[2]) === JSON.stringify(item.id))
+                  if (JSON.stringify(savedPath.split("/")[2]) === JSON.stringify(item.id)) {
+                      history.replace(savedPath, {
+                          //TODO: Pass in profile
+                          //curProfilePhoto: curProfilePhoto,
+                          isVNFT: item.isVNFT,
+                          listingId: item.listingId,
+                          price: item.price,
+                          uri: item.uri,
+                          id: item.id,
+                          nftOwner: item.owner,
+                          account: account,
+                          isListing: true,
+                          isPack: !item.isVNFT
+                      });
+                  }
+              });
           }
       }
       //alert(JSON.stringify(location.state))
@@ -100,6 +121,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
     <div className={styles.page}>
         {/*{account}*/}
         {/*{JSON.stringify(location.state)}*/}
+        {JSON.stringify(nfts)}
       <Header nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
       <div className={styles.inner}>{children}</div>
       <Footer />

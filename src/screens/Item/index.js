@@ -17,29 +17,31 @@ const Item = (props) => {
   //const {passedState} = props.location.state
   const location = useLocation();
 
-  const categories = [
-    {
-      category: "black",
-      content: location.state.uri.type,
-    },
-    {
-      category: "gold",
-      content: location.state.uri.grade,
-    },
-    {
-      category: "purple",
-      content: location.state.uri.set,
-    },
-  ];
+  if (location) {
+    if (location.state) {
+      const categories = [
+        {
+          category: "black",
+          content: location.state.uri.type,
+        },
+        {
+          category: "gold",
+          content: location.state.uri.grade,
+        },
+        {
+          category: "purple",
+          content: location.state.uri.set,
+        },
+      ];
 
-  const users = [
-    {
-      name: "Raquel Will",
-      position: "Owner",
-      avatar: location.state.curProfilePhoto,
-      reward: "/images/content/reward-1.svg",
-    },
-  ];
+      const users = [
+        {
+          name: "Raquel Will",
+          position: "Owner",
+          avatar: location.state.curProfilePhoto,
+          reward: "/images/content/reward-1.svg",
+        },
+      ];
 
   return (
     <>
@@ -154,6 +156,15 @@ const Item = (props) => {
       </div>
     </>
   );
-};
+
+    }
+    else {
+      return "NONE";
+    }
+  }
+  else {
+    return "NONE";
+  }
+}
 
 export default withRouter(Item);
