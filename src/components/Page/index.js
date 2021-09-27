@@ -4,6 +4,8 @@ import { clearAllBodyScrollLocks } from "body-scroll-lock";
 import styles from "./Page.module.sass";
 import Header from "../Header";
 import Footer from "../Footer";
+import {tokenURI, ownerOfNoReq} from "../../smartContracts/ViridianNFTMethods";
+import {tokenPackURI, ownerOfPackNoReq} from "../../smartContracts/ViridianPackMethods";
 
 const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFTs, children, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance }) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -33,11 +35,10 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
 
               //savedPath = pathname;
 
-              if(savedPath.split("/")[2] === account) {
+              if (savedPath.split("/")[2] === account) {
                   history.replace(savedPath, {account: savedPath.split("/")[2]});
                   alert("ACT: " + account);
-              }
-              else {
+              } else {
                   //alert("ACT2: " + account);
                   users.map((x) => {
                       if (savedPath.split("/")[2] === x.username) {
@@ -50,13 +51,16 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                               //setOwnedNFTs: props.setOwnedNFTs,
                               users: users,
                               curAccount: savedPath.split("/")[2],
-                              profilePhotoURL: x.profilePhotoURL, bio: x.bio, username: x.username, account: savedPath.split("/")[2], displayName: x.displayName
+                              profilePhotoURL: x.profilePhotoURL,
+                              bio: x.bio,
+                              username: x.username,
+                              account: savedPath.split("/")[2],
+                              displayName: x.displayName
                           });
                       }
                   });
               }
-          }
-          else if (savedPath.includes("item")) {
+          } else if (savedPath.includes("item")) {
               //TODO: Switch this to getting the item info here and then passing it in through the location state, probably also split up the url for packs and cards
               // nfts.map((item) => {
               //     alert(JSON.stringify(savedPath.split("/")[2]) === JSON.stringify(item.id))
@@ -77,23 +81,80 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
               //     }
               // });
 
-              // if (JSON.stringify(savedPath.split("/")[1]) == "pack") {
-              //     history.replace(savedPath,
-              //         {curProfilePhoto: curProfilePhoto,
-              //             listingId: item.listingId,
-              //             isVNFT: item.isVNFT,
-              //             //price: item.price,
-              //             uri: item.uri,
-              //             id: item.id,
-              //             nftOwner: item.owner,
-              //             account: account,
-              //             isListing: isListing,
-              //             isPack: false });
-              //
-              // }
-              // else if (JSON.stringify(savedPath.split("/")[1]) == "vnft") {
-              //
-              // }
+              //alert(JSON.stringify(savedPath.split("/")))
+
+              if (savedPath.split("/")[2] === "pack") {
+                  let tokenId = Number.parseInt(savedPath.split("/")[3]);
+                  let packURI = await tokenPackURI(tokenId);
+                  let packOwner = await ownerOfPackNoReq(tokenId);
+
+                  await fetch(packURI, {
+                      mode: "cors",
+                      method: "GET"
+                  }).then(async res => {
+                      if (res.ok) {
+                          //alert("Owner OF: " + owner);
+                          const resJson = await res.json();
+                          console.log(JSON.stringify(resJson));
+                          //alert(JSON.stringify(resJson));
+                          let item = {id: tokenId, uri: resJson, owner: packOwner};
+
+                          //alert(JSON.stringify(savedPath.split("/")[2]))
+
+                          history.replace(savedPath,
+                              {
+                                  //curProfilePhoto: curProfilePhoto,
+                                  listingId: item.listingId,
+                                  isVNFT: false,
+                                  //price: item.price,
+                                  uri: item.uri,
+                                  id: item.id,
+                                  nftOwner: item.owner,
+                                  account: account,
+                                  isListing: false,
+                                  isPack: true
+                              }
+                          );
+                      }
+                  });
+              } else if (savedPath.split("/")[2] === "vnft") {
+                  let tokenId = Number.parseInt(savedPath.split("/")[3]);
+                  let packURI = await tokenURI(tokenId);
+                  let packOwner = await ownerOfNoReq(tokenId);
+
+                  //alert("VNFT")
+
+                  await fetch(packURI, {
+                      mode: "cors",
+                      method: "GET"
+                  }).then(async res => {
+                      //alert(JSON.stringify(res))
+                      if (res.ok) {
+                          //alert("Owner OF: " + owner);
+                          const resJson = await res.json();
+                          console.log(JSON.stringify(resJson));
+                          //alert(JSON.stringify(resJson));
+                          let item = {id: tokenId, uri: resJson, owner: packOwner};
+
+                          //alert(JSON.stringify(resJson))
+
+                          history.replace(savedPath,
+                              {
+                                  //curProfilePhoto: curProfilePhoto,
+                                  listingId: item.listingId,
+                                  isVNFT: true,
+                                  //price: item.price,
+                                  uri: item.uri,
+                                  id: item.id,
+                                  nftOwner: item.owner,
+                                  account: account,
+                                  isListing: false,
+                                  isPack: false
+                              }
+                          );
+                      }
+                  });
+              }
           }
       }
       //alert(JSON.stringify(location.state))
@@ -138,8 +199,8 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
   return (
     <div className={styles.page}>
         {/*{account}*/}
-        {/*{JSON.stringify(location.state)}*/}
-        {JSON.stringify(nfts)}
+        {JSON.stringify(location.state)}
+        {/*{JSON.stringify(nfts)}*/}
       <Header nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
       <div className={styles.inner}>{children}</div>
       <Footer />
