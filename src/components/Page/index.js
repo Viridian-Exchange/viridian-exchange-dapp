@@ -6,6 +6,8 @@ import Header from "../Header";
 import Footer from "../Footer";
 import {tokenURI, ownerOfNoReq} from "../../smartContracts/ViridianNFTMethods";
 import {tokenPackURI, ownerOfPackNoReq} from "../../smartContracts/ViridianPackMethods";
+import ReactLoading from 'react-loading';
+import Image from "../Image";
 
 const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFTs, children, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance }) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -34,10 +36,12 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
               //history.replace("/");
 
               //savedPath = pathname;
+              setInitialLoaded(true);
 
               if (savedPath.split("/")[2] === account) {
                   history.replace(savedPath, {account: savedPath.split("/")[2]});
                   alert("ACT: " + account);
+                  setInitialLoaded(true);
               } else {
                   //alert("ACT2: " + account);
                   users.map((x) => {
@@ -57,8 +61,12 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                               account: savedPath.split("/")[2],
                               displayName: x.displayName
                           });
+
+                          setInitialLoaded(true);
                       }
                   });
+
+                  setInitialLoaded(true);
               }
           } else if (savedPath.includes("item")) {
               //TODO: Switch this to getting the item info here and then passing it in through the location state, probably also split up the url for packs and cards
@@ -115,6 +123,8 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                                   isPack: true
                               }
                           );
+
+                          setInitialLoaded(true);
                       }
                   });
               } else if (savedPath.split("/")[2] === "vnft") {
@@ -152,9 +162,14 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                                   isPack: false
                               }
                           );
+
+                          setInitialLoaded(true);
                       }
                   });
               }
+          }
+          else {
+              setInitialLoaded(true);
           }
       }
       //alert(JSON.stringify(location.state))
@@ -196,16 +211,57 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
 
   }, [account, nfts]);
 
-  return (
-    <div className={styles.page}>
-        {/*{account}*/}
-        {JSON.stringify(location.state)}
-        {/*{JSON.stringify(nfts)}*/}
-      <Header nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
-      <div className={styles.inner}>{children}</div>
-      <Footer />
-    </div>
-  );
+  if (initialLoaded) {
+      return (
+          <div className={styles.page}>
+              {/*{account}*/}
+              {/*{JSON.stringify(location.state)}*/}
+              {/*{JSON.stringify(nfts)}*/}
+              {JSON.stringify(initialLoaded)}
+              <Header nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs}
+                      vextBalance={vextBalance} setVextBalance={setVextBalance} account={account}
+                      setAccount={setAccount} connected={connected} setConnected={setConnected} userInfo={userInfo}
+                      setUserInfo={setUserInfo}/>
+              <div className={styles.inner}>{children}</div>
+              <Footer/>
+          </div>
+      );
+  }
+  else {
+      return (
+          <div className={styles.page}>
+              {/*{account}*/}
+              {/*{JSON.stringify(location.state)}*/}
+              {/*{JSON.stringify(nfts)}*/}
+              {JSON.stringify(initialLoaded)}
+              <Header nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs}
+                      vextBalance={vextBalance} setVextBalance={setVextBalance} account={account}
+                      setAccount={setAccount} connected={connected} setConnected={setConnected} userInfo={userInfo}
+                      setUserInfo={setUserInfo}/>
+              <div style={{display: 'flex',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  position: 'relative',
+                  marginTop: '20ex', marginBottom: '20ex'}}>
+                  <ReactLoading type={'spin'} color={'#bf9a36'} height={'10%'} width={'10%'} />
+              </div>
+              <div style={{display: 'flex',
+                  justifyContent: 'center',
+                  position: 'absolute',
+                  alignItems: 'center',
+                  top: '26.3%',
+                  left: '40.656%', transform: 'scale(.36, .36)'}}>
+                  <Image
+                      style={{maxWidth: '1ex', maxHeight: '1ex'}}
+                      src="/logo.svg"
+                      srcDark="/logo.svg"
+                      alt="Viridian Exchange"
+                  />
+              </div>
+              <Footer/>
+          </div>
+      )
+  }
 };
 
 export default withRouter(Page);
