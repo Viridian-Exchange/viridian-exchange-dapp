@@ -159,11 +159,11 @@ const Item = (props) => {
 
     }
     else {
-      return "NONE";
+      return JSON.stringify(location);
     }
   }
   else {
-    return "NONE";
+    return JSON.stringify(location);
   }
 }
 
