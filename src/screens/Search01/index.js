@@ -13,9 +13,10 @@ import NFT from "../../components/NFT";
 import vNFTJSON from "../../abis/ViridianNFT.json";
 import veJSON from "../../abis/ViridianExchange.json";
 import config from "../../local-dev-config";
+import Fuse from "fuse.js";
+import Pack from "../../components/Pack";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
-
 
 const navLinks = ["All items", "Cards", "Packs", "Promotional Items"];
 
@@ -37,7 +38,27 @@ const Search = (props) => {
 
   const [values, setValues] = useState([5]);
 
-  //alert(props.listings)
+  const options = {
+        // isCaseSensitive: false,
+        // includeScore: false,
+        // shouldSort: true,
+        // includeMatches: false,
+        // findAllMatches: false,
+        // minMatchCharLength: 1,
+        // location: 0,
+        // threshold: 0.6,
+        // distance: 100,
+        // useExtendedSearch: false,
+        // ignoreLocation: false,
+        // ignoreFieldNorm: false,
+        keys: [
+            "cardName",
+            "cardNum",
+            "grade"
+        ]
+    };
+
+    const fuse = new Fuse(props.nfts, options);
 
   const handleSubmit = (e) => {
     alert();
@@ -52,24 +73,24 @@ const Search = (props) => {
       <div className={cn("container", styles.container)}>
         <div className={styles.top}>
           <div className={styles.title}>Explore the Marketplace</div>
-          <form
-            className={styles.search}
-            action=""
-            onSubmit={() => handleSubmit()}
-          >
-            <input
-              className={styles.input}
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              name="search"
-              placeholder="Search ..."
-              required
-            />
-            <button className={styles.result}>
-              <Icon name="search" size="16" />
-            </button>
-          </form>
+          {/*<form*/}
+          {/*  className={styles.search}*/}
+          {/*  action=""*/}
+          {/*  onSubmit={() => handleSubmit()}*/}
+          {/*>*/}
+          {/*  <input*/}
+          {/*    className={styles.input}*/}
+          {/*    type="text"*/}
+          {/*    value={search}*/}
+          {/*    onChange={(e) => setSearch(e.target.value)}*/}
+          {/*    name="search"*/}
+          {/*    placeholder="Search ..."*/}
+          {/*    required*/}
+          {/*  />*/}
+          {/*  <button className={styles.result}>*/}
+          {/*    <Icon name="search" size="16" />*/}
+          {/*  </button>*/}
+          {/*</form>*/}
         </div>
         <div className={styles.sorting}>
           <div className={styles.dropdown}>
@@ -209,9 +230,14 @@ const Search = (props) => {
           </div>
           <div className={styles.wrapper}>
             <div className={styles.list}>
-              {props.nfts.map((x, index) => [
-                  <NFT className={styles.card} item={x} key={index} isListing={true} account={props.account}/>
-              ])}
+              {props.nfts.map((x, index) => {
+                  if (x.isVNFT) {
+                      return (<NFT className={styles.card} item={x} key={index} isListing={true} account={props.account} />);
+                  }
+                  else {
+                      return (<Pack className={styles.card} item={x} key={index} isListing={true} account={props.account}/>);
+                  }
+              })}
             </div>
             <div className={styles.btns}>
               <button className={cn("button-stroke", styles.button)}>

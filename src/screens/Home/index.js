@@ -9,8 +9,19 @@ import Description from "./Description";
 import Modal from "../../components/Modal";
 import SignupPrompt from "../../components/SignupPrompt";
 import {HandleAddUserSimple} from "../../apis/UserAPI";
+import {useHistory} from "react-router-dom";
 
 const Home = (props) => {
+    const [initialLoaded, setInitialLoaded] = useState(false);
+
+    const history = useHistory();
+
+    // useEffect(async () => {
+    //     if (!initialLoaded && props.account) {
+    //         setInitialLoaded(true);
+    //         history.push("/profile/" + props.account);
+    //     }
+    // }, []);
 
   return (
     <>
@@ -27,7 +38,8 @@ const Home = (props) => {
         <Description />
         {/*{"ONT: " + JSON.stringify(props.ownedNFTs)}*/}
       <Popular nfts={props.nfts} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo}
-               ownedNFTs = {props.ownedNFTs} setOwnedNFTs = {props.setOwnedNFTs} users={props.users} />
+               ownedNFTs = {props.ownedNFTs} setOwnedNFTs = {props.setOwnedNFTs}
+               ownedPacks = {props.ownedPacks} setOwnedPacks = {props.setOwnedPacks} users={props.users} />
       <HotBid classSection="section" nfts={props.nfts} setListings={props.setListings} account={props.account}/>
     </>
   );

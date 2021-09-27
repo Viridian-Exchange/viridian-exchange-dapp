@@ -1,5 +1,7 @@
 import config from "../local-dev-config";
 import veJSON from "../abis/ViridianExchange.json";
+import voJSON from "../abis/ViridianExchangeOffers.json";
+import vtJSON from "../abis/ViridianToken.json";
 import Web3 from "web3";
 import {approve} from "./ViridianTokenMethods";
 import { isApprovedForAll, setApprovalForAll } from "./ViridianNFTMethods";
@@ -41,29 +43,33 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 // }
 
 export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
     //alert(from);
 
-    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
+    const batch = new web3.BatchRequest();
+
+    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
+        alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
-            await setApprovalForAll(from, veContractAddress);
+            batch.add(await setApprovalForAll(from, voContractAddress));
         }});
 
-    await approve(from, veContractAddress, _toAmount).then(async (e) => {
-        let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        alert(JSON.stringify(e));
-        //alert(web3.eth.accounts[0]);
-        return await veABI.methods.acceptOfferWithVEXT(_offerId).send({from: from});
-    });
+    batch.add(await approve(from, voContractAddress, _toAmount));
+
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+    //alert(JSON.stringify(e));
+    //alert(web3.eth.accounts[0]);
+    batch.add(await voABI.methods.acceptOfferWithVEXT(_offerId).send.request({from: from}));
+
+    return batch.execute();
 }
 
 export async function getOffers() {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let offers = await veABI.methods.getOffers().call();
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+    let offers = await voABI.methods.getOffers().call();
 
     //alert(JSON.stringify(users));
 
@@ -71,10 +77,10 @@ export async function getOffers() {
 }
 
 export async function getOffersFromUser(_account) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let offers = await veABI.methods.getOffersFromUser(_account).call();
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+    let offers = await voABI.methods.getOffersFromUser(_account).call();
 
     //alert(JSON.stringify(users));
 
@@ -83,18 +89,55 @@ export async function getOffersFromUser(_account) {
 
 export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
+    const batch = new web3.BatchRequest();
+
+    let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
+
+    alert("ALLOW: " + allowance);
+
+    batch.add(await approve(from, veContractAddress, JSON.stringify(Number.parseInt(allowance) + Number.parseInt(_price))));
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
+        alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
-            await setApprovalForAll(from, veContractAddress);
+            batch.add(await setApprovalForAll(from, veContractAddress));
         }});
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
     console.log(veABI.methods);
     //alert(web3.eth.accounts[0]);
     try {
-        await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true).send({from: from});
+        batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true, true).send.request({from: from}));
+        batch.execute();
+    } catch(e) {
+        alert(e);
+    }
+}
+
+export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime) {
+    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
+    const batch = new web3.BatchRequest();
+
+    let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
+
+    batch.add(await approve(from, veContractAddress, JSON.stringify(Number.parseInt(allowance) + Number.parseInt( _price))));
+    //alert(await isApprovedForAll(from, veContractAddress));
+    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
+        alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            batch.add(await setApprovalForAll(from, veContractAddress));
+        }});
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    console.log(veABI.methods);
+    //alert(web3.eth.accounts[0]);
+    try {
+        batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true, false).send.request({from: from}));
+        batch.execute();
     } catch(e) {
         alert(e);
     }
@@ -102,37 +145,63 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
 
 export async function buyNFTWithVEXT(from, _listingId, amount) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
-
+    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    const batch = new web3.BatchRequest();
     //alert(from);
 
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
+        alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
-            await setApprovalForAll(from, veContractAddress);
+            batch.add(await setApprovalForAll(from, veContractAddress));
         }});
 
-    await approve(from, veContractAddress, amount).then(async (e) => {
-        let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        alert(JSON.stringify(e));
-        //alert(web3.eth.accounts[0]);
-        return await veABI.methods.buyNFTWithVEXT(_listingId).send({from: from});
-    });
+    batch.add(await approve(from, veContractAddress, amount));
+
+    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
+    //alert(await vtABI.methods.balanceOf(from) + " vs. " + amount);
+    //alert(JSON.stringify(e));
+    //alert(web3.eth.accounts[0]);
+    batch.add(await veABI.methods.buyNFTWithVEXT(_listingId).send.request({from: from}));
+    return batch.execute();
 }
 
-export async function pullFromSale(from, _listingId) {
+export async function pullFromSale(from, _listingId, price) {
     const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+
+    const batch = new web3.BatchRequest();
+
+    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
+
+    let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
+
+    console.log(allowance.toString());
+
+    batch.add(await approve(from, veContractAddress, JSON.stringify(Number.parseInt(allowance) - Number.parseInt(price))));
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
-    return await veABI.methods.pullFromSale(_listingId).send({from: from});
+    batch.add(await veABI.methods.pullFromSale(_listingId).send.request({from: from}));
+
+    return batch.execute();
 }
 
 export async function makeOffer(from, _to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let voABI = new web3.eth.Contract(veJSON['abi'], voContractAddress);
 
-    await approve(from, veContractAddress, _amount).then(async (e) => {
-        return await veABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send({from: from});
-    });
+    const batch = new web3.BatchRequest();
+
+    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
+        alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            batch.add(await setApprovalForAll(from, voContractAddress));
+        }});
+
+    batch.add(await approve(from, voContractAddress, _amount));
+    batch.add(await voABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send.request({from: from}));
+
+    batch.execute();
 }
