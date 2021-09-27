@@ -11,6 +11,7 @@ import veJSON from "../../../abis/ViridianExchange.json";
 import vTJSON from "../../../abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import {FetchUser} from "../../../apis/UserAPI";
+import ReactLoading from "react-loading";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
@@ -136,12 +137,18 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
       <div className={cn(styles.user, className)}>
         <div className={styles.head} onClick={() => setVisible(!visible)}>
-          <div className={styles.avatar}>
+          {(!userInfo.profilePhotoURL || !vextBalance) ?
+              [<div className={styles.avatar}>
+                <ReactLoading type={'spin'} color={'#bf9a36'} height={'100%'} width={'100%'} />
+              </div>,
+                <div className={styles.wallet}>
+                  <span className={styles.currency}>VEXT</span>
+                </div>] : [<div className={styles.avatar}>
             <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
-          </div>
-          <div className={styles.wallet}>
-            {parseVextBalance(vextBalance)} <span className={styles.currency}>VEXT</span>
-          </div>
+            </div>,
+            <div className={styles.wallet}>
+          {parseVextBalance(vextBalance)} <span className={styles.currency}>VEXT</span>
+            </div>]}
         </div>
             {visible && (
                 <div className={styles.body}>
