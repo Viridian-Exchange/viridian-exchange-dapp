@@ -165,11 +165,11 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                         <div className={styles.price}>{parseVextBalance(vextBalance)} VEXT</div>
                       </div>
                     </div>
-                    <button
-                        className={cn("button-stroke button-small", styles.button)}
-                    >
-                      Manage fun on Coinbase
-                    </button>
+                    {/*<button*/}
+                    {/*    className={cn("button-stroke button-small", styles.button)}*/}
+                    {/*>*/}
+                    {/*  Manage fun on Coinbase*/}
+                    {/*</button>*/}
                   </div>
                   <div className={styles.menu}>
                     {items(account).map((x, index) =>

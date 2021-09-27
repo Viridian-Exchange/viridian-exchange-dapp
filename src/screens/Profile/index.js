@@ -10,11 +10,12 @@ import OfferBuilder from "../../components/OfferBuilder"
 //import VEAbi from '../../abis/ViridianExchange.json';
 import Web3 from "web3";
 import config from "../../local-dev-config";
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import ImageUpload from "../../ImageUpload";
 import S3FileUpload from "react-s3";
 import s3config from "../../config";
 import {getOffersFromUser} from "../../smartContracts/ViridianExchangeMethods";
+import ReactTooltip from 'react-tooltip';
 
 // data
 import { bids } from "../../mocks/bids";
@@ -31,6 +32,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 const navLinks = [
   "VNFTs",
+  "Packs",
   "On Sale",
   "Offers",
   "Likes",
@@ -208,6 +210,7 @@ const Profile = (props) => {
   const [fetchedAndParsed, setFetchedAndParsed] = useState(false);
   const nftsCopy = [];
   const oNftsCopy = [];
+  const packsCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
   const [offers, setOffers] = useState([]);
   const [otherNFTs, setOtherNFTs] = useState([]);
@@ -220,8 +223,10 @@ const Profile = (props) => {
   // TODO: THIS WILL SET DIFFERENTLY DEPENDING ON WHETHER ITS ON CURRENT USER PROFILE OR ANOTHER USERS PROFILE PAGE
   const [followersInfo, setFollowersInfo] = useState([]);
   const [followingInfo, setFollowingInfo] = useState([]);
+  const [initialLoaded, setInitialLoaded] = useState(false);
 
   const location = useLocation();
+  const history = useHistory();
 
   async function getFollowers() {
 
@@ -272,45 +277,52 @@ const Profile = (props) => {
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
-    let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
-    let nfts = [];
-    //alert(JSON.stringify(vnftABI.methods));
-
-    // await console.log(JSON.stringify(vNFTJSON['abi']));
-    console.log(vnftContractAddress);
-    console.log("test");
-
-    if (nftIds) {
-      //alert(JSON.stringify(nftIds));
-      for (let i = 0; i < nftIds.length; i++) {
-        let nftId = nftIds[i]
-        let uri = await vnftABI.methods.tokenURI(nftId).call();
-        //console.log("XXX: " + uri);
-        nfts.push({id: nftId, uri: uri});
-      }
-
-      //alert(nfts);
-    }
-
-    if (location) {
+    if(location.state) {
       if (location.state.account) {
-        setOffers(await getOffersFromUser(location.state.account));
+      let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
+      let nfts = [];
+      //alert(JSON.stringify(vnftABI.methods));
+
+      // await console.log(JSON.stringify(vNFTJSON['abi']));
+      console.log(vnftContractAddress);
+      console.log("test");
+
+      if (nftIds) {
+        //alert(JSON.stringify(nftIds));
+        for (let i = 0; i < nftIds.length; i++) {
+          let nftId = nftIds[i]
+          let uri = await vnftABI.methods.tokenURI(nftId).call();
+          //console.log("XXX: " + uri);
+          nfts.push({id: nftId, uri: uri});
+        }
+
+        //alert(nfts);
       }
-      else {
-        setOffers(await getOffersFromUser(props.account));
+
+      if (location) {
+        if (location.state.account) {
+          setOffers(await getOffersFromUser(location.state.account));
+        } else {
+          setOffers(await getOffersFromUser(props.account));
+        }
       }
+      //alert(nftIds);
+      //await console.log(vnftABI.methods);
+
+      //alert(JSON.stringify(nfts));
+
+      setOtherNFTs(nfts);
+        }
     }
-    //alert(nftIds);
-    //await console.log(vnftABI.methods);
+    else {
 
-
-    //alert(JSON.stringify(nfts));
-
-    setOtherNFTs(nfts);
+    }
   }
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
+
+    //alert("CNFTS: " + JSON.stringify(curNFTs));
 
     // TODO: Filter listings not owned by the current wallet, maybe write a tool for filtering listings to help
     //  with the search bar
@@ -332,16 +344,22 @@ const Profile = (props) => {
   }
 
   useEffect(async() => {
-
+    if (location.state) {
     console.log(JSON.stringify(props.nfts));
-
     getOwnedListings();
     console.log(ownedListings);
     await getOtherOwnedNFTs();
 
+    if (!location.state) {
+      // await setInitialLoaded(true);
+      // await history.push("/");
+      // await history.push(location.pathname);
+    }
+
+
 
     //console.log('Getting owned NFTs');
-    if (!fetchedAndParsed) {
+    //if (!fetchedAndParsed) {
       //setOwnedNFTs(await getOwnedNFTs());
       //alert(ownedNFTs);
 
@@ -351,7 +369,7 @@ const Profile = (props) => {
           //   extractMetadata(nft, i)
           // });
           //alert(JSON.stringify(ownedNFTs[i]));
-          await extractMetadata(oNftsCopy, otherNFTs[i], i);
+          await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
 
           await console.log(oNftsCopy);
         }
@@ -362,38 +380,48 @@ const Profile = (props) => {
 
       if (props.ownedNFTs.length > 0) {
         for (let i = 0; i < props.ownedNFTs.length; i++) {
-          // await ownedNFTs.forEach((nft, i) => {
-          //   extractMetadata(nft, i)
-          // });
-          //alert(JSON.stringify(ownedNFTs[i]));
-          await extractMetadata(nftsCopy, props.ownedNFTs[i], i);
+          await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
         }
         props.setOwnedNFTs(nftsCopy);
       }
 
-      setFetchedAndParsed(true);
+      if (props.ownedPacks.length > 0) {
+        //alert("EXTRACT")
+        for (let i = 0; i < props.ownedPacks.length; i++) {
+          await extractMetadata(packsCopy, props.ownedPacks[i], i, true);
+        }
+        props.setOwnedPacks(packsCopy);
+      }
     }
     if (location) {
       if (location.state.account === props.account) {
         getFollowing(false);
       }
     }
-  }, [props.ownedNFTs, location.state.account]);
+  }, [props.ownedNFTs, props.nfts, props.ownedPacks, location]);
 
 
-  async function ownerOf(tokenId) {
+  async function ownerOf(tokenId, isPack) {
     const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
+    const vpContractAddress = config.dev_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+    let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
     await console.log("ABIMETHODS: " + tokenId);
-    let owner = vNFTABI.methods.ownerOf(tokenId).call();
+    let owner
+    if (!isPack) {
+      owner = vNFTABI.methods.ownerOf(tokenId).call();
+    }
+    else {
+      owner = vpABI.methods.ownerOf(tokenId).call();
+    }
 
     //alert(nft);
 
     return owner;
   }
 
-  async function extractMetadata(nftc, nft, i) {
+  async function extractMetadata(nftc, nft, i, isPack) {
     console.log('Fetching from uri: ' + nft.uri);
     //const extractedObject =
     await fetch(nft.uri, {
@@ -402,10 +430,11 @@ const Profile = (props) => {
     }).then(async res => {
       console.log(res);
       console.log(res.status);
-      await ownerOf(nft.id).then(async (owner) => {
+      await ownerOf(nft.id, isPack).then(async (owner) => {
         if (res.ok) {
           //alert("Owner OF: " + owner);
           const resJson = await res.json();
+          console.log(JSON.stringify(resJson));
           //alert(JSON.stringify(resJson));
           const newNFT = {id: nft.id, uri: resJson, owner: owner}
           console.log(newNFT);
@@ -468,6 +497,8 @@ const Profile = (props) => {
       if (location.state.account === props.account) {
         return (
             <div className={styles.profile}>
+              {/*{JSON.stringify(props.cameFromHome)}*/}
+              {/*{JSON.stringify(props.ownedNFTs)}*/}
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
@@ -490,6 +521,17 @@ const Profile = (props) => {
                       <span>Edit profile</span>
                       <Icon name="image" size="16"/>
                     </Link>
+
+                    <div
+                        className={cn("button-stroke button-small", styles.button)}
+                    >
+                      <button data-tip data-for='refresh' onClick={() => props.setFetchedAndParsed(false)}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M20.944 12.979c-.489 4.509-4.306 8.021-8.944 8.021-2.698 0-5.112-1.194-6.763-3.075l1.245-1.633c1.283 1.645 3.276 2.708 5.518 2.708 3.526 0 6.444-2.624 6.923-6.021h-2.923l4-5.25 4 5.25h-3.056zm-15.864-1.979c.487-3.387 3.4-6 6.92-6 2.237 0 4.228 1.059 5.51 2.698l1.244-1.632c-1.65-1.876-4.061-3.066-6.754-3.066-4.632 0-8.443 3.501-8.941 8h-3.059l4 5.25 4-5.25h-2.92z"/></svg>
+                      </button>
+                      <ReactTooltip id='refresh' effect='solid' type='dark'>
+                        <span>Refresh if NFTs haven't shown up</span>
+                      </ReactTooltip>
+                    </div>
                   </div>
                   <div className={styles.file}>
                     <input className={styles.load} type="file" onChange={(e) => {
@@ -514,6 +556,7 @@ const Profile = (props) => {
               </div>
               <div className={styles.body}>
                 {/*{JSON.stringify(props)}*/}
+                {/*{JSON.stringify(initialLoaded)}*/}
                 <div className={cn("container", styles.container)}>
                   <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo} isCurrentUser={true}/>
                   <div className={styles.wrapper}>
@@ -534,23 +577,30 @@ const Profile = (props) => {
                     <div className={styles.group}>
                       <div className={styles.item}>
                         {activeIndex === 0 && (
-                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}/>
+                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         )}
-                        {activeIndex === 1 && [
-                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
-                        ]}
+                        {activeIndex === 1 && (
+                            <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                        )}
                         {activeIndex === 2 && [
+                          <div>{JSON.stringify(ownedListings)}</div>,
+                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}
+                                 curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                        ]}
+                        {activeIndex === 3 && [
                           //<div>{JSON.stringify(offers)}</div>,
                             <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
                             curDisplayName={props.userInfo.displayName}/>
                         ]}
-                        {activeIndex === 3 && (
+                        {activeIndex === 4 && (
                             <Items class={styles.items} items={[]}/>
                         )}
-                        {activeIndex === 4 && (
+                        {activeIndex === 5 && (
                             <Followers className={styles.followers} items={followingInfo}/>
                         )}
-                        {activeIndex === 5 && (
+                        {activeIndex === 6 && (
                             <Followers className={styles.followers} items={followers}/>
                         )}
                       </div>
@@ -635,6 +685,7 @@ const Profile = (props) => {
                       )}
                     </div>
                     {/*{JSON.stringify(props.ownedNFTs[0].uri.image)}*/}
+                    {/*<div>{JSON.stringify(props.nfts)}HI</div>*/}
                     <div className={styles.group}>
                       {/*<div>{JSON.stringify(location.state.ownedNFTs)}</div>*/}
                       <div className={styles.item}>
@@ -642,19 +693,22 @@ const Profile = (props) => {
                             <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account}/>
                         ]}
                         {activeIndex === 1 && [
-                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                          <Items class={styles.items} nfts={[]} isListing={true} account={props.account}/>
                         ]}
                         {activeIndex === 2 && [
+                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                        ]}
+                        {activeIndex === 3 && [
                           // <div>{JSON.stringify(offers)}</div>,
                           <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} />
                         ]}
-                        {activeIndex === 3 && (
+                        {activeIndex === 4 && (
                             <Items class={styles.items} items={[]}/>
                         )}
-                        {activeIndex === 4 && (
+                        {activeIndex === 5 && (
                             <Followers className={styles.followers} items={followingInfo}/>
                         )}
-                        {activeIndex === 5 && (
+                        {activeIndex === 6 && (
                             <Followers className={styles.followers} items={followers}/>
                         )}
                       </div>
@@ -667,7 +721,7 @@ const Profile = (props) => {
       }
     }
     else {
-      return "NOTHIN"
+      return JSON.stringify(location);
     }
   }
 

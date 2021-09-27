@@ -18,7 +18,7 @@ const Description = () => {
             Bringing the <span className='text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
           </h1>
           <div className={styles.text}>
-            Your Premiere Marketplace for Physically-Backed NFTs
+            The Premiere Marketplace for Physically-Backed NFTs
           </div>
           <div className={styles.btns}>
             <Link className={cn("button", styles.button)} to="/upload-variants">

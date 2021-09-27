@@ -4,18 +4,17 @@ import styles from "./Options.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 
-const Options = ({ className, items, id, account }) => {
+const Options = ({ className, items, tokenId, id, account, owner, isListing }) => {
   return (
     <div className={cn(styles.options, className)}>
       <button className={cn("button-circle-stroke", styles.button)}>
         <Icon name="share" size="24" />
       </button>
-      <button
-        className={cn("button-circle-stroke", styles.button, styles.favorite)}
-      >
+      <button className={cn("button-circle-stroke", styles.button, styles.favorite)}>
         <Icon name="heart-fill" size="24" />
       </button>
-      <Actions className={styles.actions} id={id} account={account} />
+        {/*{tokenId + 'breh'}*/}
+      <Actions className={styles.actions} tokenId={tokenId} id={id} account={account} owner={owner} isListing={isListing} />
     </div>
   );
 };

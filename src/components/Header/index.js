@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, NavLink, withRouter } from "react-router-dom";
 import cn from "classnames";
 import styles from "./Header.module.sass";
@@ -6,6 +6,7 @@ import Icon from "../Icon";
 import Image from "../Image";
 import Notification from "./Notification";
 import User from "./User";
+import Fuse from "fuse.js";
 
 const nav = [
   {
@@ -17,7 +18,7 @@ const nav = [
     title: "How it works",
   },
   {
-    url: "/paypal",
+    url: "/BuyVEXT",
     title: "Buy $VEXT",
   },
   {
@@ -28,10 +29,84 @@ const nav = [
 
 const Headers = (props) => {
   const [visibleNav, setVisibleNav] = useState(false);
-  const [search, setSearch] = useState("");
+  //const [search, setSearch] = useState("");
+  // Change the pattern
+  const [pattern, setPattern] = useState("");
+  const [searchString, setSearchString] = useState("");
+  const [runFuse, setRunFuse] = useState(false);
+  const [fuseResults, setFuseResults] = useState([]);
+
+  const options = {
+    // isCaseSensitive: false,
+    // includeScore: false,
+    // shouldSort: true,
+    // includeMatches: false,
+    // findAllMatches: false,
+    // minMatchCharLength: 1,
+    // location: 0,
+    // threshold: 0.6,
+    // distance: 100,
+    // useExtendedSearch: false,
+    // ignoreLocation: false,
+    // ignoreFieldNorm: false,
+    keys: [
+      "cardName",
+      "cardNum",
+      "grade"
+    ]
+  };
+
+  const fuse = new Fuse(props.nfts, options);
+
+  useEffect(async () => {
+    //alert(JSON.stringify(fuse.search(pattern)));
+    props.setFilteredNFTs(fuse.search(pattern));
+    setPattern("");
+  }, [runFuse]);
+
+  useEffect(async () => {
+    const curFuseSearch = fuse.search(pattern);
+    console.log("CFS: " + JSON.stringify(curFuseSearch));
+    let fuseResultsMod = [];
+    if (pattern) {
+      curFuseSearch.map((nft, index) => {
+        let curName = nft.name;
+        //TODO: Figure out if more complex search results are necessary
+        //let curNameNum = card.item.cardName + " - " + card.item.cardNum;
+        if (!fuseResultsMod.includes({key: curName, text: curName, value: curName})) {
+          fuseResultsMod.push({key: curName, text: curName, value: curName});
+        }
+      });
+      setFuseResults(fuseResultsMod);
+    }
+    else {
+      setFuseResults([]);
+    }
+    console.log(JSON.stringify(fuseResults));
+    console.log("PAT: " + pattern);
+  }, [pattern]);
+
+  const handleSetPattern = (value) => {
+    if (value === "" || !value) {
+      setPattern("");
+    }
+    else {
+      setPattern(value);
+    }
+  };
+
+  function handleSetSearching(value, setSearching) {
+    if (value === "" || value === undefined || !value) {
+      setSearching(false);
+    }
+    else {
+      setSearching(true);
+    }
+  }
 
   const handleSubmit = (e) => {
-    alert();
+    setRunFuse(!runFuse);
+    handleSetSearching(pattern, props.setSearching);
   };
 
   return (
@@ -66,8 +141,12 @@ const Headers = (props) => {
             <input
               className={styles.input}
               type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) => {
+                setPattern(e.target.value);
+                setSearchString(e.target.value);
+                //setFuseResults([]);
+              }}
+              value={searchString}
               name="search"
               placeholder="Search"
               required
@@ -83,7 +162,11 @@ const Headers = (props) => {
             Upload
           </Link>
         </div>
-        <Notification className={styles.notification} />
+
+
+        {/*<Notification className={styles.notification} />*/}
+
+
         {/*<Link*/}
         {/*  className={cn("button-small", styles.button)}*/}
         {/*  to="/upload-variants"*/}
@@ -92,7 +175,7 @@ const Headers = (props) => {
         {/*</Link>*/}
         <Link
             className={cn("button-small", styles.button)}
-            to="/paypal"
+            to="/BuyVEXT"
         >
           Buy $VEXT
         </Link>
@@ -106,8 +189,8 @@ const Headers = (props) => {
               connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>
         <button
           className={cn(styles.burger, { [styles.active]: visibleNav })}
-          onClick={() => setVisibleNav(!visibleNav)}
-        ></button>
+          onClick={() => setVisibleNav(!visibleNav)}>
+        </button>
       </div>
     </header>
   );
