@@ -228,11 +228,11 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
   //if (initialLoaded) {
       return (
           <div className={styles.page}>
-              {account}
-              {JSON.stringify(location.state)}
+              {/*{account}*/}
+              {/*{JSON.stringify(location.state)}*/}
               {/*{JSON.stringify(nfts)}*/}
-              {JSON.stringify(initialLoaded)}
-              <Header nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs}
+              {/*{JSON.stringify(initialLoaded)}*/}
+              <Header users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs}
                       vextBalance={vextBalance} setVextBalance={setVextBalance} account={account}
                       setAccount={setAccount} connected={connected} setConnected={setConnected} userInfo={userInfo}
                       setUserInfo={setUserInfo}/>
