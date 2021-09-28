@@ -12,7 +12,7 @@ const Pack = ({ className, item, account, isListing, curProfilePhoto }, props) =
 
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
   return (
-    <div className={cn(styles.card, className)}>
+    <div className={cn(styles.card, className)} style={{maxHeight: '35ex'}}>
       <div className={styles.preview}>
         {/*{item.uri.image}*/}
         <video autoPlay loop muted style={{maxWidth: '30ex'}}>
