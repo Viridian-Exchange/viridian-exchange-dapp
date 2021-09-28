@@ -6,7 +6,9 @@ import Icon from "../Icon";
 import Image from "../Image";
 import Notification from "./Notification";
 import User from "./User";
+import { useLocation, useHistory } from "react-router-dom";
 import Fuse from "fuse.js";
+import SearchDropdown from "../SearchDropdown";
 
 const nav = [
   {
@@ -29,12 +31,16 @@ const nav = [
 
 const Headers = (props) => {
   const [visibleNav, setVisibleNav] = useState(false);
-  //const [search, setSearch] = useState("");
-  // Change the pattern
   const [pattern, setPattern] = useState("");
   const [searchString, setSearchString] = useState("");
-  const [runFuse, setRunFuse] = useState(false);
-  const [fuseResults, setFuseResults] = useState([]);
+  const [dropdownOptions, setDropdownOptions] = useState([]);
+  const [visible, setVisible] = useState([]);
+  const [fuse, setFuse] = useState("");
+
+  const location = useLocation();
+  const history = useHistory();
+
+  let dropdownOptionsTemp = [];
 
   const options = {
     // isCaseSensitive: false,
@@ -50,64 +56,68 @@ const Headers = (props) => {
     // ignoreLocation: false,
     // ignoreFieldNorm: false,
     keys: [
-      "cardName",
-      "cardNum",
-      "grade"
+      "uri.name",
+      "uri.year",
+      "uri.grade",
+      "uri.set",
+      "uri.grade",
+      "id",
+      "displayName",
+      "username",
+      "twitter"
     ]
   };
 
-  const fuse = new Fuse(props.nfts, options);
-
   useEffect(async () => {
-    //alert(JSON.stringify(fuse.search(pattern)));
-    props.setFilteredNFTs(fuse.search(pattern));
-    setPattern("");
-  }, [runFuse]);
+    let tempNFTs = [...props.nfts];
+    let tempUsers = [...props.users];
+    let combined = tempNFTs.concat(tempUsers);
 
-  useEffect(async () => {
-    const curFuseSearch = fuse.search(pattern);
-    console.log("CFS: " + JSON.stringify(curFuseSearch));
-    let fuseResultsMod = [];
-    if (pattern) {
-      curFuseSearch.map((nft, index) => {
-        let curName = nft.name;
-        //TODO: Figure out if more complex search results are necessary
-        //let curNameNum = card.item.cardName + " - " + card.item.cardNum;
-        if (!fuseResultsMod.includes({key: curName, text: curName, value: curName})) {
-          fuseResultsMod.push({key: curName, text: curName, value: curName});
-        }
-      });
-      setFuseResults(fuseResultsMod);
-    }
-    else {
-      setFuseResults([]);
-    }
-    console.log(JSON.stringify(fuseResults));
-    console.log("PAT: " + pattern);
-  }, [pattern]);
+    //await setDropdownOptions(combined);
 
-  const handleSetPattern = (value) => {
-    if (value === "" || !value) {
-      setPattern("");
-    }
-    else {
-      setPattern(value);
-    }
-  };
+    //alert(JSON.stringify(tempUsers));
 
-  function handleSetSearching(value, setSearching) {
-    if (value === "" || value === undefined || !value) {
-      setSearching(false);
-    }
-    else {
-      setSearching(true);
-    }
-  }
+    setFuse(new Fuse(combined, options));
+
+    //alert(JSON.stringify(fuse));
+  }, [props.nfts, props.users]);
+
 
   const handleSubmit = (e) => {
-    setRunFuse(!runFuse);
-    handleSetSearching(pattern, props.setSearching);
+
+    //alert(JSON.stringify(searchString))
+    if (searchString && !location.pathname.includes("search01")) {
+      //alert("hI")
+      history.push('/search01/?search=' + location.search);
+    }
   };
+
+  const handleChange = (input) => {
+    setSearchString(input);
+
+    //alert(JSON.stringify(fuse));
+
+    if (fuse !== "") {
+      const result = fuse.search(input);
+
+      result.map((item) => {
+        let option = item.item;
+        if (option.displayName) {
+          dropdownOptionsTemp.push({label: option.displayName, image: option.profilePhotoURL, address: option.username});
+        }
+        else if (option.uri) {
+          dropdownOptionsTemp.push({label: option.uri.name, image: option.uri.image, id: option.id, isVNFT: option.isVNFT});
+        }
+      });
+
+      setDropdownOptions(dropdownOptionsTemp);
+
+      console.log(result);
+    }
+
+    setVisible(true);
+
+  }
 
   return (
     <header className={styles.header}>
@@ -139,17 +149,24 @@ const Headers = (props) => {
             onSubmit={() => handleSubmit()}
           >
             <input
+                autoComplete="off"
               className={styles.input}
               type="text"
               onChange={(e) => {
-                setPattern(e.target.value);
-                setSearchString(e.target.value);
-                //setFuseResults([]);
+                handleChange(e.target.value);
               }}
               value={searchString}
               name="search"
               placeholder="Search"
               required
+            />
+            <SearchDropdown //className={styles.dropdown}
+                            //value={option}
+                            //setValue={setOption}
+                            options={dropdownOptions}
+                            visible={visible}
+                            setVisible={setVisible}
+
             />
             <button className={styles.result}>
               <Icon name="search" size="20" />

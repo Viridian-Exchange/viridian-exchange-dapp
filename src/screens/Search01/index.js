@@ -41,6 +41,7 @@ const Search = (props) => {
   const [values, setValues] = useState([5]);
 
   const location = useLocation();
+  const history = useHistory();
 
   const options = {
         // isCaseSensitive: false,
@@ -68,6 +69,7 @@ const Search = (props) => {
 
 
     useEffect(async () => {
+
         if(location.search) {
             if (location.search.split('=')[1] !== search) {
                 await setSearch(location.search.split('=')[1]);
@@ -106,10 +108,6 @@ const Search = (props) => {
         }
     }, [search, props.nfts]);
 
-  const handleSubmit = (e) => {
-    alert();
-  };
-
   const STEP = 0.1;
   const MIN = 0.01;
   const MAX = 10;
@@ -122,7 +120,7 @@ const Search = (props) => {
           {/*<form*/}
           {/*  className={styles.search}*/}
           {/*  action=""*/}
-          {/*  onSubmit={() => handleSubmit()}*/}
+          {/*  //onSubmit={() => handleSubmit()}*/}
           {/*>*/}
           {/*  <input*/}
           {/*    className={styles.input}*/}
