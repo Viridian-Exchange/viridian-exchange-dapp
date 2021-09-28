@@ -19,7 +19,7 @@ import Pack from "../../components/Pack";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
-const navLinks = ["All items", "Cards", "Packs", "Promotional Items"];
+const navLinks = ["All items", "Cards", "Packs"];//, "Promotional Items"];
 
 const dateOptions = ["Newest", "Oldest"];
 const likesOptions = ["Most liked", "Least liked", "Most to Least Expensive"];
@@ -33,12 +33,14 @@ const Search = (props) => {
   const [likes, setLikes] = useState(likesOptions[0]);
   const [color, setColor] = useState(colorOptions[0]);
   const [creator, setCreator] = useState(creatorOptions[0]);
-  const [prices, setPrices] = useState(colorOptions[0]);
+  const [prices, setPrices] = useState("Sort Price");
   const [filteredNFTs, setFilteredNFTs] = useState([]);
 
   const [search, setSearch] = useState("");
 
-  const [values, setValues] = useState([5]);
+  const [filters, setFilters] = useState([""]);
+
+  const [values, setValues] = useState([500000]);
 
   const location = useLocation();
   const history = useHistory();
@@ -108,9 +110,9 @@ const Search = (props) => {
         }
     }, [search, props.nfts]);
 
-  const STEP = 0.1;
+  const STEP = 100;
   const MIN = 0.01;
-  const MAX = 10;
+  const MAX = 1000000;
 
   return (
     <div className={cn("section-pt80", styles.section)}>
@@ -168,7 +170,7 @@ const Search = (props) => {
                 step={STEP}
                 min={MIN}
                 max={MAX}
-                onChange={(values) => setValues(values)}
+                onChange={(values) => {setValues(values);}}
                 renderTrack={({ props, children }) => (
                   <div
                     onMouseDown={props.onMouseDown}
@@ -234,8 +236,8 @@ const Search = (props) => {
                 )}
               />
               <div className={styles.scale}>
-                <div className={styles.number}>0.01 ETH</div>
-                <div className={styles.number}>10 ETH</div>
+                <div className={styles.number}>0.01 VEXT</div>
+                <div className={styles.number}>1M VEXT</div>
               </div>
             </div>
             <div className={styles.group}>
@@ -248,41 +250,72 @@ const Search = (props) => {
                   options={pricesOptions}
                 />
               </div>
-                <div className={styles.item}>
-                    <div className={styles.label}>Popularity</div>
-                    <Dropdown
-                        className={styles.dropdown}
-                        value={likes}
-                        setValue={setLikes}
-                        options={likesOptions}
-                    />
-                </div>
-              <div className={styles.item}>
-                <div className={styles.label}>Collector</div>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={creator}
-                  setValue={setCreator}
-                  options={creatorOptions}
-                />
-              </div>
+                {/*<div className={styles.item}>*/}
+                {/*    <div className={styles.label}>Popularity</div>*/}
+                {/*    <Dropdown*/}
+                {/*        className={styles.dropdown}*/}
+                {/*        value={likes}*/}
+                {/*        setValue={setLikes}*/}
+                {/*        options={likesOptions}*/}
+                {/*    />*/}
+                {/*</div>*/}
+              {/*<div className={styles.item}>*/}
+              {/*  <div className={styles.label}>Collector</div>*/}
+              {/*  <Dropdown*/}
+              {/*    className={styles.dropdown}*/}
+              {/*    value={creator}*/}
+              {/*    setValue={setCreator}*/}
+              {/*    options={creatorOptions}*/}
+              {/*  />*/}
+              {/*</div>*/}
             </div>
-            <div className={styles.reset}>
+            <div className={styles.reset} onClick={() => {//setFilters([]); setPrices("Sort Price");
+                history.push("/search01");}}>
               <Icon name="close-circle-fill" size="24" />
               <span>Reset filter</span>
             </div>
           </div>
           <div className={styles.wrapper}>
-            <div className={styles.list}>
-              {filteredNFTs.map((x, index) => {
-                  if (x.isVNFT) {
-                      return (<NFT className={styles.card} item={x} key={index} isListing={true} account={props.account} />);
-                  }
-                  else {
-                      return (<Pack className={styles.card} item={x} key={index} isListing={true} account={props.account}/>);
-                  }
+              {/*{JSON.stringify(filteredNFTs[0].price)}*/}
+              {(prices === "Most to Least Expensive") ? <div className={styles.list}>
+              {[].concat(filteredNFTs)
+                  .sort((a, b) => a.price < b.price ? 1 : -1).map((x, index) => {
+                      if (x.price <= (values[0] * 1000000000000000000)) {
+                          if (x.isVNFT) {
+                              return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                           account={props.account}/>);
+                          } else {
+                              return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                            account={props.account}/>);
+                          }
+                      }
               })}
-            </div>
+            </div> : <div>{(prices === "Least to Most Expensive") ? <div className={styles.list}>
+                  {[].concat(filteredNFTs)
+                      .sort((a, b) => a.price > b.price ? 1 : -1).map((x, index) => {
+                          if (x.price <= (values[0] * 1000000000000000000)) {
+                              if (x.isVNFT) {
+                                  return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                               account={props.account}/>);
+                              } else {
+                                  return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                                account={props.account}/>);
+                              }
+                          }
+                  })}
+              </div> : <div className={styles.list}>
+                  {filteredNFTs.map((x, index) => {
+                      if (x.price <= (values[0] * 1000000000000000000)) {
+                          if (x.isVNFT) {
+                              return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                           account={props.account}/>);
+                          } else {
+                              return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                            account={props.account}/>);
+                          }
+                      }
+                  })}
+              </div>} </div> }
             <div className={styles.btns}>
               <button className={cn("button-stroke", styles.button)}>
                 <span>Load more</span>

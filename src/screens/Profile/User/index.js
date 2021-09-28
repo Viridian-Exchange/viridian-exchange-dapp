@@ -11,6 +11,7 @@ import vNFTJSON from "../../../abis/ViridianNFT.json";
 import Web3 from "web3";
 // import { isStepDivisible } from "react-range/lib/utils";
 import veJSON from '../../../abis/ViridianExchange.json';
+import ReactTooltip from "react-tooltip";
 
 const shareUrlFacebook = "https://ui8.net";
 const shareUrlTwitter = "https://ui8.net";
