@@ -6,6 +6,7 @@ import Icon from "../../components/Icon";
 import Card from "../../components/Card";
 import Dropdown from "../../components/Dropdown";
 import VEJSON from '../../abis/ViridianExchange.json';
+import { useLocation, useHistory } from "react-router-dom";
 import Web3 from "web3";
 // data
 import { bids } from "../../mocks/bids";
@@ -33,10 +34,13 @@ const Search = (props) => {
   const [color, setColor] = useState(colorOptions[0]);
   const [creator, setCreator] = useState(creatorOptions[0]);
   const [prices, setPrices] = useState(colorOptions[0]);
+  const [filteredNFTs, setFilteredNFTs] = useState([]);
 
   const [search, setSearch] = useState("");
 
   const [values, setValues] = useState([5]);
+
+  const location = useLocation();
 
   const options = {
         // isCaseSensitive: false,
@@ -52,13 +56,55 @@ const Search = (props) => {
         // ignoreLocation: false,
         // ignoreFieldNorm: false,
         keys: [
-            "cardName",
-            "cardNum",
-            "grade"
+            "uri.name",
+            "uri.year",
+            "uri.grade",
+            "uri.set",
+            "uri.grade",
+            "id"
         ]
     };
 
-    const fuse = new Fuse(props.nfts, options);
+
+
+    useEffect(async () => {
+        if(location.search) {
+            if (location.search.split('=')[1] !== search) {
+                await setSearch(location.search.split('=')[1]);
+            }
+
+            //alert(location.search.split('=')[1])
+
+            if (props.nfts) {
+                const fuse = new Fuse(props.nfts, options);
+
+                //alert(JSON.stringify(props.nfts));
+
+                //alert(search);
+
+                const result = fuse.search(search);
+
+                //alert("RES: " + JSON.stringify(result));
+
+                let tempNFTs = [];
+
+                result.map((item) => {
+                    tempNFTs.push(item.item);
+                });
+
+                //alert("TNFT: " + JSON.stringify(tempNFTs));
+
+
+                setFilteredNFTs(tempNFTs);
+            }
+
+        }
+        else {
+            await setFilteredNFTs(props.nfts);
+
+            //alert(filteredNFTs)
+        }
+    }, [search, props.nfts]);
 
   const handleSubmit = (e) => {
     alert();
@@ -230,7 +276,7 @@ const Search = (props) => {
           </div>
           <div className={styles.wrapper}>
             <div className={styles.list}>
-              {props.nfts.map((x, index) => {
+              {filteredNFTs.map((x, index) => {
                   if (x.isVNFT) {
                       return (<NFT className={styles.card} item={x} key={index} isListing={true} account={props.account} />);
                   }
