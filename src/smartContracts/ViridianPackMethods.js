@@ -78,7 +78,7 @@ export async function isApprovedForAll(owner, operator) {
     return await vNFTABI.methods.isApprovedForAll(owner, operator).call();
 }
 
-export async function safeTransferFrom(from, to, tokenId) {
+export async function safeTransferPackFrom(from, to, tokenId) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.dev_contract_addresses.vp_contract;
 
@@ -87,7 +87,7 @@ export async function safeTransferFrom(from, to, tokenId) {
     return await vNFTABI.methods.safeTransferFrom(from, to, tokenId).send({from: from});
 }
 
-export async function burn(from, tokenId) {
+export async function burnPack(from, tokenId) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.dev_contract_addresses.vp_contract;
 

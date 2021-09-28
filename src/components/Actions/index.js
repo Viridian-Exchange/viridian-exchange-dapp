@@ -9,7 +9,7 @@ import Report from "../Report";
 import Icon from "../Icon";
 import Modal from "../../components/Modal";
 
-const Actions = ({ className, id, tokenId, account, owner, isListing }) => {
+const Actions = ({ className, id, tokenId, account, owner, isListing, isPack }) => {
   const [visible, setVisible] = useState(false);
   const [visibleModalTransfer, setVisibleModalTransfer] = useState(false);
   const [visibleModalRemoveSale, setVisibleModalRemoveSale] = useState(false);
@@ -21,6 +21,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing }) => {
     if(account.toLowerCase() === owner.toLowerCase()) {
         if (isListing) {
             items = [
+                //TODO: Add visibleModalChangePrice
                 {
                     title: "Change price",
                     icon: "coin",
@@ -103,25 +104,25 @@ const Actions = ({ className, id, tokenId, account, owner, isListing }) => {
         visible={visibleModalTransfer}
         onClose={() => setVisibleModalTransfer(false)}
       >
-        <Transfer tokenId={tokenId} account={account} setVisibleModalTransfer={setVisibleModalTransfer} />
+        <Transfer tokenId={tokenId} account={account} setVisibleModalTransfer={setVisibleModalTransfer} isPack={isPack} />
       </Modal>
       <Modal
         visible={visibleModalRemoveSale}
         onClose={() => setVisibleModalRemoveSale(false)}
       >
-        <RemoveSale id={id} account={account} />
+        <RemoveSale id={id} account={account} isPack={isPack} />
       </Modal>
       <Modal
         visible={visibleModalBurn}
         onClose={() => setVisibleModalBurn(false)}
       >
-        <Burn tokenId={tokenId} account={account} />
+        <Burn tokenId={tokenId} account={account} isPack={isPack} />
       </Modal>
       <Modal
         visible={visibleModalReport}
         onClose={() => setVisibleModalReport(false)}
       >
-        <Report tokenId={tokenId} id={id} account={account} />
+        <Report tokenId={tokenId} id={id} account={account} isPack={isPack} />
       </Modal>
     </>
   );

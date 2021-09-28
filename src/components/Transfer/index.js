@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import cn from "classnames";
 import styles from "./Transfer.module.sass";
 import {safeTransferFrom} from "../../smartContracts/ViridianNFTMethods";
+import {safeTransferPackFrom} from "../../smartContracts/ViridianPackMethods";
 
-const Transfer = ({ className, id, tokenId, account, setVisibleModalTransfer }) => {
+const Transfer = ({ className, id, tokenId, account, setVisibleModalTransfer, isPack }) => {
   const [to, setTo] = useState("");
+
 
   return (
     <div className={cn(className, styles.transfer)}>
@@ -24,7 +26,8 @@ const Transfer = ({ className, id, tokenId, account, setVisibleModalTransfer }) 
       </div>
       <div className={styles.btns}>
           {account + " " + to + " " + tokenId}
-        <button onClick={async () => await safeTransferFrom(account, to, tokenId)} className={cn("button", styles.button)}>Continue</button>
+          {isPack ? <button onClick={async () => await safeTransferFrom(account, to, tokenId)} className={cn("button", styles.button)}>Continue</button> :
+              <button onClick={async () => await safeTransferPackFrom(account, to, tokenId)} className={cn("button", styles.button)}>Continue</button>}
         <button onClick={() => setVisibleModalTransfer(false)} className={cn("button-stroke", styles.button)}>Cancel</button>
       </div>
     </div>
