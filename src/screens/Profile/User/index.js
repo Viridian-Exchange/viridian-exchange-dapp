@@ -24,11 +24,12 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 // Get current user OBJ from using abi.getUserFromAddress, and set this to userInfo const
 //
 
-const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurrentUser, otherUserInfo, setUserInfo}) => {
+const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurrentUser, otherUserInfo, setUserInfo, setOtherUserInfo, followed, setFollowed}) => {
   const [visible, setVisible] = useState(false);
   const [visibleShare, setVisibleShare] = useState(false);
   const [visibleModalReport, setVisibleModalReport] = useState(false);
   const [following, setFollowing] = useState([]);
+  const [followers, setFollowers] = useState([]);
 
   const shortenAccount = () => {
     if (account) {
@@ -38,13 +39,9 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
 
   function checkFollowing() {
     if (!isCurrentUser) {
-      alert("yes");
       if (curUserInfo) {
-        alert("ok");
         if (curUserInfo.following) {
-          alert('following exists');
           if (curUserInfo.following.includes(account)) {
-            alert("set visible true");
             setVisible(true);
             return true;
           }
@@ -61,14 +58,42 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
 
   useEffect(async() => {
     checkFollowing();
-    alert("useeffect called");
+    alert(JSON.stringify(otherUserInfo));
 
     if (following.includes(account)) {
       alert("this should be sending patch with added user")
       let res = await HandleAddFollowing(setUserInfo, curUserInfo, following);
     }
-  }, [following, curUserInfo])
 
+    if (followers.includes(curUser)) {
+      alert("followers: " + followers);
+      let res = await HandleAddFollower(otherUserInfo, followers);
+      alert(JSON.stringify("res"+ JSON.stringify(res)));
+    }
+
+
+    // if (curUserInfo) {
+    //   if (curUserInfo.following && curUserInfo.followers) {
+    //     if (curUserInfo.following.length > following.length) {
+    //       if (curUserInfo.followers.length > followers.length) {
+    //         alert('should be unfollowing here?')
+    //         await HandleAddFollowing(setUserInfo, curUserInfo, following);
+    //         await HandleAddFollower(otherUserInfo, followers);
+    //       }
+    //     }
+    //   }
+    // }
+  }, [curUserInfo, followers])
+  //followers, curUserInfo
+
+  async function handleFollowers() {
+    if (!followers.includes(curUserInfo.username)) {
+      let followercopy = [...otherUserInfo.followers];
+      await followercopy.push(curUserInfo.username);
+      await setFollowers(followercopy);
+    }
+    //TODO handle case when followers removed
+  }
 
   async function handleFollowing() {
     // THIS WILL ONLY WORK IF IT RUNS ONLY WHEN ON SOMEONE ELSES PAGE
@@ -77,7 +102,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
       let followcopy = [...curUserInfo.following];
       await followcopy.push(account);
       await setFollowing(followcopy);
-
+      await handleFollowers();
 
       // let followers = otherUserInfo.followers;
       // followers.push(curUserInfo.username)
@@ -98,11 +123,31 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
       //the current page users follower/following should be a state variable set by filtering eh?
     }
     else {
-      let followcopy = [...curUserInfo.following];
-      followcopy = followcopy.filter(function( obj ) {
-        return obj !== account;
-      });
-      await setFollowing(followcopy).then(async () => await HandleAddFollowing(setUserInfo, curUserInfo, following));
+      // let followcopy = [...curUserInfo.following];
+      // followcopy = followcopy.filter(function( obj ) {
+      //   return obj !== account;
+      // });
+      // await setFollowing(followcopy);
+
+      let followCopy = [...following];
+      const index = followCopy.indexOf(account);
+      if (index > -1) {
+        followCopy.splice(index, 1);
+      }
+
+      let followerCopy = [...followers];
+      const indexe = followerCopy.indexOf(curUser);
+      if (indexe > -1) {
+        followerCopy.splice(indexe, 1);
+      }
+      await HandleAddFollowing(setUserInfo, userInfo, followCopy);
+      await HandleAddFollower(otherUserInfo, followerCopy);
+
+
+      // let followerscopy = followcopy.filter(function( obj ) {
+      //   return obj.username !== curUser;
+      // });
+      // await setFollowers(followerscopy);
     }
   }
 
@@ -128,7 +173,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
           <div className={cn(styles.user, className)}>
             {/*{JSON.stringify(userInfo)}*/}
             <div className={styles.avatar}>
-              <img src={otherUserInfo.profilePhotoURL} alt="Avatar"/>
+              <img src={otherUserInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar"/>
             </div>
             <div className={styles.name}>{otherUserInfo.displayName}</div>
             <CopyToClipboard text={account}
@@ -162,7 +207,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
                         styles.button
                     )}
                     onClick={async () => {
-                      await handleFollowing().then(setVisible(!visible));
+                      {await handleFollowing().then(setVisible(!visible)); setFollowed(!followed);}
                     }}
                 >
                   <span>Follow</span>
@@ -237,7 +282,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
           <div className={cn(styles.user, className)}>
             {/*{JSON.stringify(userInfo)}*/}
             <div className={styles.avatar}>
-              <img src={userInfo.profilePhotoURL} alt="Avatar"/>
+              <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar"/>
             </div>
             <div className={styles.name}>{userInfo.displayName}</div>
             <CopyToClipboard text={account}

@@ -8,24 +8,29 @@ import Notification from "./Notification";
 import User from "./User";
 import Fuse from "fuse.js";
 
-const nav = [
-  {
-    url: "/search01",
-    title: "Discover",
-  },
-  {
-    url: "/faq",
-    title: "How it works",
-  },
-  {
-    url: "/BuyVEXT",
-    title: "Buy $VEXT",
-  },
-  {
-    url: "/profile",
-    title: "Profile",
-  },
-];
+// const nav = [
+//   {
+//     url: "/search01",
+//     title: "Discover",
+//   },
+//   {
+//     url: "/about",
+//     title: "About",
+//   },
+//   {
+//     url: "/faq",
+//     title: "FAQ",
+//   },
+//
+//   {
+//     url: "/BuyVEXT",
+//     title: "Buy $VEXT",
+//   },
+//   {
+//     url: "/profile",
+//     title: "Profile",
+//   },
+// ];
 
 const Headers = (props) => {
   const [visibleNav, setVisibleNav] = useState(false);
@@ -122,16 +127,41 @@ const Headers = (props) => {
         </Link>
         <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
           <nav className={styles.nav}>
-            {nav.map((x, index) => (
-              <Link
+            <Link
+                className={styles.link}
+                activeClassName={styles.active}
+                to="/search01"
+                key={0}
+            >
+              Discover
+            </Link>
+            <a
                 className={styles.link}
                 // activeClassName={styles.active}
-                to={x.url}
-                key={index}
-              >
-                {x.title}
-              </Link>
-            ))}
+                href="https://viridianexchange.com"
+                // key={0}
+            >
+              About
+            </a>
+            <Link
+                className={styles.link}
+                activeClassName={styles.active}
+                to="/faq"
+                key={2}
+            >
+              Help
+            </Link>
+
+            {/*{nav.map((x, index) => (*/}
+            {/*  <a*/}
+            {/*    className={styles.link}*/}
+            {/*    // activeClassName={styles.active}*/}
+            {/*    href="https://viridianexchange.com"*/}
+            {/*    // key={index}*/}
+            {/*  >*/}
+            {/*    {x.title}*/}
+            {/*  </a>*/}
+            {/*))}*/}
           </nav>
           <form
             className={styles.search}

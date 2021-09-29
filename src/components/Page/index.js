@@ -50,7 +50,9 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                               //setOwnedNFTs: props.setOwnedNFTs,
                               users: users,
                               curAccount: savedPath.split("/")[2],
-                              profilePhotoURL: x.profilePhotoURL, bio: x.bio, username: x.username, account: savedPath.split("/")[2], displayName: x.displayName
+                              coverPhotoURL: x.coverPhotoURL, twitter: x.twitter,
+                              profilePhotoURL: x.profilePhotoURL, bio: x.bio, username: x.username, website: x.website, account: savedPath.split("/")[2], displayName: x.displayName,
+                              following: x.following, followers: x.followers, likes: x.likes
                           });
                       }
                   });
@@ -142,6 +144,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
         {JSON.stringify(nfts)}
       <Header nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
       <div className={styles.inner}>{children}</div>
+        <div className={styles.inner}>{JSON.stringify(users)}</div>
       <Footer />
     </div>
   );
