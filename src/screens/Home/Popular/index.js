@@ -276,7 +276,7 @@ const Popular = (props) => {
                           //setOwnedNFTs: props.setOwnedNFTs,
                           users: props.users,
 
-                        curAccount: props.account, profilePhotoURL: x.profilePhotoURL, bio: x.bio,
+                        curAccount: props.account, profilePhotoURL: x.profilePhotoURL, bio: x.bio, coverPhotoURL: x.coverPhotoURL, website: x.website, twitter: x.twitter,
                           username: x.username, account: x.username, displayName: x.displayName, following: x.following, followers: x.followers, likes: x.likes} }}>
                         <Icon name="arrow-expand" size="24" />
                       </Link>

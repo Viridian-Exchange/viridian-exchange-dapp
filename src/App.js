@@ -600,8 +600,8 @@ function App() {
           exact
           path="/profile-edit"
           render={() => (
-            <Page nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
+            <Page nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo} users = {users}>
+              <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo} users ={users}/>
             </Page>
           )}
         />

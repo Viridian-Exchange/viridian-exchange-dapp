@@ -184,13 +184,13 @@ export const HandleAddFollowing = async (setUserInfo, userInfo, following) => {
     }
 };
 
-export const HandleAddFollower = async (setUserInfo, userInfo, followers) => {
+export const HandleAddFollower = async (userInfo, followers) => {
 
     // add call to AWS API Gateway update user endpoint here
     try {
 
         const params = {
-            "username": userInfo.address,
+            "username": userInfo.username,
             "displayName": userInfo.displayName,
             "bio": userInfo.bio,
             "website": userInfo.website,
@@ -216,10 +216,10 @@ export const HandleAddFollower = async (setUserInfo, userInfo, followers) => {
         //     return res;
         // });
 
-        let res = await axios.patch(`${config.api.invokeUrl}/user/${userInfo.address}`, params);
-        // if (res.data.Item) {
-        //     await setUserInfo(res.data.Item);
-        // }
+        let res = await axios.patch(`${config.api.invokeUrl}/user/${userInfo.username}`, params);
+        if (res.data.Item) {
+            // await setUserInfo(res.data.Item);
+        }
         params['username'] = userInfo.address
         // setUserInfo(params);
         return res;
@@ -229,6 +229,53 @@ export const HandleAddFollower = async (setUserInfo, userInfo, followers) => {
         console.log(`Error updating user: ${err}`);
     }
 };
+
+export const HandleAddLikes = async (setUserInfo, userInfo, likes) => {
+
+    // add call to AWS API Gateway update user endpoint here
+    try {
+
+        const params = {
+            "username": userInfo.username,
+            "displayName": userInfo.displayName,
+            "bio": userInfo.bio,
+            "website": userInfo.website,
+            "twitter": userInfo.twitter,
+            "profilePhotoURL": userInfo.profilePhotoURL,
+            "coverPhotoURL": userInfo.coverPhotoURL,
+            "following": userInfo.following,
+            "followers": userInfo.followers,
+            "likes": likes
+        };
+        //
+        // alert(JSON.stringify(params));
+        //alert(JSON.stringify(params));
+        // await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
+        //     //alert(JSON.parse(res.config.data));
+        //     //TODO: Figure out why this causes problems!!!
+        //
+        //     if (res.data.Item) {
+        //         await setUserInfo(res.data.Item);
+        //     }
+        //     params['username'] = address
+        //     setUserInfo(params);
+        //     return res;
+        // });
+
+        let res = await axios.patch(`${config.api.invokeUrl}/user/${userInfo.username}`, params);
+        if (res.data.Item) {
+            await setUserInfo(res.data.Item);
+        }
+        params['username'] = userInfo.address
+        setUserInfo(params);
+        return res;
+
+
+    }catch (err) {
+        console.log(`Error updating user: ${err}`);
+    }
+};
+
 
 export const HandleDeleteUser = async (username, event) => {
     const user = {

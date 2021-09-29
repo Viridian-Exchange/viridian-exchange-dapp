@@ -220,21 +220,52 @@ const Profile = (props) => {
   const [followed, setFollowed] = useState(false);
 
 
+
   // TODO: THIS WILL SET DIFFERENTLY DEPENDING ON WHETHER ITS ON CURRENT USER PROFILE OR ANOTHER USERS PROFILE PAGE
   const [followersInfo, setFollowersInfo] = useState([]);
+  //TODO: do current followers info
   const [followingInfo, setFollowingInfo] = useState([]);
   const [initialLoaded, setInitialLoaded] = useState(false);
 
   const location = useLocation();
   const history = useHistory();
 
-  async function getFollowers() {
+  async function getFollowers(isOtherAccount) {
+    if (!isOtherAccount) {
+      let userList = props.users;
+      let followers = props.userInfo.followers;
+
+      if (followers) {
+        userList.reduce((acc, val) => {
+          if (!!followers.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowersInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
+    else {
+      let userList = props.users;
+      let followers = location.state.followers;
+      console.log("Following: " + following);
+
+      if (followers) {
+        userList.reduce((acc, val) => {
+          if (!!followers.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowersInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
 
   }
 
 
-  async function getFollowing(otherAccount) {
-    if (!otherAccount) {
+  async function getFollowing(isOtherAccount) {
+    if (!isOtherAccount) {
       let userList = props.users;
       let following = props.userInfo.following;
       console.log("Following: " + following);
@@ -396,6 +427,12 @@ const Profile = (props) => {
     if (location) {
       if (location.state.account === props.account) {
         getFollowing(false);
+        getFollowers(false);
+      }
+      else {
+        //TODO: SEE IF THIS WORKS
+        getFollowing(true);
+        getFollowers(true);
       }
     }
   }, [props.ownedNFTs, props.nfts, props.ownedPacks, location]);
@@ -502,7 +539,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
+                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() +")"
                   }}
               >
                 <div className={cn("container", styles.container)}>
@@ -516,7 +553,7 @@ const Profile = (props) => {
                     </button>
                     <Link
                         className={cn("button-stroke button-small", styles.button)}
-                        to="/profile-edit"
+                        to={{pathname: "/profile-edit", state: {userInfo: props.userInfo}}}
                     >
                       <span>Edit profile</span>
                       <Icon name="image" size="16"/>
@@ -601,7 +638,7 @@ const Profile = (props) => {
                             <Followers className={styles.followers} items={followingInfo}/>
                         )}
                         {activeIndex === 6 && (
-                            <Followers className={styles.followers} items={followers}/>
+                            <Followers className={styles.followers} items={followersInfo}/>
                         )}
                       </div>
                     </div>
@@ -627,7 +664,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
+                    backgroundImage: "url(" + location.state.coverPhotoURL + "?" + new Date().getTime() +")"
                   }}
               >
                 <div className={cn("container", styles.container)}>
@@ -665,8 +702,20 @@ const Profile = (props) => {
               <div className={styles.body}>
                 {/*{JSON.stringify(location.state)}*/}
                 <div className={cn("container", styles.container)}>
-                  <User className={styles.user} item={socials} userInfo = {props.userInfo} curUser={props.account} curUserInfo = {props.userInfo} account={location.state.account}
-                        otherUserInfo={location.state} isCurrentUser={false} setUserInfo={props.setUserInfo}/>
+                  <User className={styles.user} item={socials} userInfo = {props.userInfo} curUser={location.state.curAccount} curUserInfo = {props.userInfo} account={location.state.account}
+                        otherUserInfo={{
+                          username: location.state.account,
+                          displayName: location.state.displayName,
+                          bio: location.state.bio,
+                          following: location.state.following,
+                          followers: location.state.followers,
+                          likes: location.state.likes,
+                          profilePhotoURL: location.state.profilePhotoURL,
+                          coverPhotoURL: location.state.coverPhotoURL,
+                          twitter: location.state.twitter,
+                          website: location.state.website
+                        }}
+                        isCurrentUser={false} setUserInfo={props.setUserInfo} followed = {followed} setFollowed = {setFollowed}/>
                   <div className={styles.wrapper}>
                     <div className={styles.nav}>
                       {navLinks.map((x, index) => {
@@ -709,7 +758,7 @@ const Profile = (props) => {
                             <Followers className={styles.followers} items={followingInfo}/>
                         )}
                         {activeIndex === 6 && (
-                            <Followers className={styles.followers} items={followers}/>
+                            <Followers className={styles.followers} items={followersInfo} userInfo = {props.userInfo} followed = {followed}/>
                         )}
                       </div>
                     </div>
