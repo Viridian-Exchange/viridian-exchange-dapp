@@ -258,6 +258,7 @@ function App() {
         setOwnedNfts(nfts);
     }
 
+
     async function getOwnedPacks() {
         //alert('gettingOwnedNFTs');
 
@@ -575,7 +576,7 @@ function App() {
           path="/profile-edit"
           render={() => (
             <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo}/>
+              <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo} users = {users}/>
             </Page>
           )}
         />

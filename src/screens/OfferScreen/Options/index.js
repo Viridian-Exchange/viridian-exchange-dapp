@@ -7,14 +7,6 @@ import Actions from "../../../components/Actions";
 const Options = ({ className, items, id, account }) => {
   return (
     <div className={cn(styles.options, className)}>
-      <button className={cn("button-circle-stroke", styles.button)}>
-        <Icon name="share" size="24" />
-      </button>
-      <button
-        className={cn("button-circle-stroke", styles.button, styles.favorite)}
-      >
-        <Icon name="heart-fill" size="24" />
-      </button>
       <Actions className={styles.actions} id={id} account={account} />
     </div>
   );

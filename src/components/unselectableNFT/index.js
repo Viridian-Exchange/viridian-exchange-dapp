@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
 
+
 const NFT = ({ className, item, account, isListing }, props) => {
   const [visible, setVisible] = useState(false);
 

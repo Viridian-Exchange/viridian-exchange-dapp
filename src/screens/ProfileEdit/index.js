@@ -66,14 +66,14 @@ const ProfileEdit = (props) => {
       alert("there is a file here!!");
       await s3Upload(files).then(async(res) => {
         setProfilePhotoURL(res);
-        await updateUser(res);
+        await updateUser(profilePhotoURL);
       });
       // await s3Upload(files).then(async () => {
       //   await updateUser();
       // });
     }
     else {
-      await updateUser(profilePhotoURL);
+      await updateUser(props.userInfo.profilePhotoURL);
     }
   };
 
@@ -81,8 +81,10 @@ const ProfileEdit = (props) => {
       let res = await HandleUpdateUser(props.setUserInfo, props.account, displayName, bio, website, twitter, profilePhotoURL,
           props.userInfo.coverPhotoURL, props.userInfo.following, props.userInfo.followers, props.userInfo.likes);
 
-      if (res.status === 204) {
-        setSuccessMessage(true);
+      if (res) {
+        if (res.status === 204) {
+          setSuccessMessage(true);
+        }
       }
       alert("Success!:" + JSON.stringify(res));
 
@@ -121,6 +123,15 @@ const ProfileEdit = (props) => {
 
 
   useEffect(async () => {
+
+    if (props.userInfo) {
+      setDisplayName(props.userInfo.displayName);
+      setBio(props.userInfo.bio);
+      setWebsite(props.userInfo.website);
+      setProfilePhotoURL(props.userInfo.profilePhotoURL);
+      setTwitter(props.userInfo.twitter);
+    }
+
     // await updateUser();
     // if (props.setUserInfo !== "{}") {
     //     alert("userinfo from fetch: "+ JSON.stringify(props.userInfo));
@@ -131,7 +142,7 @@ const ProfileEdit = (props) => {
 
     // alert(JSON.stringify(userInfo.displayName));
 
-  }, []);
+  }, [props.userInfo]);
 
 
 
@@ -205,14 +216,14 @@ const ProfileEdit = (props) => {
                       name="Name"
                       type="text"
                       onChange = {e => setDisplayName(e.target.value)}
-                      placeholder={(displayName !== "") ? displayName: "Enter your desired display name"}
+                      placeholder={(props.userInfo.displayName === "") ? "Enter your desired display name" : props.userInfo.displayName}
                       required
                     />
                     <TextArea
                       className={styles.field}
                       label="Bio"
                       name="Bio"
-                      placeholder={(bio !== "") ? bio: "About yourself in a few words"}
+                      placeholder={(props.userInfo.bio !== "") ? props.userInfo.bio: "About yourself in a few words"}
                       onChange = {e => setBio(e.target.value)}
                       required="required"
                     />
@@ -227,7 +238,7 @@ const ProfileEdit = (props) => {
                       name="Portfolio"
                       type="text"
                       onChange={e => setWebsite(e.target.value)}
-                      placeholder={(website !== "") ? website: "Enter URL"}
+                      placeholder={(props.userInfo.website !== "") ? props.userInfo.website: "Enter URL"}
                       required
                     />
                     <div className={styles.box}>

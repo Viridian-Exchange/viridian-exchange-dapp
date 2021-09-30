@@ -1,6 +1,8 @@
 {
   "name": "src",
   "version": "1.0.0",
-  "dependencies": {
+  "dependencies": {},
+  "devDependencies": {
+    "@aws-amplify/core": "^4.2.4"
   }
 }
