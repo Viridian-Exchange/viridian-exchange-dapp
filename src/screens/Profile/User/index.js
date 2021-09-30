@@ -58,7 +58,10 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
 
   useEffect(async() => {
     checkFollowing();
-    alert(JSON.stringify(otherUserInfo));
+    if (!isCurrentUser) {
+      alert(JSON.stringify(otherUserInfo));
+    }
+
 
     if (following.includes(account)) {
       alert("this should be sending patch with added user")

@@ -14,7 +14,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, curProfileP
                 <div className={styles.list}>
                     {nfts.map((x, index) => [
                         // <div>{x.uri.image}</div>,
-                        <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>
+                        <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account} userInfo = {props.userInfo}/>
                     ])}
                 </div>
                 <Loader className={styles.loader}/>
