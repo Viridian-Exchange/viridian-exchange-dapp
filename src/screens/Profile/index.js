@@ -216,10 +216,87 @@ const Profile = (props) => {
   const [otherNFTs, setOtherNFTs] = useState([]);
   const [files, setFiles] = useState([]);
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
+  const [isCurrentUser, setIsCurrentUser] = useState(false);
+  const [followed, setFollowed] = useState(false);
+
+
+
+  // TODO: THIS WILL SET DIFFERENTLY DEPENDING ON WHETHER ITS ON CURRENT USER PROFILE OR ANOTHER USERS PROFILE PAGE
+  const [followersInfo, setFollowersInfo] = useState([]);
+  //TODO: do current followers info
+  const [followingInfo, setFollowingInfo] = useState([]);
   const [initialLoaded, setInitialLoaded] = useState(false);
 
   const location = useLocation();
   const history = useHistory();
+
+  async function getFollowers(isOtherAccount) {
+    if (!isOtherAccount) {
+      let userList = props.users;
+      let followers = props.userInfo.followers;
+
+      if (followers) {
+        userList.reduce((acc, val) => {
+          if (!!followers.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowersInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
+    else {
+      let userList = props.users;
+      let followers = location.state.followers;
+      console.log("Following: " + following);
+
+      if (followers) {
+        userList.reduce((acc, val) => {
+          if (!!followers.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowersInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
+
+  }
+
+
+  async function getFollowing(isOtherAccount) {
+    if (!isOtherAccount) {
+      let userList = props.users;
+      let following = props.userInfo.following;
+      console.log("Following: " + following);
+
+      if (following) {
+        userList.reduce((acc, val) => {
+          if (!!following.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowingInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
+    else {
+      let userList = props.users;
+      let following = location.state.following;
+      console.log("Following: " + following);
+
+      if (following) {
+        userList.reduce((acc, val) => {
+          if (!!following.find(user => user === val.username)) {
+            acc.push(val);
+          }
+          setFollowingInfo(acc);
+          return acc;
+        }, [])
+      }
+    }
+  }
+
 
   async function getOtherOwnedNFTs() {
     //alert('gettingOwnedNFTs');
@@ -347,6 +424,17 @@ const Profile = (props) => {
         props.setOwnedPacks(packsCopy);
       }
     }
+    if (location) {
+      if (location.state.account === props.account) {
+        getFollowing(false);
+        getFollowers(false);
+      }
+      else {
+        //TODO: SEE IF THIS WORKS
+        getFollowing(true);
+        getFollowers(true);
+      }
+    }
   }, [props.ownedNFTs, props.nfts, props.ownedPacks, location]);
 
 
@@ -451,7 +539,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + ")"
+                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() +")"
                   }}
               >
                 <div className={cn("container", styles.container)}>
@@ -465,7 +553,7 @@ const Profile = (props) => {
                     </button>
                     <Link
                         className={cn("button-stroke button-small", styles.button)}
-                        to="/profile-edit"
+                        to={{pathname: "/profile-edit", state: {userInfo: props.userInfo}}}
                     >
                       <span>Edit profile</span>
                       <Icon name="image" size="16"/>
@@ -507,7 +595,7 @@ const Profile = (props) => {
                 {/*{JSON.stringify(props)}*/}
                 {/*{JSON.stringify(initialLoaded)}*/}
                 <div className={cn("container", styles.container)}>
-                  <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo}/>
+                  <User className={styles.user} item={socials} account={props.account} userInfo={props.userInfo} isCurrentUser={true}/>
                   <div className={styles.wrapper}>
                     <div className={styles.nav}>
                       {navLinks.map((x, index) => (
@@ -527,30 +615,30 @@ const Profile = (props) => {
                       <div className={styles.item}>
                         {activeIndex === 0 && (
                             <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}
-                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo} />
                         )}
                         {activeIndex === 1 && (
                             <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}
-                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 2 && [
                           // <div>{JSON.stringify(ownedListings)}</div>,
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}
-                                 curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                                 curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 3 && [
-                          // <div>{JSON.stringify(props.users)}</div>,
+                          //<div>{JSON.stringify(offers)}</div>,
                             <Items users={props.users} class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
-                            curDisplayName={props.userInfo.displayName} />
+                            curDisplayName={props.userInfo.displayName} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
-                            <Items class={styles.items} items={[]}/>
+                            <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 5 && (
-                            <Followers className={styles.followers} items={following}/>
+                            <Followers className={styles.followers} items={followingInfo}/>
                         )}
                         {activeIndex === 6 && (
-                            <Followers className={styles.followers} items={followers}/>
+                            <Followers className={styles.followers} items={followersInfo}/>
                         )}
                       </div>
                     </div>
@@ -578,7 +666,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + `props.userInfo.coverPhotoURL` + ")"
+                    backgroundImage: "url(" + location.state.coverPhotoURL + "?" + new Date().getTime() +")"
                   }}
               >
                 <div className={cn("container", styles.container)}>
@@ -616,8 +704,20 @@ const Profile = (props) => {
               <div className={styles.body}>
                 {/*{JSON.stringify(location.state)}*/}
                 <div className={cn("container", styles.container)}>
-                  <User className={styles.user} item={socials} curUser={props.account} account={location.state.account}
-                        userInfo={location.state}/>
+                  <User className={styles.user} item={socials} userInfo = {props.userInfo} curUser={location.state.curAccount} curUserInfo = {props.userInfo} account={location.state.account}
+                        otherUserInfo={{
+                          username: location.state.account,
+                          displayName: location.state.displayName,
+                          bio: location.state.bio,
+                          following: location.state.following,
+                          followers: location.state.followers,
+                          likes: location.state.likes,
+                          profilePhotoURL: location.state.profilePhotoURL,
+                          coverPhotoURL: location.state.coverPhotoURL,
+                          twitter: location.state.twitter,
+                          website: location.state.website
+                        }}
+                        isCurrentUser={false} setUserInfo={props.setUserInfo} followed = {followed} setFollowed = {setFollowed}/>
                   <div className={styles.wrapper}>
                     <div className={styles.nav}>
                       {navLinks.map((x, index) => {
@@ -641,26 +741,26 @@ const Profile = (props) => {
                       {/*<div>{JSON.stringify(location.state.ownedNFTs)}</div>*/}
                       <div className={styles.item}>
                         {activeIndex === 0 && [
-                            <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account}/>
+                            <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 1 && [
-                          <Items class={styles.items} nfts={[]} isListing={true} account={props.account}/>
+                          <Items class={styles.items} nfts={[]} isListing={true} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 2 && [
-                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 3 && [
                           // <div>HIHIHI{"USRS: " + JSON.stringify(props.users)}</div>,
-                          <Items class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} />
+                          <Items class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
-                            <Items class={styles.items} items={[]}/>
+                            <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 5 && (
-                            <Followers className={styles.followers} items={following}/>
+                            <Followers className={styles.followers} items={followingInfo}/>
                         )}
                         {activeIndex === 6 && (
-                            <Followers className={styles.followers} items={followers}/>
+                            <Followers className={styles.followers} items={followersInfo} userInfo = {props.userInfo} followed = {followed}/>
                         )}
                       </div>
                     </div>

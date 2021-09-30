@@ -12,7 +12,8 @@ yarn-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 local-dev-config.*
-src/local-dev-config.js
+src/local-dev-config.*
+src/abis
 
 
 # Diagnostic reports (https://nodejs.org/api/report.html)

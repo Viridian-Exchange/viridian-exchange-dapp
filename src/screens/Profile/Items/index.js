@@ -18,15 +18,15 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                         if (x.isVNFT) {
                         // <div>{x.uri.image}</div>,
                             return (<NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}
-                                 curProfilePhoto={curProfilePhoto}/>);
+                                 curProfilePhoto={curProfilePhoto} userInfo = {props.userInfo}/>);
                         }
                         else if (x.isVNFT === false) {
                             return (<Pack className={styles.card} item={x} key={index} isListing={isListing} account={account}
-                                         curProfilePhoto={curProfilePhoto}/>);
+                                         curProfilePhoto={curProfilePhoto} userInfo = {props.userInfo}/>);
                         }
                         else {
                             return (<NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}
-                                         curProfilePhoto={curProfilePhoto}/>);
+                                         curProfilePhoto={curProfilePhoto} userInfo = {props.userInfo}/>);
                         }
                     })}
                 </div>
