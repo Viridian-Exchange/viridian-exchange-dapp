@@ -297,7 +297,7 @@ const Profile = (props) => {
     setOwnedListings(ol);
   }
 
-  useEffect(async() => {
+  useEffect(async () => {
     if (location.state) {
     console.log(JSON.stringify(props.nfts));
     getOwnedListings();
@@ -356,7 +356,7 @@ const Profile = (props) => {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
+    await console.log("ABIMETHODSPROF: " + tokenId);
     let owner
     if (!isPack) {
       owner = vNFTABI.methods.ownerOf(tokenId).call();
@@ -447,7 +447,7 @@ const Profile = (props) => {
         return (
             <div className={styles.profile}>
               {/*{JSON.stringify(props.cameFromHome)}*/}
-              {/*{JSON.stringify(props.ownedNFTs)}*/}
+              {JSON.stringify(props.ownedNFTs)}
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
@@ -534,14 +534,14 @@ const Profile = (props) => {
                                    curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         )}
                         {activeIndex === 2 && [
-                          <div>{JSON.stringify(ownedListings)}</div>,
+                          // <div>{JSON.stringify(ownedListings)}</div>,
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}
                                  curProfilePhoto = {props.userInfo.profilePhotoURL}/>
                         ]}
                         {activeIndex === 3 && [
-                          //<div>{JSON.stringify(offers)}</div>,
-                            <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
-                            curDisplayName={props.userInfo.displayName}/>
+                          // <div>{JSON.stringify(props.users)}</div>,
+                            <Items users={props.users} class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
+                            curDisplayName={props.userInfo.displayName} />
                         ]}
                         {activeIndex === 4 && (
                             <Items class={styles.items} items={[]}/>
@@ -562,13 +562,15 @@ const Profile = (props) => {
       } else {
         return (
             <div className={styles.profile}>
+              {JSON.stringify(props.ownedNFTs)}
               <Modal
                   visible={visibleOfferBuilder}
                   onClose={() => setVisibleOfferBuilder(false)}
                   width="100ex"
+                  style={{minWidth: '200ex'}}
               >
                 <div>
-                  <OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNFTs={otherNFTs} account={location.state.curAccount}
+                  <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNFTs={otherNFTs} account={props.account} curAccount={location.state.curAccount}
                   to={location.state.account}/>
                   {/*<OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNfts={otherNFTs} account={props.account}/>*/}
                 </div>
@@ -648,8 +650,8 @@ const Profile = (props) => {
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
                         ]}
                         {activeIndex === 3 && [
-                          // <div>{JSON.stringify(offers)}</div>,
-                          <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} />
+                          // <div>HIHIHI{"USRS: " + JSON.stringify(props.users)}</div>,
+                          <Items class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} />
                         ]}
                         {activeIndex === 4 && (
                             <Items class={styles.items} items={[]}/>

@@ -41,22 +41,26 @@ export async function tokenPackURI(tokenId) {
 export async function ownerOfPack(tokenId) {
     const vNFTContractAddress = config.dev_contract_addresses.vp_contract;
 
+    console.log("THIS IS BEING CALLED")
+
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
+    await console.log("ABIMETHODS5: " + tokenId);
     let owner = await vNFTABI.methods.ownerOf(tokenId).call.request();
 
-    //alert(nft);
+    //alert(owner);
 
     return owner;
 }
 
 export async function ownerOfPackNoReq(tokenId) {
+    console.log("THIS IS BEING CALLED")
     const vNFTContractAddress = config.dev_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
+    await console.log("ABIMETHODS6: " + tokenId);
     let owner = await vNFTABI.methods.ownerOf(tokenId).call();
 
+    //alert(owner);
     //alert(nft);
 
     return owner;

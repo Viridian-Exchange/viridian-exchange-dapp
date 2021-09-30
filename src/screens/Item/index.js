@@ -107,7 +107,7 @@ const Item = (props) => {
               </video> }
             </div>
             {/*{location.state.listingId}*/}
-            <Options className={styles.options} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} isPack={location.state.isPack} />
+            <Options className={styles.options} price={location.state.price} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} isPack={location.state.isPack} />
           </div>
           <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>

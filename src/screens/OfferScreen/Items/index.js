@@ -6,14 +6,14 @@ import NFT from "../../../components/NFT";
 import Loader from "../../../components/Loader";
 import Offer from "../../../components/Offer";
 
-const Items = ({ className, items, nfts, isListing, account, offers, curProfilePhoto }, props) => {
+const Items = ({ className, items, nfts, isListing, account, offers, curProfilePhoto, otherProfilePhoto, users }, props) => {
     if (nfts) {
         return (
             <div className={cn(styles.items, className)}>
                 {/*{JSON.stringify(nfts)}*/}
                 <div className={styles.list}>
                     {nfts.map((x, index) => [
-                        // <div>{x.uri.image}</div>,
+                        <div>{x.id}</div>,
                         <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account}/>
                     ])}
                 </div>
@@ -38,7 +38,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, curProfileP
             <div className={cn(styles.items, className)}>
                 <div className={styles.list}>
                     {offers.map((x, index) => (
-                        <Offer className={styles.card} item={x} key={index} curProfilePhoto={curProfilePhoto}/>
+                        <Offer users={users} className={styles.card} item={x} key={index} curProfilePhoto={curProfilePhoto} otherProfilePhoto={otherProfilePhoto}/>
                     ))}
                 </div>
                 <Loader className={styles.loader}/>
@@ -46,7 +46,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, curProfileP
         );
     }
     else {
-        return null;
+        return "Empty";
     }
 
 };
