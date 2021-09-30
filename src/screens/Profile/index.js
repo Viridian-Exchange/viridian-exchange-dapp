@@ -298,53 +298,66 @@ const Profile = (props) => {
   }
 
   useEffect(async () => {
-    if (location.state) {
-    console.log(JSON.stringify(props.nfts));
-    getOwnedListings();
-    console.log(ownedListings);
-    await getOtherOwnedNFTs();
+    if(props.ownedNFTs[0]) {
+      if (!props.ownedNFTs[0].uri.name) {
+        if (location.state) {
+          console.log(JSON.stringify(props.nfts));
+          getOwnedListings();
+          console.log(ownedListings);
+          await getOtherOwnedNFTs();
 
-    if (!location.state) {
-      // await setInitialLoaded(true);
-      // await history.push("/");
-      // await history.push(location.pathname);
-    }
+          if (!location.state) {
+            // await setInitialLoaded(true);
+            // await history.push("/");
+            // await history.push(location.pathname);
+          }
 
 
+          //console.log('Getting owned NFTs');
+          //if (!fetchedAndParsed) {
+          //setOwnedNFTs(await getOwnedNFTs());
+          //alert(ownedNFTs);
 
-    //console.log('Getting owned NFTs');
-    //if (!fetchedAndParsed) {
-      //setOwnedNFTs(await getOwnedNFTs());
-      //alert(ownedNFTs);
+          if (otherNFTs.length > 0) {
+            for (let i = 0; i < otherNFTs.length; i++) {
+              // await ownedNFTs.forEach((nft, i) => {
+              //   extractMetadata(nft, i)
+              // });
+              //alert(JSON.stringify(ownedNFTs[i]));
+              await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
 
-      if (otherNFTs.length > 0) {
-        for (let i = 0; i < otherNFTs.length; i++) {
-          // await ownedNFTs.forEach((nft, i) => {
-          //   extractMetadata(nft, i)
-          // });
-          //alert(JSON.stringify(ownedNFTs[i]));
-          await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
+              await console.log(oNftsCopy);
+            }
 
-          await console.log(oNftsCopy);
+            //await alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
+            await setOtherNFTs(oNftsCopy);
+          }
+
+          if (props.ownedNFTs.length > 0) {
+            for (let i = 0; i < props.ownedNFTs.length; i++) {
+              await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
+            }
+
+            if (nftsCopy[0]) {
+              if (nftsCopy[0].uri.name) {
+                props.setOwnedNFTs(nftsCopy);
+              }
+            }
+          }
+
+          if (props.ownedPacks.length > 0) {
+            //alert("EXTRACT")
+            for (let i = 0; i < props.ownedPacks.length; i++) {
+              await extractMetadata(packsCopy, props.ownedPacks[i], i, true);
+            }
+
+            if (packsCopy[0]) {
+              if (packsCopy[0].uri.name) {
+                props.setOwnedPacks(packsCopy);
+              }
+            }
+          }
         }
-
-        //await alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
-        await setOtherNFTs(oNftsCopy);
-      }
-
-      if (props.ownedNFTs.length > 0) {
-        for (let i = 0; i < props.ownedNFTs.length; i++) {
-          await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
-        }
-        props.setOwnedNFTs(nftsCopy);
-      }
-
-      if (props.ownedPacks.length > 0) {
-        //alert("EXTRACT")
-        for (let i = 0; i < props.ownedPacks.length; i++) {
-          await extractMetadata(packsCopy, props.ownedPacks[i], i, true);
-        }
-        props.setOwnedPacks(packsCopy);
       }
     }
   }, [props.ownedNFTs, props.nfts, props.ownedPacks, location]);
@@ -387,6 +400,7 @@ const Profile = (props) => {
           //alert(JSON.stringify(resJson));
           const newNFT = {id: nft.id, uri: resJson, owner: owner}
           console.log(newNFT);
+
           await nftc.push(newNFT);
         }
       });
