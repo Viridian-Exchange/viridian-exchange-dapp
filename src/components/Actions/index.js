@@ -9,7 +9,7 @@ import Report from "../Report";
 import Icon from "../Icon";
 import Modal from "../../components/Modal";
 
-const Actions = ({ className, id, tokenId, account, owner, isListing, isPack }) => {
+const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, price }) => {
   const [visible, setVisible] = useState(false);
   const [visibleModalTransfer, setVisibleModalTransfer] = useState(false);
   const [visibleModalRemoveSale, setVisibleModalRemoveSale] = useState(false);
@@ -77,7 +77,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing, isPack }) 
 
   return (
     <>
-        {JSON.stringify(id)}        {/*{JSON.stringify(owner.toLowerCase() === account.toLowerCase())}*/}
+        {/*{JSON.stringify(id)}        /!*{JSON.stringify(owner.toLowerCase() === account.toLowerCase())}*!/*/}
       <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
         <div
           className={cn(styles.actions, className, {
@@ -110,7 +110,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing, isPack }) 
         visible={visibleModalRemoveSale}
         onClose={() => setVisibleModalRemoveSale(false)}
       >
-        <RemoveSale id={id} account={account} isPack={isPack} />
+        <RemoveSale id={id} account={account} isPack={isPack} price={price} />
       </Modal>
       <Modal
         visible={visibleModalBurn}

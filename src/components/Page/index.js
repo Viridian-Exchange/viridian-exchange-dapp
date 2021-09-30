@@ -99,6 +99,9 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
 
               if (savedPath.split("/")[2] === "pack") {
                   let tokenId = Number.parseInt(savedPath.split("/")[3]);
+
+                  alert("onwer of pack");
+
                   let packURI = await tokenPackURI(tokenId);
                   let packOwner = await ownerOfPackNoReq(tokenId);
 
@@ -139,6 +142,9 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
               } else if (savedPath.split("/")[2] === "vnft") {
                   let tokenId = Number.parseInt(savedPath.split("/")[3]);
                   let packURI = await tokenURI(tokenId);
+
+                  alert("onwer of nft");
+
                   let packOwner = await ownerOfNoReq(tokenId);
 
                   //alert("VNFT")

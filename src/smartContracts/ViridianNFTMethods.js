@@ -19,7 +19,7 @@ export async function ownerOf(tokenId) {
     const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
+    await console.log("ABIMETHODS1: " + tokenId);
     let owner = await vNFTABI.methods.ownerOf(tokenId).call.request();
 
     //alert(nft);
@@ -31,7 +31,7 @@ export async function ownerOfNoReq(tokenId) {
     const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
+    await console.log("ABIMETHODS2: " + tokenId);
     let owner = await vNFTABI.methods.ownerOf(tokenId).call();
 
     //alert(nft);

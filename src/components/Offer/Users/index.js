@@ -2,8 +2,9 @@ import React from "react";
 import cn from "classnames";
 import styles from "./Users.module.sass";
 import oStyles from "../Card.module.sass"
+import {parseVextAmount} from "../../../Utils";
 
-const Users = ({ className, items, owner, fromNFTs, toNFTs, fromVEXT, toVEXT }) => {
+const Users = ({ className, items, owner, fromNFTs, toNFTs, fromVEXT, toVEXT, curProfilePhoto, otherProfilePhoto }) => {
     /*
     <div className={styles.body}>
           <div className={styles.line}>
@@ -22,36 +23,62 @@ const Users = ({ className, items, owner, fromNFTs, toNFTs, fromVEXT, toVEXT }) 
     const trade = [
         {
             NFTs: fromNFTs.length + " VNFTs",
-            VEXT: fromVEXT + " VEXT",
+            VEXT: parseVextAmount(fromVEXT) + " VEXT",
         },
         {
             NFTs: toNFTs.length + " VNFTs",
-            VEXT: toVEXT + " VEXT",
+            VEXT: parseVextAmount(toVEXT) + " VEXT",
         },
     ];
   return (
     <div className={cn(styles.users, className)}>
       <div className={styles.list}>
-        {items.map((x, index) => (
-          <div className={styles.item} key={index}>
-            <div className={styles.avatar}>
-              <img src={x.avatar} alt="Avatar" />
-              {x.reward && (
-                <div className={styles.reward}>
-                  <img src={x.reward} alt="Reward" />
-                </div>
-              )}
-            </div>
-            <div className={oStyles.details}>
-              <div className={oStyles.position}>{x.position}</div>
-                <div className={oStyles.line}>
-                    <div className={oStyles.price}>{trade[index].VEXT}</div>
-                    <div className={oStyles.price}>{trade[index].NFTs}</div>
-                </div>
-              <div className={oStyles.name}>{owner}</div>
-            </div>
-          </div>
-        ))}
+        {items.map((x, index) => {
+            if (index === 0) {
+                return (
+                    <div className={styles.item} key={index}>
+                        <div className={styles.avatar}>
+                            <img src={curProfilePhoto} alt="Avatar"/>
+                            {x.reward && (
+                                <div className={styles.reward}>
+                                    <img src={x.reward} alt="Reward"/>
+                                </div>
+                            )}
+                        </div>
+                        <div className={oStyles.details}>
+                            <div className={oStyles.position}>{x.position}</div>
+                            <div className={oStyles.line}>
+                                <div className={oStyles.price}>{trade[index].VEXT}</div>
+                                <div className={oStyles.price}>{trade[index].NFTs}</div>
+                            </div>
+                            <div className={oStyles.name}>{owner}</div>
+                        </div>
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div className={styles.item} key={index}>
+                        <div className={styles.avatar}>
+                            <img src={otherProfilePhoto} alt="Avatar"/>
+                            {x.reward && (
+                                <div className={styles.reward}>
+                                    <img src={x.reward} alt="Reward"/>
+                                </div>
+                            )}
+                        </div>
+                        <div className={oStyles.details}>
+                            <div className={oStyles.position}>{x.position}</div>
+                            <div className={oStyles.line}>
+                                <div className={oStyles.price}>{trade[index].VEXT}</div>
+                                <div className={oStyles.price}>{trade[index].NFTs}</div>
+                            </div>
+                            <div className={oStyles.name}>{owner}</div>
+                        </div>
+                    </div>
+                )
+            }
+        })}
       </div>
     </div>
   );

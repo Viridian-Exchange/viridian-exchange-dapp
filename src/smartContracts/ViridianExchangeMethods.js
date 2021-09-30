@@ -5,6 +5,7 @@ import vtJSON from "../abis/ViridianToken.json";
 import Web3 from "web3";
 import {approve} from "./ViridianTokenMethods";
 import { isApprovedForAll, setApprovalForAll } from "./ViridianNFTMethods";
+import {toFixedBetter} from "../Utils";
 
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
@@ -97,7 +98,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime) {
 
     alert("ALLOW: " + allowance);
 
-    batch.add(await approve(from, veContractAddress, JSON.stringify(Number.parseInt(allowance) + Number.parseInt(_price))));
+    batch.add(await approve(from, veContractAddress, toFixedBetter(Number.parseInt(allowance) + Number.parseInt(_price))));
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
@@ -124,7 +125,12 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime)
 
     let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
 
-    batch.add(await approve(from, veContractAddress, JSON.stringify(Number.parseInt(allowance) + Number.parseInt( _price))));
+    // alert("ALOW: " + Number.parseInt(allowance));
+    // alert("PRICE: " + _price);
+    //
+    // alert(toFixedBetter(Number.parseInt(allowance) + Number.parseInt( _price)));
+
+    batch.add(await approve(from, veContractAddress, toFixedBetter(Number.parseInt(allowance) + Number.parseInt( _price))));
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
@@ -136,6 +142,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime)
     console.log(veABI.methods);
     //alert(web3.eth.accounts[0]);
     try {
+        alert("NFTID: " + _nftId);
         batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, true, false).send.request({from: from}));
         batch.execute();
     } catch(e) {
@@ -176,9 +183,11 @@ export async function pullFromSale(from, _listingId, price) {
 
     let allowance = await vtABI.methods.allowance(from, veContractAddress).call();
 
-    console.log(allowance.toString());
+    alert("ALLOW " + toFixedBetter(Number.parseInt(price)));
 
-    batch.add(await approve(from, veContractAddress, JSON.stringify(Number.parseInt(allowance) - Number.parseInt(price))));
+    alert("NEW ALLOW " + toFixedBetter(Number.parseInt(allowance)) - toFixedBetter(Number.parseInt(price)));
+
+    batch.add(await approve(from, veContractAddress, toFixedBetter(toFixedBetter(allowance) - toFixedBetter(price))));
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
@@ -187,12 +196,18 @@ export async function pullFromSale(from, _listingId, price) {
     return batch.execute();
 }
 
-export async function makeOffer(from, _to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT) {
+export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, isVEXT) {
     const voContractAddress = config.dev_contract_addresses.vo_contract;
 
-    let voABI = new web3.eth.Contract(veJSON['abi'], voContractAddress);
+    alert(1);
+
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+
+    alert(2);
 
     const batch = new web3.BatchRequest();
+
+    alert(3);
 
     await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
         alert("APPR: " + JSON.stringify(isApproved));
@@ -200,8 +215,14 @@ export async function makeOffer(from, _to, _nftIds, _amount, _recNftIds, _recAmo
             batch.add(await setApprovalForAll(from, voContractAddress));
         }});
 
-    batch.add(await approve(from, voContractAddress, _amount));
-    batch.add(await voABI.methods.makeOffer(_to, _nftIds, _amount, _recNftIds, _recAmount, isVEXT).send.request({from: from}));
+    alert(4);
 
-    batch.execute();
+    batch.add(await approve(from, voContractAddress, toFixedBetter(_amount)));
+
+    alert(from);
+    batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, _amount, _recNftIds, _packIds, _recAmount, isVEXT).send.request({from: from}));
+
+    alert(6);
+
+    return batch.execute();
 }

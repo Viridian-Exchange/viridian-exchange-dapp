@@ -24,6 +24,7 @@ import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import Modal from "./components/Modal";
 import {FetchAllUsers, FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
+import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 
@@ -211,7 +212,7 @@ function App() {
         const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
 
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-        await console.log("ABIMETHODS: " + tokenId);
+        await console.log("ABIMETHODSAPP: " + tokenId);
         let owner = vNFTABI.methods.ownerOf(tokenId).call();
 
         //alert(nft);
@@ -337,7 +338,7 @@ function App() {
                     }).then(async (res) => {
                         console.log(res);
                         console.log(res.status);
-                        await ownerOf(listing.tokenId).then(async (owner) => {
+                        await ownerOfPackNoReq(listing.tokenId).then(async (owner) => {
                             if (res.ok) {
                                 //alert("Owner OF: " + owner);
                                 const resJson = await res.json();
@@ -564,7 +565,8 @@ function App() {
           path="/profile/:address"
           render={() => (
             <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Profile cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed}/>
+                {/*{JSON.stringify(users)}*/}
+                <Profile users={users} cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed}/>
             </Page>
           )}
         />

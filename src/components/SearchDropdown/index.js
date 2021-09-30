@@ -35,20 +35,37 @@ const SearchDropdown = ({ className, value, setValue, options, visible, setVisib
         <div className={styles.body}>
           {options.map((x, index) => {
                   if (index < 10) {
+                    if (x.address) {
+                      return (
+                          <div
+                          className={cn(styles.option, {
+                            [styles.selectioned]: x.label === value,
+                          })}
+                          onClick={() => handleClick(x, index)}
+                          key={index}
+                          >
+                            <img src={x.image} alt={""} style={{maxWidth: '4ex', maxHeight: '4ex', marginRight: '2ex', borderRadius: '2ex'}}/>
+                            {x.label}
+                          </div>
+                      );
+                    }
+                    else {
                       return (
                           <div
                               className={cn(styles.option, {
-                                  [styles.selectioned]: x.label === value,
+                                [styles.selectioned]: x.label === value,
                               })}
                               onClick={() => handleClick(x, index)}
                               key={index}
                           >
-                            {x.image.includes('.mp4') ? <video autoPlay loop muted style={{maxWidth: '10ex', marginRight: '2ex'}}>
+                            {x.image.includes('.mp4') ?
+                                <video autoPlay loop muted style={{maxWidth: '10ex', marginRight: '2ex'}}>
                                   <source src={x.image} type="video/mp4"/>
                                 </video> :
-                            <img src={x.image} alt={""} style={{maxWidth: '4ex', marginRight: '2ex'}}/>}
+                                <img src={x.image} alt={""} style={{maxWidth: '4ex', marginRight: '2ex'}}/>}
                             {x.label}
                           </div>);
+                    }
                   }
               }
           )}

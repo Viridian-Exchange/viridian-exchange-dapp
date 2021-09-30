@@ -80,12 +80,14 @@ const PutSale = (props, { className }) => {
             await setSaleLoading(true);
 
             if (!props.isPack) {
+                alert("NFT Sale: " + props.state.id);
                 await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0).then((e) => {
                     alert("E: " + JSON.stringify(e));
                     setSaleLoading(false);
                 });
             }
             else {
+                alert("Pack Sale: " + props.state.id);
                 await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0).then((e) => {
                     alert("E: " + JSON.stringify(e));
                     setSaleLoading(false);

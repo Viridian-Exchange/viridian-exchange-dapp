@@ -4,8 +4,10 @@ import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import Users from "./Users"
+import Web3 from "web3";
 
-const Offer = ({ className, item, account, isListing, curProfilePhoto }, props) => {
+
+const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProfilePhoto, otherUser }, props) => {
   const [visible, setVisible] = useState(false);
 
     const users = [
@@ -17,7 +19,7 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto }, props) 
         {
             name: "Selina Mayert",
             position: "They Receive",
-            avatar: "/images/content/avatar-1.jpg",
+            avatar: {otherProfilePhoto},
         },
     ];
 
@@ -26,12 +28,13 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto }, props) 
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
     //TODO: Will likely have to flip how the to and from NFTs and VEXT are displayed as the
   return (
-      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {offerId: item.offerId, toVEXT: item.toAmt, toNFTs: item.fromNftIds,
-              fromVEXT: item.fromAmt, fromNFTs: item.toNftIds} }}>
+      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {offerId: item.offerId, toVEXT: item.fromAmt, toNFTs: item.fromNftIds, toPacks: item.fromPackIds,
+              fromVEXT: item.toAmt, fromNFTs: item.toNftIds, fromPacks: item.toPackIds, otherUser: otherUser}}}>
     <div className={cn(styles.card, className)}>
-        {"ITM: " + JSON.stringify(item.offerId)}
-        {/*{JSON.stringify(item[1])}*/}
-        <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} />
+        {/*{"ITM: " + JSON.stringify(otherUser.profilePhotoURL)}*/}
+        {/*{JSON.stringify(curProfilePhoto)}*/}
+        <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} curProfilePhoto={curProfilePhoto}
+               otherProfilePhoto={otherUser.profilePhotoURL}/>
       <div className={styles.preview}>
         {/*{uri.image}*/}
         <div className={styles.control}>

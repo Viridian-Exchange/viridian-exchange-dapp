@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./Items.module.sass";
 import Card from "../../../components/Card";
@@ -7,7 +7,8 @@ import Pack from "../../../components/Pack";
 import Loader from "../../../components/Loader";
 import Offer from "../../../components/Offer";
 
-const Items = ({ className, items, nfts, packs, isListing, account, offers, curProfilePhoto }, props) => {
+const Items = ({ className, items, nfts, packs, isListing, account, offers, curProfilePhoto, users }, props) => {
+
     if (nfts) {
         return (
             <div className={cn(styles.items, className)}>
@@ -63,10 +64,19 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
     else if (offers) {
         return (
             <div className={cn(styles.items, className)}>
+                {/*{"XXX" + JSON.stringify(offers[0].from)}*/}
                 <div className={styles.list}>
-                    {offers.map((x, index) => (
-                        <Offer className={styles.card} item={x} key={index} curProfilePhoto={curProfilePhoto}/>
-                    ))}
+                    {offers.map((x, index) => {
+
+                        return users.map((user) => {
+                            //return ("BRUH");
+                            if (user.username.toLowerCase() === x.from.toLowerCase()) {
+                                console.log(user.username.toLowerCase() === x.from.toLowerCase());
+                                return (<Offer className={styles.card} item={x} otherUser={user} key={index}
+                                               curProfilePhoto={curProfilePhoto}/>);
+                            }
+                        });
+                    })}
                 </div>
                 <Loader className={styles.loader}/>
             </div>
@@ -78,4 +88,4 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
 
 };
 
-export default Items;
+export default Items
