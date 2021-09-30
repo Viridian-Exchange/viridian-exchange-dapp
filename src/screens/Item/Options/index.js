@@ -10,7 +10,7 @@ import {HandleAddLikes} from "../../../apis/UserAPI";
 
 
 
-const Options = ({ className, items, tokenId, id, account, owner, isListing, userInfo, setUserInfo }) => {
+const Options = ({ className, items, tokenId, id, account, owner, isListing, userInfo, setUserInfo, price, isPack }) => {
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState([]);
 
