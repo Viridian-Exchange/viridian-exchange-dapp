@@ -170,6 +170,7 @@ function App() {
         return await vtABI.methods.balanceOf(account).call();
     }
 
+
     function parseVextBalance(vextBalance) {
         //alert("BEF: " + vextBalance);
         vextBalance = new BigNumber(vextBalance);
@@ -284,6 +285,7 @@ function App() {
 
         setOwnedNfts(nfts);
     }
+
 
     async function getOwnedPacks() {
         //alert('gettingOwnedNFTs');

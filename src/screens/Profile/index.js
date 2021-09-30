@@ -17,6 +17,7 @@ import s3config from "../../config";
 import {getOffersFromUser} from "../../smartContracts/ViridianExchangeMethods";
 import ReactTooltip from 'react-tooltip';
 
+
 // data
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
@@ -26,9 +27,7 @@ import {HandleUpdateUser} from "../../apis/UserAPI";
 import RemoveSale from "../../components/RemoveSale";
 import Modal from "../../components/Modal";
 
-
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
-
 
 const navLinks = [
   "VNFTs",
@@ -615,24 +614,24 @@ const Profile = (props) => {
                       <div className={styles.item}>
                         {activeIndex === 0 && (
                             <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}
-                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo} />
                         )}
                         {activeIndex === 1 && (
                             <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}
-                                   curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                                   curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 2 && [
                           <div>{JSON.stringify(ownedListings)}</div>,
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}
-                                 curProfilePhoto = {props.userInfo.profilePhotoURL}/>
+                                 curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 3 && [
                           //<div>{JSON.stringify(offers)}</div>,
                             <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
-                            curDisplayName={props.userInfo.displayName}/>
+                            curDisplayName={props.userInfo.displayName} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
-                            <Items class={styles.items} items={[]}/>
+                            <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 5 && (
                             <Followers className={styles.followers} items={followingInfo}/>
@@ -739,20 +738,20 @@ const Profile = (props) => {
                       {/*<div>{JSON.stringify(location.state.ownedNFTs)}</div>*/}
                       <div className={styles.item}>
                         {activeIndex === 0 && [
-                            <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account}/>
+                            <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 1 && [
-                          <Items class={styles.items} nfts={[]} isListing={true} account={props.account}/>
+                          <Items class={styles.items} nfts={[]} isListing={true} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 2 && [
-                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account}/>
+                          <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 3 && [
                           // <div>{JSON.stringify(offers)}</div>,
-                          <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} />
+                          <Items class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
-                            <Items class={styles.items} items={[]}/>
+                            <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 5 && (
                             <Followers className={styles.followers} items={followingInfo}/>

@@ -284,7 +284,7 @@ const Popular = (props) => {
                   </div>
                   <div className={styles.body}>
                     <div className={styles.avatar}>
-                      <img src={x.profilePhotoURL} alt="Avatar" />
+                      <img src={x.profilePhotoURL+ "?" + new Date().getTime()} alt="Avatar" />
                       <div className={styles.reward}>
                         {/*<img src={items[index].reward} alt="Reward" />*/}
                       </div>

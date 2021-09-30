@@ -13,7 +13,7 @@ const Followers = ({ className, items, userInfo, followed }) => {
                     <div className={styles.item} >
                         <div className={styles.follower}>
                             <div className={styles.avatar}>
-                                <img src={userInfo.profilePhotoURL} alt="Avatar" />
+                                <img src={userInfo.profilePhotoURL+ "?" + new Date().getTime()} alt="Avatar" />
                             </div>
                             <div className={styles.details}>
                                 <div className={styles.title}>{userInfo.displayName}</div>
@@ -47,7 +47,7 @@ const Followers = ({ className, items, userInfo, followed }) => {
                         <div className={styles.item} key={index}>
                             <div className={styles.follower}>
                                 <div className={styles.avatar}>
-                                    <img src={x.profilePhotoURL} alt="Avatar" />
+                                    <img src={x.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
                                 </div>
                                 <div className={styles.details}>
                                     <div className={styles.title}>{x.displayName}</div>
@@ -91,7 +91,7 @@ const Followers = ({ className, items, userInfo, followed }) => {
                         <div className={styles.item} key={index}>
                             <div className={styles.follower}>
                                 <div className={styles.avatar}>
-                                    <img src={x.profilePhotoURL} alt="Avatar" />
+                                    <img src={x.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
                                 </div>
                                 <div className={styles.details}>
                                     <div className={styles.title}>{x.displayName}</div>
