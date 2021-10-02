@@ -255,7 +255,9 @@ function App() {
 
         //console.log(nfts);
 
-        setOwnedNfts(nfts);
+        if (ownedNfts.length === 0) {
+            setOwnedNfts(nfts);
+        }
     }
 
 
@@ -293,7 +295,9 @@ function App() {
 
         //console.log(nfts);
 
-        setOwnedPacks(nfts);
+        if (ownedPacks.length === 0) {
+            setOwnedPacks(nfts);
+        }
     }
 
     async function parseListing(listing) {
