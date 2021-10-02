@@ -21,6 +21,7 @@ import ReactTooltip from 'react-tooltip';
 import { bids } from "../../mocks/bids";
 import { isStepDivisible } from "react-range/lib/utils";
 import vNFTJSON from '../../abis/ViridianNFT.json';
+import vpJSON from '../../abis/ViridianPack.json';
 import vTJSON from '../../abis/ViridianToken.json';
 import {HandleUpdateUser} from "../../apis/UserAPI";
 import RemoveSale from "../../components/RemoveSale";
@@ -211,9 +212,11 @@ const Profile = (props) => {
   const nftsCopy = [];
   const oNftsCopy = [];
   const packsCopy = [];
+  const oPacksCopy = [];
   const [ownedListings, setOwnedListings] = useState([]);
   const [offers, setOffers] = useState([]);
   const [otherNFTs, setOtherNFTs] = useState([]);
+  const [otherPacks, setOtherPacks] = useState([]);
   const [files, setFiles] = useState([]);
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
@@ -350,6 +353,46 @@ const Profile = (props) => {
     }
   }
 
+  async function getOtherOwnedPacks() {
+    //alert('gettingOwnedNFTs');
+
+    //console.log(JSON.stringify(vNFTJSON));
+
+    // NFT Contract Calls
+    const vpContractAddress = config.dev_contract_addresses.vp_contract;
+    let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
+    //alert(JSON.stringify(vnftABI.methods));
+    //alert(location.state.account)
+    if(location.state) {
+      if (location.state.account) {
+        let nftIds = await vpABI.methods.getOwnedNFTs().call({from: location.state.account});
+        let nfts = [];
+        //alert(JSON.stringify(vnftABI.methods));
+
+        // await console.log(JSON.stringify(vNFTJSON['abi']));
+        console.log(vpContractAddress);
+        console.log("test");
+
+        if (nftIds) {
+          //alert(JSON.stringify(nftIds));
+          for (let i = 0; i < nftIds.length; i++) {
+            let nftId = nftIds[i]
+            let uri = await vpABI.methods.tokenURI(nftId).call();
+            //console.log("XXX: " + uri);
+            nfts.push({id: nftId, uri: uri});
+          }
+
+          //alert(JSON.stringify(nfts));
+        }
+
+        setOtherPacks(nfts);
+      }
+    }
+    else {
+
+    }
+  }
+
   function getOwnedListings() {
     let curNFTs = props.nfts;
 
@@ -381,7 +424,13 @@ const Profile = (props) => {
           console.log(JSON.stringify(props.nfts));
           getOwnedListings();
           console.log(ownedListings);
-          await getOtherOwnedNFTs();
+
+          if (otherNFTs.length === 0) {
+            await getOtherOwnedNFTs();
+          }
+          if (otherPacks.length === 0) {
+            await getOtherOwnedPacks();
+          }
 
           if (!location.state) {
             // await setInitialLoaded(true);
@@ -395,6 +444,7 @@ const Profile = (props) => {
           //setOwnedNFTs(await getOwnedNFTs());
           //alert(ownedNFTs);
 
+
           if (otherNFTs.length > 0) {
             for (let i = 0; i < otherNFTs.length; i++) {
               // await ownedNFTs.forEach((nft, i) => {
@@ -405,9 +455,22 @@ const Profile = (props) => {
 
               await console.log(oNftsCopy);
             }
-
-            //await alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
             await setOtherNFTs(oNftsCopy);
+          }
+
+            if (otherPacks.length > 0) {
+              for (let i = 0; i < otherPacks.length; i++) {
+                // await ownedNFTs.forEach((nft, i) => {
+                //   extractMetadata(nft, i)
+                // });
+                //alert(JSON.stringify(ownedNFTs[i]));
+                await extractMetadata(oPacksCopy, otherPacks[i], i, true);
+
+                //await alert(JSON.stringify(oPacksCopy));
+              }
+              await setOtherPacks(oPacksCopy);
+            //await alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
+
           }
 
           if (props.ownedNFTs.length > 0) {
@@ -416,8 +479,9 @@ const Profile = (props) => {
             }
 
             if (nftsCopy[0]) {
-              if (nftsCopy[0].uri.name) {
-                props.setOwnedNFTs(nftsCopy);
+              if (nftsCopy[0].uri.image) {
+                alert("NFTC " + JSON.stringify(nftsCopy))
+                await props.setOwnedNFTs(nftsCopy);
               }
             }
           }
@@ -429,8 +493,9 @@ const Profile = (props) => {
             }
 
             if (packsCopy[0]) {
-              if (packsCopy[0].uri.name) {
-                props.setOwnedPacks(packsCopy);
+              if (packsCopy[0].uri.image) {
+                alert("PC " + JSON.stringify(packsCopy))
+                await props.setOwnedPacks(packsCopy);
               }
             }
           }
@@ -672,7 +737,7 @@ const Profile = (props) => {
                   style={{minWidth: '200ex'}}
               >
                 <div>
-                  <OfferBuilder class={styles.items} nfts={props.ownedNFTs} otherNFTs={otherNFTs} account={props.account} curAccount={location.state.curAccount}
+                  <OfferBuilder class={styles.items} nfts={props.ownedNFTs} packs={props.ownedPacks} otherNFTs={otherNFTs} otherPacks={otherPacks} account={props.account} curAccount={location.state.curAccount}
                   to={location.state.account}/>
                   {/*<OfferBuilder class={styles.items} nfts={location.state.ownedNFTs} otherNfts={otherNFTs} account={props.account}/>*/}
                 </div>
@@ -758,7 +823,7 @@ const Profile = (props) => {
                             <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 1 && [
-                          <Items class={styles.items} nfts={[]} isListing={true} account={props.account} userInfo = {props.userInfo}/>
+                          <Items class={styles.items} packs={otherPacks} isListing={true} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 2 && [
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account} userInfo = {props.userInfo}/>
