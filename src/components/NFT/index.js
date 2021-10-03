@@ -36,10 +36,10 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
           >
             <Icon name="heart" size="20" />
           </button>
-          <button className={cn("button-small", styles.button)}>
-            <span>Place a bid</span>
-            <Icon name="scatter-up" size="16" />
-          </button>
+          {/*<button className={cn("button-small", styles.button)}>*/}
+          {/*  <span>Place a bid</span>*/}
+          {/*  <Icon name="scatter-up" size="16" />*/}
+          {/*</button>*/}
         </div>
       </div>
       {/*{JSON.stringify(item.listingId)}*/}
@@ -63,10 +63,10 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
         </div>
         {/*TODO: Figure out how to handle bids on specific items*/}
         <div className={styles.foot}>
-          <div className={styles.status}>
-            <Icon name="candlesticks-up" size="20" />
-            Highest bid <span>{item.highestBid}</span>
-          </div>
+          {/*<div className={styles.status}>*/}
+          {/*  <Icon name="candlesticks-up" size="20" />*/}
+          {/*  Highest bid <span>{item.highestBid}</span>*/}
+          {/*</div>*/}
           <div
             className={styles.bid}
             dangerouslySetInnerHTML={{ __html: item.bid }}

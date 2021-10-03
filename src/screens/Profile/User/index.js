@@ -70,9 +70,9 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
     }
 
     if (followers.includes(curUser)) {
-      alert("followers: " + followers);
+      //alert("followers: " + followers);
       let res = await HandleAddFollower(otherUserInfo, followers);
-      alert(JSON.stringify("res"+ JSON.stringify(res)));
+      //alert(JSON.stringify("res"+ JSON.stringify(res)));
     }
 
 
