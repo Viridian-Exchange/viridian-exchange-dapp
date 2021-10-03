@@ -47,7 +47,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
             return true;
           }
           else {
-            alert("set visible false");
+            //alert("set visible false");
             setVisible(false);
             return false;
           }
@@ -60,12 +60,12 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
   useEffect(async() => {
     checkFollowing();
     if (!isCurrentUser) {
-      alert(JSON.stringify(otherUserInfo));
+      //alert(JSON.stringify(otherUserInfo));
     }
 
 
     if (following.includes(account)) {
-      alert("this should be sending patch with added user")
+      //alert("this should be sending patch with added user")
       let res = await HandleAddFollowing(setUserInfo, curUserInfo, following);
     }
 

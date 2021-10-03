@@ -480,7 +480,7 @@ const Profile = (props) => {
 
             if (nftsCopy[0]) {
               if (nftsCopy[0].uri.image) {
-                alert("NFTC " + JSON.stringify(nftsCopy))
+                //alert("NFTC " + JSON.stringify(nftsCopy))
                 await props.setOwnedNFTs(nftsCopy);
               }
             }
@@ -494,7 +494,7 @@ const Profile = (props) => {
 
             if (packsCopy[0]) {
               if (packsCopy[0].uri.image) {
-                alert("PC " + JSON.stringify(packsCopy))
+                //alert("PC " + JSON.stringify(packsCopy))
                 await props.setOwnedPacks(packsCopy);
               }
             }
@@ -614,7 +614,7 @@ const Profile = (props) => {
         return (
             <div className={styles.profile}>
               {/*{JSON.stringify(props.cameFromHome)}*/}
-              {JSON.stringify(props.ownedNFTs)}
+              {/*{JSON.stringify(props.ownedNFTs)}*/}
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
@@ -729,7 +729,7 @@ const Profile = (props) => {
       } else {
         return (
             <div className={styles.profile}>
-              {JSON.stringify(props.ownedNFTs)}
+              {/*{JSON.stringify(props.ownedNFTs)}*/}
               <Modal
                   visible={visibleOfferBuilder}
                   onClose={() => setVisibleOfferBuilder(false)}
@@ -851,7 +851,7 @@ const Profile = (props) => {
       }
     }
     else {
-      return JSON.stringify(location);
+      return "EMPTY"; //JSON.stringify(location);
     }
   }
 

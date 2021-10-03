@@ -95,7 +95,7 @@ const Control = (props, { className }) => {
               </div>
           </div>
         </div>
-          {"OID: " + JSON.stringify(props.offerId)}
+          {/*{"OID: " + JSON.stringify(props.offerId)}*/}
           {offerButtons()}
         <div className={styles.text}>
           Service fee <span className={styles.percent}>1.5%</span>{" "}

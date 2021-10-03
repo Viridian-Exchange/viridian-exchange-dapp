@@ -45,7 +45,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
 
               if (savedPath.split("/")[2] === account) {
                   history.replace(savedPath, {account: savedPath.split("/")[2]});
-                  alert("ACT: " + account);
+                  //alert("ACT: " + account);
                   //setInitialLoaded(true);
               } else {
                   //alert("ACT2: " + account);
@@ -98,7 +98,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
               if (savedPath.split("/")[2] === "pack") {
                   let tokenId = Number.parseInt(savedPath.split("/")[3]);
 
-                  alert("onwer of pack");
+                  //alert("onwer of pack");
 
                   let packURI = await tokenPackURI(tokenId);
                   let packOwner = await ownerOfPackNoReq(tokenId);
@@ -141,7 +141,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                   let tokenId = Number.parseInt(savedPath.split("/")[3]);
                   let packURI = await tokenURI(tokenId);
 
-                  alert("onwer of nft");
+                  //alert("onwer of nft");
 
                   let packOwner = await ownerOfNoReq(tokenId);
 

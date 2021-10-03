@@ -63,7 +63,7 @@ const ProfileEdit = (props) => {
 
   const addCardToS3PlusDB = async () => {
     if (files.length != 0) {
-      alert("there is a file here!!");
+      //alert("there is a file here!!");
       await s3Upload(files).then(async(res) => {
         setProfilePhotoURL(res);
         await updateUser(profilePhotoURL);
@@ -86,7 +86,7 @@ const ProfileEdit = (props) => {
           setSuccessMessage(true);
         }
       }
-      alert("Success!:" + JSON.stringify(res));
+      //alert("Success!:" + JSON.stringify(res));
 
   }
 

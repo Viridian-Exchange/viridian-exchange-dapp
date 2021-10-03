@@ -30,7 +30,6 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                         }
                     })}
                 </div>
-                <Loader className={styles.loader}/>
             </div>
         );
     }
@@ -45,7 +44,6 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                               curProfilePhoto = {curProfilePhoto}/>
                     ])}
                 </div>
-                <Loader className={styles.loader}/>
             </div>
         );
     }
@@ -57,7 +55,6 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                         <Card className={styles.card} item={x} key={index}/>
                     ))}
                 </div>
-                <Loader className={styles.loader}/>
             </div>
         );
     }
@@ -78,12 +75,11 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                         });
                     })}
                 </div>
-                <Loader className={styles.loader}/>
             </div>
         );
     }
     else {
-        return null;
+        return <Loader className={styles.loader}/>;
     }
 
 };

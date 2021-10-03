@@ -25,7 +25,7 @@ const Transfer = ({ className, id, tokenId, account, setVisibleModalTransfer, is
         />
       </div>
       <div className={styles.btns}>
-          {account + " " + to + " " + tokenId}
+          {/*{account + " " + to + " " + tokenId}*/}
           {isPack ? <button onClick={async () => await safeTransferPackFrom(account, to, tokenId)} className={cn("button", styles.button)}>Continue</button> :
               <button onClick={async () => await safeTransferFrom(account, to, tokenId)} className={cn("button", styles.button)}>Continue</button>}
         <button onClick={() => setVisibleModalTransfer(false)} className={cn("button-stroke", styles.button)}>Cancel</button>

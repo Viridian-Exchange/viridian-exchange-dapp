@@ -9,6 +9,7 @@ import PutSale from "./PutSale";
 import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
 import OpenPack from "./OpenPack"
+import {parseVextAmount} from "../../../Utils";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -100,27 +101,27 @@ const Control = (props, { className }) => {
     <>
       <div className={cn(styles.control, className)}>
         <div className={styles.head}>
-          <div className={styles.avatar}>
-            <img src="/images/content/avatar-4.jpg" alt="Avatar" />
-          </div>
-          <div className={styles.details}>
-            <div className={styles.info}>
-              Highest bid by <span>Kohaku Tora</span>
-            </div>
-              {JSON.stringify(props.isVNFT)}
-            <div className={styles.cost}>
-              <div className={styles.price}>1.46 ETH</div>
-              <div className={styles.price}>$2,764.89</div>
-            </div>
-          </div>
+          {/*<div className={styles.avatar}>*/}
+          {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
+          {/*</div>*/}
+          {/*<div className={styles.details}>*/}
+          {/*  <div className={styles.info}>*/}
+          {/*    Highest bid by <span>Kohaku Tora</span>*/}
+          {/*  </div>*/}
+          {/*    {JSON.stringify(props.isVNFT)}*/}
+          {/*  <div className={styles.cost}>*/}
+          {/*    <div className={styles.price}>1.46 ETH</div>*/}
+          {/*    <div className={styles.price}>$2,764.89</div>*/}
+          {/*  </div>*/}
+          {/*</div>*/}
         </div>
           {/*{JSON.stringify(props.isListing)}*/}
           {buyButtons()}
           {offerButtons()}
-        <div className={styles.text}>
+          {props.price && <div className={styles.text}>
           Service fee <span className={styles.percent}>1.5%</span>{" "}
-          <span>2.563 ETH</span> <span>$4,540.62</span>
-        </div>
+          <span>{parseVextAmount(props.price) * .015} VEXT</span> <span>${Number.parseInt(parseVextAmount(props.price)) * .2 * .015}</span>
+        </div>}
           {putOnSaleButton()}
         <div className={styles.note}>
           You can sell this token on Viridian Exchange

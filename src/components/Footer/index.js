@@ -19,15 +19,15 @@ const items = [
         title: "Discover",
         url: "/search01",
       },
+      {
+        title: "FAQ",
+        url: "/faq",
+      },
     ],
   },
   {
     title: "Info",
     menu: [
-      {
-        title: "FAQ",
-        url: "/faq",
-      },
       {
         title: "Buy $VEXT",
         url: "/BuyVEXT",

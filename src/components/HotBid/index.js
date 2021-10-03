@@ -5,6 +5,7 @@ import styles from "./HotBid.module.sass";
 import Icon from "../Icon";
 import NFT from "../NFT";
 import Pack from "../Pack";
+import Loader from "../Loader";
 
 // data
 
@@ -61,7 +62,7 @@ const Hot = (props, { classSection }) => {
         <div className={styles.wrapper}>
           <h3 className={cn("h3", styles.title)}>Hot listings</h3>
           <div className={styles.inner}>
-            <Slider className="bid-slider" {...settings}>
+            {props.nfts[0] ? <Slider className="bid-slider" {...settings}>
               {props.nfts.map((x, index) => {
                 if (x.isVNFT) {
                   return (<NFT key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
@@ -70,7 +71,7 @@ const Hot = (props, { classSection }) => {
                   return (<Pack key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
                 }
               })}
-            </Slider>
+            </Slider> : <Loader style={{transform: 'translateY(-50%)', minWidth: '10ex'}}/>}
           </div>
         </div>
       </div>

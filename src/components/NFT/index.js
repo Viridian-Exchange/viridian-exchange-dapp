@@ -15,7 +15,10 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
   return (
     <div className={cn(styles.card, className)}>
       <div className={styles.preview}>
-        <img src={item.uri.image} alt="Card" />
+        {/*{!item.uri.image ? <img src={item.uri.image} alt='card' /> : <img src="/public/gradient-2.png" alt='card' />}*/}
+        <img src="/public/gradient-2.png" alt='card' />
+
+
         {/*<video autoPlay loop muted style={{maxWidth: '30ex'}}>*/}
         {/*  <source src={item.uri.image} type="video/mp4"/>*/}
         {/*</video>*/}
