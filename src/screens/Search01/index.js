@@ -16,6 +16,7 @@ import veJSON from "../../abis/ViridianExchange.json";
 import config from "../../local-dev-config";
 import Fuse from "fuse.js";
 import Pack from "../../components/Pack";
+import Loader from "../../components/Loader";
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
@@ -275,7 +276,7 @@ const Search = (props) => {
               <span>Reset filter</span>
             </div>
           </div>
-          <div className={styles.wrapper}>
+            {filteredNFTs.length > 0 ? <div className={styles.wrapper}>
               {/*{JSON.stringify(filteredNFTs[0].price)}*/}
               {(prices === "Most to Least Expensive") ? <div className={styles.list}>
               {[].concat(filteredNFTs)
@@ -321,7 +322,9 @@ const Search = (props) => {
                 <span>Load more</span>
               </button>
             </div>
-          </div>
+            </div>: <div style={{margin: 'auto',
+                width: '-50%',
+                padding: '10px'}}><Loader/></div>}
         </div>
       </div>
     </div>

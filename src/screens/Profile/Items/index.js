@@ -68,7 +68,7 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                         return users.map((user) => {
                             //return ("BRUH");
                             if (user.username.toLowerCase() === x.from.toLowerCase()) {
-                                console.log(user.username.toLowerCase() === x.from.toLowerCase());
+                                // console.log(user.username.toLowerCase() === x.from.toLowerCase());
                                 return (<Offer className={styles.card} item={x} otherUser={user} key={index}
                                                curProfilePhoto={curProfilePhoto}/>);
                             }

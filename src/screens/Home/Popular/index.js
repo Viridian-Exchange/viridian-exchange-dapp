@@ -7,6 +7,7 @@ import Add from "./Add";
 import Icon from "../../../components/Icon";
 import Dropdown from "../../../components/Dropdown";
 import DropdownEmpty from "../../../components/DropdownEmpty";
+import Loader from "../../../components/Loader";
 
 const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
@@ -249,7 +250,7 @@ const Popular = (props) => {
         </div>
         <div className={styles.wrapper}>
           {/*{"ONTE: " + JSON.stringify(props.ownedNFTs)}*/}
-          <Slider className="popular-slider" {...settings}>
+          {props.users ? <Slider className="popular-slider" {...settings}>
             {/*{JSON.stringify(items[2])}*/}
             {props.users.map((x, index) => (
               <div className={styles.slide} key={index}>
@@ -298,7 +299,9 @@ const Popular = (props) => {
                 </div>
               </div>
             ))}
-          </Slider>
+          </Slider> : <div style={{margin: 'auto',
+            width: '-50%',
+            padding: '10px'}}><Loader/></div>}
         </div>
       </div>
     </div>

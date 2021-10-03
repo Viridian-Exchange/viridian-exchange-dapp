@@ -43,7 +43,7 @@ const Followers = ({ className, items, userInfo, followed }) => {
                         {/*  </div>*/}
                         {/*</div>*/}
                     </div>
-                    {items.map((x, index) => (
+                    {items ? items.map((x, index) => (
                         <div className={styles.item} key={index}>
                             <div className={styles.follower}>
                                 <div className={styles.avatar}>
@@ -77,9 +77,8 @@ const Followers = ({ className, items, userInfo, followed }) => {
                             {/*  </div>*/}
                             {/*</div>*/}
                         </div>
-                    ))}
+                    )) : <Loader className={styles.loader} />}
                 </div>
-                <Loader className={styles.loader} />
             </div>
         );
     }
@@ -87,7 +86,7 @@ const Followers = ({ className, items, userInfo, followed }) => {
         return (
             <div className={cn(styles.followers, className)}>
                 <div className={styles.list}>
-                    {items.map((x, index) => (
+                    {items ? items.map((x, index) => (
                         <div className={styles.item} key={index}>
                             <div className={styles.follower}>
                                 <div className={styles.avatar}>
@@ -121,9 +120,8 @@ const Followers = ({ className, items, userInfo, followed }) => {
                             {/*  </div>*/}
                             {/*</div>*/}
                         </div>
-                    ))}
+                    )) : <Loader className={styles.loader} />}
                 </div>
-                <Loader className={styles.loader} />
             </div>
         );
     }

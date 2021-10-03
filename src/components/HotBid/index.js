@@ -71,7 +71,9 @@ const Hot = (props, { classSection }) => {
                   return (<Pack key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
                 }
               })}
-            </Slider> : <Loader style={{transform: 'translateY(-50%)', minWidth: '10ex'}}/>}
+            </Slider> : <div style={{margin: 'auto',
+              width: '-150%',
+              padding: '10px'}}><Loader/></div>}
           </div>
         </div>
       </div>
