@@ -15,9 +15,9 @@ const Pack = ({ className, item, account, isListing, curProfilePhoto }, props) =
     <div className={cn(styles.card, className)} style={{maxHeight: '35ex'}}>
       <div className={styles.preview}>
         {/*{item.uri.image}*/}
-        <video autoPlay loop muted style={{maxWidth: '32ex'}}>
+        {item.uri.image ? <video autoPlay loop muted style={{maxWidth: '32ex'}}>
           <source src={item.uri.image} type="video/mp4"/>
-        </video>
+        </video> : <img src="/images/content/gradient-2.png" alt='card' style={{opacity: '0.2'}}/>}
         <div className={styles.control}>
           <div
             className={cn(
