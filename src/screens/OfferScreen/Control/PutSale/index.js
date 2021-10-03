@@ -75,10 +75,10 @@ const PutSale = (props, { className }) => {
       <div className={styles.btns}>
           {/*{props.account}*/}
         <button className={cn("button", styles.button)} onClick = {async () => {
-            alert("PARSE 2 VEXT: " + parseAmountToVext(price));
+            //alert("PARSE 2 VEXT: " + parseAmountToVext(price));
 
             await setSaleLoading(true); await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, true).then((e) => {
-                alert(JSON.stringify(e));
+                //alert(JSON.stringify(e));
                 setSaleLoading(false);
             });
             }}>

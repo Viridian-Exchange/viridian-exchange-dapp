@@ -24,7 +24,7 @@ const SearchDropdown = ({ className, value, setValue, options, visible, setVisib
       history.push("/profile/" + value.address);
     }
     //history.push("/item/pack/1");
-    alert(JSON.stringify(value));
+    //alert(JSON.stringify(value));
   };
 
   return (

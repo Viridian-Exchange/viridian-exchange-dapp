@@ -115,7 +115,7 @@ const Search = (props) => {
   const MAX = 1000000;
 
   return (
-    <div className={cn("section-pt80", styles.section)}>
+    <div className={cn("section-pt80", styles.section)} style={{marginTop: '4ex'}}>
       <div className={cn("container", styles.container)}>
         <div className={styles.top}>
           <div className={styles.title}>Explore the Marketplace</div>

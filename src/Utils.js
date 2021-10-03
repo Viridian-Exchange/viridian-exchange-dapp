@@ -26,7 +26,7 @@ export function  parseAmountToVext(amount) {
     amount = amount.shiftedBy(18);
     //amount = amount.toNumber();
 
-    alert("AMT: " + amount.toFixed());
+    //alert("AMT: " + amount.toFixed());
 
     return amount.toFixed();
 }

@@ -67,7 +67,7 @@ export async function ownerOfPackNoReq(tokenId) {
 }
 
 export async function setApprovalForAll(from, exchangeAddress) {
-    alert("Setting approval to " + from + " for " + exchangeAddress);
+    //alert("Setting approval to " + from + " for " + exchangeAddress);
     const vNFTContractAddress = config.dev_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
