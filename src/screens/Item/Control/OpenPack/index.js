@@ -35,8 +35,8 @@ const OpenPack = (props, { className }) => {
                     async (errors, events) => {
                         if (!errors && events) {
                             if (events[0]) {
-                                console.log("RETVALS: ")
-                                console.log(events[0].returnValues["0"]);
+                                //alert("RETVALS: ")
+                                //alert(JSON.stringify(events[0].returnValues["0"]));
                                 //alert(JSON.stringify(events[0]));
                                 //alert(events[0].returnValues["0"]);
 
@@ -45,6 +45,8 @@ const OpenPack = (props, { className }) => {
                                 for (let i = 0; i < 3; i++) {
                                     cardCopy.push(await events[0].returnValues["0"][i]);
                                 }
+
+                                //alert(cardCopy);
 
                                 setCards(cardCopy);
 
@@ -62,28 +64,30 @@ const OpenPack = (props, { className }) => {
             if (cards !== []) {
                 console.log(cards);
                 //alert("HI")
-                //alert(JSON.stringify(cards));
-                await cards.map(async (card, index) => {
-                    await fetch(card, {
-                        mode: "cors",
-                        method: "GET"
-                    }).then(async res => {
-                        const resJson = await res.json();
+                //alert("CARDS: " + JSON.stringify(cards));
+                if (imgCopy.length !== 3) {
+                    await cards.map(async (card, index) => {
+                        await fetch(card, {
+                            mode: "cors",
+                            method: "GET"
+                        }).then(async res => {
+                            const resJson = await res.json();
 
-                        //alert("THING BEING PUSHED: " + resJson.image);
+                            //alert("THING BEING PUSHED: " + resJson.image);
 
-                        imgCopy.push(await resJson.image);
+                            imgCopy.push(await resJson.image);
 
-                        if(resJson) {
-                            if (resJson.image) {
-                                setImages(imgCopy);
+                            //alert("IMGCOPY: " + JSON.stringify(imgCopy))
+
+                            if (imgCopy.length === 3) {
+                                await setImages(imgCopy)
                             }
-                        }
 
-                        //alert("Image copy: " + JSON.stringify(imgCopy));
-                        //alert("Images: " + JSON.stringify(images));
-                    });
-                });
+                            //alert("Image copy: " + JSON.stringify(imgCopy));
+                            //alert("Images: " + JSON.stringify(images));
+                        });
+                    })
+                }
 
                 //alert("Image copy: " + JSON.stringify(imgCopy));
 
@@ -96,24 +100,70 @@ const OpenPack = (props, { className }) => {
         }
     }, [getEvents, revealing, cards]);
 
-    if (!opened) {
+    if (revealing) {
+        // setTimeout(() => {
+        //   setFade(true);
+        // }, 1500);
+        //
+        // if (fade) {
+        if (images) {
+            return (
+                <Reveal>
+                    {/*{"IMGS: " + JSON.stringify(images)}*/}
+                    <div className={styles.list} style={{marginTop: '5ex', marginLeft: '10%'}}>
+                        {images.map((image, index) => {
+                            return (
+                                <div className={styles.card} style={{marginLeft: '5ex', marginRight: '5ex'}}>
+                                    <img src={image} alt='NFT' style={{maxWidth: '40ex'}}/>
+                                </div>
+                            );
+                        })}
+                    </div>
+                </Reveal>
+            );
+        }
+        else {
+            return ( <div style={{transform: 'translateX(50%)'}}>
+                NO IMAGES
+                {/*{JSON.stringify(images)}*/}
+            </div>);
+        }
+        // }
+        // else {
+        //     return (<div/>);
+        // }
+
+    }
+    else if (!opened) {
         return (
             <div>
                 <ReactFloaterJs>
                     <div onClick={async () => {
-                        // setOpened(true);
+                        //setOpened(true);
                         // setOpenLoading(true);
                         // setGetEvents(true);
-                        await openPack(props.packId, props.account, setRevealing, setCards).then(() =>
+                        await openPack(props.packId, props.account, setRevealing, setCards).then(async () =>
                         {setOpened(true);
                             setOpenLoading(true);
-                            setGetEvents(true);}).then(() => setTimeout(() => { console.log("revealing"); setRevealing(true); }, 7000));
+                            setGetEvents(true);}).then(async () => {
+                            setTimeout(() => {
+                                //alert("revealing");
+                                setRevealing(true);
+                            }, 10000);
+
+                                //await setRevealing(true);
+                        }
+                        );
+
+
+
                         //setOpenLoading(true);
                         //setCards(await openPack(props.packId, props.account, setRevealing, setCards));
                         //setGetEvents(true);
                         //setRevealing(true);
                         //setOpenLoading(true);
-                    }} style={{cursor: 'pointer'}}>
+                    }} style={{cursor: 'pointer'}} style={{maxWidth: '30%',
+                        marginLeft: '35%'}}>
                         <img src="/images/gift.svg" alt="open pack"/>
                         <h1 className={cn("h3", styles.title)}> Open Pack</h1>
                     </div>
@@ -142,39 +192,10 @@ const OpenPack = (props, { className }) => {
     // }
     else if (opened && !revealing) {
         return (
-            <video autoPlay muted style={{maxWidth: '50ex', cursor: 'pointer'}}>
+            <video autoPlay muted style={{maxWidth: '50ex', cursor: 'pointer', marginLeft: '35%'}}>
                 <source src='https://viridian-images.s3.us-east-2.amazonaws.com/OPEN+BAG+GOLD.mp4' type="video/mp4"/>
             </video>
         );
-    } else if (revealing) {
-        // setTimeout(() => {
-        //   setFade(true);
-        // }, 1500);
-        //
-        // if (fade) {
-        if (images) {
-            return (
-                <Reveal>
-                    {/*JSON.stringify(images)*/}
-                    <div>
-                        {images.map((image, index) => {
-                            return (<img src={image} alt='NFT'/>);
-                        })}
-                    </div>
-                </Reveal>
-            );
-        }
-        else {
-            return ( <div style={{transform: 'translateX(50%)'}}>
-                NO IMAGES
-                        {/*{JSON.stringify(images)}*/}
-                   </div>);
-        }
-        // }
-        // else {
-        //     return (<div/>);
-        // }
-
     }
 
 }

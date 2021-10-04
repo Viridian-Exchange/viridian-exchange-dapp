@@ -130,6 +130,12 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
     return Math.round(number * factorOfTen) / factorOfTen
   }
 
+  const shortenAccount = () => {
+    if (account) {
+      return account.toString().substring(0, 6) + "..." + account.toString().substring(38);
+    }
+  }
+
   //alert(account);
   if (connected) {
     //if username is empty, ask to set up
@@ -154,7 +160,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                 <div className={styles.body}>
                   <div className={styles.name}>{userInfo.displayName}</div>
                   <div className={styles.code}>
-                    <div className={styles.number}>{account}</div>
+                    <div className={styles.number}>{shortenAccount()}</div>
                     <button className={styles.copy}>
                       <Icon name="copy" size="16"/>
                     </button>
