@@ -32,6 +32,37 @@
         left: -2px
         right: -2px
         bottom: -2px
+
+.list
+    display: flex
+    flex-wrap: wrap
+    margin: -32px -16px 0
+    +x
+        margin: -32px -10px 0
+    +d
+        margin: -32px -16px 0
+    +m
+        display: block
+        margin: 0
+
+.card
+    //flex: 0 0 calc(13.333% - 32px)
+    //width: calc(13.333% - 32px)
+    //margin: 32px 16px 0
+    //+x
+    //    flex: 0 0 calc(13.333% - 20px)
+    //    width: calc(13.333% - 20px)
+    //    margin: 32px 10px 0
+    //+d
+    //    flex: 0 0 calc(20% - 32px)
+    //    width: calc(20% - 32px)
+    //    margin: 32px 16px 0
+    //+m
+    //    width: 30%
+    //    margin: 0
+    //    &:not(:last-child)
+    //        margin-bottom: 32px
+    max-width: 40%
     
 .details
     flex-grow: 1
