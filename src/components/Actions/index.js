@@ -33,7 +33,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, pr
                     action: () => setVisibleModalRemoveSale(true),
                 },
                 {
-                    title: "Burn token",
+                    title: "Withdraw Card",
                     icon: "close-circle",
                     action: () => setVisibleModalBurn(true),
                 },
@@ -52,7 +52,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, pr
                     action: () => setVisibleModalTransfer(true),
                 },
                 {
-                    title: "Burn token",
+                    title: "Withdraw Card",
                     icon: "close-circle",
                     action: () => setVisibleModalBurn(true),
                 },
