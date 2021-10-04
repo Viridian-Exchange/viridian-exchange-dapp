@@ -312,41 +312,43 @@ const Profile = (props) => {
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
     if(location.state) {
-      if (location.state.account) {
-      let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
-      let nfts = [];
-      //alert(JSON.stringify(vnftABI.methods));
-
-      // await console.log(JSON.stringify(vNFTJSON['abi']));
-      console.log(vnftContractAddress);
-      console.log("test");
-
-      if (nftIds) {
-        //alert(JSON.stringify(nftIds));
-        for (let i = 0; i < nftIds.length; i++) {
-          let nftId = nftIds[i]
-          let uri = await vnftABI.methods.tokenURI(nftId).call();
-          //console.log("XXX: " + uri);
-          nfts.push({id: nftId, uri: uri});
-        }
-
-        //alert(nfts);
-      }
-
-      if (location) {
+      if (location.state) {
         if (location.state.account) {
-          setOffers(await getOffersFromUser(location.state.account));
-        } else {
-          setOffers(await getOffersFromUser(props.account));
+          let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
+          let nfts = [];
+          //alert(JSON.stringify(vnftABI.methods));
+
+          // await console.log(JSON.stringify(vNFTJSON['abi']));
+          console.log(vnftContractAddress);
+          console.log("test");
+
+          if (nftIds) {
+            //alert(JSON.stringify(nftIds));
+            for (let i = 0; i < nftIds.length; i++) {
+              let nftId = nftIds[i]
+              let uri = await vnftABI.methods.tokenURI(nftId).call();
+              //console.log("XXX: " + uri);
+              nfts.push({id: nftId, uri: uri});
+            }
+
+            //alert(nfts);
+          }
+
+          if (location) {
+            if (location.state.account) {
+              setOffers(await getOffersFromUser(location.state.account));
+            } else {
+              setOffers(await getOffersFromUser(props.account));
+            }
+          }
+          //alert(nftIds);
+          //await console.log(vnftABI.methods);
+
+          //alert(JSON.stringify(nfts));
+
+          setOtherNFTs(nfts);
         }
       }
-      //alert(nftIds);
-      //await console.log(vnftABI.methods);
-
-      //alert(JSON.stringify(nfts));
-
-      setOtherNFTs(nfts);
-        }
     }
     else {
 
