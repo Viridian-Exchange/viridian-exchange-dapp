@@ -97,7 +97,7 @@ const Checkout = (props, { className }) => {
            <button className={cn("button", styles.button)} onClick={async () => {
             setPurchasing(true)
             await buyNFTWithVEXT(props.account, props.tokenId, props.price).then((e) => {
-                alert("E: " + JSON.stringify(e));
+                //alert("E: " + JSON.stringify(e));
                 setPurchasing(false);
                 setPurchased(true);
             });

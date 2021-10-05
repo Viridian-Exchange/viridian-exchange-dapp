@@ -169,6 +169,7 @@ export async function buyNFTWithVEXT(from, _listingId, amount) {
     //alert(await vtABI.methods.balanceOf(from) + " vs. " + amount);
     //alert(JSON.stringify(e));
     //alert(web3.eth.accounts[0]);
+    alert(from);
     batch.add(await veABI.methods.buyNFTWithVEXT(_listingId).send.request({from: from}));
 
     return batch.execute();
