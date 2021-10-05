@@ -131,7 +131,7 @@ const Control = (props, { className }) => {
         visible={visibleModalPurchase}
         onClose={() => setVisibleModalPurchase(false)}
       >
-        <Checkout price={props.price} account={props.account} tokenId={props.state.id} />
+        <Checkout price={props.price} account={props.account} tokenId={props.state.listingId} />
           {purchased &&
               <SuccessfullyPurchased/>
           }

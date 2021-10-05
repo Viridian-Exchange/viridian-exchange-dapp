@@ -45,7 +45,7 @@ const Item = (props) => {
 
   return (
     <>
-      {/*{JSON.stringify(location.state)}*/}
+      {/*<div>{JSON.stringify(props)}</div>*/}
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
           <div className={styles.bg}>
