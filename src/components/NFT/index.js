@@ -48,7 +48,7 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>
-            {isListing && <div className={styles.price}>{parseVextAmount(item.price)} VEXT</div>}
+            {isListing && <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}
           </div>
           <div className={styles.line}>
             <div className={styles.users}>

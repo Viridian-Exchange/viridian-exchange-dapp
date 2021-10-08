@@ -16,7 +16,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 const items = [
   {
     title: "Enter your price",
-    value: "VEXT",
+    value: "USDT",
   },
   {
     title: "Service fee",
@@ -58,7 +58,7 @@ const PutSale = (props, { className }) => {
                 return (
                     <div className={styles.row} key={index}>
                         <div className={styles.col}>{x.title}</div>
-                        <TextInput placeholder={"VEXT"} onChange={handlePriceChance} className={styles.col}/>
+                        <TextInput placeholder={"USDT"} onChange={handlePriceChance} className={styles.col}/>
                     </div>
                 );
             }

@@ -13,7 +13,7 @@ const Checkout = (props, { className }) => {
     const items = [
         {
             title: props.price,
-            value: "VEXT",
+            value: "USDT",
         },
         {
             title: "Your balance",

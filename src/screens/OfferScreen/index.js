@@ -241,6 +241,7 @@ const OfferScreen = (props) => {
                 {activeIndex === 1 && [
                   <div className={styles.line}>
                     <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" VEXT"}</div>
+                    {/*{JSON.stringify(toNFTs)}*/}
                   </div>,
                   <Items class={styles.items} nfts={toNFTs} isListing={false} account={props.account}/>
                 ]}
