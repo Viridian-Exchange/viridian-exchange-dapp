@@ -16,7 +16,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 const items = [
   {
     title: "Enter your price",
-    value: "VEXT",
+    value: "USDT",
   },
   {
     title: "Service fee",

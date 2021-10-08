@@ -224,7 +224,7 @@ const Headers = (props) => {
             className={cn("button-small", styles.button)}
             to="/BuyVEXT"
         >
-          Buy $VEXT
+          Buy Crypto
         </Link>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}

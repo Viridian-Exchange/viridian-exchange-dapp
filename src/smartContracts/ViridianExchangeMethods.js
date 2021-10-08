@@ -169,7 +169,7 @@ export async function buyNFTWithVEXT(from, _listingId, amount) {
     //alert(await vtABI.methods.balanceOf(from) + " vs. " + amount);
     //alert(JSON.stringify(e));
     //alert(web3.eth.accounts[0]);
-    alert(from);
+    //alert(from);
     batch.add(await veABI.methods.buyNFTWithVEXT(_listingId).send.request({from: from}));
 
     return batch.execute();
@@ -198,7 +198,7 @@ export async function pullFromSale(from, _listingId, price) {
     return batch.execute();
 }
 
-export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, isVEXT) {
+export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, isVEXT, expirationTime) {
     const voContractAddress = config.dev_contract_addresses.vo_contract;
 
     //alert(1);
@@ -222,7 +222,7 @@ export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftId
     batch.add(await approve(from, voContractAddress, toFixedBetter(_amount)));
 
     //alert(from);
-    batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, _amount, _recNftIds, _packIds, _recAmount, isVEXT).send.request({from: from}));
+    batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, _amount, _recNftIds, _packIds, _recAmount, isVEXT, expirationTime).send.request({from: from}));
 
     //alert(6);
 

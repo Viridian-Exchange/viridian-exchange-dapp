@@ -68,11 +68,11 @@ const OfferBuilder = (props) => {
           <div className={styles.list}>
         {option === options[0] && <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                                          recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={false} class={props.class} nfts={[].concat(props.nfts).concat(props.packs)} isListing={false} account={props.account} selectedRecPackIds={selectedRecPackIds}
-                                         setRecSelectePackdIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds}
+                                         setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds}
                                          style={{marginTop: "20ex", marginBottom: "2ex"}}/>}
         {option === options[1] && <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} setRec giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                                          recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={false} selected={false} class={props.class} nfts={[].concat(props.otherNFTs).concat(props.otherPacks)} isListing={false} account={props.account} selectedRecPackIds={selectedRecPackIds}
-                                         setRecSelectePackdIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds}
+                                         setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds}
                                          style={{marginTop: "20ex", marginBottom: "2ex"}}/>}
           </div>
         </Flexbox>
@@ -91,7 +91,7 @@ const OfferBuilder = (props) => {
           {/*{JSON.stringify(selectedGivePackIds)}*/}
           <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} nfts={selectedGiveNFTs} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                  recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={true} isListing={false} account={props.curAccount} selectedRecPackIds={selectedRecPackIds}
-                  setRecSelectePackdIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
+                 setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
           <TextInput
               style={{marginBottom: '2ex'}}
               onChange={(e) => setRecAmount(e.target.value)}
@@ -107,11 +107,11 @@ const OfferBuilder = (props) => {
           <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                  recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs}
                  nfts={selectedRecNFTs} give={false} isListing={false} selected={true} account={props.curAccount} selectedRecPackIds={selectedRecPackIds}
-                 setRecSelectePackdIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
+                 setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
         </Flexbox>
       </Flexbox>
       <div className={styles.btns}>
-        <button className={cn("button", styles.button)} onClick={async () => await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), true)
+        <button className={cn("button", styles.button)} onClick={async () => await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), true, 1)
         }> <span>Send Offer</span> </button>
       </div>
       </div>

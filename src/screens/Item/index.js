@@ -106,7 +106,7 @@ const Item = (props) => {
                 <source src={location.state.uri.image} type="video/mp4"/>
               </video> }
             </div>
-            {/*{location.state.listingId}*/}
+            {/*{JSON.location.state.isPack}*/}
             <Options className={styles.options} price={location.state.price} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo} isListing={location.state.isListing} isPack = {location.state.isPack} />
           </div>
           <div className={styles.details}>

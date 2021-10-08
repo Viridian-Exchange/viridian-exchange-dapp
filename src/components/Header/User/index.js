@@ -84,7 +84,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
       await setVextBalance(await getVEXTBalance());
       await setConnected(true);
 
-      alert("setting connected from user/index");
+      //alert("setting connected from user/index");
 
       // await setUserInfo(await getUserInfo());
 
@@ -153,7 +153,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
             <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
             </div>,
             <div className={styles.wallet}>
-          {parseVextBalance(vextBalance)} <span className={styles.currency}>VEXT</span>
+          {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
             </div>]}
         </div>
             {visible && (
@@ -175,7 +175,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                       </div>
                       <div className={styles.details}>
                         <div className={styles.info}>Balance</div>
-                        <div className={styles.price}>{parseVextBalance(vextBalance)} VEXT</div>
+                        <div className={styles.price}>{parseVextBalance(vextBalance)} USDT</div>
                       </div>
                     </div>
                     {/*<button*/}

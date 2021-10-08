@@ -77,6 +77,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, pr
 
   return (
     <>
+        {/*{JSON.stringify(isPack)}*/}
         {/*{JSON.stringify(id)}        /!*{JSON.stringify(owner.toLowerCase() === account.toLowerCase())}*!/*/}
       <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
         <div

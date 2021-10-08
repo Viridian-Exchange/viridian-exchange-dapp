@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import styles from "./Burn.module.sass";
 import {burn} from "../../smartContracts/ViridianNFTMethods";
@@ -6,6 +6,12 @@ import {burnPack} from "../../smartContracts/ViridianPackMethods";
 import Icon from "../Icon";
 
 const Burn = ({ className, account, tokenId, isPack }) => {
+    const [shipAddress, setShipAddress] = useState("");
+    const [city, setCity] = useState("");
+    const [country, setCountry] = useState("");
+    const [zip, setZip] = useState("");
+    const [checked, setChecked] = useState(false);
+
   return (
     <div className={cn(className, styles.transfer)}>
       <div className={cn("h4", styles.title)}>Withdraw card</div>
@@ -23,8 +29,8 @@ const Burn = ({ className, account, tokenId, isPack }) => {
             <input
                 className={styles.input}
                 //type={type}
-                value=""
-                //onChange={(e) => setValue(e.target.value)}
+                value={shipAddress}
+                onChange={(e) => setShipAddress(e.target.value)}
                 name="Shipping Address"
                 placeholder="Shipping Address..."
                 required
@@ -33,8 +39,8 @@ const Burn = ({ className, account, tokenId, isPack }) => {
             <input
                 className={styles.input}
                 //type={type}
-                value=""
-                //onChange={(e) => setValue(e.target.value)}
+                value={city}
+                onChange={(e) => setCity(e.target.value)}
                 name="City"
                 placeholder="City..."
                 required
@@ -43,9 +49,8 @@ const Burn = ({ className, account, tokenId, isPack }) => {
             <input
                 className={styles.input}
                 //type={type}
-                value=""
-                //onChange={(e) => setValue(e.target.value)}
-                name="Country"
+                value={country}
+                onChange={(e) => setCountry(e.target.value)}
                 placeholder="Country..."
                 required
                 style={{marginBottom: '2ex'}}
@@ -53,8 +58,8 @@ const Burn = ({ className, account, tokenId, isPack }) => {
             <input
                 className={styles.input}
                 //type={type}
-                value=""
-                //onChange={(e) => setValue(e.target.value)}
+                value={zip}
+                onChange={(e) => setZip(e.target.value)}
                 name="ZIP Code"
                 placeholder="ZIP Code..."
                 required
@@ -63,12 +68,13 @@ const Burn = ({ className, account, tokenId, isPack }) => {
             <input
                 name="I acknowledge that withdrawing this card will burn the nft backing it, and that this action cannot be undone."
                 type="checkbox"
-                checked={false}
-                onChange={() => {}}/><div style={{marginLeft: '3ex', marginTop: '-2.75ex'}} className={styles.text} >I acknowledge that withdrawing this card will burn the nft backing it, and that this action cannot be undone.</div>
+                checked={checked}
+                onChange={() => {setChecked(!checked)}}/><div style={{marginLeft: '3ex', marginTop: '-2.75ex'}} className={styles.text} >I acknowledge that withdrawing this card will burn the nft backing it, and that this action cannot be undone.</div>
         </form>
 
       <div className={styles.btns}>
-          {isPack ? <button onClick={async () => await burn(account, tokenId)} className={cn("button-pink", styles.button)}>Continue</button> :
+          {/*{isPack}*/}
+          {!isPack ? <button onClick={async () => await burn(account, tokenId)} className={cn("button-pink", styles.button)}>Continue</button> :
               <button onClick={async () => await burnPack(account, tokenId)} className={cn("button-pink", styles.button)}>Continue</button>}
         <button className={cn("button-stroke", styles.button)}>Cancel</button>
       </div>
