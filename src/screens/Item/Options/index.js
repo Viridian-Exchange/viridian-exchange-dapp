@@ -1,10 +1,11 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import cn from "classnames";
 import styles from "./Options.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 // import React, { useState, useEffect } from "react";
 import {HandleAddLikes} from "../../../apis/UserAPI";
+import {HandleAddNFTLike, FetchCards} from "../../../apis/CardsAPI";
 
 
 
@@ -14,16 +15,25 @@ const Options = ({ className, items, tokenId, id, account, owner, isListing, use
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState([]);
 
+    // useEffect(async () => {
+    //     let nfts = await FetchCards(setNFTLikes);
+    //     alert(JSON.stringify(nftlikes));
+    //
+    // },[])
+    // const [liked, setLiked] = useState(false);
+
     async function handleLike() {
         let likescopy = [...userInfo.likes];
         likescopy.push(tokenId);
-        setLikes(likescopy);
 
-        await HandleAddLikes(setUserInfo, userInfo, likes);
+        await HandleAddLikes(setUserInfo, userInfo, likescopy);
+        await HandleAddNFTLike(tokenId);
         //todo: one api function to add like to the user,
         // one api function to add a like to the count of likes on the NFT item co
         // edit handleaddlikes api funnction to make sure to call to the card table
         // edit updatecard function to be able to just add a like to the card
+
+        // post +1 to NFT id likes
 
     }
 
