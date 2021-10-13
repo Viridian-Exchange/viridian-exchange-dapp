@@ -67,6 +67,48 @@ export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
     return batch.execute();
 }
 
+export async function acceptOfferWithETH(from, _offerId, _toAmount) {
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
+
+    //alert(from);
+
+    const batch = new web3.BatchRequest();
+
+    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
+        //alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            batch.add(await setApprovalForAll(from, voContractAddress));
+        }});
+
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+    //alert(JSON.stringify(e));
+    //alert(web3.eth.accounts[0]);
+    batch.add(await voABI.methods.acceptOfferWithETH(_offerId).send.request({from: from, value: _toAmount}));
+
+    return batch.execute();
+}
+
+export async function finalApprovalWithETH(from, _offerId, _fromAmount) {
+    const voContractAddress = config.dev_contract_addresses.vo_contract;
+
+    //alert(from);
+
+    const batch = new web3.BatchRequest();
+
+    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
+        //alert("APPR: " + JSON.stringify(isApproved));
+        if (!isApproved) {
+            batch.add(await setApprovalForAll(from, voContractAddress));
+        }});
+
+    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+    //alert(JSON.stringify(e));
+    //alert(web3.eth.accounts[0]);
+    batch.add(await voABI.methods.finalApprovalWithETH(_offerId).send.request({from: from, value: _fromAmount}));
+
+    return batch.execute();
+}
+
 export async function getOffers() {
     const voContractAddress = config.dev_contract_addresses.vo_contract;
 
@@ -252,7 +294,7 @@ export async function pullFromSale(from, _listingId, price, isETH) {
     return batch.execute();
 }
 
-export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, isVEXT, expirationTime) {
+export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, _isVEXT, expirationTime) {
     const voContractAddress = config.dev_contract_addresses.vo_contract;
 
     //alert(1);
@@ -279,10 +321,16 @@ export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftId
 
     //alert(4);
 
-    batch.add(await approve(from, voContractAddress, toFixedBetter(_amount)));
+    if (_isVEXT) {
+        batch.add(await approve(from, voContractAddress, toFixedBetter(_amount)));
+    }
 
     //alert(from);
-    batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, _amount, _recNftIds, _packIds, _recAmount, isVEXT, expirationTime).send.request({from: from}));
+    if (_isVEXT) {
+        batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, _amount, _recNftIds, _packIds, _recAmount, _isVEXT, expirationTime).send.request({from: from}));
+    } else {
+        batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, web3.utils.toWei(_amount), _recNftIds, _packIds, web3.utils.toWei(_recAmount), _isVEXT, expirationTime).send.request({from: from}));
+    }
 
     //alert(6);
 

@@ -28,12 +28,12 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
     //TODO: Will likely have to flip how the to and from NFTs and VEXT are displayed as the
   return (
+      // TODO: REMINDER THIS IS FLIPPED, MAKE SURE PEOPLE KNOW THIS MIGHT HAVE TO REFACTOR BECAUSE IT IS CONFUSING
       <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {offerId: item.offerId, toVEXT: item.fromAmt, toNFTs: item.fromNftIds, toPacks: item.fromPackIds,
-              fromVEXT: item.toAmt, fromNFTs: item.toNftIds, fromPacks: item.toPackIds, otherUser: otherUser}}}>
+              fromVEXT: item.toAmt, fromNFTs: item.toNftIds, fromPacks: item.toPackIds, otherUser: otherUser, isETH: !item.isVEXT, toAccepted: item.toAccepted, fromAccepted: item.fromAccepted}}}>
     <div className={cn(styles.card, className)}>
         {/*{"ITM: " + JSON.stringify(otherUser.profilePhotoURL)}*/}
-        {/*{JSON.stringify(curProfilePhoto)}*/}
-        <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} curProfilePhoto={curProfilePhoto}
+        <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
                otherProfilePhoto={otherUser.profilePhotoURL}/>
       <div className={styles.preview}>
         {/*{uri.image}*/}
@@ -52,6 +52,7 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
       {/*<Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>*/}
       {/*</Link>*/}
     </div>
+          {JSON.stringify(item)}
 </Link>
   );
 };

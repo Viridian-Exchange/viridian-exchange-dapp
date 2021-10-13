@@ -14,6 +14,7 @@ import Dropdown from "../Dropdown";
 import Flexbox from 'flexbox-react';
 import {makeOffer} from "../../smartContracts/ViridianExchangeMethods";
 import {parseAmountToVext} from "../../Utils";
+import Web3 from "web3";
 
 const royaltiesOptions = ["10%", "20%", "30%"];
 
@@ -49,6 +50,7 @@ const OfferBuilder = (props) => {
   const [selectedGivePackIds, setGiveSelectedPackIds] = useState([]);
   const [giveAmount, setGiveAmount] = useState(0);
   const [recAmount, setRecAmount] = useState(0);
+  const [isETH, setIsETH] = useState(true);
 
 
 
@@ -77,31 +79,50 @@ const OfferBuilder = (props) => {
           </div>
         </Flexbox>
         <Flexbox flexDirection="column" style={{marginLeft: '5ex', marginTop: '3ex'}}>
-          <TextInput
+          <Switch className={styles.switch} value={isETH} setValue={setIsETH} />
+          {isETH ? <TextInput
               style={{marginBottom: '2ex'}}
               onChange={(e) => {setGiveAmount(e.target.value); console.log(giveAmount);}}
               className={styles.field}
               label="They Receive"
               name="Twitter"
               type="text"
-              placeholder="$VEXT Amount"
+              placeholder="ETH Amount"
               required
-          />
+          /> : <TextInput
+              style={{marginBottom: '2ex'}}
+              onChange={(e) => {setGiveAmount(e.target.value); console.log(giveAmount);}}
+              className={styles.field}
+              label="They Receive"
+              name="Twitter"
+              type="text"
+              placeholder="USDT Amount"
+              required
+          />}
           {/*{JSON.stringify(selectedGiveIds)}*/}
           {/*{JSON.stringify(selectedGivePackIds)}*/}
           <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} nfts={selectedGiveNFTs} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                  recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={true} isListing={false} account={props.curAccount} selectedRecPackIds={selectedRecPackIds}
                  setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
-          <TextInput
+          {isETH ? <TextInput
               style={{marginBottom: '2ex'}}
               onChange={(e) => setRecAmount(e.target.value)}
               className={styles.field}
               label="You Receive"
               name="Twitter"
               type="text"
-              placeholder="$VEXT Amount"
+              placeholder="ETH Amount"
               required
-          />
+          /> : <TextInput
+              style={{marginBottom: '2ex'}}
+              onChange={(e) => setRecAmount(e.target.value)}
+              className={styles.field}
+              label="You Receive"
+              name="Twitter"
+              type="text"
+              placeholder="USDT Amount"
+              required
+          />}
           {/*{JSON.stringify(selectedRecIds)}*/}
           {/*{JSON.stringify(selectedRecPackIds)}*/}
           <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
@@ -111,7 +132,14 @@ const OfferBuilder = (props) => {
         </Flexbox>
       </Flexbox>
       <div className={styles.btns}>
-        <button className={cn("button", styles.button)} onClick={async () => await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), true, 1)
+        <button className={cn("button", styles.button)} onClick={async () => {
+          if (isETH) {
+            await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, giveAmount.toString(), selectedRecIds, selectedRecPackIds, recAmount.toString(), false, 7);
+          }
+          else {
+            await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), true, 7);
+          }
+        }
         }> <span>Send Offer</span> </button>
       </div>
       </div>

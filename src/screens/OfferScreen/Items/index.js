@@ -13,7 +13,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, curProfileP
                 {/*{JSON.stringify(nfts)}*/}
                 <div className={styles.list}>
                     {nfts.map((x, index) => [
-                        <div>{x.id}</div>,
+                        // <div>{x.id}</div>,
                         <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account} userInfo = {props.userInfo}/>
                     ])}
                 </div>

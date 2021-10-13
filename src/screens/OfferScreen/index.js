@@ -206,8 +206,9 @@ const OfferScreen = (props) => {
       //   }
       // }
     }
+  //}, []);
 
-  }, [startParse, toNFTsCopy, fromNFTsCopy])
+  }, [startParse]);//, toNFTsCopy, fromNFTsCopy])
 
   return (
     <>
@@ -228,19 +229,21 @@ const OfferScreen = (props) => {
             ))}
           </div>
 
-          <div className={styles.body}>
+          <div className={styles.body} style={{marginRight: '50ex'}}>
             <div className={styles.group}>
-              {/*<div>{JSON.stringify(location.state.ownedNFTs)}</div>*/}
-              <div className={styles.item}>
+              {/*<div>{JSON.stringify(location.state)}</div>*/}
+              <div style={{marginLeft: '-40ex'}}>
                 {activeIndex === 0 && [
                   <div className={styles.line}>
-                    <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" VEXT"}</div>
+                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
+                        <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
                   </div>,
                   <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
                 ]}
                 {activeIndex === 1 && [
                   <div className={styles.line}>
-                    <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" VEXT"}</div>
+                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
+                        <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
                     {/*{JSON.stringify(toNFTs)}*/}
                   </div>,
                   <Items class={styles.items} nfts={toNFTs} isListing={false} account={props.account}/>
@@ -297,7 +300,7 @@ const OfferScreen = (props) => {
             {/*{JSON.stringify(location.state)}*/}
             {/*<Users className={styles.users} style={{marginBottom: '5ex'}} items={users} owner={1}/>*/}
             <Control account={props.account} offerId={location.state.offerId} toNFTs={location.state.toNFTs} fromNFTs={location.state.fromNFTs}
-              toVEXT={location.state.toVEXT} fromVEXT={location.state.fromVEXT}/>
+              toVEXT={location.state.toVEXT} fromVEXT={location.state.fromVEXT} isETH={location.state.isETH} toAccepted={location.state.toAccepted} fromAccepted={location.state.fromAccepted}/>
           </div>
         </div>
       </div>
