@@ -467,7 +467,7 @@ function App() {
         }
 
         if (ownedPacks.length === 0) {
-            await getOwnedPacks();
+            //await getOwnedPacks();
         }
 
 
@@ -517,6 +517,13 @@ function App() {
             await getOwnedNFTs();
         }
     }, [account]);
+
+    useEffect(async () => {
+        if (account) {
+            //alert("AC: " + account);
+            await getOwnedPacks();
+        }
+    }, [account, fetchedAndParsed]);
 
 
 

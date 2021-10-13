@@ -4,6 +4,7 @@
     display: flex
     flex-wrap: wrap
     margin: -32px -16px 0
+    max-width: 32px
     +x
         margin: -32px -10px 0
     +d
@@ -15,17 +16,21 @@
 .card
     flex: 0 0 calc(33.333% - 32px)
     width: calc(33.333% - 32px)
+    max-width: 32px
     margin: 32px 16px 0
     +x
         flex: 0 0 calc(33.333% - 20px)
         width: calc(33.333% - 20px)
+        max-width: 32px
         margin: 32px 10px 0
     +d
         flex: 0 0 calc(50% - 32px)
         width: calc(50% - 32px)
+        max-width: 32px
         margin: 32px 16px 0
     +m
         width: 100%
+        max-width: 32px
         margin: 0
         &:not(:last-child)
             margin-bottom: 32px
