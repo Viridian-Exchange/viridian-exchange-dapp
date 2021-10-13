@@ -341,6 +341,8 @@ const Profile = (props) => {
               setOffers(await getOffersFromUser(props.account));
             }
           }
+
+          //alert(JSON.stringify(offers));
           //alert(nftIds);
           //await console.log(vnftABI.methods);
 

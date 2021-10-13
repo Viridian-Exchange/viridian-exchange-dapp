@@ -4,7 +4,7 @@ import styles from "./Users.module.sass";
 import oStyles from "../Card.module.sass"
 import {parseVextAmount} from "../../../Utils";
 
-const Users = ({ className, items, owner, fromNFTs, toNFTs, fromVEXT, toVEXT, curProfilePhoto, otherProfilePhoto }) => {
+const Users = ({ className, items, owner, fromNFTs, toNFTs, fromVEXT, toVEXT, curProfilePhoto, otherProfilePhoto, isETH }) => {
     /*
     <div className={styles.body}>
           <div className={styles.line}>
@@ -20,16 +20,34 @@ const Users = ({ className, items, owner, fromNFTs, toNFTs, fromVEXT, toVEXT, cu
         </div>
      */
 
-    const trade = [
-        {
-            NFTs: fromNFTs.length + " VNFTs",
-            VEXT: parseVextAmount(fromVEXT) + " VEXT",
-        },
-        {
-            NFTs: toNFTs.length + " VNFTs",
-            VEXT: parseVextAmount(toVEXT) + " VEXT",
-        },
-    ];
+    let trade = [];
+
+    if (isETH) {
+        trade = [
+            {
+                NFTs: fromNFTs.length + " VNFTs",
+                VEXT: parseVextAmount(fromVEXT) + " ETH",
+            },
+            {
+                NFTs: toNFTs.length + " VNFTs",
+                VEXT: parseVextAmount(toVEXT) + " ETH",
+            },
+        ];
+    }
+    else {
+        trade = [
+            {
+                NFTs: fromNFTs.length + " VNFTs",
+                VEXT: parseVextAmount(fromVEXT) + " USDT",
+            },
+            {
+                NFTs: toNFTs.length + " VNFTs",
+                VEXT: parseVextAmount(toVEXT) + " USDT",
+            },
+        ];
+    }
+
+
   return (
     <div className={cn(styles.users, className)}>
       <div className={styles.list}>
