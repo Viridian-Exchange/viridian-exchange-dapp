@@ -64,11 +64,14 @@ const Hot = (props, { classSection }) => {
           <div className={styles.inner}>
             {props.nfts[0] ? <Slider className="bid-slider" {...settings}>
               {props.nfts.map((x, index) => {
-                if (x.isVNFT) {
-                  return (<NFT key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
-                }
-                else {
-                  return (<Pack key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
+                if (index <= 10) {
+                  if (x.isVNFT) {
+                    return (
+                        <NFT key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
+                  } else {
+                    return (
+                        <Pack key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
+                  }
                 }
               })}
             </Slider> : <div style={{margin: 'auto',
