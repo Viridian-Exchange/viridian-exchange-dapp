@@ -28,7 +28,7 @@ const items = (account) => [
   },
 ];
 
-const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance}) => {
+const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance}) => {
   const [visible, setVisible] = useState(false);
   const [balance, setBalance] = useState(0);
 
@@ -49,7 +49,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
         //alert("connecting wallet")
         await connectWallet();
         console.log(connected);
-        alert()
+        //alert()
       }
       //connect().then(() => setConnected(true));
     }
@@ -73,14 +73,15 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
           await FetchUser(setUserInfo, accounts[0]);
           //alert("FETCH FROM USER SCREEN")
         }
-        // alert(accounts[0]);
+        //alert(accounts[0]);
         //alert(JSON.stringify(account));
       });
 
 
       //alert(JSON.stringify(web3));
-      // await web3.eth.getBalance(account).then(async (balance) =>
-      //     await setEthBalance(round(balance * .000000000000000001, 4)));
+      await web3.eth.getBalance(account).then(async (balance) => {
+        //alert(balance);
+          await setEthBalance(round(balance * .000000000000000001, 4))});
       await setVextBalance(await getVEXTBalance());
       await setConnected(true);
 
@@ -100,6 +101,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   }
 
   async function getVEXTBalance() {
+
     const vtContractAddress = config.dev_contract_addresses.vt_contract;
     //console.log(JSON.stringify(vNFTJSON));
     let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
@@ -148,13 +150,16 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                 <ReactLoading type={'spin'} color={'#bf9a36'} height={'100%'} width={'100%'} />
               </div>,
                 <div className={styles.wallet}>
-                  <span className={styles.currency}>VEXT</span>
+                  <span className={styles.currency}><img style={{width: '3ex', marginTop: '-.4ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' /></span>
                 </div>] : [<div className={styles.avatar}>
             <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
             </div>,
-            <div className={styles.wallet}>
+                <div>{(ethBalance === 0) ? <div className={styles.wallet}>
           {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
-            </div>]}
+            </div> : <div className={styles.wallet}>
+                  <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+                  {ethBalance}
+                </div>}</div>]}
         </div>
             {visible && (
                 <div className={styles.body}>
@@ -167,15 +172,21 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                   </div>
                   <div className={styles.wrap}>
                     <div className={styles.line}>
-                      <div className={styles.preview}>
-                        <img
-                            src="/images/content/ve_circle.png"
-                            alt="Ethereum"
-                        />
-                      </div>
-                      <div className={styles.details}>
+                      {/*<div className={styles.preview}>*/}
+                      {/*  <img*/}
+                      {/*      src="/images/content/ve_circle.png"*/}
+                      {/*      alt="Ethereum"*/}
+                      {/*  />*/}
+                      {/*</div>*/}
+                      <div className={styles.details} style={{marginLeft: '-1ex'}}>
                         <div className={styles.info}>Balance</div>
-                        <div className={styles.price}>{parseVextBalance(vextBalance)} USDT</div>
+                        <div>{(ethBalance === 0) ? <div className={styles.price}>
+                          {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
+                        </div> : <div className={styles.price}>
+                          <img style={{width: '2ex', marginTop: '-.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+                          {ethBalance}
+                          {/*<span className={styles.currency}>ETH</span>*/}
+                        </div>}</div>
                       </div>
                     </div>
                     {/*<button*/}

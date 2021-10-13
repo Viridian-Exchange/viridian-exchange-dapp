@@ -99,7 +99,7 @@ const Control = (props, { className }) => {
 
   return (
     <>
-      <div className={cn(styles.control, className)}>
+        {!((props.owner.toLowerCase() === props.account.toLowerCase()) && props.isListing) && <div className={cn(styles.control, className)}>
         <div className={styles.head}>
           {/*<div className={styles.avatar}>*/}
           {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
@@ -117,7 +117,7 @@ const Control = (props, { className }) => {
         </div>
           {/*{JSON.stringify(props.isListing)}*/}
           {buyButtons()}
-          {offerButtons()}
+          {/*{offerButtons()}*/}
           {props.price && <div className={styles.text}>
           Service fee <span className={styles.percent}>1.5%</span>{" "}
           <span>{parseVextAmount(props.price) * .015} VEXT</span> <span>${Number.parseInt(parseVextAmount(props.price)) * .2 * .015}</span>
@@ -126,12 +126,12 @@ const Control = (props, { className }) => {
         <div className={styles.note}>
           You can sell this token on Viridian Exchange
         </div>
-      </div>
+      </div>}
       <Modal
         visible={visibleModalPurchase}
         onClose={() => setVisibleModalPurchase(false)}
       >
-        <Checkout price={props.price} account={props.account} tokenId={props.state.listingId} />
+        <Checkout price={props.price} account={props.account} tokenId={props.state.listingId} isETH={props.isETH} />
           {purchased &&
               <SuccessfullyPurchased/>
           }
@@ -163,6 +163,6 @@ const Control = (props, { className }) => {
       </Modal>
     </>
   );
-};
+}
 
 export default Control;

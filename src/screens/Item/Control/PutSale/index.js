@@ -22,14 +22,11 @@ const items = [
     title: "Service fee",
     value: "1.5%",
   },
-  {
-    title: "Total bid amount",
-    value: "0 ETH",
-  },
 ];
 
 const PutSale = (props, { className }) => {
-  const [price, setPrice] = useState(false);
+  const [price, setPrice] = useState("0");
+  const [isETH, setIsETH] = useState(true);
   const [saleLoading, setSaleLoading] = useState(false);
 
   function handlePriceChance(event) {
@@ -45,22 +42,32 @@ const PutSale = (props, { className }) => {
           <Icon name="coin" size="24" />
         </div>
         <div className={styles.details}>
-          <div className={styles.info}>Instant sale price</div>
+          <div className={styles.info}>Pick Crypto</div>
           <div className={styles.text}>
-            Enter the price for which the item will be instanly sold
+            Toggle whether you'd like the listing in ETH or USDT
           </div>
         </div>
-        <Switch className={styles.switch} value={price} setValue={setPrice} />
+        <Switch className={styles.switch} value={isETH} setValue={setIsETH} />
       </div>
       <div className={styles.table}>
         {items.map((x, index) => {
-            if (index === 0 && price) {
-                return (
-                    <div className={styles.row} key={index}>
-                        <div className={styles.col}>{x.title}</div>
-                        <TextInput placeholder={"VEXT"} onChange={handlePriceChance} className={styles.col}/>
-                    </div>
-                );
+            if (index === 0) {
+                if (isETH) {
+                    return (
+                        <div className={styles.row} key={index}>
+                            <div className={styles.col}>{x.title}</div>
+                            <TextInput placeholder={"ETH"} onChange={handlePriceChance} className={styles.col}/>
+                        </div>
+                    );
+                }
+                else {
+                    return (
+                        <div className={styles.row} key={index}>
+                            <div className={styles.col}>{x.title}</div>
+                            <TextInput placeholder={"USDT"} onChange={handlePriceChance} className={styles.col}/>
+                        </div>
+                    );
+                }
             }
             else {
                 return (
@@ -73,25 +80,41 @@ const PutSale = (props, { className }) => {
         })}
       </div>
       <div className={styles.btns}>
-          {props.account}
-          {JSON.stringify(props.state)}
+          {/*{props.account}*/}
+          {JSON.stringify(props)}
         <button className={cn("button", styles.button)} onClick = {async () => {
             //alert(price);
             await setSaleLoading(true);
 
             if (!props.isPack) {
                 alert("NFT Sale: " + props.state.id);
-                await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0).then((e) => {
-                    alert("E: " + JSON.stringify(e));
-                    setSaleLoading(false);
-                });
+                if (isETH) {
+                    await putUpForSale(props.account, props.state.id, price.toString(), 0, 0, false).then((e) => {
+                        alert("E: " + false);
+                        setSaleLoading(false);
+                    });
+                }
+                else {
+                    await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, true).then((e) => {
+                        alert("E: " + true);
+                        setSaleLoading(false);
+                    });
+                }
             }
             else {
-                alert("Pack Sale: " + props.state.id);
-                await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0).then((e) => {
-                    alert("E: " + JSON.stringify(e));
-                    setSaleLoading(false);
-                });
+                //alert("Pack Sale: " + props.state.id);
+                if (isETH) {
+                    await putPackUpForSale(props.account, props.state.id, price.toString(), 0, 0, false).then((e) => {
+                        //alert("E: " + JSON.stringify(e));
+                        setSaleLoading(false);
+                    });
+                }
+                else {
+                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, true).then((e) => {
+                        //alert("E: " + JSON.stringify(e));
+                        setSaleLoading(false);
+                    });
+                }
             }
             }}>
             {!saleLoading && "Continue"} {saleLoading &&

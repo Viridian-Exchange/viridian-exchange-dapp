@@ -6,7 +6,7 @@ import Icon from "../Icon";
 import VideoLooper from 'react-video-looper'
 import {parseVextAmount} from '../../Utils';
 
-const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) => {
+const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
@@ -42,9 +42,9 @@ const NFT = ({ className, item, account, isListing, curProfilePhoto }, props) =>
           {/*</button>*/}
         </div>
       </div>
-      {/*{JSON.stringify(item.listingId)}*/}
+      {/*{JSON.stringify(item.isListing)}*/}
       {/*{curProfilePhoto}*/}
-      <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false } }}>
+      <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>

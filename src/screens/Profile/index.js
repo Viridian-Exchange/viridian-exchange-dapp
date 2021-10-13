@@ -416,6 +416,26 @@ const Profile = (props) => {
       }
     });
 
+    // let curPacks = props.packs;
+    //
+    // //alert("CNFTS: " + JSON.stringify(curNFTs));
+    //
+    // // TODO: Filter listings not owned by the current wallet, maybe write a tool for filtering listings to help
+    // //  with the search bar
+    // // curNFTs.forEach((nft, index) =>  {
+    // //   //if (nft.owner != )
+    // //   curNFTs.splice(index, 1);
+    // // });
+    //
+    // curPacks.forEach((pack) => {
+    //   //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
+    //   if (pack.owner.toLowerCase() === props.account) {
+    //     ol.push(pack);
+    //   }
+    // });
+    //
+    // alert(JSON.stringify(ol))
+
     setOwnedListings(ol);
   }
 
@@ -483,7 +503,10 @@ const Profile = (props) => {
             if (nftsCopy[0]) {
               if (nftsCopy[0].uri.image) {
                 //alert("NFTC " + JSON.stringify(nftsCopy))
-                await props.setOwnedNFTs(nftsCopy);
+                // if (!props.ownedNFTs[0].owner) {
+                  //alert("hi")
+                  await props.setOwnedNFTs(nftsCopy);
+                //}
               }
             }
           }

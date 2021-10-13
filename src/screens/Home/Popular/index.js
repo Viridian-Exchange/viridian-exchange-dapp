@@ -238,17 +238,17 @@ const Popular = (props) => {
               options={directionOptions}
             />
           </div>
-          <div className={styles.field}>
-            <div className={styles.label}>timeframe</div>
-            <Dropdown
-              className={styles.dropdown}
-              value={date}
-              setValue={setDate}
-              options={dateOptions}
-            />
-          </div>
+          {/*<div className={styles.field}>*/}
+          {/*  <div className={styles.label}>timeframe</div>*/}
+          {/*  <Dropdown*/}
+          {/*    className={styles.dropdown}*/}
+          {/*    value={date}*/}
+          {/*    setValue={setDate}*/}
+          {/*    options={dateOptions}*/}
+          {/*  />*/}
+          {/*</div>*/}
         </div>
-        <div className={styles.wrapper}>
+        {props.users ? <div className={styles.wrapper}>
           {/*{"ONTE: " + JSON.stringify(props.ownedNFTs)}*/}
           {props.users ? <Slider className="popular-slider" {...settings}>
             {/*{JSON.stringify(items[2])}*/}
@@ -302,7 +302,7 @@ const Popular = (props) => {
           </Slider> : <div style={{margin: 'auto',
             width: '-50%',
             padding: '10px'}}><Loader/></div>}
-        </div>
+        </div> : <div><Loader className={styles.loader} color="white" /></div>}
       </div>
     </div>
   );
