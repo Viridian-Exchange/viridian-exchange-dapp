@@ -5,6 +5,7 @@ import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import VideoLooper from 'react-video-looper'
 import {parseVextAmount} from '../../Utils';
+import Web3 from 'web3';
 
 const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
@@ -47,8 +48,8 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, pr
       <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
+            {JSON.stringify(isETH)}
             <div className={styles.title}>{item.uri.name}</div>
-            {isListing && <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}
           </div>
           <div className={styles.line}>
             <div className={styles.users}>
@@ -67,6 +68,13 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, pr
           {/*  <Icon name="candlesticks-up" size="20" />*/}
           {/*  Highest bid <span>{item.highestBid}</span>*/}
           {/*</div>*/}
+          {isListing &&
+          <div>{item.isETH ? <div className={styles.price}>
+                <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+                {Web3.utils.fromWei(item.price)}
+              </div>
+              : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
+          }
           <div
             className={styles.bid}
             dangerouslySetInnerHTML={{ __html: item.bid }}

@@ -208,7 +208,7 @@ const OfferScreen = (props) => {
     }
   //}, []);
 
-  }, [startParse]);//, toNFTsCopy, fromNFTsCopy])
+  }, []); //[startParse]);//, toNFTsCopy, fromNFTsCopy])
 
   return (
     <>

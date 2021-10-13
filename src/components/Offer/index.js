@@ -34,7 +34,7 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
     <div className={cn(styles.card, className)}>
         {/*{"ITM: " + JSON.stringify(otherUser.profilePhotoURL)}*/}
         <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
-               otherProfilePhoto={otherUser.profilePhotoURL}/>
+               otherProfilePhoto={otherUser.profilePhotoURL} account={account}/>
       <div className={styles.preview}>
         {/*{uri.image}*/}
         <div className={styles.control}>
@@ -52,7 +52,7 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
       {/*<Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>*/}
       {/*</Link>*/}
     </div>
-          {JSON.stringify(item)}
+          {/*{JSON.stringify(item)}*/}
 </Link>
   );
 };
