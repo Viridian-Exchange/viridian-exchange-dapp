@@ -2,8 +2,9 @@ import {React, useState} from "react";
 import cn from "classnames";
 import styles from "./Checkout.module.sass";
 import Icon from "../../../../components/Icon";
+import web3 from 'web3';
 import LoaderCircle from "../../../../components/LoaderCircle";
-import {buyNFTWithVEXT} from "../../../../smartContracts/ViridianExchangeMethods";
+import {buyNFTWithVEXT, buyNFTWithETH} from "../../../../smartContracts/ViridianExchangeMethods";
 
 
 const Checkout = (props, { className }) => {
@@ -96,11 +97,22 @@ const Checkout = (props, { className }) => {
           {/*{JSON.stringify(props)}*/}
            <button className={cn("button", styles.button)} onClick={async () => {
             setPurchasing(true)
-            await buyNFTWithVEXT(props.account, props.tokenId, props.price).then((e) => {
-                //alert("E: " + JSON.stringify(e));
-                setPurchasing(false);
-                setPurchased(true);
-            });
+
+            if (props.isETH) {
+                alert("buying nft with eth")
+                await buyNFTWithETH(props.account, props.tokenId, props.price).then((e) => {
+                    //alert("E: " + JSON.stringify(e));
+                    setPurchasing(false);
+                    setPurchased(true);
+                });
+            }
+            else {
+                await buyNFTWithVEXT(props.account, props.tokenId, props.price).then((e) => {
+                    //alert("E: " + JSON.stringify(e));
+                    setPurchasing(false);
+                    setPurchased(true);
+                });
+            }
         }}>
           I understand, continue
         </button>

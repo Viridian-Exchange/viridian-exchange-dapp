@@ -9,7 +9,7 @@ import Report from "../Report";
 import Icon from "../Icon";
 import Modal from "../../components/Modal";
 
-const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, price }) => {
+const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, isETH, price }) => {
   const [visible, setVisible] = useState(false);
   const [visibleModalTransfer, setVisibleModalTransfer] = useState(false);
   const [visibleModalRemoveSale, setVisibleModalRemoveSale] = useState(false);
@@ -111,7 +111,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, pr
         visible={visibleModalRemoveSale}
         onClose={() => setVisibleModalRemoveSale(false)}
       >
-        <RemoveSale id={id} account={account} isPack={isPack} price={price} />
+        <RemoveSale id={id} account={account} isPack={isPack} price={price} isETH={isETH} />
       </Modal>
       <Modal
         visible={visibleModalBurn}

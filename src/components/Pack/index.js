@@ -5,7 +5,7 @@ import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import {parseVextAmount} from "../../Utils";
 
-const Pack = ({ className, item, account, isListing, curProfilePhoto }, props) => {
+const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
@@ -13,8 +13,8 @@ const Pack = ({ className, item, account, isListing, curProfilePhoto }, props) =
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
   return (
     <div className={cn(styles.card, className)} style={{maxHeight: '35ex'}}>
+      {/*{JSON.stringify(item.isETH)}*/}
       <div className={styles.preview}>
-        {/*{item.uri.image}*/}
         {item.uri.image ? <video autoPlay loop muted style={{maxWidth: '32ex'}}>
           <source src={item.uri.image} type="video/mp4"/>
         </video> : <img src="/images/content/gradient-2.png" alt='card' style={{opacity: '0.2'}}/>}
@@ -31,9 +31,10 @@ const Pack = ({ className, item, account, isListing, curProfilePhoto }, props) =
           {/*  <span>Place a bid</span>*/}
           {/*  <Icon name="scatter-up" size="16" />*/}
           {/*</button>*/}
+          {/*{JSON.stringify(item)}*/}
         </div>
       </div>
-      <Link className={styles.link} to={{ pathname: `/item/pack/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true } }}>
+      <Link className={styles.link} to={{ pathname: `/item/pack/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>

@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import "./styles/app.sass";
 import Page from "./components/Page";
 import Home from "./screens/Home";
@@ -47,6 +48,7 @@ function App() {
     const [connected, setConnected] = useState(false);
     const [account, setAccount] = useState("");
     const [ethBalance, setEthBalance] = useState(0);
+    const [ethBalanceUSD, setEthBalanceUSD] = useState(0);
     const [vextBalance, setVextBalance] = useState(0);
     const [userInfo, setUserInfo] = useState({});
     const [promptSetup, setPromptSetup] = useState(false);
@@ -56,6 +58,8 @@ function App() {
     const [users, setUsers] = useState([]);
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [filteredNfts, setFilteredNFTs] = useState([]);
+    //const [nftsSet, setNftsSet] = useState(false);
+    let nftsSet = false;
 
     //const history = useHistory();
     //const location = useLocation();
@@ -65,6 +69,19 @@ function App() {
         const {ethereum} = window;
         return Boolean(ethereum && ethereum.isMetaMask);
     };
+
+    //TODO: Figure out how to call this from aws to avoid the cors error
+    const fetchCurrencyData = () => {
+        axios.get('https://api.coinmarketcap.com/v1/ticker/?limit=10')
+            .then(response => {
+                const wanted = ['ethereum']
+                const result = response.data.filter(currency =>
+                    wanted.includes(currency.id),
+                )
+                alert(JSON.stringify(result));
+            })
+            .catch(err => console.log(err))
+    }
 
     async function newUserCheck(account_from_eth) {
 
@@ -119,6 +136,18 @@ function App() {
             await setConnected(true);
             // await web3.eth.getBalance(account).then(async (balance) =>
             //     await setEthBalance(round(balance * .000000000000000001, 4)));
+            await web3.eth.getBalance(account, function(err, result) {
+                if (err) {
+                    console.log(err)
+                } else {
+                    //alert(web3.utils.fromWei(result, "ether"))
+                    //alert('fetchingData');
+                    //fetchCurrencyData();
+                    setEthBalance(round(web3.utils.fromWei(result, "ether"), 4));
+                }
+            })
+
+            //alert("Getting vext balancealert(\"1\")")
             await setVextBalance(await getVEXTBalance());
 
 
@@ -137,6 +166,7 @@ function App() {
 
 
     async function getVEXTBalance() {
+        //alert("2")
         const vtContractAddress = config.dev_contract_addresses.vt_contract;
         //console.log(JSON.stringify(vNFTJSON));
         let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
@@ -230,6 +260,7 @@ function App() {
         const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
         let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
         //alert(JSON.stringify(vnftABI.methods));
+        //alert(account)
         let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: account});
         let nfts = [];
         //alert(JSON.stringify(vnftABI.methods));
@@ -255,9 +286,12 @@ function App() {
 
         //console.log(nfts);
 
-        if (ownedNfts.length === 0) {
+        if (!nftsSet) {
+            //alert(JSON.stringify(nfts) + " & " + JSON.stringify(ownedNfts) + JSON.stringify(!nftsSet))
             setOwnedNfts(nfts);
+            //setNftsSet(true);
         }
+        //nftsSet = true;
     }
 
 
@@ -304,7 +338,7 @@ function App() {
         //console.log('Fetching from uri: ' + JSON.stringify(listing.tokenId));
         //const extractedObject =calert(listing)
         if (listing) {
-            //alert(JSON.stringify(listing.isVNFT));
+            //alert(JSON.stringify(listing.isVEXT));
             if (listing.isVNFT) {
                 await tokenURI(listing.tokenId).then(async (e) => {
                     console.log("FETCHING THIS: " + JSON.stringify(e));
@@ -325,7 +359,8 @@ function App() {
                                     uri: resJson,
                                     owner: owner,
                                     price: listing.price,
-                                    isVNFT: listing.isVNFT
+                                    isVNFT: listing.isVNFT,
+                                    isETH: !listing.isVEXT
                                 }
                                 console.log(newNFT);
                                 nftsCopy.push(newNFT);
@@ -354,7 +389,8 @@ function App() {
                                     uri: resJson,
                                     owner: owner,
                                     price: listing.price,
-                                    isVNFT: listing.isVNFT
+                                    isVNFT: listing.isVNFT,
+                                    isETH: !listing.isVEXT
                                 }
                                 console.log(newNFT);
                                 nftsCopy.push(newNFT);
@@ -426,8 +462,13 @@ function App() {
             //alert(listings);
         });
 
-        await getOwnedNFTs();
-        await getOwnedPacks();
+        if (ownedNfts.length === 0) {
+            //await getOwnedNFTs();
+        }
+
+        if (ownedPacks.length === 0) {
+            await getOwnedPacks();
+        }
 
 
             if (listings) {
@@ -470,7 +511,12 @@ function App() {
     }, [fetchedAndParsed, checkUserPrompt, connected]);
 
 
-
+    useEffect(async () => {
+        if (account) {
+            //alert("AC: " + account);
+            await getOwnedNFTs();
+        }
+    }, [account]);
 
 
 
@@ -482,7 +528,7 @@ function App() {
           exact
           path="/"
           render={() => (
-            <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                 {/*{"ON: " + JSON.stringify(ownedNfts)}*/}
                 <Home nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}
                       ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks}
@@ -496,7 +542,7 @@ function App() {
           exact
           path="/upload-variants"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <UploadVariants />
             </Page>
           )}
@@ -506,7 +552,7 @@ function App() {
               path="/BuyVEXT"
               render={() => (
 
-                  <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                  <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                       <PayPal/>
                   </Page>
               )}
@@ -515,7 +561,7 @@ function App() {
           exact
           path="/upload-details"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <UploadDetails />
             </Page>
           )}
@@ -524,7 +570,7 @@ function App() {
           exact
           path="/connect-wallet"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <ConnectWallet vextBalance={vextBalance}/>
             </Page>
           )}
@@ -533,7 +579,7 @@ function App() {
           exact
           path="/faq"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Faq />
             </Page>
           )}
@@ -542,7 +588,7 @@ function App() {
           exact
           path="/activity"
           render={() => (
-            <Page users={users} nfts={nfts} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Activity />
             </Page>
           )}
@@ -551,7 +597,7 @@ function App() {
           exact
           path="/search01"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Search01 listings={listings} setListings={setListings} nfts={filteredNfts} account={account} />
             </Page>
           )}
@@ -560,7 +606,7 @@ function App() {
           exact
           path="/search02"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Search02 listings={listings} setListings={setListings} nfts={nfts} account={account} />
             </Page>
           )}
@@ -569,7 +615,7 @@ function App() {
           exact
           path="/profile/:address"
           render={() => (
-            <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                 {/*{JSON.stringify(users)}*/}
                 <Profile users={users} cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed}/>
             </Page>
@@ -579,7 +625,7 @@ function App() {
           exact
           path="/profile-edit"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo} users = {users}/>
             </Page>
           )}
@@ -588,7 +634,7 @@ function App() {
           exact
           path="/item/:type/:id"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Item account={account}/>
             </Page>
           )}
@@ -597,7 +643,7 @@ function App() {
               exact
               path="/offer/:id"
               render={() => (
-                  <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                  <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                       <OfferScreen account={account}/>
                   </Page>
               )}
@@ -606,7 +652,7 @@ function App() {
           exact
           path="/pagelist"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <PageList />
             </Page>
           )}
