@@ -449,19 +449,18 @@ const Profile = (props) => {
   useEffect(async () => {
     if (location.state) {
       if (location.state.account !== props.account) {
-        //alert(true);
         if (otherNFTs.length === 0) {
           await getOtherOwnedNFTs();
         }
       }
     }
-    }, [location.state, otherPacks]);
+    }, [location.state, otherNFTs, otherPacks]);
 
   useEffect(async () => {
     if (otherPacks.length === 0) {
       await getOtherOwnedPacks();
     }
-  }, [otherNFTs, otherPacks])
+  }, [otherNFTs, otherNFTs])
 
   useEffect(async () => {
     if(props.ownedNFTs[0]) {
