@@ -7,7 +7,7 @@ import Pack from "../../../components/Pack";
 import Loader from "../../../components/Loader";
 import Offer from "../../../components/Offer";
 
-const Items = ({ className, items, nfts, packs, isListing, account, offers, curProfilePhoto, users }, props) => {
+const Items = ({ className, items, nfts, packs, isListing, account, offers, curProfilePhoto, users, dropDownOption }, props) => {
 
     if (nfts) {
         return (
@@ -70,8 +70,14 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                             if (user.username.toLowerCase() === x.from.toLowerCase()) {
                                 // console.log(user.username.toLowerCase() === x.from.toLowerCase());
                                 if (x.pending) {
-                                    return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                                   curProfilePhoto={curProfilePhoto}/>);
+                                    if (dropDownOption === "Sent Offers" && account.toLowerCase() === x.from.toLowerCase()) {
+                                        return (<Offer className={styles.card} item={x} otherUser={user} key={index}
+                                                       account={account} curProfilePhoto={curProfilePhoto}/>);
+                                    }
+                                    else if (dropDownOption === "Received Offers" && account.toLowerCase() === x.to.toLowerCase()) {
+                                        return (<Offer className={styles.card} item={x} otherUser={user} key={index}
+                                                       account={account} curProfilePhoto={curProfilePhoto}/>);
+                                    }
                                 }
                             }
                         });

@@ -7,7 +7,7 @@ import VideoLooper from 'react-video-looper'
 import {parseVextAmount} from '../../Utils';
 import Web3 from 'web3';
 
-const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, props) => {
+const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto, isHotBid }, props) => {
   const [visible, setVisible] = useState(false);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
@@ -48,7 +48,7 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, pr
       <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: false, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
-            {JSON.stringify(isETH)}
+            {/*{JSON.stringify(isETH)}*/}
             <div className={styles.title}>{item.uri.name}</div>
           </div>
           <div className={styles.line}>
@@ -70,8 +70,11 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, pr
           {/*</div>*/}
           {(isListing && item.price) &&
           <div>{item.isETH ? <div className={styles.price}>
-                <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-                {Web3.utils.fromWei(item.price)}
+                <img style={{width: '3ex', marginTop: '-.2ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+
+            {!isHotBid ? <div style={{marginTop: '-3.7ex', marginLeft: '2ex'}}>
+              {Web3.utils.fromWei(item.price)}</div> :  <div style={{marginTop: '-3.2ex', marginLeft: '2ex'}}>
+              {Web3.utils.fromWei(item.price)} </div>}
               </div>
               : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
           }
