@@ -442,11 +442,15 @@ const Profile = (props) => {
   }
 
   useEffect(async () => {
+    getOwnedListings();
+  }, [props.nfts])
+
+  useEffect(async () => {
     if(props.ownedNFTs[0]) {
       if (!props.ownedNFTs[0].uri.name) {
         if (location.state) {
           console.log(JSON.stringify(props.nfts));
-          getOwnedListings();
+          //getOwnedListings();
           console.log(ownedListings);
 
           if (otherNFTs.length === 0) {
