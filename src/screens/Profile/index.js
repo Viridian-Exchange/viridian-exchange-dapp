@@ -447,16 +447,21 @@ const Profile = (props) => {
   }, [props.nfts])
 
   useEffect(async () => {
-      if (otherNFTs.length === 0) {
-        await getOtherOwnedNFTs();
+    if (location.state) {
+      if (location.state.account !== props.account) {
+        //alert(true);
+        if (otherNFTs.length === 0) {
+          await getOtherOwnedNFTs();
+        }
       }
-    }, [location.state, otherNFTs, otherPacks]);
+    }
+    }, [location.state, otherPacks]);
 
   useEffect(async () => {
     if (otherPacks.length === 0) {
       await getOtherOwnedPacks();
     }
-  }, [location.state, otherNFTs, otherPacks])
+  }, [otherNFTs, otherPacks])
 
   useEffect(async () => {
     if(props.ownedNFTs[0]) {
@@ -651,9 +656,7 @@ const Profile = (props) => {
 
   }
 
-  let coverURL = "url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() + ")";
-
-//TODO: UPLOAD THEIR DEFAULT COVER TO S3 THEN PASS THE URL INTO HANDLEADDUSERSIMPLE SO IT SHOWS UP BY DEFAULT
+  //TODO: UPLOAD THEIR DEFAULT COVER TO S3 THEN PASS THE URL INTO HANDLEADDUSERSIMPLE SO IT SHOWS UP BY DEFAULT
   if (location) {
     if (location.state) {
       if (location.state.account === props.account) {
@@ -664,7 +667,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: coverURL,
+                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() + ")",
                     webkitBackfaceVisibility: 'hidden',
                     mozBackfaceVisibility:    'hidden',
                     msBackfaceVisibility:     'hidden'
