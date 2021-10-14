@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cn from "classnames";
 import styles from "./Control.module.sass";
 import Checkout from "./Checkout";
@@ -10,6 +10,12 @@ import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
 import { acceptOfferWithVEXT, acceptOfferWithETH, finalApprovalWithETH } from "../../../smartContracts/ViridianExchangeMethods";
 import web3 from 'web3';
+import Web3 from "web3";
+import config from "../../../local-dev-config";
+import voJSON from "../../../abis/ViridianExchangeOffers.json";
+import styles1 from "../../Item/Control/Checkout/Checkout.module.sass";
+import LoaderCircle from "../../../components/LoaderCircle";
+import Icon from "../../../components/Icon";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -21,36 +27,60 @@ const Control = (props, { className }) => {
   const [offers, setOffers] = useState([]);
   const [purchased, setPurchased] = useState(false);
 
-  function offerButtons() {
-    //if ((props.owner.toLowerCase() === props.account.toLowerCase()) {
-      return (
-          <div className={styles.btns}>
-              {/*<button className={cn("button-stroke", styles.button)}>*/}
-              {/*    View all*/}
-              {/*</button>*/}
-              <button
-                  className={cn("button", styles.button)}
-                  onClick={async () => {//setVisibleModalAccept(true)
-                      if (props.isETH) {
-                          //alert(props.toVEXT)
-                          if (props.toAccepted && !props.fromAccepted) {
-                              await finalApprovalWithETH(props.account, props.offerId, props.fromVEXT);
-                          }
-                          else {
-                              await acceptOfferWithETH(props.account, props.offerId, props.toVEXT);
-                          }
-                      }
-                      else {
-                          await acceptOfferWithVEXT(props.account, props.offerId, props.toVEXT);
-                      }
-                  }}
-              >
-                  Accept
-              </button>
-          </div>);
-    //}
-  }
+  const [loading, setLoading] = useState(false);
+  const [accepted, setAccepted] = useState(false);
+  const [eventData, setEventData] = useState({});
 
+  let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
+  useEffect(async () => {
+
+        alert("EVENT DATA" + JSON.stringify(eventData));
+
+        if (eventData[0]) {
+            setAccepted(true);
+            setLoading(false);
+        }
+
+
+
+    }, [eventData])
+
+  // function offerButtons() {
+  //   //if ((props.owner.toLowerCase() === props.account.toLowerCase()) {
+  //     return (
+  //
+  //         {!accepted && !loading && <div className={styles.btns}>
+  //             {/*<button className={cn("button-stroke", styles.button)}>*/}
+  //             {/*    View all*/}
+  //             {/*</button>*/}
+  //             <button
+  //                 className={cn("button", styles.button)}
+  //                 onClick={async () => {//setVisibleModalAccept(true)
+  //                     if (props.isETH) {
+  //                         //alert(props.toVEXT)
+  //                         if (props.toAccepted && !props.fromAccepted) {
+  //                             await finalApprovalWithETH(props.account, props.offerId, props.fromVEXT);
+  //                         }
+  //                         else {
+  //                             await acceptOfferWithETH(props.account, props.offerId, props.toVEXT);
+  //                         }
+  //                     }
+  //                     else {
+  //                         await acceptOfferWithVEXT(props.account, props.offerId, props.toVEXT);
+  //                     }
+  //                 }}
+  //             >
+  //                 Accept
+  //             </button>
+  //         </div>}
+  //
+  //         );
+  //   //}
+  // }
+
+
+    // NOT USED
     function buyButtons() {
         if ((props.owner.toLowerCase() !== props.account.toLowerCase()) && props.isListing) {
             return (
@@ -71,6 +101,7 @@ const Control = (props, { className }) => {
         }
     }
 
+    // NOT USED
     function putOnSaleButton() {
         if ((props.owner.toLowerCase() === props.account.toLowerCase()) && !props.isListing) {
             return (
@@ -112,7 +143,71 @@ const Control = (props, { className }) => {
           </div>
         </div>
           {/*{"OID: " + JSON.stringify(props.offerId)}*/}
-          {offerButtons()}
+          {!accepted && !loading && <div className={styles.btns}>
+              {/*<button className={cn("button-stroke", styles.button)}>*/}
+              {/*    View all*/}
+              {/*</button>*/}
+              <button
+                  className={cn("button", styles.button)}
+                  onClick={async () => {//setVisibleModalAccept(true)
+
+                      const voContractAddress = config.dev_contract_addresses.vo_contract;
+                      let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+
+                      await voABI.events.AcceptedOffer({}).on('data', async function(event) {
+                          setEventData(event.returnValues);
+                          // Do something here
+                      }).on('err', console.error);
+                      //alert(price);
+                      await setLoading(true);
+
+
+                      if (props.isETH) {
+                          //alert(props.toVEXT)
+                          if (props.toAccepted && !props.fromAccepted) {
+                              await finalApprovalWithETH(props.account, props.offerId, props.fromVEXT);
+                          }
+                          else {
+                              await acceptOfferWithETH(props.account, props.offerId, props.toVEXT);
+                          }
+                      }
+                      else {
+                          await acceptOfferWithVEXT(props.account, props.offerId, props.toVEXT);
+                      }
+                  }}
+              >
+                  Accept
+              </button>
+          </div>}
+
+          {loading &&
+          <div className={styles1.line}>
+              <div className={styles1.icon}>
+                  <LoaderCircle className={styles1.loader} />
+              </div>
+              <div className={styles1.details}>
+                  <div className={styles1.subtitle}>Accepting Offer</div>
+                  <div className={styles1.text}>
+                      Please confirm the necessary transactions through MetaMask
+                  </div>
+              </div>
+          </div> }
+
+          {accepted &&
+          <div className={styles1.line}>
+              {/*<div className={styles.icon}>*/}
+              {/*    <LoaderCircle className={styles.loader} />*/}
+              {/*</div>*/}
+              <div className={styles1.details}>
+                  <Icon name="check" size="18" fill={"#BF9A36"} />
+                  <div className={styles1.subtitle}>Offer Accepted!</div>
+                  <div className={styles1.text}>
+                      Please wait while the other user confirms this offer.
+                  </div>
+              </div>
+          </div> }
+
+
         {/*<div className={styles.text}>*/}
         {/*  Service fee <span className={styles.percent}>1.5%</span>{" "}*/}
         {/*  <span>2.563 ETH</span> <span>$4,540.62</span>*/}
