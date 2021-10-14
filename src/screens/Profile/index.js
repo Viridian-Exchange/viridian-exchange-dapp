@@ -314,6 +314,7 @@ const Profile = (props) => {
     if(location.state) {
       if (location.state) {
         if (location.state.account) {
+          //alert(location.state.account)
           let nftIds = await vnftABI.methods.getOwnedNFTs().call({from: location.state.account});
           let nfts = [];
           //alert(JSON.stringify(vnftABI.methods));
@@ -446,6 +447,18 @@ const Profile = (props) => {
   }, [props.nfts])
 
   useEffect(async () => {
+      if (otherNFTs.length === 0) {
+        await getOtherOwnedNFTs();
+      }
+    }, [location.state, otherNFTs, otherPacks]);
+
+  useEffect(async () => {
+    if (otherPacks.length === 0) {
+      await getOtherOwnedPacks();
+    }
+  }, [location.state, otherNFTs, otherPacks])
+
+  useEffect(async () => {
     if(props.ownedNFTs[0]) {
       if (!props.ownedNFTs[0].uri.name) {
         if (location.state) {
@@ -453,12 +466,12 @@ const Profile = (props) => {
           //getOwnedListings();
           console.log(ownedListings);
 
-          if (otherNFTs.length === 0) {
-            await getOtherOwnedNFTs();
-          }
-          if (otherPacks.length === 0) {
-            await getOtherOwnedPacks();
-          }
+          // if (otherNFTs.length === 0) {
+          //   await getOtherOwnedNFTs();
+          // }
+          // if (otherPacks.length === 0) {
+          //   await getOtherOwnedPacks();
+          // }
 
           if (!location.state) {
             // await setInitialLoaded(true);
@@ -613,7 +626,7 @@ const Profile = (props) => {
 
   const addCoverToS3PlusDB = async () => {
     if (files.length != 0) {
-      alert("there is a file here!!");
+      //alert("there is a file here!!");
       await s3Upload(files).then(async(res) => {
         setCoverPhotoURL(res);
         await updateUser(res);
@@ -634,7 +647,7 @@ const Profile = (props) => {
     // if (res.status === 204) {
     //   setSuccessMessage(true);
     // }
-    alert("Success!:" + JSON.stringify(res));
+    //alert("Success!:" + JSON.stringify(res));
 
   }
 
@@ -814,6 +827,7 @@ const Profile = (props) => {
               <div className={styles.body}>
                 {/*{JSON.stringify(location.state)}*/}
                 <div className={cn("container", styles.container)}>
+                  {/*{location.state.profilePhotoURL}*/}
                   <User className={styles.user} item={socials} userInfo = {props.userInfo} curUser={location.state.curAccount} curUserInfo = {props.userInfo} account={location.state.account}
                         otherUserInfo={{
                           username: location.state.account,
@@ -854,7 +868,7 @@ const Profile = (props) => {
                             <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 1 && [
-                          <Items class={styles.items} packs={otherPacks} isListing={true} account={props.account} userInfo = {props.userInfo}/>
+                          <Items class={styles.items} packs={otherPacks} isListing={false} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 2 && [
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account} userInfo = {props.userInfo}/>

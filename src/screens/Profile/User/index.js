@@ -177,7 +177,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
           <div className={cn(styles.user, className)}>
             {/*{JSON.stringify(userInfo)}*/}
             <div className={styles.avatar}>
-              {userInfo.profilePhotoURL && <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar"/>}
+              {otherUserInfo.profilePhotoURL && <img src={otherUserInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar"/>}
             </div>
             <div className={styles.name}>{otherUserInfo.displayName}</div>
             <CopyToClipboard text={account}
