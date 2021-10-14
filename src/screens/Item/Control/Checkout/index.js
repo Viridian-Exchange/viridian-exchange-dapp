@@ -1,15 +1,34 @@
-import {React, useState} from "react";
+import React, {useState, useEffect} from "react";
 import cn from "classnames";
 import styles from "./Checkout.module.sass";
 import Icon from "../../../../components/Icon";
 import web3 from 'web3';
 import LoaderCircle from "../../../../components/LoaderCircle";
 import {buyNFTWithVEXT, buyNFTWithETH} from "../../../../smartContracts/ViridianExchangeMethods";
+import Web3 from "web3";
+import config from "../../../../local-dev-config";
+import veJSON from "../../../../abis/ViridianExchange.json";
 
 
 const Checkout = (props, { className }) => {
     const [purchasing, setPurchasing] = useState(false);
     const [purchased, setPurchased] = useState(false);
+    const [eventData, setEventData] = useState({});
+
+    let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
+    useEffect(async () => {
+
+        alert("EVENT DATA" + JSON.stringify(eventData));
+
+        if (eventData[0]) {
+            setPurchased(true);
+            setPurchasing(false);
+        }
+
+
+
+    }, [eventData])
 
     const items = [
         {
@@ -64,7 +83,7 @@ const Checkout = (props, { className }) => {
         <div className={styles.details}>
           <div className={styles.subtitle}>Purchasing</div>
           <div className={styles.text}>
-            Sending transaction with your wallet
+            Please confirm the necessary transactions through MetaMask
           </div>
         </div>
       </div> }
@@ -75,9 +94,10 @@ const Checkout = (props, { className }) => {
             {/*    <LoaderCircle className={styles.loader} />*/}
             {/*</div>*/}
             <div className={styles.details}>
-                <div className={styles.subtitle}>Completed transaction</div>
+                <Icon name="check" size="18" fill={"#BF9A36"} />
+                <div className={styles.subtitle}>Purchase Successful!</div>
                 <div className={styles.text}>
-                    Refresh inventory for new items to show up!
+                    Refresh your inventory to view your new items
                 </div>
             </div>
         </div> }
@@ -93,24 +113,27 @@ const Checkout = (props, { className }) => {
       {/*    <img src="/images/content/avatar-3.jpg" alt="Avatar" />*/}
       {/*  </div>*/}
       {/*</div>*/}
-        {!purchased && <div className={styles.btns}>
+        {!purchased && !purchasing && <div className={styles.btns}>
           {/*{JSON.stringify(props)}*/}
            <button className={cn("button", styles.button)} onClick={async () => {
-            setPurchasing(true)
+               const veContractAddress = config.dev_contract_addresses.ve_contract;
+               let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+
+               await veABI.events.PurchasedListing({}).on('data', async function(event) {
+                   setEventData(event.returnValues);
+                   // Do something here
+               }).on('err', console.error);
+            setPurchasing(true);
 
             if (props.isETH) {
                 alert("buying nft with eth")
                 await buyNFTWithETH(props.account, props.tokenId, props.price).then((e) => {
                     //alert("E: " + JSON.stringify(e));
-                    setPurchasing(false);
-                    setPurchased(true);
                 });
             }
             else {
                 await buyNFTWithVEXT(props.account, props.tokenId, props.price).then((e) => {
                     //alert("E: " + JSON.stringify(e));
-                    setPurchasing(false);
-                    setPurchased(true);
                 });
             }
         }}>
