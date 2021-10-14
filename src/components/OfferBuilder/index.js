@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import styles from "./UploadDetails.module.sass";
+import styles1 from "../../screens/Item/Control/Checkout/Checkout.module.sass";
 import Icon from "../../components/Icon";
 import TextInput from "../../components/TextInput";
 import Switch from "../../components/Switch";
@@ -14,8 +15,14 @@ import Dropdown from "../Dropdown";
 import Flexbox from 'flexbox-react';
 import {makeOffer} from "../../smartContracts/ViridianExchangeMethods";
 import {parseAmountToVext} from "../../Utils";
+import config from "../../local-dev-config";
+import voJSON from "../../abis/ViridianExchangeOffers.json";
+import Web3 from "web3";
+import LoaderCircle from "../LoaderCircle";
 
 const royaltiesOptions = ["10%", "20%", "30%"];
+
+let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 const items = [
   {
@@ -49,6 +56,22 @@ const OfferBuilder = (props) => {
   const [selectedGivePackIds, setGiveSelectedPackIds] = useState([]);
   const [giveAmount, setGiveAmount] = useState(0);
   const [recAmount, setRecAmount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [eventData, setEventData] = useState({});
+  const [offered, setOffered] = useState(false);
+
+  useEffect(async () => {
+
+    alert("EVENT DATA" + JSON.stringify(eventData));
+
+    if (eventData[0]) {
+      setOffered(true);
+      setLoading(false);
+    }
+
+
+
+  }, [eventData])
 
 
 
@@ -111,8 +134,46 @@ const OfferBuilder = (props) => {
         </Flexbox>
       </Flexbox>
       <div className={styles.btns}>
-        <button className={cn("button", styles.button)} onClick={async () => await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), true, 1)
-        }> <span>Send Offer</span> </button>
+        {!offered && !loading && <button className={cn("button", styles.button)} onClick={async () => {
+          const voContractAddress = config.dev_contract_addresses.vo_contract;
+          let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+
+          await voABI.events.CreatedOffer({}).on('data', async function(event) {
+            setEventData(event.returnValues);
+            // Do something here
+          }).on('err', console.error);
+          //alert(price);
+          await setLoading(true);
+
+          await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), true, 1)
+        }
+        }> Send Offer </button>}
+
+        {loading &&
+        <div className={styles1.line}>
+          <div className={styles1.icon}>
+            <LoaderCircle className={styles1.loader} />
+          </div>
+          <div className={styles1.details}>
+            <div className={styles1.subtitle}>Sending Offer</div>
+            <div className={styles1.text}>
+              Please confirm the necessary transactions through MetaMask
+            </div>
+          </div>
+        </div> }
+
+        {offered &&
+        <div className={styles1.line}>
+          {/*<div className={styles.icon}>*/}
+          {/*    <LoaderCircle className={styles.loader} />*/}
+          {/*</div>*/}
+          <div className={styles1.details}>
+            <Icon name="check" size="18" fill={"#BF9A36"} />
+            <div className={styles1.subtitle}>Offer Sent!</div>
+            <div className={styles1.text}>
+            </div>
+          </div>
+        </div> }
       </div>
       </div>
   );
