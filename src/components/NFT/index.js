@@ -45,7 +45,7 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto }, pr
       </div>
       {/*{JSON.stringify(item.isListing)}*/}
       {/*{curProfilePhoto}*/}
-      <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: false, isETH: item.isETH } }}>
+      <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: false, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             {JSON.stringify(isETH)}
