@@ -4,6 +4,7 @@
     display: flex
     flex-wrap: wrap
     margin: -32px -16px 0
+    max-width: 32px
     +x
         margin: -32px -10px 0
     +d
@@ -13,16 +14,22 @@
         margin: 0
 
 .card
-    flex: 0 0 calc(33.333% - 32px)
-    width: calc(33.333% - 32px)
+    flex: 0 0 calc(23.333% - 32px)
+    width: calc(23.333% - 32px)
+    min-width: 32ex
+    max-width: 32ex
     margin: 32px 16px 0
     +x
-        flex: 0 0 calc(33.333% - 20px)
-        width: calc(33.333% - 20px)
+        flex: 0 0 calc(63.333% - 20px)
+        width: calc(63.333% - 20px)
+        min-width: 32ex
+        max-width: 32ex
         margin: 32px 10px 0
     +d
-        flex: 0 0 calc(50% - 32px)
-        width: calc(50% - 32px)
+        flex: 0 0 calc(75% - 32px)
+        width: calc(75% - 32px)
+        min-width: 32ex
+        max-width: 32ex
         margin: 32px 16px 0
     +m
         width: 100%
