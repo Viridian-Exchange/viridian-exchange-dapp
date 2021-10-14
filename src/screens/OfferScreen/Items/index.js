@@ -17,7 +17,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, curProfileP
                         <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account} userInfo = {props.userInfo}/>
                     ])}
                 </div>
-                <Loader className={styles.loader}/>
+                {/*<Loader className={styles.loader}/>*/}
             </div>
         );
     }
@@ -29,7 +29,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, curProfileP
                         <Card className={styles.card} item={x} key={index}/>
                     ))}
                 </div>
-                <Loader className={styles.loader}/>
+                {/*<Loader className={styles.loader}/>*/}
             </div>
         );
     }
@@ -41,7 +41,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, curProfileP
                         <Offer users={users} className={styles.card} item={x} key={index} curProfilePhoto={curProfilePhoto} otherProfilePhoto={otherProfilePhoto}/>
                     ))}
                 </div>
-                <Loader className={styles.loader}/>
+                {/*<Loader className={styles.loader}/>*/}
             </div>
         );
     }

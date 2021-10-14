@@ -26,6 +26,7 @@ import vTJSON from '../../abis/ViridianToken.json';
 import {HandleUpdateUser} from "../../apis/UserAPI";
 import RemoveSale from "../../components/RemoveSale";
 import Modal from "../../components/Modal";
+import Dropdown from "../../components/Dropdown";
 
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
@@ -202,6 +203,8 @@ const followers = [
   },
 ];
 
+const options = ["Sent Offers", "Received Offers"];
+
 const Profile = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -221,6 +224,8 @@ const Profile = (props) => {
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [followed, setFollowed] = useState(false);
+  const [showRec, setShowRec] = useState(false);
+  const [option, setOption] = useState(options[0]);
 
 
 
@@ -335,7 +340,7 @@ const Profile = (props) => {
             //alert(nfts);
           }
 
-          if (location) {
+          if (location.state) {
             if (location.state.account) {
               setOffers(await getOffersFromUser(location.state.account));
             } else {
@@ -476,13 +481,13 @@ const Profile = (props) => {
         }
       }
     }
-    }, [location.state, otherNFTs, otherPacks]);
+    }, [location.state, otherPacks]);
 
   useEffect(async () => {
     if (otherPacks.length === 0) {
       await getOtherOwnedPacks();
     }
-  }, [otherNFTs, otherNFTs])
+  }, [otherNFTs])
 
   useEffect(async () => {
     if(props.ownedNFTs[0]) {
@@ -780,7 +785,13 @@ const Profile = (props) => {
                         ]}
                         {activeIndex === 3 && [
                           //<div>{JSON.stringify(offers)}</div>,
-                            <Items users={props.users} class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
+                          <Dropdown
+                              className={styles.dropdown}
+                              value={option}
+                              setValue={setOption}
+                              options={options}
+                          />,
+                            <Items dropDownOption={option} users={props.users} class={styles.items} offers={offers} account={props.account} curProfilePhoto = {props.userInfo.profilePhotoURL}
                             curDisplayName={props.userInfo.displayName} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
@@ -907,7 +918,7 @@ const Profile = (props) => {
                         ]}
                         {activeIndex === 3 && [
                           // <div>HIHIHI{"USRS: " + JSON.stringify(props.users)}</div>,
-                          <Items class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
+                          <Items account={props.account} account={props.account} class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
                             <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>

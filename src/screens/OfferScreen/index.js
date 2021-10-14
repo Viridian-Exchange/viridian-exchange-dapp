@@ -208,14 +208,14 @@ const OfferScreen = (props) => {
     }
   //}, []);
 
-  }, []); //[startParse]);//, toNFTsCopy, fromNFTsCopy])
+  }, [startParse, toNFTsCopy, fromNFTsCopy]);
 
   return (
     <>
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
 
-          <div className={styles.nav}>
+          <div className={styles.nav} style={{marginTop: '3.5ex'}}>
             {navLinks.map((x, index) => (
                 <button
                     className={cn(styles.link, {
@@ -234,14 +234,14 @@ const OfferScreen = (props) => {
               {/*<div>{JSON.stringify(location.state)}</div>*/}
               <div style={{marginLeft: '-40ex'}}>
                 {activeIndex === 0 && [
-                  <div className={styles.line}>
+                  <div className={styles.line} style={{marginTop: '5ex'}}>
                     {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
                   </div>,
                   <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
                 ]}
                 {activeIndex === 1 && [
-                  <div className={styles.line}>
+                  <div className={styles.line} style={{marginTop: '5ex'}}>
                     {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
                     {/*{JSON.stringify(toNFTs)}*/}
