@@ -69,8 +69,10 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                             //return ("BRUH");
                             if (user.username.toLowerCase() === x.from.toLowerCase()) {
                                 // console.log(user.username.toLowerCase() === x.from.toLowerCase());
-                                return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                               curProfilePhoto={curProfilePhoto}/>);
+                                if (x.pending) {
+                                    return (<Offer className={styles.card} item={x} otherUser={user} key={index}
+                                                   curProfilePhoto={curProfilePhoto}/>);
+                                }
                             }
                         });
                     })}
@@ -82,6 +84,6 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
         return <Loader className={styles.loader}/>;
     }
 
-};
+}
 
-export default Items
+export default Items;

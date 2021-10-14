@@ -8,7 +8,8 @@ import Accept from "./Accept";
 import PutSale from "./PutSale";
 import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
-import { acceptOfferWithVEXT } from "../../../smartContracts/ViridianExchangeMethods";
+import { acceptOfferWithVEXT, acceptOfferWithETH, finalApprovalWithETH } from "../../../smartContracts/ViridianExchangeMethods";
+import web3 from 'web3';
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -24,13 +25,24 @@ const Control = (props, { className }) => {
     //if ((props.owner.toLowerCase() === props.account.toLowerCase()) {
       return (
           <div className={styles.btns}>
-              <button className={cn("button-stroke", styles.button)}>
-                  View all
-              </button>
+              {/*<button className={cn("button-stroke", styles.button)}>*/}
+              {/*    View all*/}
+              {/*</button>*/}
               <button
                   className={cn("button", styles.button)}
                   onClick={async () => {//setVisibleModalAccept(true)
-                      await acceptOfferWithVEXT(props.account, props.offerId, props.fromVEXT);
+                      if (props.isETH) {
+                          //alert(props.toVEXT)
+                          if (props.toAccepted && !props.fromAccepted) {
+                              await finalApprovalWithETH(props.account, props.offerId, props.fromVEXT);
+                          }
+                          else {
+                              await acceptOfferWithETH(props.account, props.offerId, props.toVEXT);
+                          }
+                      }
+                      else {
+                          await acceptOfferWithVEXT(props.account, props.offerId, props.toVEXT);
+                      }
                   }}
               >
                   Accept
@@ -78,32 +90,36 @@ const Control = (props, { className }) => {
     <>
       <div className={cn(styles.control, className)}>
         <div className={styles.head}>
-          <div className={styles.avatar}>
-            <img src="/images/content/avatar-4.jpg" alt="Avatar" />
-          </div>
+          {/*<div className={styles.avatar}>*/}
+          {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
+          {/*</div>*/}
           <div className={styles.details}>
-            <div className={styles.info}>
-              Accept offer from <span>Kohaku Tora</span>
-            </div>
+              {/*{JSON.stringify(props)}*/}
+              {(props.isETH && props.toAccepted && !props.fromAccepted) ? <div className={styles.info}>
+              Approve accepted offer
+            </div> : <div className={styles.info}>
+                  Accept offer
+              </div>}
             <div className={styles.cost}>
-              <div className={styles.price}>1.46 ETH</div>
-              <div className={styles.price}>$2,764.89</div>
+                {props.isETH ? [<div className={styles.price}>{web3.utils.fromWei(props.fromVEXT)} ETH</div>,
+              <div className={styles.price}>{web3.utils.fromWei(props.toVEXT)} ETH</div>] : [<div className={styles.price}>{props.fromVEXT} USDT</div>,
+                        <div className={styles.price}>{props.toVEXT} USDT</div>]}
             </div>
               <div className={styles.cost}>
-              <div className={styles.price}>2 VNFTs</div>
-              <div className={styles.price}>1 VNFT</div>
+              <div className={styles.price}>{props.fromNFTs.length} VNFTS</div>
+              <div className={styles.price}>{props.toNFTs.length} VNFTS</div>
               </div>
           </div>
         </div>
           {/*{"OID: " + JSON.stringify(props.offerId)}*/}
           {offerButtons()}
-        <div className={styles.text}>
-          Service fee <span className={styles.percent}>1.5%</span>{" "}
-          <span>2.563 ETH</span> <span>$4,540.62</span>
-        </div>
-        <div className={styles.note}>
-          You can sell this token on Viridian Exchange
-        </div>
+        {/*<div className={styles.text}>*/}
+        {/*  Service fee <span className={styles.percent}>1.5%</span>{" "}*/}
+        {/*  <span>2.563 ETH</span> <span>$4,540.62</span>*/}
+        {/*</div>*/}
+        {/*<div className={styles.note}>*/}
+        {/*  You can sell this token on Viridian Exchange*/}
+        {/*</div>*/}
       </div>
       <Modal
         visible={visibleModalPurchase}

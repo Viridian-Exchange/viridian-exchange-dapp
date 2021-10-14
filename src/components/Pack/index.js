@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import {parseVextAmount} from "../../Utils";
+import Web3 from "web3";
 
 const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, props) => {
   const [visible, setVisible] = useState(false);
@@ -38,7 +39,7 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, p
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>
-            {isListing && <div className={styles.price}>{parseVextAmount(item.price)} VEXT</div>}
+            {/*{isListing && <div className={styles.price}>{parseVextAmount(item.price)} VEXT</div>}*/}
           </div>
           <div className={styles.line}>
             <div className={styles.users}>
@@ -56,6 +57,13 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, p
           {/*  <Icon name="candlesticks-up" size="20" />*/}
           {/*  Highest bid <span>{item.highestBid}</span>*/}
           {/*</div>*/}
+          {isListing &&
+          <div>{item.isETH ? <div className={styles.price}>
+                <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+                {Web3.utils.fromWei(item.price)}
+              </div>
+              : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
+          }
           <div
             className={styles.bid}
             dangerouslySetInnerHTML={{ __html: item.bid }}
