@@ -400,6 +400,8 @@ const Profile = (props) => {
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
+    let curNonListings = [...props.ownedNFTs];
+    let curNonListingsP = [...props.ownedPacks];
 
     //alert("CNFTS: " + JSON.stringify(curNFTs));
 
@@ -417,6 +419,24 @@ const Profile = (props) => {
       if (nft.owner.toLowerCase() === props.account) {
         ol.push(nft);
       }
+    });
+
+    curNFTs.forEach((nft) => {
+      curNonListings.forEach((cnl, index) => {
+        //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
+        if (nft.id === cnl.id) {
+          //ol.push(nft);
+          curNonListings[index] = nft;
+        }
+      })
+
+      curNonListingsP.forEach((cnl, index) => {
+        //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
+        if (nft.id === cnl.id) {
+          //ol.push(nft);
+          curNonListingsP[index] = nft;
+        }
+      })
     });
 
     // let curPacks = props.packs;
@@ -438,13 +458,15 @@ const Profile = (props) => {
     // });
     //
     // alert(JSON.stringify(ol))
+    props.setOwnedNFTs(curNonListings);
+    props.setOwnedPacks(curNonListingsP);
 
     setOwnedListings(ol);
   }
 
   useEffect(async () => {
     getOwnedListings();
-  }, [props.nfts])
+  }, [props.nfts]);
 
   useEffect(async () => {
     if (location.state) {
@@ -744,11 +766,11 @@ const Profile = (props) => {
                     <div className={styles.group}>
                       <div className={styles.item}>
                         {activeIndex === 0 && (
-                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}
+                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={true} account={location}
                                    curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo} />
                         )}
                         {activeIndex === 1 && (
-                            <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}
+                            <Items class={styles.items} packs={props.ownedPacks} isListing={true} account={location}
                                    curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 2 && [

@@ -57,7 +57,7 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, p
           {/*  <Icon name="candlesticks-up" size="20" />*/}
           {/*  Highest bid <span>{item.highestBid}</span>*/}
           {/*</div>*/}
-          {isListing &&
+          {(isListing && item.price) &&
           <div>{item.isETH ? <div className={styles.price}>
                 <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                 {Web3.utils.fromWei(item.price)}
