@@ -651,6 +651,8 @@ const Profile = (props) => {
 
   }
 
+  let coverURL = "url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() + ")";
+
 //TODO: UPLOAD THEIR DEFAULT COVER TO S3 THEN PASS THE URL INTO HANDLEADDUSERSIMPLE SO IT SHOWS UP BY DEFAULT
   if (location) {
     if (location.state) {
@@ -662,7 +664,10 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() +")"
+                    backgroundImage: coverURL,
+                    webkitBackfaceVisibility: 'hidden',
+                    mozBackfaceVisibility:    'hidden',
+                    msBackfaceVisibility:     'hidden'
                   }}
               >
                 <div className={cn("container", styles.container)}>
@@ -789,7 +794,10 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + location.state.coverPhotoURL + "?" + new Date().getTime() +")"
+                    backgroundImage: "url(" + location.state.coverPhotoURL + "?" + new Date().getTime() +")",
+                    webkitBackfaceVisibility: 'hidden',
+                    mozBackfaceVisibility:    'hidden',
+                    msBackfaceVisibility:     'hidden'
                   }}
               >
                 <div className={cn("container", styles.container)}>
