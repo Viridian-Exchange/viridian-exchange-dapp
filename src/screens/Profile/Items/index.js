@@ -92,4 +92,4 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
 
 }
 
-export default Items;
+export default Items

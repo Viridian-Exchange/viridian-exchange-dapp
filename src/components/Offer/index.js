@@ -35,8 +35,9 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
     <div className={cn(styles.card, className)}>
         {/*{"ITM: " + JSON.stringify(otherUser.profilePhotoURL)}*/}
         {/*{JSON.stringify((item.to.toLowerCase())) + " " + JSON.stringify(account.toLowerCase())}*/}
-        {(item.to.toLowerCase() === account.toLowerCase()) ? <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
-               otherProfilePhoto={otherUser.profilePhotoURL} account={account}/> : <Users items={users} toVEXT={item.toAmt} toNFTs={item.toNftIds} fromVEXT={item.fromAmt} fromNFTs={item.fromNftIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
+        {/*{JSON.stringify(item)}*/}
+        {(item.to.toLowerCase() === account.toLowerCase()) ? <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} toPacks={item.toPackIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} fromPacks={item.fromPackIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
+               otherProfilePhoto={otherUser.profilePhotoURL} account={account}/> : <Users items={users} toVEXT={item.toAmt} toNFTs={item.toNftIds} toPacks={item.toPackIds} fromVEXT={item.fromAmt} fromNFTs={item.fromNftIds} fromPacks={item.fromPackIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
                                                                                           otherProfilePhoto={otherUser.profilePhotoURL} account={account}/>}
       <div className={styles.preview}>
         {/*{uri.image}*/}

@@ -132,6 +132,7 @@ const OfferBuilder = (props) => {
         </Flexbox>
       </Flexbox>
       <div className={styles.btns}>
+        {JSON.stringify(selectedGiveIds) + JSON.stringify(selectedGivePackIds) + JSON.stringify(selectedRecIds) + JSON.stringify(selectedRecPackIds)}
         <button className={cn("button", styles.button)} onClick={async () => {
           if (isETH) {
             await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, giveAmount.toString(), selectedRecIds, selectedRecPackIds, recAmount.toString(), false, 7);

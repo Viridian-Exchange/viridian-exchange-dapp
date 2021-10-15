@@ -106,8 +106,8 @@ const Control = (props, { className }) => {
                         <div className={styles.price}>{props.toVEXT} USDT</div>]}
             </div>
               <div className={styles.cost}>
-              <div className={styles.price}>{props.fromNFTs.length} VNFTS</div>
-              <div className={styles.price}>{props.toNFTs.length} VNFTS</div>
+              <div className={styles.price}>{props.fromNFTs.length} NFTS</div>
+              <div className={styles.price}>{props.toNFTs.length} NFTS</div>
               </div>
           </div>
         </div>

@@ -33,7 +33,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 
 const navLinks = [
-  "VNFTs",
+  "NFTs",
   "Packs",
   "On Sale",
   "Offers",
@@ -312,7 +312,7 @@ const Profile = (props) => {
     //console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
-    const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
+    const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
@@ -369,7 +369,7 @@ const Profile = (props) => {
     //console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
-    const vpContractAddress = config.dev_contract_addresses.vp_contract;
+    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
@@ -431,7 +431,10 @@ const Profile = (props) => {
         //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
         if (nft.id === cnl.id) {
           //ol.push(nft);
-          curNonListings[index] = nft;
+          //alert(JSON.stringify(nft.isVNFT))
+          if (nft.isVNFT) {
+            curNonListings[index] = nft;
+          }
         }
       })
 
@@ -439,7 +442,9 @@ const Profile = (props) => {
         //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
         if (nft.id === cnl.id) {
           //ol.push(nft);
-          curNonListingsP[index] = nft;
+          if (!nft.isVNFT) {
+            curNonListingsP[index] = nft;
+          }
         }
       })
     });
@@ -577,7 +582,7 @@ const Profile = (props) => {
         }
       }
     }
-    if (location) {
+    if (location.state) {
       if (location.state.account === props.account) {
         getFollowing(false);
         getFollowers(false);
@@ -592,8 +597,8 @@ const Profile = (props) => {
 
 
   async function ownerOf(tokenId, isPack) {
-    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
-    const vpContractAddress = config.dev_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
