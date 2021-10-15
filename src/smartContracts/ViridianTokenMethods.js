@@ -1,7 +1,7 @@
 import config from "../local-dev-config";
 import vTJSON from "../abis/ViridianToken.json";
 import Web3 from "web3";
-let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 export async function approve(from, exchangeAddress, amount) {
     const vTContractAddress = config.ropsten_contract_addresses.vt_contract;

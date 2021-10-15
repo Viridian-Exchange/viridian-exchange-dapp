@@ -25,7 +25,7 @@ const Actions = ({ className, id, tokenId, account, owner, isListing, isPack, is
                 {
                     title: "Change price",
                     icon: "coin",
-                    action: () => console.log("coin"),
+                    action: () => {}, //console.log("coin"),
                 },
                 {
                     title: "Pull From Sale",
