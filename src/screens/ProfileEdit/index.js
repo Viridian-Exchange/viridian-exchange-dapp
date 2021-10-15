@@ -154,7 +154,7 @@ const ProfileEdit = (props) => {
         <div className={cn("container", styles.container)}>
           <div className={styles.top}>
             <h1 className={cn("h2", styles.title)}>Edit profile</h1>
-            {JSON.stringify(props.userInfo)}
+            {/*{JSON.stringify(props.userInfo)}*/}
             <div className={styles.info}>
               You can set preferred display name, create{" "}
               <strong>your profile URL</strong> and manage other personal

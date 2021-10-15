@@ -8,13 +8,13 @@ export async function openPack(packId, account, setRevealing, setCards) {
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
     await vpABI.methods.openPack(packId).send({from: account}).then(async transaction => {
-        console.log("transaction: " + JSON.stringify(transaction));
+        ////console.log("transaction: " + JSON.stringify(transaction));
 
         //let uris = [];
         await vpABI.getPastEvents("Open", {},
             (errors, events) => {
                 if (!errors) {
-                    console.log(events);
+                    ////console.log(events);
                     //alert(JSON.stringify(events[0]));
                     //alert(events[0].returnValues["0"]);
                     return events[0].returnValues["0"];
@@ -30,7 +30,7 @@ export async function tokenPackURI(tokenId) {
     const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
-    await console.log("ABIMETHODS: " + tokenId);
+    //console.log("ABIMETHODS: " + tokenId);
     let nft = vNFTABI.methods.tokenURI(tokenId).call();
 
     //alert(nft);
@@ -41,10 +41,10 @@ export async function tokenPackURI(tokenId) {
 export async function ownerOfPack(tokenId) {
     const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
 
-    console.log("THIS IS BEING CALLED")
+    //console.log("THIS IS BEING CALLED")
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS5: " + tokenId);
+    //console.log("ABIMETHODS5: " + tokenId);
     let owner = await vNFTABI.methods.ownerOf(tokenId).call.request();
 
     //alert(owner);
@@ -53,11 +53,11 @@ export async function ownerOfPack(tokenId) {
 }
 
 export async function ownerOfPackNoReq(tokenId) {
-    console.log("THIS IS BEING CALLED")
+    //console.log("THIS IS BEING CALLED")
     const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
-    await console.log("ABIMETHODS6: " + tokenId);
+    //console.log("ABIMETHODS6: " + tokenId);
     let owner = await vNFTABI.methods.ownerOf(tokenId).call();
 
     //alert(owner);

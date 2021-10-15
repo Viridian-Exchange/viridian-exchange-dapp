@@ -38,7 +38,7 @@ const PutSale = (props, { className }) => {
 
   return (
     <div className={cn(className, styles.sale)}>
-        {JSON.stringify(price)}
+        {/*{JSON.stringify(price)}*/}
       <div className={cn("h4", styles.title)}>Put on sale</div>
       <div className={styles.line}>
         <div className={styles.icon}>

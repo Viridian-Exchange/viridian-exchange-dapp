@@ -38,9 +38,9 @@ export const HandleAddUser = async (setUserInfo, address, displayName, bio, webs
         });
         // user.users = [...user.users, user.newUser];
         // user.newUser = { "userID": "", "username": "", "email": "", "collection": [] };
-        //console.log("UPLOAD SUCCESS: " + params);
+        ////console.log("UPLOAD SUCCESS: " + params);
     } catch (err) {
-        console.log(`An error has occurred: ${err}`);
+        //console.log(`An error has occurred: ${err}`);
     }
 };
 
@@ -87,9 +87,9 @@ export const HandleAddUserSimple = async (setUserInfo, address) => {
 
         // user.users = [...user.users, user.newUser];
         // user.newUser = { "userID": "", "username": "", "email": "", "collection": [] };
-        //console.log("UPLOAD SUCCESS: " + params);
+        ////console.log("UPLOAD SUCCESS: " + params);
     } catch (err) {
-        console.log(`An error has occurred: ${err}`);
+        //console.log(`An error has occurred: ${err}`);
     }
 };
 
@@ -134,7 +134,7 @@ export const HandleUpdateUser = async (setUserInfo, address, displayName, bio, w
 
 
     }catch (err) {
-        console.log(`Error updating user: ${err}`);
+        //console.log(`Error updating user: ${err}`);
     }
 };
 
@@ -180,7 +180,7 @@ export const HandleAddFollowing = async (setUserInfo, userInfo, following) => {
 
 
     }catch (err) {
-        console.log(`Error updating user: ${err}`);
+        //console.log(`Error updating user: ${err}`);
     }
 };
 
@@ -226,7 +226,7 @@ export const HandleAddFollower = async (userInfo, followers) => {
 
 
     }catch (err) {
-        console.log(`Error updating user: ${err}`);
+        //console.log(`Error updating user: ${err}`);
     }
 };
 
@@ -272,7 +272,7 @@ export const HandleAddLikes = async (setUserInfo, userInfo, likes) => {
 
 
     }catch (err) {
-        console.log(`Error updating user: ${err}`);
+        //console.log(`Error updating user: ${err}`);
     }
 };
 
@@ -292,9 +292,9 @@ export const HandleDeleteUser = async (username, event) => {
         await axios.delete(`${config.api.invokeUrl}/user/${username}`);
         //const updatedUsers = [...user.users].filter(user => user.username !== username);
         //user.users = updatedUsers;
-        console.log('DELETE SUCCESSFUL')
+        //console.log('DELETE SUCCESSFUL')
     } catch (err) {
-        console.log(`Unable to delete user: ${err}`);
+        //console.log(`Unable to delete user: ${err}`);
     }
 };
 
@@ -327,7 +327,7 @@ export const FetchUser = async (setUserInfo, address) => {
         // const res_user = res.data;
         // user.users = res_user;
         // alert("Success: " + JSON.stringify(res));
-        //console.log (JSON.stringify(user));
+        ////console.log (JSON.stringify(user));
         // alert("auth user: " + JSON.stringify(user.users.Item));
 
 
@@ -349,7 +349,7 @@ export const FetchAllUsers = async(setUsers) => {
     // then set them in state
     try {
         await axios.get(`${config.api.invokeUrl}/user`).then(async(res) => {
-            console.log(JSON.stringify(res));
+            //console.log(JSON.stringify(res));
             if (res.data.Items) {
                 await setUsers(res.data.Items);
             }
@@ -359,7 +359,7 @@ export const FetchAllUsers = async(setUsers) => {
         // const res_user = res.data;
         // user.users = res_user;
         // alert("Success: " + JSON.stringify(res));
-        //console.log (JSON.stringify(user));
+        ////console.log (JSON.stringify(user));
         // alert("auth user: " + JSON.stringify(user.users.Item));
 
 

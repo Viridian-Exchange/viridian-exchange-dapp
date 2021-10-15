@@ -110,7 +110,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                       if (res.ok) {
                           //alert("Owner OF: " + owner);
                           const resJson = await res.json();
-                          console.log(JSON.stringify(resJson));
+                          //console.log(JSON.stringify(resJson));
                           //alert(JSON.stringify(resJson));
                           let item = {id: tokenId, uri: resJson, owner: packOwner};
 
@@ -155,7 +155,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
                       if (res.ok) {
                           //alert("Owner OF: " + owner);
                           const resJson = await res.json();
-                          console.log(JSON.stringify(resJson));
+                          //console.log(JSON.stringify(resJson));
                           //alert(JSON.stringify(resJson));
                           let item = {id: tokenId, uri: resJson, owner: packOwner};
 

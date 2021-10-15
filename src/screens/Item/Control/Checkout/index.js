@@ -19,7 +19,7 @@ const Checkout = (props, { className }) => {
 
     useEffect(async () => {
 
-        alert("EVENT DATA" + JSON.stringify(eventData));
+        //alert("EVENT DATA" + JSON.stringify(eventData));
 
         if (eventData[0]) {
             setPurchased(true);
@@ -126,7 +126,7 @@ const Checkout = (props, { className }) => {
             setPurchasing(true);
 
             if (props.isETH) {
-                alert("buying nft with eth")
+                //alert("buying nft with eth")
                 await buyNFTWithETH(props.account, props.tokenId, props.price).then((e) => {
                     //alert("E: " + JSON.stringify(e));
                 });

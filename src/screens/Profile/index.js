@@ -256,7 +256,7 @@ const Profile = (props) => {
     else {
       let userList = props.users;
       let followers = location.state.followers;
-      console.log("Following: " + following);
+      //console.log("Following: " + following);
 
       if (followers) {
         userList.reduce((acc, val) => {
@@ -276,7 +276,7 @@ const Profile = (props) => {
     if (!isOtherAccount) {
       let userList = props.users;
       let following = props.userInfo.following;
-      console.log("Following: " + following);
+      //console.log("Following: " + following);
 
       if (following) {
         userList.reduce((acc, val) => {
@@ -291,7 +291,7 @@ const Profile = (props) => {
     else {
       let userList = props.users;
       let following = location.state.following;
-      console.log("Following: " + following);
+      //console.log("Following: " + following);
 
       if (following) {
         userList.reduce((acc, val) => {
@@ -309,7 +309,7 @@ const Profile = (props) => {
   async function getOtherOwnedNFTs() {
     //alert('gettingOwnedNFTs');
 
-    //console.log(JSON.stringify(vNFTJSON));
+    ////console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
     const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
@@ -324,16 +324,16 @@ const Profile = (props) => {
           let nfts = [];
           //alert(JSON.stringify(vnftABI.methods));
 
-          // await console.log(JSON.stringify(vNFTJSON['abi']));
-          console.log(vnftContractAddress);
-          console.log("test");
+          // await //console.log(JSON.stringify(vNFTJSON['abi']));
+          //console.log(vnftContractAddress);
+          //console.log("test");
 
           if (nftIds) {
             //alert(JSON.stringify(nftIds));
             for (let i = 0; i < nftIds.length; i++) {
               let nftId = nftIds[i]
               let uri = await vnftABI.methods.tokenURI(nftId).call();
-              //console.log("XXX: " + uri);
+              ////console.log("XXX: " + uri);
               nfts.push({id: nftId, uri: uri});
             }
 
@@ -350,7 +350,7 @@ const Profile = (props) => {
 
           //alert(JSON.stringify(offers));
           //alert(nftIds);
-          //await console.log(vnftABI.methods);
+          //await //console.log(vnftABI.methods);
 
           //alert(JSON.stringify(nfts));
 
@@ -366,7 +366,7 @@ const Profile = (props) => {
   async function getOtherOwnedPacks() {
     //alert('gettingOwnedNFTs');
 
-    //console.log(JSON.stringify(vNFTJSON));
+    ////console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
     const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
@@ -379,16 +379,16 @@ const Profile = (props) => {
         let nfts = [];
         //alert(JSON.stringify(vnftABI.methods));
 
-        // await console.log(JSON.stringify(vNFTJSON['abi']));
-        console.log(vpContractAddress);
-        console.log("test");
+        // await //console.log(JSON.stringify(vNFTJSON['abi']));
+        //console.log(vpContractAddress);
+        //console.log("test");
 
         if (nftIds) {
           //alert(JSON.stringify(nftIds));
           for (let i = 0; i < nftIds.length; i++) {
             let nftId = nftIds[i]
             let uri = await vpABI.methods.tokenURI(nftId).call();
-            //console.log("XXX: " + uri);
+            ////console.log("XXX: " + uri);
             nfts.push({id: nftId, uri: uri});
           }
 
@@ -498,9 +498,9 @@ const Profile = (props) => {
     if(props.ownedNFTs[0]) {
       if (!props.ownedNFTs[0].uri.name) {
         if (location.state) {
-          console.log(JSON.stringify(props.nfts));
+          //console.log(JSON.stringify(props.nfts));
           //getOwnedListings();
-          console.log(ownedListings);
+          //console.log(ownedListings);
 
           // if (otherNFTs.length === 0) {
           //   await getOtherOwnedNFTs();
@@ -516,7 +516,7 @@ const Profile = (props) => {
           }
 
 
-          //console.log('Getting owned NFTs');
+          ////console.log('Getting owned NFTs');
           //if (!fetchedAndParsed) {
           //setOwnedNFTs(await getOwnedNFTs());
           //alert(ownedNFTs);
@@ -530,7 +530,7 @@ const Profile = (props) => {
               //alert(JSON.stringify(ownedNFTs[i]));
               await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
 
-              await console.log(oNftsCopy);
+              //console.log(oNftsCopy);
             }
             await setOtherNFTs(oNftsCopy);
           }
@@ -602,7 +602,7 @@ const Profile = (props) => {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
-    await console.log("ABIMETHODSPROF: " + tokenId);
+    //console.log("ABIMETHODSPROF: " + tokenId);
     let owner
     if (!isPack) {
       owner = vNFTABI.methods.ownerOf(tokenId).call();
@@ -617,28 +617,28 @@ const Profile = (props) => {
   }
 
   async function extractMetadata(nftc, nft, i, isPack) {
-    console.log('Fetching from uri: ' + nft.uri);
+    //console.log('Fetching from uri: ' + nft.uri);
     //const extractedObject =
     await fetch(nft.uri, {
       mode: "cors",
       method: "GET"
     }).then(async res => {
-      console.log(res);
-      console.log(res.status);
+      //console.log(res);
+      //console.log(res.status);
       await ownerOf(nft.id, isPack).then(async (owner) => {
         if (res.ok) {
           //alert("Owner OF: " + owner);
           const resJson = await res.json();
-          console.log(JSON.stringify(resJson));
+          //console.log(JSON.stringify(resJson));
           //alert(JSON.stringify(resJson));
           const newNFT = {id: nft.id, uri: resJson, owner: owner}
-          console.log(newNFT);
+          //console.log(newNFT);
 
           await nftc.push(newNFT);
         }
       });
     });
-    //console.log("JSON: " + JSON.stringify(extractedObject));
+    ////console.log("JSON: " + JSON.stringify(extractedObject));
     // nft['uri'] = await extractedObject;
     // nftCopy[i] = nft;
   }

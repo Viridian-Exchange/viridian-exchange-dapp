@@ -62,7 +62,7 @@ const OpenPack = (props, { className }) => {
             }
 
             if (cards !== []) {
-                console.log(cards);
+                //console.log(cards);
                 //alert("HI")
                 //alert("CARDS: " + JSON.stringify(cards));
                 if (imgCopy.length !== 3) {

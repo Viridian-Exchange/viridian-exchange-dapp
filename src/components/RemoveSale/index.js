@@ -19,7 +19,7 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
 
     useEffect(async () => {
 
-        alert("EVENT DATA" + JSON.stringify(eventData));
+        //alert("EVENT DATA" + JSON.stringify(eventData));
 
         if (eventData[0]) {
             setCancelled(true);

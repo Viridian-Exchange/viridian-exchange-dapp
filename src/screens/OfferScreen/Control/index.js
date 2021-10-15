@@ -35,7 +35,7 @@ const Control = (props, { className }) => {
 
   useEffect(async () => {
 
-        alert("EVENT DATA" + JSON.stringify(eventData));
+        //alert("EVENT DATA" + JSON.stringify(eventData));
 
         if (eventData[0]) {
             setAccepted(true);

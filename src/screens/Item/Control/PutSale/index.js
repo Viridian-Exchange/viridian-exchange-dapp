@@ -54,7 +54,7 @@ const PutSale = (props, { className }) => {
 
     useEffect(async () => {
 
-        alert("EVENT DATA" + JSON.stringify(eventData));
+        //alert("EVENT DATA" + JSON.stringify(eventData));
 
         if (eventData[0]) {
             setListed(true);
@@ -113,7 +113,7 @@ const PutSale = (props, { className }) => {
       </div>
       <div className={styles.btns}>
           {/*{props.account}*/}
-          {JSON.stringify(props)}
+          {/*{JSON.stringify(props)}*/}
         <button className={cn("button", styles.button)} onClick = {async () => {
             const veContractAddress = config.dev_contract_addresses.ve_contract;
             let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
@@ -127,7 +127,7 @@ const PutSale = (props, { className }) => {
 
 
             if (!props.isPack) {
-                alert("NFT Sale: " + props.state.id);
+                //alert("NFT Sale: " + props.state.id);
                 if (isETH) {
                     await putUpForSale(props.account, props.state.id, price.toString(), 0, 0, false);
                     setSaleLoading(true);

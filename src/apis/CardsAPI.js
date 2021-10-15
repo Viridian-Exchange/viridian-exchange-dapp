@@ -32,9 +32,9 @@ export const HandleAddCard = async (id, name, cardNum, grade, price, cardOwner, 
         await axios.post(`${config.api.invokeUrl}/cards/${id}`, params);
         card.cards = [...card.cards, card.newCard];
         card.newCard = { "cardName": "", "id": "" };
-        //console.log("UPLOAD SUCCESS: " + JSON.stringify(params));
+        ////console.log("UPLOAD SUCCESS: " + JSON.stringify(params));
     } catch (err) {
-        console.log(`An error has occurred: ${err}`);
+        //console.log(`An error has occurred: ${err}`);
     }
 };
 
@@ -54,9 +54,9 @@ export const HandleAddNFTLike = async (id, numLikes) => {
         //cardToUpdate.cardName = name;
         //updatedCards.push(cardToUpdate);
         //card.cards = updatedCards;
-        //console.log("UPLOAD SUCCESS: " + JSON.stringify(params));
+        ////console.log("UPLOAD SUCCESS: " + JSON.stringify(params));
     }catch (err) {
-        console.log(`Error updating card: ${err}`);
+        //console.log(`Error updating card: ${err}`);
     }
 };
 
@@ -73,9 +73,9 @@ export const HandleDeleteCard = async (id, event) => {
     // add call to AWS API Gateway delete card endpoint here
     try {
         await axios.delete(`${config.api.invokeUrl}/cards/${id}`);
-        //console.log("SUCCESSFULLY DELETED CARDS")
+        ////console.log("SUCCESSFULLY DELETED CARDS")
     }catch (err) {
-        console.log(`Unable to delete card: ${err}`);
+        //console.log(`Unable to delete card: ${err}`);
     }
 };
 
@@ -93,10 +93,10 @@ export const FetchCards = async (setNFTLikes) => {
 
     try {
         await axios.get(`${config.api.invokeUrl}/cards`).then(async(res) => {
-            console.log(JSON.stringify(res));
-            alert(res.data.Items);
+            //console.log(JSON.stringify(res));
+            //alert(res.data.Items);
             if (res.data.Items) {
-                alert("from api: " + JSON.stringify(res.data.Items));
+                //alert("from api: " + JSON.stringify(res.data.Items));
                 await setNFTLikes(res.data.Items);
             }
             //alert(JSON.stringify("FETCHAU: " + res.data.Items));
@@ -106,7 +106,7 @@ export const FetchCards = async (setNFTLikes) => {
 
     }
     catch (err) {
-        alert(`An error has occurred: ${err}`);
+        //alert(`An error has occurred: ${err}`);
     }
 
 };
