@@ -333,7 +333,7 @@ export const FetchUser = async (setUserInfo, address) => {
 
 
     } catch (err) {
-        alert(`An error has occurred: ${err}`);
+        //alert(`An error has occurred: ${err}`);
     }
 };
 
@@ -365,6 +365,6 @@ export const FetchAllUsers = async(setUsers) => {
 
 
     } catch (err) {
-        alert(`An error has occurred: ${err}`);
+        //alert(`An error has occurred: ${err}`);
     }
 };
