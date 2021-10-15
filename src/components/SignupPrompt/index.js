@@ -13,19 +13,19 @@ const SignupPrompt = ({ className, account, setPromptSetup, setUserInfo}) => {
 
   return (
     <div className={cn(className, styles.transfer)}>
-      <div className={cn("h4", styles.title)}>Create your Profile</div>
+      <div className={cn("h4", styles.title)}>Welcome to the Viridian Exchange TestNet!</div>
       <div className={styles.text}>
-        Add a display name, profile picture, and bio to personalize your Viridian Exchange experience.
+        Experience the future of physical collectibles trade, powered by Ethereum and ImmutableX.
       </div>
       <div className={styles.btns}>
-        <Link className={cn("button", styles.button)} onClick={async () => {
-            await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {
-                setPromptSetup(false);});
-        }} to="/profile-edit">Set up now</Link>
+        {/*<Link className={cn("button", styles.button)} onClick={async () => {*/}
+        {/*    await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {*/}
+        {/*        setPromptSetup(false);});*/}
+        {/*}} to="/profile">Go to Profile</Link>*/}
         <button className={cn("button-stroke", styles.button)} onClick={async () => {
             await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {
             setPromptSetup(false);});
-        }}>Save for Later</button>
+        }}>Continue</button>
       </div>
     </div>
   );
