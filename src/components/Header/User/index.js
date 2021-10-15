@@ -102,7 +102,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
 
   async function getVEXTBalance() {
 
-    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     //console.log(JSON.stringify(vNFTJSON));
     let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
     return await vtABI.methods.balanceOf(account).call();
@@ -154,7 +154,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                 </div>] : [<div className={styles.avatar}>
             <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
             </div>,
-                <div>{(ethBalance === 0) ? <div className={styles.wallet}>
+                <div>{(ethBalance === 0) && (parseVextBalance(vextBalance) !== "0.00") ? <div className={styles.wallet}>
           {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
             </div> : <div className={styles.wallet}>
                   <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />

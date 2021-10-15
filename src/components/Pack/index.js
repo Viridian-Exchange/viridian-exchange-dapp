@@ -6,7 +6,7 @@ import Icon from "../Icon";
 import {parseVextAmount} from "../../Utils";
 import Web3 from "web3";
 
-const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, props) => {
+const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto, isHotBid}, props) => {
   const [visible, setVisible] = useState(false);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
@@ -35,7 +35,7 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, p
           {/*{JSON.stringify(item)}*/}
         </div>
       </div>
-      <Link className={styles.link} to={{ pathname: `/item/pack/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing, isPack: true, isETH: item.isETH } }}>
+      <Link className={styles.link} to={{ pathname: `/item/pack/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: true, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>
@@ -57,10 +57,12 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto }, p
           {/*  <Icon name="candlesticks-up" size="20" />*/}
           {/*  Highest bid <span>{item.highestBid}</span>*/}
           {/*</div>*/}
-          {isListing &&
+          {(isListing && item.price) &&
           <div>{item.isETH ? <div className={styles.price}>
-                <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-                {Web3.utils.fromWei(item.price)}
+                <img style={{width: '3ex', marginTop: '-.2ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+                {!isHotBid ? <div style={{marginTop: '-3.7ex', marginLeft: '2ex'}}>
+                  {Web3.utils.fromWei(item.price)}</div> :  <div style={{marginTop: '-3.2ex', marginLeft: '2ex'}}>
+                  {Web3.utils.fromWei(item.price)} </div>}
               </div>
               : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
           }

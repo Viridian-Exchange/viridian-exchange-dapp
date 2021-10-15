@@ -6,10 +6,11 @@ import Users from "./Users";
 import Items from "./Items";
 import Control from "./Control";
 import Options from "./Options";
-import {ownerOf} from "../../smartContracts/ViridianNFTMethods"
+//import {ownerOf} from "../../smartContracts/ViridianNFTMethods"
 import { useLocation } from "react-router-dom";
 import config from "../../local-dev-config";
 import vNFTJSON from "../../abis/ViridianNFT.json";
+import vpJSON from "../../abis/ViridianPack.json";
 import {getOffersFromUser} from "../../smartContracts/ViridianExchangeMethods";
 import Web3 from "web3";
 import Followers from "../Profile/Followers";
@@ -49,6 +50,8 @@ const OfferScreen = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [fromNFTsC, setFromNFTsC] = useState([]);
   const [toNFTsC, setToNFTsC] = useState([]);
+  const [fromPacksC, setFromPacksC] = useState([]);
+  const [toPacksC, setToPacksC] = useState([]);
 
   const [fromNFTs, setFromNFTs] = useState([]);
   const [toNFTs, setToNFTs] = useState([]);
@@ -62,22 +65,36 @@ const OfferScreen = (props) => {
   let [fromNFTsCopy, setFromNFTsCopy] = useState([]);
 
   async function getToNFTs() {
-        let nftC = [];
+    let nftC = [];
 
-        setToNFTsC(location.state.toNFTs);
+    setToNFTsC(location.state.toNFTs);
+    setToPacksC(location.state.toPacks);
 
-        const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
-        let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
+    const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
 
-        if (toNFTsC) {
-          //alert(JSON.stringify(nftIds));
-          for (let i = 0; i < toNFTsC.length; i++) {
-            let nftId = toNFTsC[i]
-            let uri = await vnftABI.methods.tokenURI(nftId).call();
+    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
-            nftC.push({id: nftId, uri: uri});
-          }
-        }
+    if (toNFTsC) {
+      //alert(JSON.stringify(nftIds));
+      for (let i = 0; i < toNFTsC.length; i++) {
+        let nftId = toNFTsC[i]
+        let uri = await vnftABI.methods.tokenURI(nftId).call();
+
+        nftC.push({id: nftId, uri: uri});
+      }
+    }
+
+    if (toPacksC) {
+      //alert(JSON.stringify(nftIds));
+      for (let i = 0; i < toPacksC.length; i++) {
+        let nftId = toPacksC[i]
+        let uri = await vpABI.methods.tokenURI(nftId).call();
+
+        nftC.push({id: nftId, uri: uri, isVNFT: true});
+      }
+    }
 
         //alert("TNC: " + JSON.stringify(nftC))
 
@@ -88,24 +105,58 @@ const OfferScreen = (props) => {
 
     let nftC = [];
 
-        setFromNFTsC(location.state.fromNFTs);
+    setFromNFTsC(location.state.fromNFTs);
+    setFromPacksC(location.state.fromPacks);
 
-        const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
-        let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
+    const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
 
-        if (fromNFTsC) {
-          //alert(JSON.stringify(nftIds));
-          for (let i = 0; i < fromNFTsC.length; i++) {
-            let nftId = fromNFTsC[i]
-            let uri = await vnftABI.methods.tokenURI(nftId).call();
+    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
-            nftC.push({id: nftId, uri: uri});
-          }
-        }
+    if (fromNFTsC) {
+      //alert(JSON.stringify(nftIds));
+      for (let i = 0; i < fromNFTsC.length; i++) {
+        let nftId = fromNFTsC[i]
+        let uri = await vnftABI.methods.tokenURI(nftId).call();
+
+        nftC.push({id: nftId, uri: uri, isVNFT: true});
+      }
+    }
+
+    if (fromPacksC) {
+      //alert(JSON.stringify(nftIds));
+      for (let i = 0; i < fromPacksC.length; i++) {
+        let nftId = fromPacksC[i]
+        let uri = await vpABI.methods.tokenURI(nftId).call();
+
+        nftC.push({id: nftId, uri: uri, isVNFT: true});
+      }
+    }
 
         //alert("FNC: " + JSON.stringify(nftC))
 
-        return nftC;
+    return nftC;
+  }
+
+  async function ownerOf(tokenId, isPack) {
+    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+
+    let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
+    let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+    await console.log("ABIMETHODSPROF: " + tokenId);
+    let owner
+    if (!isPack) {
+      owner = vNFTABI.methods.ownerOf(tokenId).call();
+    }
+    else {
+      owner = vpABI.methods.ownerOf(tokenId).call();
+    }
+
+    //alert(nft);
+
+    return owner;
   }
 
   async function extractMetadata(nftc, nft, i, isPack, to) {
@@ -208,14 +259,14 @@ const OfferScreen = (props) => {
     }
   //}, []);
 
-  }, []); //[startParse]);//, toNFTsCopy, fromNFTsCopy])
+  }, [startParse, toNFTsCopy, fromNFTsCopy]);
 
   return (
     <>
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
 
-          <div className={styles.nav}>
+          <div className={styles.nav} style={{marginTop: '3.5ex'}}>
             {navLinks.map((x, index) => (
                 <button
                     className={cn(styles.link, {
@@ -234,14 +285,14 @@ const OfferScreen = (props) => {
               {/*<div>{JSON.stringify(location.state)}</div>*/}
               <div style={{marginLeft: '-40ex'}}>
                 {activeIndex === 0 && [
-                  <div className={styles.line}>
+                  <div className={styles.line} style={{marginTop: '5ex'}}>
                     {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
                   </div>,
                   <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
                 ]}
                 {activeIndex === 1 && [
-                  <div className={styles.line}>
+                  <div className={styles.line} style={{marginTop: '5ex'}}>
                     {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
                     {/*{JSON.stringify(toNFTs)}*/}

@@ -113,11 +113,13 @@ const Item = (props) => {
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
             <div className={styles.cost}>
               {location.state.price && [<div className={cn("status-stroke-green", styles.price)}>
-                {parseVextAmount(location.state.price)} VEXT
+                {location.state.isETH ?
+                    <div>{parseVextAmount(location.state.price)} ETH </div> : <div>{parseVextAmount(location.state.price)} USDT </div>
+                }
               </div>,
-              <div className={cn("status-stroke-black", styles.price)}>
-                ${parseInt(parseVextAmount(location.state.price)) * .02}
-              </div>]}
+                <div>{location.state.isETH && <div className={cn("status-stroke-black", styles.price)}>
+                ${parseInt(parseVextAmount(location.state.price)) * 3900}
+                </div>}</div>]}
               <div className={styles.counter}>#{location.state.id}</div>
             </div>
 

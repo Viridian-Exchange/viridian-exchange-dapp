@@ -5,6 +5,7 @@ import styles from "./Card.module.sass";
 import Icon from "../Icon";
 import Users from "./Users"
 import Web3 from "web3";
+import oStyles from "./Card.module.sass";
 
 
 const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProfilePhoto, otherUser }, props) => {
@@ -33,8 +34,11 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
               fromVEXT: item.toAmt, fromNFTs: item.toNftIds, fromPacks: item.toPackIds, otherUser: otherUser, isETH: !item.isVEXT, toAccepted: item.toAccepted, fromAccepted: item.fromAccepted}}}>
     <div className={cn(styles.card, className)}>
         {/*{"ITM: " + JSON.stringify(otherUser.profilePhotoURL)}*/}
-        <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
-               otherProfilePhoto={otherUser.profilePhotoURL} account={account}/>
+        {/*{JSON.stringify((item.to.toLowerCase())) + " " + JSON.stringify(account.toLowerCase())}*/}
+        {/*{JSON.stringify(item)}*/}
+        {(item.to.toLowerCase() === account.toLowerCase()) ? <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} toPacks={item.toPackIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} fromPacks={item.fromPackIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
+               otherProfilePhoto={otherUser.profilePhotoURL} account={account}/> : <Users items={users} toVEXT={item.toAmt} toNFTs={item.toNftIds} toPacks={item.toPackIds} fromVEXT={item.fromAmt} fromNFTs={item.fromNftIds} fromPacks={item.fromPackIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
+                                                                                          otherProfilePhoto={otherUser.profilePhotoURL} account={account}/>}
       <div className={styles.preview}>
         {/*{uri.image}*/}
         <div className={styles.control}>
@@ -48,6 +52,9 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
           </div>
         </div>
       </div>
+        {(item.to.toLowerCase() === account.toLowerCase()) && <div className={styles.priceRec}>Received</div>}
+        {(item.from.toLowerCase() === account.toLowerCase()) && <div className={styles.priceSent}>Sent</div>}
+        {(item.toAccepted && !item.fromAccepted) && <div className={styles.priceAccept}>Accepted</div>}
       {/*{JSON.stringify(item.listingId)}*/}
       {/*<Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>*/}
       {/*</Link>*/}
