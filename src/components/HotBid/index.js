@@ -67,10 +67,10 @@ const Hot = (props, { classSection }) => {
                 if (index <= 10) {
                   if (x.isVNFT) {
                     return (
-                        <NFT key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
+                        <NFT key={index} isHotBid={true} className={styles.card} item={x} isListing={true} account={props.account}/>);
                   } else {
                     return (
-                        <Pack key={index} className={styles.card} item={x} isListing={true} account={props.account}/>);
+                        <Pack key={index} isHotBid={true} className={styles.card} item={x} isListing={true} account={props.account}/>);
                   }
                 }
               })}

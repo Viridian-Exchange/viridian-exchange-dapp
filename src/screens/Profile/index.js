@@ -26,13 +26,14 @@ import vTJSON from '../../abis/ViridianToken.json';
 import {HandleUpdateUser} from "../../apis/UserAPI";
 import RemoveSale from "../../components/RemoveSale";
 import Modal from "../../components/Modal";
+import Dropdown from "../../components/Dropdown";
 
 
 let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
 
 const navLinks = [
-  "VNFTs",
+  "NFTs",
   "Packs",
   "On Sale",
   "Offers",
@@ -202,6 +203,8 @@ const followers = [
   },
 ];
 
+const options = ["Sent Offers", "Received Offers"];
+
 const Profile = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [visible, setVisible] = useState(false);
@@ -221,6 +224,8 @@ const Profile = (props) => {
   const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [followed, setFollowed] = useState(false);
+  const [showRec, setShowRec] = useState(false);
+  const [option, setOption] = useState(options[0]);
 
 
 
@@ -307,7 +312,7 @@ const Profile = (props) => {
     //console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
-    const vnftContractAddress = config.dev_contract_addresses.vnft_contract;
+    const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
@@ -335,7 +340,7 @@ const Profile = (props) => {
             //alert(nfts);
           }
 
-          if (location) {
+          if (location.state) {
             if (location.state.account) {
               setOffers(await getOffersFromUser(location.state.account));
             } else {
@@ -364,7 +369,7 @@ const Profile = (props) => {
     //console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
-    const vpContractAddress = config.dev_contract_addresses.vp_contract;
+    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
@@ -400,6 +405,8 @@ const Profile = (props) => {
 
   function getOwnedListings() {
     let curNFTs = props.nfts;
+    let curNonListings = [...props.ownedNFTs];
+    let curNonListingsP = [...props.ownedPacks];
 
     //alert("CNFTS: " + JSON.stringify(curNFTs));
 
@@ -417,6 +424,29 @@ const Profile = (props) => {
       if (nft.owner.toLowerCase() === props.account) {
         ol.push(nft);
       }
+    });
+
+    curNFTs.forEach((nft) => {
+      curNonListings.forEach((cnl, index) => {
+        //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
+        if (nft.id === cnl.id) {
+          //ol.push(nft);
+          //alert(JSON.stringify(nft.isVNFT))
+          if (nft.isVNFT) {
+            curNonListings[index] = nft;
+          }
+        }
+      })
+
+      curNonListingsP.forEach((cnl, index) => {
+        //alert(JSON.stringify(props.account) + " vs " + JSON.stringify(nft.owner));
+        if (nft.id === cnl.id) {
+          //ol.push(nft);
+          if (!nft.isVNFT) {
+            curNonListingsP[index] = nft;
+          }
+        }
+      })
     });
 
     // let curPacks = props.packs;
@@ -438,13 +468,15 @@ const Profile = (props) => {
     // });
     //
     // alert(JSON.stringify(ol))
+    props.setOwnedNFTs(curNonListings);
+    props.setOwnedPacks(curNonListingsP);
 
     setOwnedListings(ol);
   }
 
   useEffect(async () => {
     getOwnedListings();
-  }, [props.nfts])
+  }, [props.nfts]);
 
   useEffect(async () => {
     if (location.state) {
@@ -454,13 +486,13 @@ const Profile = (props) => {
         }
       }
     }
-    }, [location.state, otherNFTs, otherPacks]);
+    }, [location.state, otherPacks]);
 
   useEffect(async () => {
     if (otherPacks.length === 0) {
       await getOtherOwnedPacks();
     }
-  }, [otherNFTs, otherNFTs])
+  }, [otherNFTs])
 
   useEffect(async () => {
     if(props.ownedNFTs[0]) {
@@ -550,7 +582,7 @@ const Profile = (props) => {
         }
       }
     }
-    if (location) {
+    if (location.state) {
       if (location.state.account === props.account) {
         getFollowing(false);
         getFollowers(false);
@@ -565,8 +597,8 @@ const Profile = (props) => {
 
 
   async function ownerOf(tokenId, isPack) {
-    const vNFTContractAddress = config.dev_contract_addresses.vnft_contract;
-    const vpContractAddress = config.dev_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
@@ -744,11 +776,11 @@ const Profile = (props) => {
                     <div className={styles.group}>
                       <div className={styles.item}>
                         {activeIndex === 0 && (
-                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={false} account={location}
+                            <Items class={styles.items} nfts={props.ownedNFTs} isListing={true} account={location}
                                    curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo} />
                         )}
                         {activeIndex === 1 && (
-                            <Items class={styles.items} packs={props.ownedPacks} isListing={false} account={location}
+                            <Items class={styles.items} packs={props.ownedPacks} isListing={true} account={location}
                                    curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         )}
                         {activeIndex === 2 && [
@@ -758,7 +790,13 @@ const Profile = (props) => {
                         ]}
                         {activeIndex === 3 && [
                           //<div>{JSON.stringify(offers)}</div>,
-                            <Items users={props.users} class={styles.items} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL}
+                          <Dropdown
+                              className={styles.dropdown}
+                              value={option}
+                              setValue={setOption}
+                              options={options}
+                          />,
+                            <Items dropDownOption={option} users={props.users} class={styles.items} offers={offers} account={props.account} curProfilePhoto = {props.userInfo.profilePhotoURL}
                             curDisplayName={props.userInfo.displayName} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
@@ -885,7 +923,7 @@ const Profile = (props) => {
                         ]}
                         {activeIndex === 3 && [
                           // <div>HIHIHI{"USRS: " + JSON.stringify(props.users)}</div>,
-                          <Items class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
+                          <Items account={props.account} account={props.account} class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 4 && (
                             <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>
