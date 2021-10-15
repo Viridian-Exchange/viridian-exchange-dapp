@@ -62,7 +62,7 @@ const OfferBuilder = (props) => {
 
   useEffect(async () => {
 
-    alert("EVENT DATA" + JSON.stringify(eventData));
+    //alert("EVENT DATA" + JSON.stringify(eventData));
 
     if (eventData[0]) {
       setOffered(true);
@@ -105,7 +105,7 @@ const OfferBuilder = (props) => {
           <Switch className={styles.switch} value={isETH} setValue={setIsETH} />
           {isETH ? <TextInput
               style={{marginBottom: '2ex'}}
-              onChange={(e) => {setGiveAmount(e.target.value); console.log(giveAmount);}}
+              onChange={(e) => {setGiveAmount(e.target.value);}}
               className={styles.field}
               label="They Receive"
               name="Twitter"
@@ -114,7 +114,7 @@ const OfferBuilder = (props) => {
               required
           /> : <TextInput
               style={{marginBottom: '2ex'}}
-              onChange={(e) => {setGiveAmount(e.target.value); console.log(giveAmount);}}
+              onChange={(e) => {setGiveAmount(e.target.value);}}
               className={styles.field}
               label="They Receive"
               name="Twitter"

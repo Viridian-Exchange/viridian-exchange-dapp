@@ -145,7 +145,7 @@ const OfferScreen = (props) => {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
-    await console.log("ABIMETHODSPROF: " + tokenId);
+    //console.log("ABIMETHODSPROF: " + tokenId);
     let owner
     if (!isPack) {
       owner = vNFTABI.methods.ownerOf(tokenId).call();
@@ -167,13 +167,13 @@ const OfferScreen = (props) => {
         mode: "cors",
         method: "GET"
       }).then(async res => {
-        console.log(res);
-        console.log(res.status);
+        //console.log(res);
+        //console.log(res.status);
         await ownerOf(nft.id, isPack).then(async (owner) => {
           if (res.ok) {
             //alert("Owner OF: " + owner);
             const resJson = await res.json();
-            console.log(JSON.stringify(resJson));
+            //console.log(JSON.stringify(resJson));
             //alert(JSON.stringify(resJson));
             const newNFT = {id: nft.id, uri: resJson, owner: owner}
             //alert("NNFT: " + JSON.stringify(newNFT));
@@ -198,7 +198,7 @@ const OfferScreen = (props) => {
         }
       }
     }
-    //console.log("JSON: " + JSON.stringify(extractedObject));
+    ////console.log("JSON: " + JSON.stringify(extractedObject));
     // nft['uri'] = await extractedObject;
     // nftCopy[i] = nft;
   }

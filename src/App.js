@@ -78,7 +78,7 @@ function App() {
                 const result = response.data.filter(currency =>
                     wanted.includes(currency.id),
                 )
-                alert(JSON.stringify(result));
+                //alert(JSON.stringify(result));
             })
             .catch(err => console.log(err))
     }
@@ -88,7 +88,7 @@ function App() {
             let res = await FetchUser(setUserInfo, account_from_eth);
             if (!res) {
                 await setPromptSetup(true);
-                alert("New user!")
+                //alert("New user!")
                 return true;
             }
 
@@ -138,7 +138,7 @@ function App() {
             //     await setEthBalance(round(balance * .000000000000000001, 4)));
             await web3.eth.getBalance(account, function(err, result) {
                 if (err) {
-                    console.log(err)
+                    //console.log(err)
                 } else {
                     //alert(web3.utils.fromWei(result, "ether"))
                     //alert('fetchingData');
@@ -158,7 +158,7 @@ function App() {
 
 
             //alert(account);
-            //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
+            //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { //console.log(err, result); });
         } catch (error) {
             console.error(error);
         }
@@ -168,7 +168,7 @@ function App() {
     async function getVEXTBalance() {
         //alert("2")
         const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
-        //console.log(JSON.stringify(vNFTJSON));
+        ////console.log(JSON.stringify(vNFTJSON));
         let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
         return await vtABI.methods.balanceOf(account).call();
     }
@@ -199,19 +199,19 @@ function App() {
 
     async function getListings() {
         const veContractAddress = config.ropsten_contract_addresses.ve_contract;
-        //console.log(JSON.stringify(vNFTJSON));
+        ////console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        await console.log("ABIMETHODS");
-        await console.log(veABI.methods);
+        //console.log("ABIMETHODS");
+        //console.log(veABI.methods);
         return await veABI.methods.getListings().call();
     }
 
     async function getListingFromId(listingId) {
         const veContractAddress = config.ropsten_contract_addresses.ve_contract;
-        //console.log(JSON.stringify(vNFTJSON));
+        ////console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-        // await console.log("ABIMETHODS");
-        await console.log(veABI.methods);
+        // await //console.log("ABIMETHODS");
+        //console.log(veABI.methods);
         return await veABI.methods.getListingFromId(listingId).call();
     }
 
@@ -219,7 +219,7 @@ function App() {
         const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
 
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-        await console.log("ABIMETHODS: " + tokenId);
+        //console.log("ABIMETHODS: " + tokenId);
         let nft = vNFTABI.methods.tokenURI(tokenId).call();
 
         //alert(nft);
@@ -242,7 +242,7 @@ function App() {
         const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
 
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-        await console.log("ABIMETHODSAPP: " + tokenId);
+        //console.log("ABIMETHODSAPP: " + tokenId);
         let owner = vNFTABI.methods.ownerOf(tokenId).call();
 
         //alert(nft);
@@ -253,7 +253,7 @@ function App() {
     async function getOwnedNFTs() {
         //alert('gettingOwnedNFTs');
 
-        //console.log(JSON.stringify(vNFTJSON));
+        ////console.log(JSON.stringify(vNFTJSON));
         //alert(account);
 
         // NFT Contract Calls
@@ -265,26 +265,26 @@ function App() {
         let nfts = [];
         //alert(JSON.stringify(vnftABI.methods));
 
-        // await console.log(JSON.stringify(vNFTJSON['abi']));
-        console.log(vnftContractAddress);
-        console.log("test");
+        // await //console.log(JSON.stringify(vNFTJSON['abi']));
+        //console.log(vnftContractAddress);
+        //console.log("test");
 
         if (nftIds) {
             //alert(JSON.stringify(nftIds));
             for (let i = 0; i < nftIds.length; i++) {
                 let nftId = nftIds[i]
                 let uri = await vnftABI.methods.tokenURI(nftId).call();
-                //console.log("XXX: " + uri);
+                ////console.log("XXX: " + uri);
                 nfts.push({id: nftId, uri: uri});
             }
 
             //alert(nfts);
         }
         //alert(nftIds);
-        //await console.log(vnftABI.methods);
+        //await //console.log(vnftABI.methods);
 
 
-        //console.log(nfts);
+        ////console.log(nfts);
 
         if (!nftsSet) {
             //alert(JSON.stringify(nfts) + " & " + JSON.stringify(ownedNfts) + JSON.stringify(!nftsSet))
@@ -298,7 +298,7 @@ function App() {
     async function getOwnedPacks() {
         //alert('gettingOwnedNFTs');
 
-        //console.log(JSON.stringify(vNFTJSON));
+        ////console.log(JSON.stringify(vNFTJSON));
         //alert(account);
 
         // NFT Contract Calls
@@ -308,9 +308,9 @@ function App() {
         let nftIds = await vpABI.methods.getOwnedNFTs().call({from: account});
         let nfts = [];
 
-        // await console.log(JSON.stringify(vNFTJSON['abi']));
-        console.log(vpContractAddress);
-        console.log("test");
+        // await //console.log(JSON.stringify(vNFTJSON['abi']));
+        //console.log(vpContractAddress);
+        //console.log("test");
 
         if (nftIds) {
             //alert(JSON.stringify(nftIds));
@@ -324,10 +324,10 @@ function App() {
             //alert(nfts);
         }
         //alert(nftIds);
-        //await console.log(vnftABI.methods);
+        //await //console.log(vnftABI.methods);
 
 
-        //console.log(nfts);
+        ////console.log(nfts);
 
         if (ownedPacks.length === 0) {
             setOwnedPacks(nfts);
@@ -335,19 +335,19 @@ function App() {
     }
 
     async function parseListing(listing) {
-        //console.log('Fetching from uri: ' + JSON.stringify(listing.tokenId));
+        ////console.log('Fetching from uri: ' + JSON.stringify(listing.tokenId));
         //const extractedObject =calert(listing)
         if (listing) {
             //alert(JSON.stringify(listing.isVEXT));
             if (listing.isVNFT) {
                 await tokenURI(listing.tokenId).then(async (e) => {
-                    console.log("FETCHING THIS: " + JSON.stringify(e));
+                    //console.log("FETCHING THIS: " + JSON.stringify(e));
                     await fetch(e, {
                         mode: "cors",
                         method: "GET"
                     }).then(async (res) => {
-                        console.log(res);
-                        console.log(res.status);
+                        //console.log(res);
+                        //console.log(res.status);
                         await ownerOf(listing.tokenId).then(async (owner) => {
                             if (res.ok) {
                                 //alert("Owner OF: " + owner);
@@ -362,7 +362,7 @@ function App() {
                                     isVNFT: listing.isVNFT,
                                     isETH: !listing.isVEXT
                                 }
-                                console.log(newNFT);
+                                //console.log(newNFT);
                                 nftsCopy.push(newNFT);
                             }
                         });
@@ -371,13 +371,13 @@ function App() {
             }
             else {
                 await packURI(listing.tokenId).then(async (e) => {
-                    console.log("FETCHING THIS: " + JSON.stringify(e));
+                    //console.log("FETCHING THIS: " + JSON.stringify(e));
                     await fetch(e, {
                         mode: "cors",
                         method: "GET"
                     }).then(async (res) => {
-                        console.log(res);
-                        console.log(res.status);
+                        //console.log(res);
+                        //console.log(res.status);
                         await ownerOfPackNoReq(listing.tokenId).then(async (owner) => {
                             if (res.ok) {
                                 //alert("Owner OF: " + owner);
@@ -392,7 +392,7 @@ function App() {
                                     isVNFT: listing.isVNFT,
                                     isETH: !listing.isVEXT
                                 }
-                                console.log(newNFT);
+                                //console.log(newNFT);
                                 nftsCopy.push(newNFT);
                             }
                         });
@@ -400,7 +400,7 @@ function App() {
                 });
             }
         }
-        //console.log("JSON: " + JSON.stringify(extractedObject));
+        ////console.log("JSON: " + JSON.stringify(extractedObject));
         // listing['uri'] = await extractedObject;
         //nftCopy[i] = listing;
     }
@@ -441,7 +441,7 @@ function App() {
             }
         }
 
-            //console.log('Getting owned NFTs');
+            ////console.log('Getting owned NFTs');
             await getListings().then(async (e) => {
                 //alert("Listings: " + JSON.stringify(e));
                 await setListings(e);
@@ -453,9 +453,9 @@ function App() {
             //await parseListing(listings[0]);
 
 
-        //console.log('Getting owned NFTs');
+        ////console.log('Getting owned NFTs');
         await getListings().then(async (e) => {
-            console.log("Listings: " + JSON.stringify(e));
+            //console.log("Listings: " + JSON.stringify(e));
             await setListings(e);
 
             //setFetchedAndParsed(false);
@@ -480,7 +480,7 @@ function App() {
                     // });
                     let listing = listings[i];
                     //alert(listing);
-                    console.log("LSTNG: " + listing)
+                    //console.log("LSTNG: " + listing)
                     if (listing && !listing.name) {
                         await parseListing(await getListingFromId(listing));
                     }

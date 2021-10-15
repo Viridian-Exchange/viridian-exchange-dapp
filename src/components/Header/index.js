@@ -117,7 +117,7 @@ const Headers = (props) => {
 
       setDropdownOptions(dropdownOptionsTemp);
 
-      console.log(result);
+      //console.log(result);
     }
 
     setVisible(true);

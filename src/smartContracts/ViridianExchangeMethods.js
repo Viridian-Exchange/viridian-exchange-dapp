@@ -154,7 +154,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
     let event_res = false;
 
-    console.log(veABI.methods);
+    //console.log(veABI.methods);
 
 
     //alert(web3.eth.accounts[0]);
@@ -162,7 +162,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
         if (!isVEXT) {
             batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, true).send.request({from: from}));
             await veABI.events.ItemListed({}).on('data', async function(event) {
-                console.log(event.returnValues);
+                //console.log(event.returnValues);
                 // Do something here
             }).on('err', console.error);
 
@@ -176,7 +176,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
                     alert(err);
                 }
 
-                console.log("LISTING SDFSD: " + JSON.stringify(result.returnValues));
+                //console.log("LISTING SDFSD: " + JSON.stringify(result.returnValues));
                 event_res = result.returnValues.listed;
             });
 
@@ -185,7 +185,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
             //         alert(err);
             //     }
             //
-            //     console.log("LISTING SDFSD: " + JSON.stringify(result.returnValues));
+            //     //console.log("LISTING SDFSD: " + JSON.stringify(result.returnValues));
             // });
         }
         batch.execute();
@@ -197,7 +197,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
 
 
     } catch(e) {
-        alert(e);
+        //alert(e);
     }
 
 
@@ -227,7 +227,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
         }});
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    console.log(veABI.methods);
+    //console.log(veABI.methods);
     //alert(web3.eth.accounts[0]);
     try {
         alert("PACC: " + _nftId);
@@ -235,7 +235,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
             batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, false).send.request({from: from})
                 .then(async transaction => {
                     alert("BITCH THIS SHOULD WORK");
-                    console.log("Listing" + JSON.stringify(transaction));
+                    //console.log("Listing" + JSON.stringify(transaction));
                 await veABI.getPastEvents("ItemListed", {}, (errors, events) => {
                     if (!errors) {
                         alert(events[0].returnValues["0"]);
@@ -246,7 +246,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
         else {
             batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, isVEXT, false).send.request({from: from})
                 .then(async (transaction) => {
-                console.log("Listing" + JSON.stringify(transaction));
+                //console.log("Listing" + JSON.stringify(transaction));
                 await veABI.getPastEvents("ItemListed", {}, (errors, events) => {
                     if (!errors) {
                         alert(events[0].returnValues["0"]);

@@ -48,7 +48,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
       const connect = async () => {
         //alert("connecting wallet")
         await connectWallet();
-        console.log(connected);
+        //console.log(connected);
         //alert()
       }
       //connect().then(() => setConnected(true));
@@ -94,7 +94,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
 
 
       //alert(account);
-      //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { console.log(err, result); });
+      //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { //console.log(err, result); });
     } catch (error) {
       console.error(error);
     }
@@ -103,7 +103,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   async function getVEXTBalance() {
 
     const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
-    //console.log(JSON.stringify(vNFTJSON));
+    ////console.log(JSON.stringify(vNFTJSON));
     let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
     return await vtABI.methods.balanceOf(account).call();
   }
