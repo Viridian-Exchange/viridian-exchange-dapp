@@ -45,7 +45,7 @@ let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 // }
 
 export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
-    const voContractAddress = config.dev_contract_addresses.vo_contract;
+    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     //alert(from);
 
@@ -68,7 +68,7 @@ export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
 }
 
 export async function acceptOfferWithETH(from, _offerId, _toAmount) {
-    const voContractAddress = config.dev_contract_addresses.vo_contract;
+    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     //alert(from);
 
@@ -89,7 +89,7 @@ export async function acceptOfferWithETH(from, _offerId, _toAmount) {
 }
 
 export async function finalApprovalWithETH(from, _offerId, _fromAmount) {
-    const voContractAddress = config.dev_contract_addresses.vo_contract;
+    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     //alert(from);
 
@@ -110,7 +110,7 @@ export async function finalApprovalWithETH(from, _offerId, _fromAmount) {
 }
 
 export async function getOffers() {
-    const voContractAddress = config.dev_contract_addresses.vo_contract;
+    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
     let offers = await voABI.methods.getOffers().call();
@@ -121,7 +121,7 @@ export async function getOffers() {
 }
 
 export async function getOffersFromUser(_account) {
-    const voContractAddress = config.dev_contract_addresses.vo_contract;
+    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
     let offers = await voABI.methods.getOffersFromUser(_account).call();
@@ -132,8 +132,8 @@ export async function getOffersFromUser(_account) {
 }
 
 export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isVEXT) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
     const batch = new web3.BatchRequest();
 
@@ -168,8 +168,8 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
 }
 
 export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime, isVEXT) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
     const batch = new web3.BatchRequest();
 
@@ -208,8 +208,8 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
 }
 
 export async function buyNFTWithVEXT(from, _listingId, amount) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     const batch = new web3.BatchRequest();
     //alert(from);
 
@@ -239,8 +239,8 @@ export async function buyNFTWithVEXT(from, _listingId, amount) {
 }
 
 export async function buyNFTWithETH(from, _listingId, amount) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     const batch = new web3.BatchRequest();
     //alert(from);
 
@@ -270,8 +270,8 @@ export async function buyNFTWithETH(from, _listingId, amount) {
 }
 
 export async function pullFromSale(from, _listingId, price, isETH) {
-    const veContractAddress = config.dev_contract_addresses.ve_contract;
-    const vtContractAddress = config.dev_contract_addresses.vt_contract;
+    const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
 
     const batch = new web3.BatchRequest();
 
@@ -295,7 +295,7 @@ export async function pullFromSale(from, _listingId, price, isETH) {
 }
 
 export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, _isVEXT, expirationTime) {
-    const voContractAddress = config.dev_contract_addresses.vo_contract;
+    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     //alert(1);
 

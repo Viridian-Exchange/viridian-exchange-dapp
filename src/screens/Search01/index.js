@@ -111,8 +111,8 @@ const Search = (props) => {
         }
     }, [search, props.nfts]);
 
-  const STEP = 100;
-  const MIN = 0.01;
+  const STEP = 50;
+  const MIN = 1;
   const MAX = 1000000;
 
   return (
@@ -237,8 +237,8 @@ const Search = (props) => {
                 )}
               />
               <div className={styles.scale}>
-                <div className={styles.number}>0.01 VEXT</div>
-                <div className={styles.number}>1M VEXT</div>
+                <div className={styles.number}>$1</div>
+                <div className={styles.number}>$1M</div>
               </div>
             </div>
             <div className={styles.group}>
@@ -283,11 +283,15 @@ const Search = (props) => {
                   .sort((a, b) => a.price < b.price ? 1 : -1).map((x, index) => {
                       if (x.price <= (values[0] * 1000000000000000000)) {
                           if (x.isVNFT) {
-                              return (<NFT className={styles.card} item={x} key={index} isListing={true}
-                                           account={props.account}/>);
+                              if (activeIndex === 0 || activeIndex === 1) {
+                                  return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                               account={props.account}/>);
+                              }
                           } else {
-                              return (<Pack className={styles.card} item={x} key={index} isListing={true}
-                                            account={props.account}/>);
+                              if (activeIndex === 0 || activeIndex === 2) {
+                                  return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                                account={props.account}/>);
+                              }
                           }
                       }
               })}
@@ -296,11 +300,15 @@ const Search = (props) => {
                       .sort((a, b) => a.price > b.price ? 1 : -1).map((x, index) => {
                           if (x.price <= (values[0] * 1000000000000000000)) {
                               if (x.isVNFT) {
-                                  return (<NFT className={styles.card} item={x} key={index} isListing={true}
-                                               account={props.account}/>);
+                                  if (activeIndex === 0 || activeIndex === 1) {
+                                      return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                                   account={props.account}/>);
+                                  }
                               } else {
-                                  return (<Pack className={styles.card} item={x} key={index} isListing={true}
-                                                account={props.account}/>);
+                                  if (activeIndex === 0 || activeIndex === 2) {
+                                      return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                                    account={props.account}/>);
+                                  }
                               }
                           }
                   })}
@@ -308,11 +316,15 @@ const Search = (props) => {
                   {filteredNFTs.map((x, index) => {
                       if (x.price <= (values[0] * 1000000000000000000)) {
                           if (x.isVNFT) {
-                              return (<NFT className={styles.card} item={x} key={index} isListing={true}
-                                           account={props.account}/>);
+                              if (activeIndex === 0 || activeIndex === 1) {
+                                  return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                               account={props.account}/>);
+                              }
                           } else {
-                              return (<Pack className={styles.card} item={x} key={index} isListing={true}
-                                            account={props.account}/>);
+                              if (activeIndex === 0 || activeIndex === 2) {
+                                  return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                                account={props.account}/>);
+                              }
                           }
                       }
                   })}

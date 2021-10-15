@@ -28,7 +28,7 @@ const OpenPack = (props, { className }) => {
     useEffect(async () => {
         if (images !== []) {
             if (getEvents && openLoading) {
-                const vpContractAddress = config.dev_contract_addresses.vp_contract;
+                const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
                 let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
 
                 await vpABI.getPastEvents("Open", {},

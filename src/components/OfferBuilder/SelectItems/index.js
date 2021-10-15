@@ -52,7 +52,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                                 else {
                                     let recIdCopy = [...selectedRecPackIds];
                                     recIdCopy.splice(index, 1)
-                                    setRecSelectedIds(recIdCopy);
+                                    setRecSelectedPackIds(recIdCopy);
                                 }
                                 }}>
                                 {x.uri.grade ? <NFT className={styles.card} item={x} key={index} isListing={isListing} account={account} userInfo = {props.userInfo}/> :
@@ -86,7 +86,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                                 if (!selectedRecIds.includes(x.id) && x.uri.grade) {
                                     setRecSelectedIds([...selectedRecIds].concat(x.id));
                                 }
-                                if (!selectedRecIds.includes(x.id) && !x.uri.grade) {
+                                if (!selectedRecPackIds.includes(x.id) && !x.uri.grade) {
                                     setRecSelectedPackIds([...selectedRecPackIds].concat(x.id));
                                 }
                             }}>
