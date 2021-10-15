@@ -157,7 +157,7 @@ const Headers = (props) => {
                 className={styles.link}
                 activeClassName={styles.active}
                 to="/faq"
-                key={2}
+                key={1}
             >
               Help
             </Link>
