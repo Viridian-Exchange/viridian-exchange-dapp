@@ -536,7 +536,7 @@ function App() {
           path="/"
           render={() => (
             <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                {/*{"ON: " + JSON.stringify(ownedNfts)}*/}
+                {/*{"ON: " + JSON.stringify(users)}*/}
                 <Home nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}
                       ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks}
                   users = {users} listings={listings} setListings={setListings} nfts={nfts}
