@@ -12,7 +12,7 @@ import vTJSON from "../../../abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import {FetchUser} from "../../../apis/UserAPI";
 import ReactLoading from "react-loading";
-let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
 const items = (account) => [
