@@ -1,23 +1,87 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import cn from "classnames";
 import styles from "./RemoveSale.module.sass";
 import {pullFromSale} from "../../smartContracts/ViridianExchangeMethods";
+import config from "../../local-dev-config";
+import veJSON from "../../abis/ViridianExchange.json";
+import Web3 from "web3";
+import styles1 from "../../screens/Item/Control/Checkout/Checkout.module.sass";
+import LoaderCircle from "../LoaderCircle";
+import Icon from "../Icon";
 
 const RemoveSale = ({ className, id, account, price, isETH }) => {
+
+    const [loading, setLoading] = useState(false);
+    const [cancelled, setCancelled] = useState(false);
+    const [eventData, setEventData] = useState({});
+
+    let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+
+    useEffect(async () => {
+
+        alert("EVENT DATA" + JSON.stringify(eventData));
+
+        if (eventData[0]) {
+            setCancelled(true);
+            setLoading(false);
+        }
+
+
+
+    }, [eventData])
+
   return (
     <div className={cn(className, styles.transfer)}>
       <div className={cn("h4", styles.title)}>Remove from sale</div>
       <div className={styles.text}>
-        Do you really want to remove your item from sale? You can put it on sale
-        anytime
+        Do you really want to remove your item from sale? You can re-list it at anytime.
       </div>
-      <div className={styles.btns}>
+
+
+
           {/*{account}*/}
           {/*{"   " + id}*/}
           {/*{"   " + isETH}*/}
-        <button className={cn("button", styles.button)} onClick={async () => {await pullFromSale(account, id, price, isETH)}}>Remove now</button>
-        <button className={cn("button-stroke", styles.button)}>Cancel</button>
-      </div>
+          {!cancelled && !loading && <div className={styles.btns}><button className={cn("button", styles.button)} onClick={async () => {
+            const veContractAddress = config.dev_contract_addresses.ve_contract;
+            let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+
+            await veABI.events.ItemUnlisted({}).on('data', async function(event) {
+                setEventData(event.returnValues);
+                // Do something here
+            }).on('err', console.error);
+            //alert(price);
+            await setLoading(true);
+
+            await pullFromSale(account, id, price, isETH)}}>Remove now</button>}
+
+        <button className={cn("button-stroke", styles.button)}>Cancel</button> </div>}
+        {loading &&
+        <div className={styles1.line}>
+            <div className={styles1.icon}>
+                <LoaderCircle className={styles1.loader} />
+            </div>
+            <div className={styles1.details}>
+                <div className={styles1.subtitle}>Removing listing</div>
+                <div className={styles1.text}>
+                    Please confirm the necessary transactions through MetaMask
+                </div>
+            </div>
+        </div> }
+
+        {cancelled &&
+        <div className={styles1.line}>
+            {/*<div className={styles.icon}>*/}
+            {/*    <LoaderCircle className={styles.loader} />*/}
+            {/*</div>*/}
+            <div className={styles1.details}>
+                <Icon name="check" size="18" fill={"#BF9A36"} />
+                <div className={styles1.subtitle}>Listing Removed Successfully!</div>
+                <div className={styles1.text}>
+                </div>
+            </div>
+        </div> }
+
     </div>
   );
 };
