@@ -18,7 +18,7 @@ const directionOptions = ["Sellers", "Buyers"];
 
 const Popular = (props) => {
   const settings = {
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
@@ -248,9 +248,11 @@ const Popular = (props) => {
           {/*  />*/}
           {/*</div>*/}
         </div>
+        {/*{JSON.stringify(props.users)}*/}
         {props.users ? <div className={styles.wrapper}>
           {/*{"ONTE: " + JSON.stringify(props.ownedNFTs)}*/}
-          {props.users ? <Slider className="popular-slider" {...settings}>
+          {/*{JSON.stringify(props.users.length)}*/}
+          <Slider className="popular-slider" {...settings}>
             {/*{JSON.stringify(items[2])}*/}
             {props.users.map((x, index) => (
               <div className={styles.slide} key={index}>
@@ -299,9 +301,10 @@ const Popular = (props) => {
                 </div>
               </div>
             ))}
-          </Slider> : <div style={{margin: 'auto',
-            width: '-50%',
-            padding: '10px'}}><Loader/></div>}
+          </Slider>
+          {/*</Slider> : <div style={{margin: 'auto',*/}
+          {/*  width: '-50%',*/}
+          {/*  padding: '10px'}}><Loader/></div>}*/}
         </div> : <div><Loader className={styles.loader} color="white" /></div>}
       </div>
     </div>
