@@ -220,12 +220,14 @@ const Headers = (props) => {
         {/*>*/}
         {/*  Buy $VEXT*/}
         {/*</Link>*/}
-        <Link
+        {/*TODO: Change to "LINK"*/}
+        <a
             className={cn("button-small", styles.button)}
-            to="/BuyVEXT"
+            //to="/BuyCrypto"
+            href="https://faucet.dimensions.network"
         >
           Buy Crypto
-        </Link>
+        </a>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}
           to="/connect-wallet"

@@ -5453,6 +5453,11 @@ dotenv@8.2.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-8.2.0.tgz#97e619259ada750eea3e4ea3e26bceea5424b16a"
   integrity sha512-8sJ78ElpbDJBHNeBzUbUVLsqKdccaa/BXF1uPTw3GrvQTBgrQrtObr2mUrE38vzYd8cEv+m/JBfDLioYcfXoaw==
 
+dotenv@^10.0.0:
+  version "10.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
+  integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -11435,6 +11440,14 @@ react-range@^1.8.7:
   version "1.8.9"
   resolved "https://registry.yarnpkg.com/react-range/-/react-range-1.8.9.tgz#4d8f6ed44eddbc493d3272dc5f71fab367d9efae"
   integrity sha512-rDR9NEmIYBsMYJY+bCTnY17I1NT9jlI0m2wM2yiddkRN6GygTGjylTnNGlpAh8chohABwb58XCtyOIvRGcTosw==
+
+react-realtime-crypto-prices@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/react-realtime-crypto-prices/-/react-realtime-crypto-prices-0.0.1.tgz#6ca8e8b3ed8fb04860abbddfd3441a9bac78c2e9"
+  integrity sha512-l+5cqotJ8Q5rSYlQFHAFD3gw/Z00RswCofD69del1aHE7mDQs5Y0ZWaiKvbKBjMVmQuR2uc4mXKaf70Y25Z8TQ==
+  dependencies:
+    axios "^0.21.1"
+    dotenv "^10.0.0"
 
 react-refresh@^0.8.3:
   version "0.8.3"

@@ -99,7 +99,7 @@ const Control = (props, { className }) => {
 
   return (
     <>
-        {!((props.owner.toLowerCase() === props.account.toLowerCase()) && props.isListing) && <div className={cn(styles.control, className)}>
+        {!((props.owner.toLowerCase() === props.account.toLowerCase()) && props.isListing) && <div style={{marginTop: '2ex'}} className={cn(styles.control, className)}>
         <div className={styles.head}>
           {/*<div className={styles.avatar}>*/}
           {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
@@ -119,8 +119,8 @@ const Control = (props, { className }) => {
           {buyButtons()}
           {/*{offerButtons()}*/}
           {props.price && <div className={styles.text}>
-          Service fee <span className={styles.percent}>1.5%</span>{" "}
-          <span>{parseVextAmount(props.price) * .015} VEXT</span> <span>${Number.parseInt(parseVextAmount(props.price)) * .2 * .015}</span>
+          {/*Service fee <span className={styles.percent}>1.5%</span>{" "}*/}
+          {/*<span>{parseVextAmount(props.price) * .015} VEXT</span> <span>${Number.parseInt(parseVextAmount(props.price)) * .2 * .015}</span>*/}
         </div>}
           {putOnSaleButton()}
         <div className={styles.note}>

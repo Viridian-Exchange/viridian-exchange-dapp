@@ -26,6 +26,7 @@
     "react-particles-js": "^3.5.3",
     "react-paypal-button-v2": "^2.6.3",
     "react-range": "^1.8.7",
+    "react-realtime-crypto-prices": "^0.0.1",
     "react-responsive-carousel": "^3.2.21",
     "react-reveal": "^1.2.2",
     "react-router": "^5.2.0",

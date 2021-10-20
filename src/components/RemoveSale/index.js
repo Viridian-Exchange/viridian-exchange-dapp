@@ -49,11 +49,12 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
             await veABI.events.ItemUnlisted({}).on('data', async function(event) {
                 setEventData(event.returnValues);
                 // Do something here
+                //alert("ITEM UNLISTED")
             }).on('err', console.error);
             //alert(price);
             await setLoading(true);
 
-            await pullFromSale(account, id, price, isETH)}}>Remove now</button>}
+            await pullFromSale(account, id, price, isETH)}}>Remove now</button>
 
         <button className={cn("button-stroke", styles.button)}>Cancel</button> </div>}
         {loading &&

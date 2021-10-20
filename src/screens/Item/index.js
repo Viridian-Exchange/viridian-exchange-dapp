@@ -120,7 +120,7 @@ const Item = (props) => {
                 <div>{location.state.isETH && <div className={cn("status-stroke-black", styles.price)}>
                 ${parseInt(parseVextAmount(location.state.price)) * 3900}
                 </div>}</div>]}
-              <div className={styles.counter}>#{location.state.id}</div>
+              <div className={styles.counter} style={{marginLeft: '1ex'}}>#{location.state.id}</div>
             </div>
 
             {/*<div className={styles.info}>*/}

@@ -118,9 +118,12 @@ const PutSale = (props, { className }) => {
             const veContractAddress = config.dev_contract_addresses.ve_contract;
             let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
+            console.log("event listening")
+            console.log(veABI.events)
             await veABI.events.ItemListed({}).on('data', async function(event) {
                 setEventData(event.returnValues);
                 // Do something here
+                alert("event fired")
             }).on('err', console.error);
             //alert(price);
             await setSaleLoading(true);

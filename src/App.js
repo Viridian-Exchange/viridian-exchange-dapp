@@ -556,7 +556,7 @@ function App() {
         />
           <Route
               exact
-              path="/BuyVEXT"
+              path="/BuyCrypto"
               render={() => (
 
                   <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
