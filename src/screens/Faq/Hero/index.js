@@ -10,10 +10,12 @@ const items = [
     title: "General",
     icon: "home",
     items: [
-      "How does Viridian Exchange work",
-      "How to create & connect a wallet",
-      "How to purchase $VEXT",
-      "What Cryptocurrencies does Viridian Exchange support",
+        "What is Viridian Exchange?",
+      "How does Viridian Exchange work?",
+        "What is Viridian Vault?",
+      "How do I Deposit a Card for Trading?",
+        "How to Create and Connect an Account (Wallet Setup)",
+      "What Cryptocurrencies does Viridian Exchange Support?",
       "",
     ],
   },
@@ -65,9 +67,9 @@ const Hero = () => {
           <div className={styles.stage}>learn how to get started</div>
           <h1 className={cn("h2", styles.title)}>Frequently asked questions</h1>
           <div className={styles.info}>
-            Join Viridian Exchange's communities to get project updates or if you have questions not covered here contact support {" "}
-            <a href="/#" rel="noopener noreferrer">
-              Contact Support
+            Join Viridian Exchange's community if you have questions not covered here, or to follow immediate updates on the product! {" "}
+            <a href="https://t.me/viridian_exchange" rel="noopener noreferrer">
+              Telegram
             </a>
           </div>
           <Dropdown

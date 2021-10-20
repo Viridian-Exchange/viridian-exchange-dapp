@@ -16,6 +16,7 @@ const SignupPrompt = ({ className, account, setPromptSetup, setUserInfo}) => {
       <div className={cn("h4", styles.title)}>Welcome to the Viridian Exchange TestNet!</div>
       <div className={styles.text}>
         Experience the future of physical collectibles trade, powered by Ethereum and ImmutableX.
+          The NFTs and Ether utilized in this beta are not real assets and hence don't hold any value -- they are used for the sole purpose of testing the functionality on our platform.
       </div>
       <div className={styles.btns}>
         {/*<Link className={cn("button", styles.button)} onClick={async () => {*/}
@@ -25,7 +26,7 @@ const SignupPrompt = ({ className, account, setPromptSetup, setUserInfo}) => {
         <button className={cn("button-stroke", styles.button)} onClick={async () => {
             await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {
             setPromptSetup(false);});
-        }}>Continue</button>
+        }}>I Understand, Continue</button>
       </div>
     </div>
   );
