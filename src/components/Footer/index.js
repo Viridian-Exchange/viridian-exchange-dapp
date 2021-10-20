@@ -29,8 +29,9 @@ const items = [
     title: "Info",
     menu: [
       {
-        title: "Buy $VEXT",
-        url: "/BuyVEXT",
+        title: "Buy Crypto",
+        //url: "/BuyCrypto",
+        url: "https://faucet.dimensions.network"
       },
     ],
   },

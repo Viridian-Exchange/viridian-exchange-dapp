@@ -12,6 +12,10 @@ import vTJSON from "../../../abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import {FetchUser} from "../../../apis/UserAPI";
 import ReactLoading from "react-loading";
+import {
+  useCryptoPrices,
+  CryptoPriceProvider
+} from "react-realtime-crypto-prices";
 let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
@@ -31,8 +35,7 @@ const items = (account) => [
 const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance}) => {
   const [visible, setVisible] = useState(false);
   const [balance, setBalance] = useState(0);
-
-
+  const prices = useCryptoPrices(["eth"]);
 
 
 
@@ -142,6 +145,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   if (connected) {
     //if username is empty, ask to set up
   return (
+      <CryptoPriceProvider >
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
       <div className={cn(styles.user, className)}>
         <div className={styles.head} onClick={() => setVisible(!visible)}>
@@ -185,6 +189,8 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                         </div> : <div className={styles.price}>
                           <img style={{width: '2ex', marginTop: '-.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                           {ethBalance}
+                          {/*<div style={{color: 'grey', fontSize: '5'}}>${prices.eth}</div>*/}
+                          {/*{JSON.stringify(prices)}*/}
                           {/*<span className={styles.currency}>ETH</span>*/}
                         </div>}</div>
                       </div>
@@ -238,6 +244,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
             )}
           </div>
         </OutsideClickHandler>
+      </CryptoPriceProvider>
     );
   }
   else {
