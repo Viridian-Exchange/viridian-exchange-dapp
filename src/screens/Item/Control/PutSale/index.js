@@ -115,7 +115,7 @@ const PutSale = (props, { className }) => {
           {/*{props.account}*/}
           {/*{JSON.stringify(props)}*/}
         <button className={cn("button", styles.button)} onClick = {async () => {
-            const veContractAddress = config.dev_contract_addresses.ve_contract;
+            const veContractAddress = config.ropsten_contract_addresses.ve_contract;
             let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
             console.log("event listening")
