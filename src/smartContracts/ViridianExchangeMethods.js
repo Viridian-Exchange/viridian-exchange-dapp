@@ -12,7 +12,7 @@ import {toFixedBetter} from "../Utils";
 let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 // export async function getUsers() {
-//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
 //
 //     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 //     //let users = await veABI.methods.getUsers().call();
@@ -23,7 +23,7 @@ let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https
 // }
 //
 // export async function signUpUser() {
-//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
 //
 //     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 //     let users = veABI.methods.signUpUser().call();
@@ -34,7 +34,7 @@ let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https
 // }
 //
 // export async function getUserFromAddress(userAddr) {
-//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
 //
 //     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 //     let users = veABI.methods.getUserFromAddress(userAddr).call();

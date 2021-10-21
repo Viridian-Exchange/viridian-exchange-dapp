@@ -116,7 +116,7 @@ const Checkout = (props, { className }) => {
         {!purchased && !purchasing && <div className={styles.btns}>
           {/*{JSON.stringify(props)}*/}
            <button className={cn("button", styles.button)} onClick={async () => {
-               const veContractAddress = config.dev_contract_addresses.ve_contract;
+               const veContractAddress = config.ropsten_contract_addresses.ve_contract;
                let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
                await veABI.events.PurchasedListing({}).on('data', async function(event) {

@@ -15,7 +15,7 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
     const [cancelled, setCancelled] = useState(false);
     const [eventData, setEventData] = useState({});
 
-    let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+    let web3 = new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
 
     useEffect(async () => {
 
@@ -43,7 +43,7 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
           {/*{"   " + id}*/}
           {/*{"   " + isETH}*/}
           {!cancelled && !loading && <div className={styles.btns}><button className={cn("button", styles.button)} onClick={async () => {
-            const veContractAddress = config.dev_contract_addresses.ve_contract;
+            const veContractAddress = config.ropsten_contract_addresses.ve_contract;
             let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
             await veABI.events.ItemUnlisted({}).on('data', async function(event) {

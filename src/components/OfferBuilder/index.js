@@ -156,7 +156,7 @@ const OfferBuilder = (props) => {
       </Flexbox>
       <div className={styles.btns}>
         {!offered && !loading && <button className={cn("button", styles.button)} onClick={async () => {
-          const voContractAddress = config.dev_contract_addresses.vo_contract;
+          const voContractAddress = config.ropsten_contract_addresses.vo_contract;
           let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
 
           await voABI.events.CreatedOffer({}).on('data', async function(event) {

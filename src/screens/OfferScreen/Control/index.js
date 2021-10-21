@@ -151,7 +151,7 @@ const Control = (props, { className }) => {
                   className={cn("button", styles.button)}
                   onClick={async () => {//setVisibleModalAccept(true)
 
-                      const voContractAddress = config.dev_contract_addresses.vo_contract;
+                      const voContractAddress = config.ropsten_contract_addresses.vo_contract;
                       let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
 
                       await voABI.events.AcceptedOffer({}).on('data', async function(event) {
