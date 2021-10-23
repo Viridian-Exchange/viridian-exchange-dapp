@@ -121,7 +121,7 @@ const PutSale = (props, { className }) => {
             let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 
             //console.log(veABI.events);
-            await veABI.events.ItemListed({}).on('data', async function(event) {
+            await veABI.events.ItemListed({filter: {to: props.account}}).on('data', async function(event) {
                 //alert("event fired 1");
                 setEventData(event.returnValues);
                 // Do something here
