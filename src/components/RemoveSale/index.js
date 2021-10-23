@@ -8,6 +8,7 @@ import Web3 from "web3";
 import styles1 from "../../screens/Item/Control/Checkout/Checkout.module.sass";
 import LoaderCircle from "../LoaderCircle";
 import Icon from "../Icon";
+import {getWeb3Socket} from "../../Utils";
 
 const RemoveSale = ({ className, id, account, price, isETH }) => {
 
@@ -44,13 +45,44 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
           {/*{"   " + isETH}*/}
           {!cancelled && !loading && <div className={styles.btns}><button className={cn("button", styles.button)} onClick={async () => {
             const veContractAddress = config.dev_contract_addresses.ve_contract;
-            let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+            const web3Socket = await getWeb3Socket(web3);
+            let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 
-            await veABI.events.ItemUnlisted({}).on('data', async function(event) {
+            //await veABI.getPastEvents("allEvents", { fromBlock: 11279551, toBlock: 'latest'}).then(console.log);
+
+            await veABI.events.ItemUnlisted({fromBlock: 0}).on('data', async function(event) {
                 setEventData(event.returnValues);
                 // Do something here
-                //alert("ITEM UNLISTED")
+                alert("ITEM UNLISTED")
             }).on('err', console.error);
+
+            //   await veABI.events.ItemUnlisted({
+            //       fromBlock: 0,
+            //   })
+            //       .on("connected", function (x) {
+            //           // do somethinng
+            //           alert("conn")
+            //           alert(JSON.stringify(x));
+            //       })
+            //       .on('data', function (x) {
+            //           // do somethinng
+            //           alert(JSON.stringify(x));
+            //       })
+            //       .on('error', function (x) {
+            //           // do somethinng
+            //           alert(JSON.stringify(x));
+            //       });
+
+            //   await veABI.getPastEvents('ItemUnlisted', {
+            //       filter: {},
+            //       fromBlock: 'latest',
+            //       toBlock: 'latest'
+            //   })
+            //       .then(function(events){
+            //           console.log(events);
+            //           //setEventData(events[0].returnValues);
+            //       })
+            //       .catch(function(e) { throw new Error(e) })
             //alert(price);
             await setLoading(true);
 

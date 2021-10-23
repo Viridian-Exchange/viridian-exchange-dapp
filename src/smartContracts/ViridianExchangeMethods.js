@@ -227,6 +227,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
         }});
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let wsVeABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
     //console.log(veABI.methods);
     //alert(web3.eth.accounts[0]);
     try {

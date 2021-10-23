@@ -1,4 +1,5 @@
 import BigNumber from "bignumber.js";
+import Web3 from "web3";
 
 export function parseVextAmount(vextAmount) {
     vextAmount = new BigNumber(vextAmount);
@@ -48,3 +49,18 @@ export function toFixedBetter(x) {
     }
     return x;
 }
+
+export const getWeb3Socket = (web3) => new Promise( async (resolve, reject) => {
+    try {
+        let web3Socket = web3;
+        const networkName = await web3.eth.net.getNetworkType();
+        alert(networkName === "ropsten");
+        if(networkName === "ropsten") {
+            web3Socket = new Web3(new Web3.providers.WebsocketProvider("wss://ropsten.infura.io/ws/v3/c2ccaf282d324e8983bcb0c6ffaa05a6"));
+        }
+        resolve(web3Socket);
+    }
+    catch(error) {
+        reject(error);
+    }
+});
