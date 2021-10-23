@@ -8,6 +8,7 @@ import {buyNFTWithVEXT, buyNFTWithETH} from "../../../../smartContracts/Viridian
 import Web3 from "web3";
 import config from "../../../../local-dev-config";
 import veJSON from "../../../../abis/ViridianExchange.json";
+import {getWeb3Socket} from "../../../../Utils";
 
 
 const Checkout = (props, { className }) => {
@@ -116,8 +117,9 @@ const Checkout = (props, { className }) => {
         {!purchased && !purchasing && <div className={styles.btns}>
           {/*{JSON.stringify(props)}*/}
            <button className={cn("button", styles.button)} onClick={async () => {
-               const veContractAddress = config.dev_contract_addresses.ve_contract;
-               let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+               const web3Socket = await getWeb3Socket(web3);
+               const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+               let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 
                await veABI.events.PurchasedListing({}).on('data', async function(event) {
                    setEventData(event.returnValues);
