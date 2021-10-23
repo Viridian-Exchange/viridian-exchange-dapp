@@ -14,7 +14,7 @@ import Items from "./SelectItems";
 import Dropdown from "../Dropdown";
 import Flexbox from 'flexbox-react';
 import {makeOffer} from "../../smartContracts/ViridianExchangeMethods";
-import {parseAmountToVext} from "../../Utils";
+import {getWeb3Socket, parseAmountToVext} from "../../Utils";
 import config from "../../local-dev-config";
 import voJSON from "../../abis/ViridianExchangeOffers.json";
 import Web3 from "web3";
@@ -156,8 +156,9 @@ const OfferBuilder = (props) => {
       </Flexbox>
       <div className={styles.btns}>
         {!offered && !loading && <button className={cn("button", styles.button)} onClick={async () => {
+          const web3Socket = await getWeb3Socket(web3);
           const voContractAddress = config.ropsten_contract_addresses.vo_contract;
-          let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+          let voABI = new web3Socket.eth.Contract(voJSON['abi'], voContractAddress);
 
           await voABI.events.CreatedOffer({}).on('data', async function(event) {
             setEventData(event.returnValues);
