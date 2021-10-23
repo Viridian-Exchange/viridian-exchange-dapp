@@ -1,10 +1,10 @@
 module.exports = {
     ropsten_contract_addresses: {
-        vnft_contract: "0x3b5dF0Bffc245daa58370015Ea88140cF7A13801",
-        ve_contract: "0xf47A964632Eb58C8e36c5d96edc555391bb5c31E",
+        vnft_contract: "0x0aA44A28c8694a24C981fcC45708C984391604F0",
+        ve_contract: "0x1794455224a6426006a951a04C878C0A3406163B",
         vt_contract: "0x6ee856ae55b6e1a249f04cd3b947141bc146273c",
-        vp_contract: "0x90C5762f2654ba4B1282035E9c8e5dB7B0e3628C",
-        vo_contract: "0x016D5e1e9B227888056AE38879c06A97C438aedb"
+        vp_contract: "0x218A5017499CE44480FE156a67AB77624A11C32c",
+        vo_contract: "0x8aAC7c5C9033C591952C2C6862F542A932B5c019"
     },
 
     dev_contract_addresses: {
