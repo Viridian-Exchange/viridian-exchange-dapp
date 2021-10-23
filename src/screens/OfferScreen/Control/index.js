@@ -155,7 +155,7 @@ const Control = (props, { className }) => {
                       const voContractAddress = config.ropsten_contract_addresses.vo_contract;
                       let voABI = new web3Socket.eth.Contract(voJSON['abi'], voContractAddress);
 
-                      await voABI.events.AcceptedOffer({}).on('data', async function(event) {
+                      await voABI.events.AcceptedOffer({filter: {to: props.account}}).on('data', async function(event) {
                           setEventData(event.returnValues);
                           // Do something here
                       }).on('err', console.error);

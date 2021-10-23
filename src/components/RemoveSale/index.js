@@ -53,7 +53,7 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
             // await veABIw3.getPastEvents("allEvents", { fromBlock: 0, toBlock: 'latest'}).then(console.log);
             //   await veABI.getPastEvents("allEvents", { fromBlock: 0, toBlock: 'latest'}).then(console.log);
 
-            await veABI.events.ItemUnlisted({}).on('data', async function(event) {
+            await veABI.events.ItemUnlisted({filter: {to: account}}).on('data', async function(event) {
                 setEventData(event.returnValues);
                 // Do something here
                 console.log("ITEM UNLISTED")

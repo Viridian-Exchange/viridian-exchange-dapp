@@ -121,7 +121,7 @@ const Checkout = (props, { className }) => {
                const veContractAddress = config.ropsten_contract_addresses.ve_contract;
                let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 
-               await veABI.events.PurchasedListing({}).on('data', async function(event) {
+               await veABI.events.PurchasedListing({filter: {to: props.account}}).on('data', async function(event) {
                    setEventData(event.returnValues);
                    // Do something here
                }).on('err', console.error);
