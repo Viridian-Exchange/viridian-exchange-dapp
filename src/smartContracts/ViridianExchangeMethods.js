@@ -232,15 +232,15 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
     //console.log(veABI.methods);
     //alert(web3.eth.accounts[0]);
     try {
-        alert("PACC: " + _nftId);
+        //alert("PACC: " + _nftId);
         if (!isVEXT) {
             batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, false).send.request({from: from})
                 .then(async transaction => {
-                    alert("BITCH THIS SHOULD WORK");
+                    //alert("BITCH THIS SHOULD WORK");
                     //console.log("Listing" + JSON.stringify(transaction));
                 await veABI.getPastEvents("ItemListed", {}, (errors, events) => {
                     if (!errors) {
-                        alert(events[0].returnValues["0"]);
+                        //alert(events[0].returnValues["0"]);
                     }
                 });
             }));
@@ -251,18 +251,18 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
                 //console.log("Listing" + JSON.stringify(transaction));
                 await veABI.getPastEvents("ItemListed", {}, (errors, events) => {
                     if (!errors) {
-                        alert(events[0].returnValues["0"]);
+                        //alert(events[0].returnValues["0"]);
                     }
                 });
             }));
         }
         batch.execute().then(async (e) => {
-            alert(e);
+            //alert(e);
         })
 
 
     } catch(e) {
-        alert(e);
+        //alert(e);
     }
 }
 
@@ -279,7 +279,7 @@ export async function buyNFTWithVEXT(from, _listingId, amount) {
         }});
 
     await isPackApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        alert("APPR: " + JSON.stringify(isApproved));
+        //alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
             batch.add(await setPackApprovalForAll(from, veContractAddress));
         }});
@@ -304,13 +304,13 @@ export async function buyNFTWithETH(from, _listingId, amount) {
     //alert(from);
 
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        alert("APPR: " + JSON.stringify(isApproved));
+        //alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
             batch.add(await setApprovalForAll(from, veContractAddress));
         }});
 
     await isPackApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        alert("APPR: " + JSON.stringify(isApproved));
+        //alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
             batch.add(await setPackApprovalForAll(from, veContractAddress));
         }});
@@ -373,7 +373,7 @@ export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftId
         }});
 
     await isPackApprovedForAll(from, voContractAddress).then(async (isApproved) => {
-        alert("APPR: " + JSON.stringify(isApproved));
+        //alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
             batch.add(await setPackApprovalForAll(from, voContractAddress));
         }});

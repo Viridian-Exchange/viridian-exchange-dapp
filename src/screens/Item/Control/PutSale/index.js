@@ -125,7 +125,7 @@ const PutSale = (props, { className }) => {
                 //alert("event fired 1");
                 setEventData(event.returnValues);
                 // Do something here
-                console.log("event fired");
+                //console.log("event fired");
             }).on('err', console.error);
 
             //let veABIw3 = new web3.eth.Contract(veJSON['abi'], veContractAddress);
