@@ -116,19 +116,22 @@ const PutSale = (props, { className }) => {
           {/*{props.account}*/}
           {/*{JSON.stringify(props)}*/}
         <button className={cn("button", styles.button)} onClick = {async () => {
-            const veContractAddress = config.dev_contract_addresses.ve_contract;
+            const veContractAddress = config.ropsten_contract_addresses.ve_contract;
             const web3Socket = await getWeb3Socket(web3);
             let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 
             //console.log(veABI.events);
-            await veABI.events.ItemListed({fromBlock: 0}).on('data', async function(event) {
-                alert("event fired 1");
+            await veABI.events.ItemListed({}).on('data', async function(event) {
+                //alert("event fired 1");
                 setEventData(event.returnValues);
                 // Do something here
-                alert("event fired");
+                console.log("event fired");
             }).on('err', console.error);
 
-            //await veABI.getPastEvents("allEvents", { fromBlock: 11279551, toBlock: 'latest'}).then(console.log);
+            //let veABIw3 = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+
+            // await veABIw3.getPastEvents("allEvents", { fromBlock: 0, toBlock: 'latest'}).then(console.log);
+            // await veABI.getPastEvents("allEvents", { fromBlock: 0, toBlock: 'latest'}).then(console.log);
 
             // await veABI.events.ItemListed({
             //     fromBlock: 0,

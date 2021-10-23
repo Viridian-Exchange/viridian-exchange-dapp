@@ -6,13 +6,13 @@ import Web3 from "web3";
 import {approve} from "./ViridianTokenMethods";
 import { isApprovedForAll, setApprovalForAll } from "./ViridianNFTMethods";
 import { isPackApprovedForAll, setPackApprovalForAll } from "./ViridianPackMethods";
-import {toFixedBetter} from "../Utils";
+import {getWeb3Socket, toFixedBetter} from "../Utils";
 
 
 let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 // export async function getUsers() {
-//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
 //
 //     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 //     //let users = await veABI.methods.getUsers().call();
@@ -23,7 +23,7 @@ let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https
 // }
 //
 // export async function signUpUser() {
-//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
 //
 //     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 //     let users = veABI.methods.signUpUser().call();
@@ -34,7 +34,7 @@ let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https
 // }
 //
 // export async function getUserFromAddress(userAddr) {
-//     const veContractAddress = config.dev_contract_addresses.ve_contract;
+//     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
 //
 //     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 //     let users = veABI.methods.getUserFromAddress(userAddr).call();
@@ -144,6 +144,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
     if (isVEXT) {
         batch.add(await approve(from, veContractAddress, toFixedBetter(Number.parseInt(allowance) + Number.parseInt(_price))));
     }
+    const web3Socket = await getWeb3Socket(web3);
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
         //alert("APPR: " + JSON.stringify(isApproved));
@@ -151,7 +152,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
             batch.add(await setApprovalForAll(from, veContractAddress));
         }});
 
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
+    let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
     let event_res = false;
 
     //console.log(veABI.methods);

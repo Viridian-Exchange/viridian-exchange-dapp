@@ -16,6 +16,7 @@ import voJSON from "../../../abis/ViridianExchangeOffers.json";
 import styles1 from "../../Item/Control/Checkout/Checkout.module.sass";
 import LoaderCircle from "../../../components/LoaderCircle";
 import Icon from "../../../components/Icon";
+import {getWeb3Socket} from "../../../Utils";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -151,8 +152,9 @@ const Control = (props, { className }) => {
                   className={cn("button", styles.button)}
                   onClick={async () => {//setVisibleModalAccept(true)
 
-                      const voContractAddress = config.dev_contract_addresses.vo_contract;
-                      let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
+                      const web3Socket = await getWeb3Socket(web3);
+                      const voContractAddress = config.ropsten_contract_addresses.vo_contract;
+                      let voABI = new web3Socket.eth.Contract(voJSON['abi'], voContractAddress);
 
                       await voABI.events.AcceptedOffer({}).on('data', async function(event) {
                           setEventData(event.returnValues);
