@@ -14,7 +14,7 @@ const Preview = ({ className, item }) => {
         <div className={styles.content}>
             {item.answer}
         </div>
-        <a className={cn("button-stroke button-small", styles.button)} href="https://viridianexchange.com">
+        <a className={cn("button-stroke button-small", styles.button)} href={item.learnMore}>
           Learn more
         </a>
       </div>
