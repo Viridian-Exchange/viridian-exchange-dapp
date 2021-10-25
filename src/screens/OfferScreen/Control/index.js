@@ -16,7 +16,7 @@ import voJSON from "../../../abis/ViridianExchangeOffers.json";
 import styles1 from "../../Item/Control/Checkout/Checkout.module.sass";
 import LoaderCircle from "../../../components/LoaderCircle";
 import Icon from "../../../components/Icon";
-import {getWeb3Socket} from "../../../Utils";
+import {getWeb3Socket, parseVextAmount} from "../../../Utils";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -134,8 +134,8 @@ const Control = (props, { className }) => {
               </div>}
             <div className={styles.cost}>
                 {props.isETH ? [<div className={styles.price}>{web3.utils.fromWei(props.fromVEXT)} ETH</div>,
-              <div className={styles.price}>{web3.utils.fromWei(props.toVEXT)} ETH</div>] : [<div className={styles.price}>{props.fromVEXT} USDT</div>,
-                        <div className={styles.price}>{props.toVEXT} USDT</div>]}
+              <div className={styles.price}>{web3.utils.fromWei(props.toVEXT)} ETH</div>] : [<div className={styles.price}>{parseVextAmount(props.fromVEXT)} USDT</div>,
+                        <div className={styles.price}>{parseVextAmount(props.toVEXT)} USDT</div>]}
             </div>
               <div className={styles.cost}>
               <div className={styles.price}>{props.fromNFTs.length} NFTS</div>
