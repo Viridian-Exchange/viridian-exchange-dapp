@@ -320,8 +320,49 @@ export const FetchUser = async (setUserInfo, address) => {
 
         let res = await axios.get(`${config.api.invokeUrl}/user/${address}`);
         if (res.data.Item) {
+            //alert(JSON.stringify("FETCHAU: " + JSON.stringify(res.data.Item)));
             await setUserInfo(res.data.Item);
             return res;
+        }
+
+        // const res_user = res.data;
+        // user.users = res_user;
+        // alert("Success: " + JSON.stringify(res));
+        ////console.log (JSON.stringify(user));
+        // alert("auth user: " + JSON.stringify(user.users.Item));
+
+
+
+    } catch (err) {
+        //alert(`An error has occurred: ${err}`);
+    }
+};
+
+export const FetchUserRet = async (address) => {
+    const user = {
+        newUser: {
+            "username": ""
+        },
+        users: []
+    };
+
+    // add call to AWS API Gateway to fetch users here
+    // then set them in state
+    try {
+        // await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
+        //     alert("address from fetch:" + address);
+        //     // if (!res.data.Item) {
+        //     //     alert("FAILLL" + JSON.stringify(res.data.Item));
+        //     // }
+        //
+        //
+        // });
+
+        let res = await axios.get(`${config.api.invokeUrl}/user/${address}`);
+        if (res.data.Item) {
+            //alert(JSON.stringify("FETCHAU: " + JSON.stringify(res.data.Item)));
+            return await res.data.Item;
+            //return res;
         }
 
         // const res_user = res.data;
@@ -353,7 +394,7 @@ export const FetchAllUsers = async(setUsers) => {
             if (res.data.Items) {
                 await setUsers(res.data.Items);
             }
-            //alert(JSON.stringify("FETCHAU: " + res.data.Items));
+            // alert(JSON.stringify("FETCHAU: " + res.data.Items));
             return res.status;
         });
         // const res_user = res.data;
