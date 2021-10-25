@@ -212,50 +212,53 @@ const OfferScreen = (props) => {
     //alert(JSON.stringify(toNFTs) === JSON.stringify([]));
     //alert(JSON.stringify(fromNFTs));
 
-    if (JSON.stringify(toNFTsC) === JSON.stringify([]) && JSON.stringify(fromNFTsC) === JSON.stringify([])) {
-      setToNFTsCopy(location.state.toNFTs);
-      setFromNFTsCopy(location.state.fromNFTs);
-      //alert("ST")
-      setStartParse(true);
-    }
+    if (!(JSON.stringify(location.state.toNFTs) === JSON.stringify([])) || !(JSON.stringify(location.state.fromNFTs) === JSON.stringify([]))) {
 
-    if (JSON.stringify(toNFTsCopy) === JSON.stringify([]) && JSON.stringify(fromNFTsCopy) === JSON.stringify([])) {
-      //alert("GET")
-      setToNFTsCopy(await getToNFTs());
-      setFromNFTsCopy(await getFromNFTs());
-      setStartParse(false);
-    }
-
-    if ((JSON.stringify(toNFTsCopy) !== JSON.stringify([])) ||
-        (JSON.stringify(fromNFTsCopy) !== JSON.stringify([]))) {
-
-      if (!setStartParse) {
-        //alert("GO")
+      if (JSON.stringify(toNFTsC) === JSON.stringify([]) && JSON.stringify(fromNFTsC) === JSON.stringify([])) {
+        setToNFTsCopy(location.state.toNFTs);
+        setFromNFTsCopy(location.state.fromNFTs);
+        //alert("ST")
         setStartParse(true);
       }
 
-      let tnc = [];
+      if (JSON.stringify(toNFTsCopy) === JSON.stringify([]) && JSON.stringify(fromNFTsCopy) === JSON.stringify([])) {
+        //alert("GET")
+        setToNFTsCopy(await getToNFTs());
+        setFromNFTsCopy(await getFromNFTs());
+        setStartParse(false);
+      }
 
-      //alert("MAPT: " + JSON.stringify(toNFTsCopy));
-      //alert("MAPF: " + JSON.stringify(fromNFTsCopy));
+      if ((JSON.stringify(toNFTsCopy) !== JSON.stringify([])) ||
+          (JSON.stringify(fromNFTsCopy) !== JSON.stringify([]))) {
 
-      toNFTsCopy.map(async (nft, i) => await extractMetadata(tnc, nft, i, false, true));
+        if (!setStartParse) {
+          //alert("GO")
+          setStartParse(true);
+        }
 
-      // alert("FETCHED: " + JSON.stringify(tnc));
+        let tnc = [];
 
-      let fnc = [];
+        //alert("MAPT: " + JSON.stringify(toNFTsCopy));
+        //alert("MAPF: " + JSON.stringify(fromNFTsCopy));
 
-      fromNFTsCopy.map(async (nft, i) => await extractMetadata(fnc, nft, i, false, false));
+        toNFTsCopy.map(async (nft, i) => await extractMetadata(tnc, nft, i, false, true));
 
-      // alert("FETCHED: " + JSON.stringify(fnc));
+        // alert("FETCHED: " + JSON.stringify(tnc));
 
-      // if (fnc[0]) {
-      //   if (fnc[0].uri) {
-      //     if (fnc[0].uri.image) {
-      //       setFromNFTs(fnc);
-      //     }
-      //   }
-      // }
+        let fnc = [];
+
+        fromNFTsCopy.map(async (nft, i) => await extractMetadata(fnc, nft, i, false, false));
+      }
+
+        // alert("FETCHED: " + JSON.stringify(fnc));
+
+        // if (fnc[0]) {
+        //   if (fnc[0].uri) {
+        //     if (fnc[0].uri.image) {
+        //       setFromNFTs(fnc);
+        //     }
+        //   }
+        // }
     }
   //}, []);
 
