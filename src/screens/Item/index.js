@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import cn from "classnames";
 import styles from "./Item.module.sass";
 import Users from "./Users";
@@ -8,14 +8,23 @@ import { useLocation, withRouter } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import {parseVextAmount} from "../../Utils";
+import {FetchUserRet, FetchUser} from "../../apis/UserAPI";
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
 const Item = (props) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [showCategories, setShowCategories] = useState(false);
+  const [ownerUser, setOwnerUser] = useState({});
   //const {passedState} = props.location.state
   const location = useLocation();
+
+  useEffect(async () => {
+    alert(location.state.nftOwner)
+    let res = await FetchUserRet(location.state.nftOwner.toLowerCase());
+    setOwnerUser(res);
+    alert(JSON.stringify(res));
+  }, [location.state.nftOwner])
 
   if (location) {
     if (location.state) {
@@ -149,9 +158,9 @@ const Item = (props) => {
             {/*    </button>*/}
             {/*  ))}*/}
             {/*</div>*/}
-            {/*{JSON.stringify(isListing)}*/}
+            {/*{JSON.stringify(ownerUser)}*/}
 
-            <Users account={props.account} className={styles.users} items={users} owner={location.state.nftOwner} />
+            <Users account={props.account} className={styles.users} items={users} owner={location.state.nftOwner} ownerUser={ownerUser} />
             <Control isETH={location.state.isETH} isVNFT={location.state.isVNFT} isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>
         </div>

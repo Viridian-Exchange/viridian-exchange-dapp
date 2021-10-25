@@ -6,23 +6,38 @@ import Icon from "../Icon";
 import Users from "./Users"
 import Web3 from "web3";
 import oStyles from "./Card.module.sass";
+import {FetchUserRet} from "../../apis/UserAPI";
 
 
 const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProfilePhoto, otherUser }, props) => {
   const [visible, setVisible] = useState(false);
+  const [toUser, setToUser] = useState({});
+  const [fromUser, setFromUser] = useState({});
 
-    const users = [
-        {
-            name: "Raquel Will",
-            position: "You Receive",
-            avatar: {curProfilePhoto},
-        },
-        {
-            name: "Selina Mayert",
-            position: "They Receive",
-            avatar: {otherProfilePhoto},
-        },
-    ];
+    let users = [];
+    if (fromUser.displayName) {
+        users = [
+            {
+                name: "Raquel Will",
+                position: fromUser.displayName + " Receives",
+                avatar: fromUser.profilePhotoURL,
+            },
+            {
+                name: "Selina Mayert",
+                position: toUser.displayName + " Receives",
+                avatar: toUser.profilePhotoURL,
+            },
+        ];
+    }
+
+    useEffect(async () => {
+        let resTo = await FetchUserRet(item.to.toLowerCase());
+        setToUser(resTo);
+
+        let resFrom = await FetchUserRet(item.from.toLowerCase());
+        setFromUser(resFrom);
+        //alert(JSON.stringify(resFrom) + JSON.stringify(resTo));
+    }, [item.to, item.from])
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
 
@@ -37,8 +52,8 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
         {/*{JSON.stringify((item.to.toLowerCase())) + " " + JSON.stringify(account.toLowerCase())}*/}
         {/*{JSON.stringify(item)}*/}
         {(item.to.toLowerCase() === account.toLowerCase()) ? <Users items={users} toVEXT={item.fromAmt} toNFTs={item.fromNftIds} toPacks={item.toPackIds} fromVEXT={item.toAmt} fromNFTs={item.toNftIds} fromPacks={item.fromPackIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
-               otherProfilePhoto={otherUser.profilePhotoURL} account={account}/> : <Users items={users} toVEXT={item.toAmt} toNFTs={item.toNftIds} toPacks={item.toPackIds} fromVEXT={item.fromAmt} fromNFTs={item.fromNftIds} fromPacks={item.fromPackIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
-                                                                                          otherProfilePhoto={otherUser.profilePhotoURL} account={account}/>}
+               otherProfilePhoto={toUser.profilePhotoURL} account={account}/> : <Users items={users} toVEXT={item.toAmt} toNFTs={item.toNftIds} toPacks={item.toPackIds} fromVEXT={item.fromAmt} fromNFTs={item.fromNftIds} fromPacks={item.fromPackIds} curProfilePhoto={curProfilePhoto} isETH={!item.isVEXT}
+                                                                                          otherProfilePhoto={toUser.profilePhotoURL} account={account}/>}
       <div className={styles.preview}>
         {/*{uri.image}*/}
         <div className={styles.control}>
