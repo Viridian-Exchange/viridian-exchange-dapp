@@ -20,10 +20,10 @@ const Item = (props) => {
   const location = useLocation();
 
   useEffect(async () => {
-    alert(location.state.nftOwner)
+    //alert(location.state.nftOwner)
     let res = await FetchUserRet(location.state.nftOwner.toLowerCase());
     setOwnerUser(res);
-    alert(JSON.stringify(res));
+    //alert(JSON.stringify(res));
   }, [location.state.nftOwner])
 
   if (location) {

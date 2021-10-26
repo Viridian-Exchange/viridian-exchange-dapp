@@ -145,7 +145,6 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   if (connected) {
     //if username is empty, ask to set up
   return (
-      <CryptoPriceProvider >
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
       <div className={cn(styles.user, className)}>
         <div className={styles.head} onClick={() => setVisible(!visible)}>
@@ -189,8 +188,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                         </div> : <div className={styles.price}>
                           <img style={{width: '2ex', marginTop: '-.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                           {ethBalance}
-                          {/*<div style={{color: 'grey', fontSize: '5'}}>${prices.eth}</div>*/}
-                          {/*{JSON.stringify(prices)}*/}
+                          <div style={{color: 'grey', fontSize: '5'}}>${Math.round((prices.eth * ethBalance) * 100) / 100}</div>
                           {/*<span className={styles.currency}>ETH</span>*/}
                         </div>}</div>
                       </div>
@@ -244,7 +242,6 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
             )}
           </div>
         </OutsideClickHandler>
-      </CryptoPriceProvider>
     );
   }
   else {

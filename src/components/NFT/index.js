@@ -6,9 +6,11 @@ import Icon from "../Icon";
 import VideoLooper from 'react-video-looper'
 import {parseVextAmount} from '../../Utils';
 import Web3 from 'web3';
+import {useCryptoPrices} from "react-realtime-crypto-prices";
 
 const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto, isHotBid }, props) => {
   const [visible, setVisible] = useState(false);
+  const prices = useCryptoPrices(["eth"]);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
 
@@ -69,13 +71,14 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto, isHo
           {/*  Highest bid <span>{item.highestBid}</span>*/}
           {/*</div>*/}
           {(isListing && item.price) &&
-          <div>{item.isETH ? <div className={styles.price}>
-                <img style={{width: '3ex', marginTop: '-.2ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+          <div>{item.isETH ? [<div className={styles.price}>
+                <img style={{width: '3ex', marginTop: '.3ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
 
             {!isHotBid ? <div style={{marginTop: '-3.7ex', marginLeft: '2ex'}}>
               {Web3.utils.fromWei(item.price)}</div> :  <div style={{marginTop: '-3.2ex', marginLeft: '2ex'}}>
               {Web3.utils.fromWei(item.price)} </div>}
-              </div>
+              </div>,
+                <div style={{fontSize: '14.5px', float: 'right', marginLeft: '2ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div>]
               : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
           }
           <div
