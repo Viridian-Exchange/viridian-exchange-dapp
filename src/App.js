@@ -25,6 +25,10 @@ import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
 import Modal from "./components/Modal";
 import {FetchAllUsers, FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
+import {
+    useCryptoPrices,
+    CryptoPriceProvider
+} from "react-realtime-crypto-prices";
 import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
 let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
@@ -528,6 +532,7 @@ function App() {
 
 
   return (
+      <CryptoPriceProvider >
     <Router forceRefresh={true}>
         {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
@@ -669,6 +674,7 @@ function App() {
       </Route>
       </Switch>
     </Router>
+      </CryptoPriceProvider>
   );
 }
 
