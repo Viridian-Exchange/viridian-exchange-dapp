@@ -16,7 +16,7 @@ import {
   useCryptoPrices,
   CryptoPriceProvider
 } from "react-realtime-crypto-prices";
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
 const items = (account) => [
@@ -32,7 +32,7 @@ const items = (account) => [
   },
 ];
 
-const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance}) => {
+const User = ({ className, account, setAccount, connected, setConnected, userInfo, setUserInfo, vextBalance, setVextBalance, ethBalance, setEthBalance, setPromptInstallMetamask}) => {
   const [visible, setVisible] = useState(false);
   const [balance, setBalance] = useState(0);
   const prices = useCryptoPrices(["eth"]);
@@ -62,7 +62,9 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   const isMetaMaskInstalled = () => {
     //Have to check the ethereum binding on the window object to see if it's installed
     const {ethereum} = window;
-    return Boolean(ethereum && ethereum.isMetaMask);
+    if (!Boolean(ethereum && ethereum.isMetaMask)) {
+      setPromptInstallMetamask(true);
+    }
   };
 
 
@@ -248,7 +250,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
     return (
         <OutsideClickHandler onOutsideClick={() => {}}>
           <div className={cn(styles.user, className)}>
-            <div className={styles.head} onClick={async () => await connectWallet()}>
+            <div className={styles.head} onClick={async () => {isMetaMaskInstalled(); await connectWallet()}}>
               <div className={styles.disconnectedWallet}>
                 Connect Wallet
               </div>

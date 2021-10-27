@@ -9,7 +9,7 @@ import {tokenPackURI, ownerOfPackNoReq} from "../../smartContracts/ViridianPackM
 import ReactLoading from 'react-loading';
 import Image from "../Image";
 
-const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFTs, children, account, setAccount, connected, setConnected, userInfo, setUserInfo, ethBalance, setEthBalance, vextBalance, setVextBalance }) => {
+const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFTs, children, account, setAccount, connected, setConnected, userInfo, setUserInfo, ethBalance, setEthBalance, vextBalance, setVextBalance }) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
 
   const { pathname } = useLocation();
@@ -236,7 +236,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
               {/*{JSON.stringify(location.state)}*/}
               {/*{JSON.stringify(nfts)}*/}
               {/*{JSON.stringify(initialLoaded)}*/}
-              <Header users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs}
+              <Header setPromptInstallMetamask={setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs}
                       vextBalance={vextBalance} setVextBalance={setVextBalance} ethBalance={ethBalance} setEthBalance={setEthBalance} account={account}
                       setAccount={setAccount} connected={connected} setConnected={setConnected} userInfo={userInfo}
                       setUserInfo={setUserInfo}/>
