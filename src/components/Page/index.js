@@ -17,7 +17,7 @@ const Page = ({ users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFT
   const history = useHistory();
 
   useEffect(async () => {
-    window.scrollTo(0, 0);
+    //window.scrollTo(0, 0);
     clearAllBodyScrollLocks();
 
     //alert("PAGE: " + pathname);
