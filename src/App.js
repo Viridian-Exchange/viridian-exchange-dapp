@@ -423,6 +423,10 @@ function App() {
     //
     // }, [connected]);
 
+    // useEffect(() => {
+    //     window.scrollTo(0, 0);
+    // }, [])
+
 
     useEffect(async () => {
         //alert(JSON.stringify(props));
