@@ -78,7 +78,7 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto, isHo
               {Web3.utils.fromWei(item.price)}</div> :  <div style={{marginTop: '-3.2ex', marginLeft: '2ex'}}>
               {Web3.utils.fromWei(item.price)} </div>}
               </div>,
-                <div style={{fontSize: '14.5px', float: 'right', marginLeft: '2ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div>]
+                <>{prices.eth && <div style={{fontSize: '14.5px', float: 'right', marginLeft: '2ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div>}</>]
               : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
           }
           <div
