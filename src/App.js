@@ -30,7 +30,7 @@ import {
     CryptoPriceProvider
 } from "react-realtime-crypto-prices";
 import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 
 
@@ -56,6 +56,7 @@ function App() {
     const [vextBalance, setVextBalance] = useState(0);
     const [userInfo, setUserInfo] = useState({});
     const [promptSetup, setPromptSetup] = useState(false);
+    const [promptInstallMetamask, setPromptInstallMetamask] = useState(false);
     const [userFetched, setUserFetched] = useState(false);
     const [checkUserPrompt, setCheckUserPrompt] = useState(false);
     const nftsCopy = [];
@@ -71,7 +72,9 @@ function App() {
     const isMetaMaskInstalled = () => {
         //Have to check the ethereum binding on the window object to see if it's installed
         const {ethereum} = window;
-        return Boolean(ethereum && ethereum.isMetaMask);
+        if (!Boolean(ethereum && ethereum.isMetaMask)) {
+            setPromptInstallMetamask(true);
+        }
     };
 
     //TODO: Figure out how to call this from aws to avoid the cors error
@@ -119,9 +122,12 @@ function App() {
         try {
             // Will open the MetaMask UI
             // You should disable this button while the request is pending!
+            //alert('connecting wallet')
             await window.ethereum.request({ method: 'eth_requestAccounts' }).then(async (accounts) => {
+                //alert(JSON.stringify(accounts));
                 setAccount(accounts[0]);
                 if (accounts[0]) {
+                    //alert(accounts[0]);
                     await setConnected(true);
                     if (account && connected) {
                         await newUserCheck(accounts[0]);
@@ -132,6 +138,10 @@ function App() {
                     // }
 
                 }
+                // else {
+                //    // alert("Prompt Metamask");
+                //     setPromptInstallMetamask(true);
+                // }
                 //alert(JSON.stringify(account));
             });
 
@@ -164,7 +174,8 @@ function App() {
             //alert(account);
             //await web3.eth.sign(web3.utils.sha3("test"), account, function (err, result) { //console.log(err, result); });
         } catch (error) {
-            console.error(error);
+            //alert("cannot connect")
+            //console.error(error);
         }
     }
 
@@ -449,6 +460,8 @@ function App() {
             }
         }
 
+        isMetaMaskInstalled();
+
             ////console.log('Getting owned NFTs');
             await getListings().then(async (e) => {
                 //alert("Listings: " + JSON.stringify(e));
@@ -544,12 +557,12 @@ function App() {
           exact
           path="/"
           render={() => (
-            <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                 {/*{"ON: " + JSON.stringify(users)}*/}
                 <Home nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}
                       ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks}
                   users = {users} listings={listings} setListings={setListings} nfts={nfts}
-                    account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup}
+                    account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup} promptInstallMetamask = {promptInstallMetamask} setPromptInstallMetamask = {setPromptInstallMetamask}
               userInfo = {userInfo} setUserInfo = {setUserInfo} connected = {connected}/>
             </Page>
           )}
@@ -558,7 +571,7 @@ function App() {
           exact
           path="/upload-variants"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <UploadVariants />
             </Page>
           )}
@@ -568,7 +581,7 @@ function App() {
               path="/BuyCrypto"
               render={() => (
 
-                  <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                  <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                       <PayPal/>
                   </Page>
               )}
@@ -577,7 +590,7 @@ function App() {
           exact
           path="/upload-details"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <UploadDetails />
             </Page>
           )}
@@ -586,7 +599,7 @@ function App() {
           exact
           path="/connect-wallet"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <ConnectWallet vextBalance={vextBalance}/>
             </Page>
           )}
@@ -595,7 +608,7 @@ function App() {
           exact
           path="/faq"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Faq />
             </Page>
           )}
@@ -604,7 +617,7 @@ function App() {
           exact
           path="/activity"
           render={() => (
-            <Page users={users} nfts={nfts} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Activity />
             </Page>
           )}
@@ -613,7 +626,7 @@ function App() {
           exact
           path="/search01"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Search01 listings={listings} setListings={setListings} nfts={filteredNfts} account={account} />
             </Page>
           )}
@@ -631,7 +644,7 @@ function App() {
           exact
           path="/profile/:address"
           render={() => (
-            <Page users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                 {/*{JSON.stringify(users)}*/}
                 <Profile users={users} cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed}/>
             </Page>
@@ -641,7 +654,7 @@ function App() {
           exact
           path="/profile-edit"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo} users = {users}/>
             </Page>
           )}
@@ -650,7 +663,7 @@ function App() {
           exact
           path="/item/:type/:id"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Item account={account}/>
             </Page>
           )}
@@ -659,7 +672,7 @@ function App() {
               exact
               path="/offer/:id"
               render={() => (
-                  <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                  <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                       <OfferScreen account={account}/>
                   </Page>
               )}
@@ -668,7 +681,7 @@ function App() {
           exact
           path="/pagelist"
           render={() => (
-            <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <PageList />
             </Page>
           )}

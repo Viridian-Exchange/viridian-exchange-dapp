@@ -10,6 +10,7 @@ import Modal from "../../components/Modal";
 import SignupPrompt from "../../components/SignupPrompt";
 import {HandleAddUserSimple} from "../../apis/UserAPI";
 import {useHistory} from "react-router-dom";
+import InstallMetamaskPrompt from "../../components/InstallMetamaskPrompt";
 
 const Home = (props) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -25,6 +26,15 @@ const Home = (props) => {
 
   return (
     <>
+        {/*{JSON.stringify(props.promptInstallMetamask)}*/}
+        <Modal
+            visible={props.promptInstallMetamask}
+            onClose={async () => {
+                props.setPromptInstallMetamask(false);
+            }}
+        >
+            <InstallMetamaskPrompt />
+        </Modal>
         <Modal
             visible={props.promptSetup}
             onClose={async () => {
