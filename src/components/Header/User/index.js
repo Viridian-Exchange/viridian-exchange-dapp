@@ -188,7 +188,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                         </div> : <div className={styles.price}>
                           <img style={{width: '2ex', marginTop: '-.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                           {ethBalance}
-                          <div style={{color: 'grey', fontSize: '5'}}>${Math.round((prices.eth * ethBalance) * 100) / 100}</div>
+                          <>{prices.eth && <div style={{color: 'grey', fontSize: '5'}}>${Math.round((prices.eth * ethBalance) * 100) / 100}</div>}</>
                           {/*<span className={styles.currency}>ETH</span>*/}
                         </div>}</div>
                       </div>
