@@ -226,7 +226,7 @@ const Headers = (props) => {
             //to="/BuyCrypto"
             href="https://faucet.dimensions.network"
         >
-          Buy Crypto
+          Get ETH (Faucet)
         </a>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}

@@ -20,7 +20,7 @@ const Accept = ({ className }) => {
         <div className={styles.icon}></div>
         <div className={styles.text}>
           You are about to accept a bid for <strong>C O I N Z</strong> from{" "}
-          <strong>UI8</strong>
+          <strong></strong>
         </div>
       </div>
       <div className={styles.stage}>1.46 ETH for 1 edition</div>

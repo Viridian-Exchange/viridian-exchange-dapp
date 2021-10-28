@@ -28,7 +28,7 @@ const items = (account) => [
   {
     title: "Disconnect",
     icon: "exit",
-    url: "/connect-wallet",
+    url: "/",
   },
 ];
 
