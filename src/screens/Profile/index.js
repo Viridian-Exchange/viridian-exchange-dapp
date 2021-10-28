@@ -495,6 +495,7 @@ const Profile = (props) => {
   }, [otherNFTs])
 
   useEffect(async () => {
+    //alert(JSON.stringify(props.ownedNFTs));
     if(props.ownedNFTs[0]) {
       if (!props.ownedNFTs[0].uri.name) {
         if (location.state) {
@@ -521,7 +522,7 @@ const Profile = (props) => {
           //setOwnedNFTs(await getOwnedNFTs());
           //alert(ownedNFTs);
 
-
+          //alert(JSON.stringify(otherNFTs))
           if (otherNFTs.length > 0) {
             for (let i = 0; i < otherNFTs.length; i++) {
               // await ownedNFTs.forEach((nft, i) => {
@@ -579,6 +580,22 @@ const Profile = (props) => {
               }
             }
           }
+        }
+      }
+    }
+    else {
+      if (otherNFTs !== []) {
+        if (otherNFTs.length > 0) {
+          for (let i = 0; i < otherNFTs.length; i++) {
+            // await ownedNFTs.forEach((nft, i) => {
+            //   extractMetadata(nft, i)
+            // });
+            //alert(JSON.stringify(ownedNFTs[i]));
+            await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
+
+            //console.log(oNftsCopy);
+          }
+          await setOtherNFTs(oNftsCopy);
         }
       }
     }
