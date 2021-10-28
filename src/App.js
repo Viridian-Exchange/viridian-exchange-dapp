@@ -132,6 +132,7 @@ function App() {
                 if (accounts[0]) {
                     //alert(accounts[0]);
                     await setConnected(true);
+                    posthog.identify(account);
                     if (account && connected) {
                         await newUserCheck(accounts[0]);
                     }
@@ -538,7 +539,7 @@ function App() {
     useEffect(async () => {
         if (account) {
             //alert("AC: " + account);
-            posthog.people.set(account);
+
             await getOwnedNFTs();
         }
     }, [account]);
@@ -546,7 +547,6 @@ function App() {
     useEffect(async () => {
         if (account) {
             //alert("AC: " + account);
-            posthog.people.set(account);
             await getOwnedPacks();
         }
     }, [account, fetchedAndParsed]);
