@@ -132,7 +132,7 @@ const Item = (props) => {
                 }
               </div>,
                 <div>{location.state.isETH && <div className={cn("status-stroke-black", styles.price)}>
-                <>{prices.eth && <>${Math.round((prices.eth * parseInt(parseVextAmount(location.state.price))) * 100) / 100}</>}</>
+                <>{prices.eth && <>${Math.round((prices.eth * parseVextAmount(location.state.price)) * 100) / 100}</>}</>
                 </div>}</div>]}
               <div className={styles.counter} style={{marginLeft: '1ex'}}>#{location.state.id}</div>
             </div>
