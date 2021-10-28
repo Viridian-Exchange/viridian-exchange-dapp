@@ -21,8 +21,8 @@ const items = [
     value: "USDT",
   },
   {
-    title: "Service fee",
-    value: "1.5%",
+    title: "Service Fee",
+    value: "5%",
   },
 ];
 
