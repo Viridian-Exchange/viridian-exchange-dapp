@@ -16,6 +16,7 @@ import {
   useCryptoPrices,
   CryptoPriceProvider
 } from "react-realtime-crypto-prices";
+import {CopyToClipboard} from "react-copy-to-clipboard";
 let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
@@ -169,12 +170,16 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
             {visible && (
                 <div className={styles.body}>
                   <div className={styles.name}>{userInfo.displayName}</div>
-                  <div className={styles.code}>
-                    <div className={styles.number}>{shortenAccount()}</div>
-                    <button className={styles.copy}>
-                      <Icon name="copy" size="16"/>
-                    </button>
-                  </div>
+                  <CopyToClipboard text={account}
+                      // onCopy={() => this.setState({copied: true})}
+                  >
+                    <div className={styles.code}>
+                      <div className={styles.number}>{shortenAccount()}</div>
+                      <button className={styles.copy}>
+                        <Icon name="copy" size="16"/>
+                      </button>
+                    </div>
+                  </CopyToClipboard>
                   <div className={styles.wrap}>
                     <div className={styles.line}>
                       {/*<div className={styles.preview}>*/}
