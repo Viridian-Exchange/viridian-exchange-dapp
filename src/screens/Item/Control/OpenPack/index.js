@@ -31,71 +31,71 @@ const OpenPack = (props, { className }) => {
                 const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
                 let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
 
-                await vpABI.getPastEvents("Open", {},
-                    async (errors, events) => {
-                        if (!errors && events) {
-                            if (events[0]) {
-                                //alert("RETVALS: ")
-                                //alert(JSON.stringify(events[0].returnValues["0"]));
-                                //alert(JSON.stringify(events[0]));
-                                //alert(events[0].returnValues["0"]);
+                await vpABI.events.Open({filter: {to: props.account}}).on('data', async function (event) {
+                    if (event) {
+                        if (event) {
+                            //alert("RETVALS: ")
+                            //alert(JSON.stringify(events[0].returnValues["0"]));
+                            //alert(JSON.stringify(events[0]));
+                            //alert(events[0].returnValues["0"]);
 
-                                let cardCopy = []
+                            let cardCopy = []
 
-                                for (let i = 0; i < 3; i++) {
-                                    cardCopy.push(await events[0].returnValues["0"][i]);
-                                }
-
-                                //alert(cardCopy);
-
-                                setCards(cardCopy);
-
-                                if (events[0].returnValues["0"]) {
-                                    //setRevealing(true);
-                                    setGetEvents(false);
-                                }
+                            for (let i = 0; i < 3; i++) {
+                                cardCopy.push(await event.returnValues["0"][i]);
                             }
-                        } else {
-                            setGetEvents(true);
+
+                            //alert(cardCopy);
+
+                            setCards(cardCopy);
+
+                            // if (event.returnValues["0"]) {
+                            //     //setRevealing(true);
+                            //     setGetEvents(false);
+                            // }
                         }
-                    })
-            }
+                    }
+                    //else {
+                    //setGetEvents(true);
+                    //}
+                });
 
-            if (cards !== []) {
-                //console.log(cards);
-                //alert("HI")
-                //alert("CARDS: " + JSON.stringify(cards));
-                if (imgCopy.length !== 3) {
-                    await cards.map(async (card, index) => {
-                        await fetch(card, {
-                            mode: "cors",
-                            method: "GET"
-                        }).then(async res => {
-                            const resJson = await res.json();
+                if (cards !== []) {
+                    //console.log(cards);
+                    //alert("HI")
+                    //alert("CARDS: " + JSON.stringify(cards));
+                    if (imgCopy.length !== 3) {
+                        await cards.map(async (card, index) => {
+                            await fetch(card, {
+                                mode: "cors",
+                                method: "GET"
+                            }).then(async res => {
+                                const resJson = await res.json();
 
-                            //alert("THING BEING PUSHED: " + resJson.image);
+                                //alert("THING BEING PUSHED: " + resJson.image);
 
-                            imgCopy.push(await resJson.image);
+                                imgCopy.push(await resJson.image);
 
-                            //alert("IMGCOPY: " + JSON.stringify(imgCopy))
+                                //alert("IMGCOPY: " + JSON.stringify(imgCopy))
 
-                            if (imgCopy.length === 3) {
-                                await setImages(imgCopy)
-                            }
+                                if (imgCopy.length === 3) {
+                                    await setImages(imgCopy)
+                                }
 
-                            //alert("Image copy: " + JSON.stringify(imgCopy));
-                            //alert("Images: " + JSON.stringify(images));
-                        });
-                    })
+                                //alert("Image copy: " + JSON.stringify(imgCopy));
+                                //alert("Images: " + JSON.stringify(images));
+                            });
+                        })
+                    }
+
+                    //alert("Image copy: " + JSON.stringify(imgCopy));
+
+                    //setImages(imgCopy);
+
+                    //alert("Images: " + JSON.stringify(images));
+
+                    //setGetEvents(true);
                 }
-
-                //alert("Image copy: " + JSON.stringify(imgCopy));
-
-                //setImages(imgCopy);
-
-                //alert("Images: " + JSON.stringify(images));
-
-                //setGetEvents(true);
             }
         }
     }, [getEvents, revealing, cards]);
