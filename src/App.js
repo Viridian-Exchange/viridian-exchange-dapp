@@ -30,6 +30,9 @@ import {
     CryptoPriceProvider
 } from "react-realtime-crypto-prices";
 import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
+import posthog from 'posthog-js';
+posthog.init("phc_xnVfYWTOySi1xgfxvO4GQR4HaJi2ZSI156QXjxHVdh1", {api_host: 'https://app.posthog.com'});
+
 let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 
@@ -535,6 +538,7 @@ function App() {
     useEffect(async () => {
         if (account) {
             //alert("AC: " + account);
+            posthog.people.set(account);
             await getOwnedNFTs();
         }
     }, [account]);
@@ -542,6 +546,7 @@ function App() {
     useEffect(async () => {
         if (account) {
             //alert("AC: " + account);
+            posthog.people.set(account);
             await getOwnedPacks();
         }
     }, [account, fetchedAndParsed]);
