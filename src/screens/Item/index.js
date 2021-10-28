@@ -9,6 +9,10 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import {parseVextAmount} from "../../Utils";
 import {FetchUserRet, FetchUser} from "../../apis/UserAPI";
+import {
+  useCryptoPrices,
+  CryptoPriceProvider
+} from "react-realtime-crypto-prices";
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
@@ -18,6 +22,7 @@ const Item = (props) => {
   const [ownerUser, setOwnerUser] = useState({});
   //const {passedState} = props.location.state
   const location = useLocation();
+  const prices = useCryptoPrices(["eth"]);
 
   useEffect(async () => {
     //alert(location.state.nftOwner)
@@ -127,7 +132,7 @@ const Item = (props) => {
                 }
               </div>,
                 <div>{location.state.isETH && <div className={cn("status-stroke-black", styles.price)}>
-                ${parseInt(parseVextAmount(location.state.price)) * 3900}
+                <>{prices.eth && <>${Math.round((prices.eth * parseInt(parseVextAmount(location.state.price))) * 100) / 100}</>}</>
                 </div>}</div>]}
               <div className={styles.counter} style={{marginLeft: '1ex'}}>#{location.state.id}</div>
             </div>
