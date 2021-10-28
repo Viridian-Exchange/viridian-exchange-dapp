@@ -16,8 +16,7 @@ import {HandleAddFollowing, HandleUpdateUser, HandleAddFollower} from "../../../
 
 import ReactTooltip from "react-tooltip";
 
-const shareUrlFacebook = "https://ui8.net";
-const shareUrlTwitter = "https://ui8.net";
+
 
 let web3 = new Web3( new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
@@ -31,6 +30,9 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
   const [visibleModalReport, setVisibleModalReport] = useState(false);
   const [following, setFollowing] = useState([]);
   const [followers, setFollowers] = useState([]);
+
+  const shareUrlFacebook = "viridian.exchange/profile/" + account;
+  const shareUrlTwitter = "viridian.exchange/profile/" + account;
 
   const shortenAccount = () => {
     if (account) {
@@ -195,12 +197,12 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
             </div>
             <a
                 className={styles.site}
-                href="https://ui8.net"
+                href = {otherUserInfo.website}
                 target="_blank"
                 rel="noopener noreferrer"
             >
               <Icon name="globe" size="16"/>
-              <span>{otherUserInfo.website}</span>
+              <span >{otherUserInfo.website}</span>
             </a>
             <div className={styles.control}>
               <div className={styles.btns}>
@@ -227,15 +229,15 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
                 >
                   <Icon name="share" size="20"/>
                 </button>
-                <button
-                    className={cn("button-circle-stroke button-small", styles.button)}
-                    onClick={() => setVisibleModalReport(true)}
-                >
-                  <Icon name="report" size="20"/>
-                </button>
+                {/*<button*/}
+                {/*    className={cn("button-circle-stroke button-small", styles.button)}*/}
+                {/*    onClick={() => setVisibleModalReport(true)}*/}
+                {/*>*/}
+                {/*  <Icon name="report" size="20"/>*/}
+                {/*</button>*/}
               </div>
               <div className={cn(styles.box, {[styles.active]: visibleShare})}>
-                <div className={styles.stage}>Share link to this page</div>
+                <div className={styles.stage}>Share or copy profile link</div>
                 <div className={styles.share}>
                   <TwitterShareButton
                       className={styles.direction}
@@ -245,14 +247,23 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
                 <Icon name="twitter" size="20"/>
               </span>
                   </TwitterShareButton>
-                  <FacebookShareButton
-                      className={styles.direction}
-                      url={shareUrlFacebook}
+                  <CopyToClipboard text={shareUrlTwitter} style={{marginTop: "25px"}}
+                      // onCopy={() => this.setState({copied: true})}
                   >
-              <span>
-                <Icon name="facebook" size="20"/>
-              </span>
-                  </FacebookShareButton>
+                    <div className={styles.code}>
+                      <button className={styles.copy}>
+                        <Icon name="copy" size="20"/>
+                      </button>
+                    </div>
+                  </CopyToClipboard>
+              {/*    <FacebookShareButton*/}
+              {/*        className={styles.direction}*/}
+              {/*        url={shareUrlFacebook}*/}
+              {/*    >*/}
+              {/*<span>*/}
+              {/*  <Icon name="copy" size="20"/>*/}
+              {/*</span>*/}
+              {/*    </FacebookShareButton>*/}
                 </div>
               </div>
             </div>
@@ -304,7 +315,7 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
             </div>
             <a
                 className={styles.site}
-                href="https://ui8.net"
+                href = {userInfo.website}
                 target="_blank"
                 rel="noopener noreferrer"
             >
@@ -323,15 +334,15 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
                 >
                   <Icon name="share" size="20"/>
                 </button>
-                <button
-                    className={cn("button-circle-stroke button-small", styles.button)}
-                    onClick={() => setVisibleModalReport(true)}
-                >
-                  <Icon name="report" size="20"/>
-                </button>
+                {/*<button*/}
+                {/*    className={cn("button-circle-stroke button-small", styles.button)}*/}
+                {/*    onClick={() => setVisibleModalReport(true)}*/}
+                {/*>*/}
+                {/*  <Icon name="report" size="20"/>*/}
+                {/*</button>*/}
               </div>
               <div className={cn(styles.box, {[styles.active]: visibleShare})}>
-                <div className={styles.stage}>Share link to this page</div>
+                <div className={styles.stage}>Share or copy profile link</div>
                 <div className={styles.share}>
                   <TwitterShareButton
                       className={styles.direction}
@@ -341,14 +352,23 @@ const User = ({ className, item, curUser, account, userInfo, curUserInfo, isCurr
                 <Icon name="twitter" size="20"/>
               </span>
                   </TwitterShareButton>
-                  <FacebookShareButton
-                      className={styles.direction}
-                      url={shareUrlFacebook}
+                  <CopyToClipboard text={shareUrlTwitter} style={{marginTop: "25px"}}
+                      // onCopy={() => this.setState({copied: true})}
                   >
-              <span>
-                <Icon name="facebook" size="20"/>
-              </span>
-                  </FacebookShareButton>
+                    <div className={styles.code}>
+                      <button className={styles.copy}>
+                        <Icon name="copy" size="20"/>
+                      </button>
+                    </div>
+                  </CopyToClipboard>
+              {/*    <FacebookShareButton*/}
+              {/*        className={styles.direction}*/}
+              {/*        url={shareUrlFacebook}*/}
+              {/*    >*/}
+              {/*<span>*/}
+              {/*  <Icon name="copy" size="20"/>*/}
+              {/*</span>*/}
+              {/*    </FacebookShareButton>*/}
                 </div>
               </div>
             </div>

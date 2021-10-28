@@ -12,6 +12,7 @@
     "body-scroll-lock": "^3.1.5",
     "boring-avatars": "^1.5.8",
     "classnames": "^2.3.1",
+    "emailjs-com": "^3.2.0",
     "flexbox-react": "^4.4.0",
     "fs": "^0.0.1-security",
     "fuse.js": "^6.4.6",
