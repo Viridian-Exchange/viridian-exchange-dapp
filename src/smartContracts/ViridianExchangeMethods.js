@@ -222,7 +222,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
     }
     //alert(await isApprovedForAll(from, veContractAddress));
     await isPackApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        alert("APPR: " + JSON.stringify(isApproved));
+        //alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
             batch.add(await setPackApprovalForAll(from, veContractAddress));
         }});
@@ -234,27 +234,10 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
     try {
         //alert("PACC: " + _nftId);
         if (!isVEXT) {
-            batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, false).send.request({from: from})
-                .then(async transaction => {
-                    //alert("BITCH THIS SHOULD WORK");
-                    //console.log("Listing" + JSON.stringify(transaction));
-                await veABI.getPastEvents("ItemListed", {}, (errors, events) => {
-                    if (!errors) {
-                        //alert(events[0].returnValues["0"]);
-                    }
-                });
-            }));
+            batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, false).send.request({from: from}));
         }
         else {
-            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, isVEXT, false).send.request({from: from})
-                .then(async (transaction) => {
-                //console.log("Listing" + JSON.stringify(transaction));
-                await veABI.getPastEvents("ItemListed", {}, (errors, events) => {
-                    if (!errors) {
-                        //alert(events[0].returnValues["0"]);
-                    }
-                });
-            }));
+            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, isVEXT, false).send.request({from: from}));
         }
         batch.execute().then(async (e) => {
             //alert(e);
@@ -262,7 +245,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
 
 
     } catch(e) {
-        //alert(e);
+        console.error(e);
     }
 }
 

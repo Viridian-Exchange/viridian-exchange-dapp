@@ -598,6 +598,26 @@ const Profile = (props) => {
           await setOtherNFTs(oNftsCopy);
         }
       }
+
+      if (props.ownedPacks !== []) {
+        if (props.ownedPacks.length > 0) {
+          //alert("EXTRACT")
+          for (let i = 0; i < props.ownedPacks.length; i++) {
+            await extractMetadata(packsCopy, props.ownedPacks[i], i, true);
+          }
+
+          if (packsCopy[0]) {
+            if (packsCopy[0].uri.image) {
+              //alert("PC " + JSON.stringify(packsCopy))
+              await props.setOwnedPacks(packsCopy);
+            }
+          }
+        }
+      }
+
+      // if (otherPacks !== []) {
+      //
+      // }
     }
     if (location.state) {
       if (location.state.account === props.account) {
