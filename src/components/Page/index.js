@@ -8,17 +8,31 @@ import {tokenURI, ownerOfNoReq} from "../../smartContracts/ViridianNFTMethods";
 import {tokenPackURI, ownerOfPackNoReq} from "../../smartContracts/ViridianPackMethods";
 import ReactLoading from 'react-loading';
 import Image from "../Image";
+import Web3 from "web3";
+import Transfer from "../Transfer";
+import Modal from "../Modal";
+import WrongNetworkPrompt from "../WrongNetworkPrompt";
 
 const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFTs, children, account, setAccount, connected, setConnected, userInfo, setUserInfo, ethBalance, setEthBalance, vextBalance, setVextBalance }) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
+    const [networkName, setNetworkName] = useState("peen");
+    const [visibleModalWrongNetwork, setVisibleModalWrongNetwork] = useState(false);
 
   const { pathname } = useLocation();
   const location = useLocation();
   const history = useHistory();
+  let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+    // console.log(networkName === "ropsten");
+    // if(networkName === "ropsten") {
 
   useEffect(async () => {
     //window.scrollTo(0, 0);
     clearAllBodyScrollLocks();
+
+    setNetworkName(await web3.eth.net.getNetworkType());
+    if (await web3.eth.net.getNetworkType() !== "ropsten") {
+        setVisibleModalWrongNetwork(true);
+    }
 
     //alert("PAGE: " + pathname);
 
@@ -232,6 +246,15 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
   //if (initialLoaded) {
       return (
           <div className={styles.page}>
+              {(networkName !== 'ropsten' && networkName !== '') && <Modal
+                  visible={visibleModalWrongNetwork}
+                  onClose={() => {
+                      setVisibleModalWrongNetwork(false);
+                      history.push("/");
+                  }}
+              >
+                  <WrongNetworkPrompt network={networkName} />
+              </Modal>}
               {/*{account}*/}
               {/*{JSON.stringify(location.state)}*/}
               {/*{JSON.stringify(nfts)}*/}
