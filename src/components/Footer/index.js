@@ -20,22 +20,43 @@ const items = [
         url: "/",
       },
       {
-        title: "Discover",
-        url: "/search01",
+        title: "Contact Us",
+        url: "mailto:contact@viridianexchange.com",
       },
       {
         title: "FAQ",
         url: "/faq",
       },
+
     ],
   },
   {
-    title: "Info",
+    title: "Follow us",
     menu: [
       {
-        title: "Get Faucet ETH",
+        title: "Linkedin",
         //url: "/BuyCrypto",
-        url: "https://faucet.dimensions.network"
+        url: "https://www.linkedin.com/company/viridian-exchange/"
+      },
+      {
+        title: "Twitter",
+        //url: "/BuyCrypto",
+        url: "https://twitter.com/ViridianEx"
+      },
+      {
+        title: "Instagram",
+        //url: "/BuyCrypto",
+        url: "https://www.instagram.com/viridianexchange/"
+      },
+      {
+        title: "Facebook",
+        //url: "/BuyCrypto",
+        url: "https://www.facebook.com/Viridian-Exchange-106600915066707"
+      },
+      {
+        title: "Telegram",
+        //url: "/BuyCrypto",
+        url: "https://t.me/viridian_exchange"
       },
     ],
   },
