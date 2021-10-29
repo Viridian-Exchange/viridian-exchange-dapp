@@ -78,7 +78,7 @@ const ProfileEdit = (props) => {
   };
 
   const updateUser = async (profilePhotoURL) => {
-      let res = await HandleUpdateUser(props.setUserInfo, props.account, displayName, bio, website, twitter, profilePhotoURL,
+      let res = await HandleUpdateUser(props.setUserInfo, props.account, displayName, bio, website, twitter, "https://viridian-images.s3.us-east-2.amazonaws.com/" + props.account + ".png",
           props.userInfo.coverPhotoURL, props.userInfo.following, props.userInfo.followers, props.userInfo.likes);
 
       if (res) {
