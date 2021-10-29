@@ -36,6 +36,7 @@
     "react-scripts": "4.0.2",
     "react-share": "^4.4.0",
     "react-slick": "^0.28.1",
+    "react-spinners-kit": "^1.9.1",
     "react-tooltip": "^4.2.21",
     "react-video-looper": "^1.0.16",
     "tsparticles": "^1.34.0",

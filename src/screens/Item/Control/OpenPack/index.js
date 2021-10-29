@@ -11,6 +11,9 @@ import Reveal from 'react-reveal/Reveal';
 import {openPack} from "../../../../smartContracts/ViridianPackMethods";
 import config from "../../../../local-dev-config";
 import vNFTJSON from "../../../../abis/ViridianPack.json";
+import { SwishSpinner } from "react-spinners-kit";
+import {getWeb3Socket} from "../../../../Utils";
+import Icon from "../../../../components/Icon";
 
 let web3 = new Web3( new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
@@ -25,80 +28,116 @@ const OpenPack = (props, { className }) => {
 
     //const cards = ["https://viridian-images.s3.us-east-2.amazonaws.com/CD013.png", "https://viridian-images.s3.us-east-2.amazonaws.com/CD111.png", "https://viridian-images.s3.us-east-2.amazonaws.com/CD12.png"]
 
+    // useEffect(async () => {
+    //     if (images !== []) {
+    //         if (getEvents && openLoading) {
+    //             const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    //             let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+    //
+    //             await vpABI.events.Open({filter: {to: props.account}}).on('data', async function (event) {
+    //                 if (event) {
+    //                     if (event) {
+    //                         //alert("RETVALS: ")
+    //                         //alert(JSON.stringify(events[0].returnValues["0"]));
+    //                         //alert(JSON.stringify(events[0]));
+    //                         //alert(events[0].returnValues["0"]);
+    //
+    //                         let cardCopy = []
+    //
+    //                         for (let i = 0; i < 3; i++) {
+    //                             cardCopy.push(await event.returnValues["0"][i]);
+    //                         }
+    //
+    //                         //alert(cardCopy);
+    //
+    //                         setCards(cardCopy);
+    //
+    //                         // if (event.returnValues["0"]) {
+    //                         //     //setRevealing(true);
+    //                         //     setGetEvents(false);
+    //                         // }
+    //                     }
+    //                 }
+    //                 //else {
+    //                 //setGetEvents(true);
+    //                 //}
+    //             });
+    //
+    //             if (cards !== []) {
+    //                 //console.log(cards);
+    //                 //alert("HI")
+    //                 //alert("CARDS: " + JSON.stringify(cards));
+    //                 if (imgCopy.length !== 3) {
+    //                     await cards.map(async (card, index) => {
+    //                         await fetch(card, {
+    //                             mode: "cors",
+    //                             method: "GET"
+    //                         }).then(async res => {
+    //                             const resJson = await res.json();
+    //
+    //                             //alert("THING BEING PUSHED: " + resJson.image);
+    //
+    //                             imgCopy.push(await resJson.image);
+    //
+    //                             //alert("IMGCOPY: " + JSON.stringify(imgCopy))
+    //
+    //                             if (imgCopy.length === 3) {
+    //                                 await setImages(imgCopy)
+    //                             }
+    //
+    //                             //alert("Image copy: " + JSON.stringify(imgCopy));
+    //                             //alert("Images: " + JSON.stringify(images));
+    //                         });
+    //                     })
+    //                 }
+    //
+    //                 //alert("Image copy: " + JSON.stringify(imgCopy));
+    //
+    //                 //setImages(imgCopy);
+    //
+    //                 //alert("Images: " + JSON.stringify(images));
+    //
+    //                 //setGetEvents(true);
+    //             }
+    //         }
+    //     }
+    // }, [getEvents, revealing, cards]);
+
     useEffect(async () => {
-        if (images !== []) {
-            if (getEvents && openLoading) {
-                const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
-                let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+        // if (openLoading) {
+        //     setOpened(true);
+        //     setRevealing(false);
+        // }
 
-                await vpABI.events.Open({filter: {to: props.account}}).on('data', async function (event) {
-                    if (event) {
-                        if (event) {
-                            //alert("RETVALS: ")
-                            //alert(JSON.stringify(events[0].returnValues["0"]));
-                            //alert(JSON.stringify(events[0]));
-                            //alert(events[0].returnValues["0"]);
+        if (cards !== []) {
+            //console.log(cards);
+            //alert("HI")
+            //alert("CARDS: " + JSON.stringify(cards));
+            if (imgCopy.length !== 3) {
+                await cards.map(async (card, index) => {
+                    await fetch(card, {
+                        mode: "cors",
+                        method: "GET"
+                    }).then(async res => {
+                        const resJson = await res.json();
 
-                            let cardCopy = []
+                        //alert("THING BEING PUSHED: " + resJson.image);
 
-                            for (let i = 0; i < 3; i++) {
-                                cardCopy.push(await event.returnValues["0"][i]);
-                            }
+                        imgCopy.push(await resJson.image);
 
-                            //alert(cardCopy);
+                        //alert("IMGCOPY: " + JSON.stringify(imgCopy))
 
-                            setCards(cardCopy);
-
-                            // if (event.returnValues["0"]) {
-                            //     //setRevealing(true);
-                            //     setGetEvents(false);
-                            // }
+                        if (imgCopy.length === 3) {
+                            await setImages(imgCopy);
                         }
-                    }
-                    //else {
-                    //setGetEvents(true);
-                    //}
-                });
 
-                if (cards !== []) {
-                    //console.log(cards);
-                    //alert("HI")
-                    //alert("CARDS: " + JSON.stringify(cards));
-                    if (imgCopy.length !== 3) {
-                        await cards.map(async (card, index) => {
-                            await fetch(card, {
-                                mode: "cors",
-                                method: "GET"
-                            }).then(async res => {
-                                const resJson = await res.json();
-
-                                //alert("THING BEING PUSHED: " + resJson.image);
-
-                                imgCopy.push(await resJson.image);
-
-                                //alert("IMGCOPY: " + JSON.stringify(imgCopy))
-
-                                if (imgCopy.length === 3) {
-                                    await setImages(imgCopy)
-                                }
-
-                                //alert("Image copy: " + JSON.stringify(imgCopy));
-                                //alert("Images: " + JSON.stringify(images));
-                            });
-                        })
-                    }
-
-                    //alert("Image copy: " + JSON.stringify(imgCopy));
-
-                    //setImages(imgCopy);
-
-                    //alert("Images: " + JSON.stringify(images));
-
-                    //setGetEvents(true);
-                }
+                        console.log("Image copy: " + JSON.stringify(imgCopy));
+                        //alert("Images: " + JSON.stringify(images));
+                    });
+                })
             }
         }
-    }, [getEvents, revealing, cards]);
+    }, [revealing, cards]);
 
     if (revealing) {
         // setTimeout(() => {
@@ -137,23 +176,78 @@ const OpenPack = (props, { className }) => {
     else if (!opened) {
         return (
             <div>
-                <ReactFloaterJs>
+                {!openLoading ? <ReactFloaterJs>
                     <div onClick={async () => {
                         //setOpened(true);
                         // setOpenLoading(true);
                         // setGetEvents(true);
-                        await openPack(props.packId, props.account, setRevealing, setCards).then(async () =>
-                        {setOpened(true);
-                            setOpenLoading(true);
-                            setGetEvents(true);}).then(async () => {
-                            setTimeout(() => {
-                                //alert("revealing");
-                                setRevealing(true);
-                            }, 10000);
+                        //setOpenLoading(true);
 
-                                //await setRevealing(true);
-                        }
-                        );
+                        const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+                        let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+
+                        const web3Socket = await getWeb3Socket(web3);
+
+                        let vpABIWebSocket = new web3Socket.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+
+                        await vpABIWebSocket.events.Open({filter: {to: props.account}}).on('data', async function (event) {
+                            if (event) {
+                                if (event) {
+                                    //alert("RETVALS: ")
+                                    //alert(JSON.stringify(events[0].returnValues["0"]));
+                                    //alert(JSON.stringify(events[0]));
+                                    //alert(events[0].returnValues["0"]);
+
+                                    let cardCopy = []
+
+                                    for (let i = 0; i < 3; i++) {
+                                        cardCopy.push(await event.returnValues["0"][i]);
+                                    }
+
+                                    //alert(cardCopy);
+
+                                    setCards(cardCopy);
+
+                                    // if (event.returnValues["0"]) {
+                                    //     //setRevealing(true);
+                                    //     setGetEvents(false);
+                                    // }
+                                }
+                            }
+                            //else {
+                            //setGetEvents(true);
+                            //}
+
+                            //setRevealing(true);
+
+                            await setTimeout(async () => {
+                                //alert("revealing");
+                                await setRevealing(true);
+                            }, 7000);
+
+                            setOpened(true);
+
+                        });
+
+                        setOpenLoading(true);
+                        await openPack(props.packId, props.account, setRevealing, setCards);
+                            // setTimeout(() => {
+                            //     //alert("revealing");
+                            //     setRevealing(true);
+                            // }, 10000);
+                                    //if (images !== []) {
+                                        //if (getEvents && openLoading) {
+
+
+                                                //alert("Image copy: " + JSON.stringify(imgCopy));
+
+                                                //setImages(imgCopy);
+
+                                                //alert("Images: " + JSON.stringify(images));
+
+                                                //setGetEvents(true);
+                                            //}
+                                        //}
 
 
 
@@ -167,7 +261,12 @@ const OpenPack = (props, { className }) => {
                         <img src="/images/gift.svg" alt="open pack"/>
                         <h1 className={cn("h3", styles.title)}> Open Pack</h1>
                     </div>
-                </ReactFloaterJs>
+                </ReactFloaterJs> : <div style={{display: 'block',
+                    marginLeft: 'auto',
+                    marginRight: 'auto',
+                    width: '20%'}}>
+                    <SwishSpinner size={250} color="#FFFFF" loading={true} />
+                    </div>}
                 {/*<Particles params={{*/}
                 {/*    particles: {*/}
                 {/*        number: {*/}
@@ -192,9 +291,17 @@ const OpenPack = (props, { className }) => {
     // }
     else if (opened && !revealing) {
         return (
-            <video autoPlay muted style={{maxWidth: '50ex', cursor: 'pointer', marginLeft: '35%'}}>
+            <>
+                {/*{JSON.stringify(images)}*/}
+                {/*{JSON.stringify(cards)}*/}
+                <button className={cn("button-small", styles.button)} style={{maxWidth: '15ex'}} onClick={() => setRevealing(true)}>
+                    <span> Skip </span>
+                    <Icon name="arrow-next" size="16" />
+                </button>
+            <video autoPlay muted style={{maxWidth: '100ex', cursor: 'pointer', marginLeft: '20%'}}>
                 <source src='https://viridian-images.s3.us-east-2.amazonaws.com/OPEN+BAG+GOLD.mp4' type="video/mp4"/>
             </video>
+                </>
         );
     }
 
