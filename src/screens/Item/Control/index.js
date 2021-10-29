@@ -10,6 +10,7 @@ import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
 import OpenPack from "./OpenPack"
 import {parseVextAmount} from "../../../Utils";
+import { useLocation, useHistory } from "react-router-dom";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -21,6 +22,8 @@ const Control = (props, { className }) => {
   const [isListing, setIsListing] = useState(false);
   const [offers, setOffers] = useState([]);
   const [purchased, setPurchased] = useState(false);
+
+  const history = useHistory();
 
   function offerButtons() {
     if ((props.owner.toLowerCase() === props.account.toLowerCase()) && props.isListing) {
@@ -138,7 +141,11 @@ const Control = (props, { className }) => {
       </Modal>
         <Modal
             visible={visibleModalPackOpen}
-            onClose={() => setVisibleModalPackOpen(false)}
+            onClose={() => {
+                setVisibleModalPackOpen(false);
+                history.push('/profile/' + props.account);
+            }
+            }
         >
             <OpenPack account={props.account} packId={props.state.id} />
         </Modal>
