@@ -19,6 +19,7 @@
     "immutable": "^4.0.0-rc.12",
     "node-sass": "^5.0.0",
     "posthog-js": "^1.16.0",
+    "random-username-generator": "^1.0.4",
     "react": "^17.0.1",
     "react-copy-to-clipboard": "^5.0.4",
     "react-dom": "^17.0.1",
