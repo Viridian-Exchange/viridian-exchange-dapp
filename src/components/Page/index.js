@@ -253,7 +253,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                       history.push("/");
                   }}
               >
-                  <WrongNetworkPrompt network={networkName} />
+                  <WrongNetworkPrompt network={networkName} setVisibleModalWrongNetwork={setVisibleModalWrongNetwork} history={history} />
               </Modal>}
               {/*{account}*/}
               {/*{JSON.stringify(location.state)}*/}

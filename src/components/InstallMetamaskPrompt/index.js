@@ -15,7 +15,7 @@ const InstallMetamaskPrompt = ({ className, account, setPromptSetup, setUserInfo
     <div className={cn(className, styles.transfer)} style={{textAlign: 'center'}}>
       <div className={cn("h4", styles.title)}>Metamask Not Installed</div>
         <div>
-            <img src='/images/content/metamask-fox.svg' style={{maxWidth: '50ex'}}/>
+            <img src='https://viridian-images.s3.us-east-2.amazonaws.com/RopstenSwitchMiniTutorial.mov' style={{maxWidth: '50ex'}}/>
         </div>
         <div>
       <a className={styles.text} href='https://metamask.io'>
