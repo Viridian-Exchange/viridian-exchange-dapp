@@ -16,15 +16,15 @@ const InstallMetamaskPrompt = ({ className, network, history, setVisibleModalWro
       <div className={cn("h4", styles.title)}>Wrong Network Selected</div>
         Please switch from network {network} to ropsten
         <div>
-            <video autoPlay loop muted style={{maxWidth: '40ex', marginBottom: '12ex'}}>
-                <source src='images/content/RopstenSwitchMiniTutorial.mov' type="video/mp4"/>
+            <video autoPlay loop muted style={{maxWidth: '40ex', marginBottom: '3ex', marginTop: '2ex'}}>
+                <source src='https://viridian-images.s3.us-east-2.amazonaws.com/RopstenSwitchMiniTutorial.mov' type="video/mp4"/>
             </video>
         </div>
         <div>
       <a className={styles.text} style={{marginBottom: '5ex'}} href='https://metamask.zendesk.com/hc/en-us/articles/360056196151-Using-custom-networks-with-MetaMask'>
         What is a Network?
       </a>
-            <button className={cn("button-stroke", styles.button)} onClick={() => {
+            <button className={cn("button-stroke", styles.button)} style={{marginTop: '2ex'}} onClick={() => {
                 setVisibleModalWrongNetwork(false);
                 history.push("/");
             }}>I've switched networks</button>
