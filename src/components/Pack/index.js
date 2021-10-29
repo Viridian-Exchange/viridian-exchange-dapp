@@ -60,18 +60,20 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto, isH
           {/*  Highest bid <span>{item.highestBid}</span>*/}
           {/*</div>*/}
           {(isListing && item.price) &&
-          <div>{item.isETH ? [<div className={styles.price}>
-                <img style={{width: '3ex', marginTop: '.3ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+          <div style={{minWidth: '20ex'}}>{item.isETH ? [<div className={styles.price}>
+                <img style={{width: '3ex', marginTop: '-.7ex', marginLeft: '-1ex', marginBottom: '.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+
                 {!isHotBid ? <div style={{marginTop: '-3.7ex', marginLeft: '2ex'}}>
-                  {Web3.utils.fromWei(item.price)}</div> :  <div style={{marginTop: '-3.2ex', marginLeft: '2ex'}}>
+                  {Web3.utils.fromWei(item.price)}</div> :  <div style={{marginLeft: '2ex', marginBottom: '-2ex', marginTop: '-3.6ex'}}>
                   {Web3.utils.fromWei(item.price)} </div>}
               </div>,
-                <>{prices.eth && <div style={{fontSize: '14.5px', float: 'right', marginLeft: '2ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div>}</>]
+                <>{prices.eth && <>{!isHotBid ? <div style={{fontSize: '14.5px', float: 'right', marginLeft: '4ex', marginTop: '-3ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div> :
+                    <div style={{fontSize: '14.5px', float: 'right', marginLeft: '4ex', marginTop: '-1.5ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div>}</>}</>]
               : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
           }
           <div
-            className={styles.bid}
-            dangerouslySetInnerHTML={{ __html: item.bid }}
+              className={styles.bid}
+              dangerouslySetInnerHTML={{ __html: item.bid }}
           />
         </div>
       </Link>
