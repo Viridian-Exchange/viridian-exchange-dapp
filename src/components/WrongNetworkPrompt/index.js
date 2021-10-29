@@ -6,7 +6,7 @@ import {HandleAddUserSimple} from "../../apis/UserAPI"
 
 //TODO: PASS IN USERINFO AND UPDATE THIS WHEN PUSHED TO DYNAMO
 // SET FETCHED PROP SO WHEN THAT CHANGES, FETCHES THE USER AND SETS IT TO USERINFO
-const InstallMetamaskPrompt = ({ className, network}) => {
+const InstallMetamaskPrompt = ({ className, network, history, setVisibleModalWrongNetwork}) => {
     // async function HandleAddressLink() {
     //      await HandleAddUserSimple(setUserInfo, account);
     // }
@@ -24,7 +24,10 @@ const InstallMetamaskPrompt = ({ className, network}) => {
       <a className={styles.text} style={{marginBottom: '5ex'}} href='https://metamask.zendesk.com/hc/en-us/articles/360056196151-Using-custom-networks-with-MetaMask'>
         What is a Network?
       </a>
-            <a className={cn("button-stroke", styles.button)} href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'>I've switched networks</a>
+            <button className={cn("button-stroke", styles.button)} onClick={() => {
+                setVisibleModalWrongNetwork(false);
+                history.push("/");
+            }}>I've switched networks</button>
         </div>
     </div>
   );
