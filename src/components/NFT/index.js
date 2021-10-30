@@ -17,6 +17,7 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto, isHo
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
   return (
     <div className={cn(styles.card, className)}>
+      <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: false, isETH: item.isETH } }}>
       <div className={styles.preview}>
         {item.uri.image ? <img src={item.uri.image} alt='card' /> : <img src="/images/content/gradient-2.png" alt='card' style={{opacity: '0.2'}}/>}
 
@@ -47,7 +48,6 @@ const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto, isHo
       </div>
       {/*{JSON.stringify(item.isListing)}*/}
       {/*{curProfilePhoto}*/}
-      <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: false, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             {/*{JSON.stringify(isETH)}*/}
