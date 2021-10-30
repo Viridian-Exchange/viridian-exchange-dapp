@@ -157,7 +157,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
 
                   //alert("onwer of nft");
 
-                  let packOwner = await ownerOfNoReq(tokenId);
+                  let nftOwner = await ownerOfNoReq(tokenId);
 
                   //alert("VNFT")
 
@@ -171,7 +171,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                           const resJson = await res.json();
                           //console.log(JSON.stringify(resJson));
                           //alert(JSON.stringify(resJson));
-                          let item = {id: tokenId, uri: resJson, owner: packOwner};
+                          let item = {id: tokenId, uri: resJson, owner: nftOwner};
 
                           //alert(JSON.stringify(resJson))
 

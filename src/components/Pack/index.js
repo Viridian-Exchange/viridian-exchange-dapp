@@ -16,6 +16,7 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto, isH
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
   return (
     <div className={cn(styles.card, className)} style={{maxHeight: '35ex'}}>
+      <Link className={styles.link} to={{ pathname: `/item/pack/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: true, isETH: item.isETH } }}>
       {/*{JSON.stringify(item.isETH)}*/}
       <div className={styles.preview}>
         {item.uri.image ? <video autoPlay loop muted style={{maxWidth: '32ex'}}>
@@ -37,7 +38,6 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto, isH
           {/*{JSON.stringify(item)}*/}
         </div>
       </div>
-      <Link className={styles.link} to={{ pathname: `/item/pack/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: true, isETH: item.isETH } }}>
         <div className={styles.body}>
           <div className={styles.line}>
             <div className={styles.title}>{item.uri.name}</div>
