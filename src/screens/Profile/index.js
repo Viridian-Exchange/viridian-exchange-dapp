@@ -496,9 +496,12 @@ const Profile = (props) => {
 
   useEffect(async () => {
     //alert(JSON.stringify(props.ownedNFTs));
-    if(props.ownedNFTs[0]) {
-      if (!props.ownedNFTs[0].uri.name) {
+    //alert("BREH1")
+    if(props.ownedNFTs.length > 0) {
+      //if (!props.ownedNFTs[0].uri.name) {
         if (location.state) {
+          //alert("breh1")
+          //alert(JSON.stringify(props.ownedNFTs.length))
           //console.log(JSON.stringify(props.nfts));
           //getOwnedListings();
           //console.log(ownedListings);
@@ -514,6 +517,28 @@ const Profile = (props) => {
             // await setInitialLoaded(true);
             // await history.push("/");
             // await history.push(location.pathname);
+          }
+          //alert("BREH1")
+
+          //alert("BREH")
+          //alert(JSON.stringify(props.ownedNFTs))
+          if (props.ownedNFTs.length > 0) {
+            for (let i = 0; i < props.ownedNFTs.length; i++) {
+              //alert(JSON.stringify(props.ownedNFTs));
+              await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
+            }
+
+            if (nftsCopy[0]) {
+              if (nftsCopy[0].uri.image) {
+                //alert("NFTC " + JSON.stringify(nftsCopy))
+                // if (!props.ownedNFTs[0].owner) {
+                //alert("hi")
+                await props.setOwnedNFTs(nftsCopy);
+                // if NFT.value > 2 {
+                // SEND TO LIAM }
+                //}
+              }
+            }
           }
 
 
@@ -535,6 +560,7 @@ const Profile = (props) => {
             }
             await setOtherNFTs(oNftsCopy);
           }
+          //alert("BREH2")
 
             if (otherPacks.length > 0) {
               for (let i = 0; i < otherPacks.length; i++) {
@@ -551,22 +577,6 @@ const Profile = (props) => {
 
           }
 
-          if (props.ownedNFTs.length > 0) {
-            for (let i = 0; i < props.ownedNFTs.length; i++) {
-              await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
-            }
-
-            if (nftsCopy[0]) {
-              if (nftsCopy[0].uri.image) {
-                //alert("NFTC " + JSON.stringify(nftsCopy))
-                // if (!props.ownedNFTs[0].owner) {
-                  //alert("hi")
-                  await props.setOwnedNFTs(nftsCopy);
-                //}
-              }
-            }
-          }
-
           if (props.ownedPacks.length > 0) {
             //alert("EXTRACT")
             for (let i = 0; i < props.ownedPacks.length; i++) {
@@ -581,7 +591,7 @@ const Profile = (props) => {
             }
           }
         }
-      }
+      //}
     }
     else {
       if (otherNFTs !== []) {

@@ -90,7 +90,7 @@ const OfferBuilder = (props) => {
                 options={options}
             />
           </div>
-          <div className={styles.list}>
+          <div>
         {option === options[0] && <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                                          recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={false} class={props.class} nfts={[].concat(props.nfts).concat(props.packs)} isListing={false} account={props.account} selectedRecPackIds={selectedRecPackIds}
                                          setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds}
@@ -101,7 +101,7 @@ const OfferBuilder = (props) => {
                                          style={{marginTop: "20ex", marginBottom: "2ex"}}/>}
           </div>
         </Flexbox>
-        <Flexbox flexDirection="column" style={{marginLeft: '5ex', marginTop: '3ex'}}>
+        <Flexbox flexDirection="column" style={{marginLeft: '5ex', marginTop: '3ex', minWidth: '50ex', maxHeight: '50ex'}}>
           <Switch className={styles.switch} value={isETH} setValue={setIsETH} />
           {isETH ? <TextInput
               style={{marginBottom: '2ex'}}
@@ -124,9 +124,11 @@ const OfferBuilder = (props) => {
           />}
           {/*{JSON.stringify(selectedGiveIds)}*/}
           {/*{JSON.stringify(selectedGivePackIds)}*/}
+          <div className={styles.list} style={{marginBottom: '1ex'}}>
           <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} nfts={selectedGiveNFTs} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                  recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={true} isListing={false} account={props.curAccount} selectedRecPackIds={selectedRecPackIds}
                  setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
+          </div>
           {isETH ? <TextInput
               style={{marginBottom: '2ex'}}
               onChange={(e) => setRecAmount(e.target.value)}
@@ -148,10 +150,12 @@ const OfferBuilder = (props) => {
           />}
           {/*{JSON.stringify(selectedRecIds)}*/}
           {/*{JSON.stringify(selectedRecPackIds)}*/}
-          <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
-                 recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs}
-                 nfts={selectedRecNFTs} give={false} isListing={false} selected={true} account={props.curAccount} selectedRecPackIds={selectedRecPackIds}
-                 setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
+          <div className={styles.list}>
+            <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
+                   recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs}
+                   nfts={selectedRecNFTs} give={false} isListing={false} selected={true} account={props.curAccount} selectedRecPackIds={selectedRecPackIds}
+                   setRecSelectedPackIds={setRecSelectedPackIds} selectedGivePackIds={selectedGivePackIds} setGiveSelectedPackIds={setGiveSelectedPackIds} />
+          </div>
         </Flexbox>
       </Flexbox>
       <div className={styles.btns}>

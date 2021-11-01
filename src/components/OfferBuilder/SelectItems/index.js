@@ -5,7 +5,7 @@ import Card from "../../../components/Card";
 import NFT from "../../../components/unselectableNFT";
 import Loader from "../../../components/Loader";
 import Offer from "../../../components/Offer";
-import Pack from "../../Pack";
+import Pack from "../../UnselectablePack";
 
 const Items = ({ className, items, nfts, isListing, account, offers, give, selected, setGiveSelectedNFTs, setRecSelectedNFTs,
                    giveSelectedNFTs, recSelectedNFTs, selectedGivePackIds, selectedGiveIds, setGiveSelectedPackIds, setGiveSelectedIds, selectedRecPackIds, selectedRecIds, setRecSelectedPackIds, setRecSelectedIds}, props) => {
@@ -14,6 +14,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
         <div className={cn(styles.items, className)}>
             {/*{JSON.stringify("GIVE: " + giveSelectedNFTs)}*/}
             {/*{JSON.stringify("REC: " + recSelectedNFTs)}*/}
+            {/*{JSON.stringify(nfts)}*/}
             <div className={styles.list}>
                 {nfts.map((x, index) => {
                     if (selected) {
