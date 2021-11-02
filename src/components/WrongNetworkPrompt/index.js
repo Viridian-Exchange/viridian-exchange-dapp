@@ -16,7 +16,7 @@ const InstallMetamaskPrompt = ({ className, network, history, setVisibleModalWro
       <div className={cn("h4", styles.title)}>Wrong Network Selected</div>
         Please switch from network {network} to ropsten
         <div>
-            <video autoPlay loop muted style={{maxWidth: '40ex', marginBottom: '3ex', marginTop: '2ex'}}>
+            <video autoPlay loop muted playsInline style={{maxWidth: '40ex', marginBottom: '3ex', marginTop: '2ex'}}>
                 <source src='https://viridian-images.s3.us-east-2.amazonaws.com/RopstenSwitchMiniTutorial.mov' type="video/mp4"/>
             </video>
         </div>

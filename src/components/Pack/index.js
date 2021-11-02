@@ -19,7 +19,7 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto, isH
       <Link className={styles.link} to={{ pathname: `/item/pack/${item.id}`, state: { curProfilePhoto: curProfilePhoto, isVNFT: item.isVNFT, listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: true, isETH: item.isETH } }}>
       {/*{JSON.stringify(item.isETH)}*/}
       <div className={styles.preview}>
-        {item.uri.image ? <video autoPlay loop muted style={{maxWidth: '32ex'}}>
+        {item.uri.image ? <video autoPlay loop muted playsInline style={{maxWidth: '32ex'}}>
           <source src={item.uri.image} type="video/mp4"/>
         </video> : <img src="/images/content/gradient-2.png" alt='card' style={{opacity: '0.2'}}/>}
         <div className={styles.control}>
