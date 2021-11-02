@@ -31,6 +31,7 @@ import {
 } from "react-realtime-crypto-prices";
 import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
 import posthog from 'posthog-js';
+import  { Breakpoint, BreakpointProvider } from 'react-socks';
 posthog.init("phc_xnVfYWTOySi1xgfxvO4GQR4HaJi2ZSI156QXjxHVdh1", {api_host: 'https://app.posthog.com'});
 
 let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
@@ -555,6 +556,7 @@ function App() {
 
   return (
       <CryptoPriceProvider >
+          <BreakpointProvider>
     <Router forceRefresh={true}>
         {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
@@ -696,6 +698,7 @@ function App() {
       </Route>
       </Switch>
     </Router>
+          </BreakpointProvider>
       </CryptoPriceProvider>
   );
 }
