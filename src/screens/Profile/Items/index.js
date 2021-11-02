@@ -67,16 +67,28 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
 
                         return users.map((user) => {
                             //return ("BRUH");
-                            if (user.username.toLowerCase() === x.from.toLowerCase()) {
+                            if (user.username.toLowerCase() === x.to.toLowerCase() && x.from.toLowerCase() === account.toLowerCase()) {
+                                if (x.pending) {
+                                    if (dropDownOption === "Sent Offers" && account.toLowerCase() === x.from.toLowerCase()) {
+                                        return (<Offer className={styles.card} item={x} otherUser={user} key={index}
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={true} />);
+                                    }
+                                    else if (dropDownOption === "Received Offers" && account.toLowerCase() === x.to.toLowerCase()) {
+                                        return (<Offer className={styles.card} item={x} otherUser={user} key={index}
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={false}/>);
+                                    }
+                                }
+                            }
+                            else if (user.username.toLowerCase() === x.from.toLowerCase() && x.from.toLowerCase() !== account.toLowerCase()) {
                                 // //console.log(user.username.toLowerCase() === x.from.toLowerCase());
                                 if (x.pending) {
                                     if (dropDownOption === "Sent Offers" && account.toLowerCase() === x.from.toLowerCase()) {
                                         return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                                       account={account} curProfilePhoto={curProfilePhoto}/>);
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={true} />);
                                     }
                                     else if (dropDownOption === "Received Offers" && account.toLowerCase() === x.to.toLowerCase()) {
                                         return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                                       account={account} curProfilePhoto={curProfilePhoto}/>);
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={false}/>);
                                     }
                                 }
                             }
@@ -92,4 +104,4 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
 
 }
 
-export default Items
+export default Items;

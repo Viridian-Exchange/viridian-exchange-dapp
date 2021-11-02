@@ -204,8 +204,8 @@ const OfferScreen = (props) => {
   }
 
   const navLinks = [
-    "You Recieve",
-    location.state.otherUser.displayName + " Recieves",
+    "You Receive",
+    location.state.otherUser.displayName + " Receives",
   ];
 
   useEffect(async () => {
@@ -284,8 +284,27 @@ const OfferScreen = (props) => {
           </div>
 
           <div className={styles.body} style={{marginRight: '50ex'}}>
-            <div className={styles.group}>
-              {/*<div>{JSON.stringify(location.state)}</div>*/}
+            {location.state.send ? <div className={styles.group}>
+              {/*<div>{JSON.stringify(location.state.otherUser)}</div>*/}
+              <div style={{marginLeft: '-40ex'}}>
+                {activeIndex === 0 && [
+                  <div className={styles.line} style={{marginTop: '5ex'}}>
+                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
+                        <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
+                    {/*{JSON.stringify(toNFTs)}*/}
+                  </div>,
+                  <Items class={styles.items} nfts={toNFTs} isListing={false} account={props.account}/>
+                ]}
+                {activeIndex === 1 && [
+                  <div className={styles.line} style={{marginTop: '5ex'}}>
+                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
+                        <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
+                  </div>,
+                  <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
+                ]}
+              </div>
+            </div> : <div className={styles.group}>
+              {/*<div>{JSON.stringify(location.state.otherUser)}</div>*/}
               <div style={{marginLeft: '-40ex'}}>
                 {activeIndex === 0 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
@@ -303,7 +322,7 @@ const OfferScreen = (props) => {
                   <Items class={styles.items} nfts={toNFTs} isListing={false} account={props.account}/>
                 ]}
               </div>
-            </div>
+            </div>}
           </div>
 
           {/*<div className={styles.bg}>*/}
