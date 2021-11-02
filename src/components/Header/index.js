@@ -9,6 +9,7 @@ import User from "./User";
 import { useLocation, useHistory } from "react-router-dom";
 import Fuse from "fuse.js";
 import SearchDropdown from "../SearchDropdown";
+import  { Breakpoint } from 'react-socks';
 
 // const nav = [
 //   {
@@ -125,6 +126,120 @@ const Headers = (props) => {
   }
 
   return (
+      <>
+        <Breakpoint small down>
+          <header className={styles.header}>
+            <div className={cn("container", styles.container)}>
+              <Link className={styles.logo} to="/">
+                <Image
+                    className={styles.pic}
+                    src="/logo_words.svg"
+                    srcDark="/logo_words.svg"
+                    alt="Viridian Exchange"
+                />
+              </Link>
+                <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
+                  <nav className={styles.nav}>
+                    <form
+                        className={styles.search}
+                        action=""
+                        onSubmit={() => handleSubmit()}
+                    >
+                      <input
+                          autoComplete="off"
+                          className={styles.input}
+                          type="text"
+                          onChange={(e) => {
+                            handleChange(e.target.value);
+                          }}
+                          value={searchString}
+                          name="search"
+                          placeholder="Search"
+                          required
+                      />
+                      <SearchDropdown //className={styles.dropdown}
+                          //value={option}
+                          //setValue={setOption}
+                          options={dropdownOptions}
+                          visible={visible}
+                          setVisible={setVisible}
+
+                      />
+                      <button className={styles.result}>
+                        <Icon name="search" size="20" />
+                      </button>
+                    </form>
+                    <Link
+                        style={{marginTop: '2ex'}}
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/search01"
+                        key={0}
+                    >
+                      Discover
+                    </Link>
+                    <a
+                        className={styles.link}
+                        // activeClassName={styles.active}
+                        href="https://viridianexchange.com"
+                        // key={0}
+                    >
+                      About
+                    </a>
+                    <Link
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/faq"
+                        key={1}
+                    >
+                      Help
+                    </Link>
+
+                    {/*{nav.map((x, index) => (*/}
+                    {/*  <a*/}
+                    {/*    className={styles.link}*/}
+                    {/*    // activeClassName={styles.active}*/}
+                    {/*    href="https://viridianexchange.com"*/}
+                    {/*    // key={index}*/}
+                    {/*  >*/}
+                    {/*    {x.title}*/}
+                    {/*  </a>*/}
+                    {/*))}*/}
+                  </nav>
+                </div>
+
+
+              {/*<Notification className={styles.notification} />*/}
+
+
+              {/*<Link*/}
+              {/*  className={cn("button-small", styles.button)}*/}
+              {/*  to="/upload-variants"*/}
+              {/*>*/}
+              {/*  Buy $VEXT*/}
+              {/*</Link>*/}
+              {/*TODO: Change to "LINK"*/}
+              <a className={cn("button-small", styles.button)}
+                  //to="/BuyCrypto"
+                 href="https://faucet.dimensions.network">
+                Get ETH (Faucet)
+              </a>
+              {/* <Link
+          className={cn("button-stroke button-small", styles.button)}
+          to="/connect-wallet"
+        >
+          Connect Wallet
+        </Link> */}
+              <User setPromptInstallMetamask={props.setPromptInstallMetamask} ethBalance={props.ethBalance} setEthBalance={props.setEthBalance} vextBalance={props.vextBalance} setVextBalance={props.setVextBalance} className={styles.user} account = {props.account} setAccount = {props.setAccount}
+                    connected = {props.connected} setConnected = {props.setConnected} userInfo = {props.userInfo} setUserInfo={props.setUserInfo}/>
+              <button
+                  className={cn(styles.burger, { [styles.active]: visibleNav })}
+                  onClick={() => setVisibleNav(!visibleNav)}>
+              </button>
+            </div>
+          </header>
+        </Breakpoint>
+      <Breakpoint medium up>
     <header className={styles.header}>
       <div className={cn("container", styles.container)}>
         <Link className={styles.logo} to="/">
@@ -135,80 +250,74 @@ const Headers = (props) => {
             alt="Viridian Exchange"
           />
         </Link>
-        <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
-          <nav className={styles.nav}>
-            <Link
-                className={styles.link}
-                activeClassName={styles.active}
-                to="/search01"
-                key={0}
-            >
-              Discover
-            </Link>
-            <a
-                className={styles.link}
-                // activeClassName={styles.active}
-                href="https://viridianexchange.com"
-                // key={0}
-            >
-              About
-            </a>
-            <Link
-                className={styles.link}
-                activeClassName={styles.active}
-                to="/faq"
-                key={1}
-            >
-              Help
-            </Link>
+          <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
+            <nav className={styles.nav}>
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/search01"
+                  key={0}
+              >
+                Discover
+              </Link>
+              <a
+                  className={styles.link}
+                  // activeClassName={styles.active}
+                  href="https://viridianexchange.com"
+                  // key={0}
+              >
+                About
+              </a>
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/faq"
+                  key={1}
+              >
+                Help
+              </Link>
 
-            {/*{nav.map((x, index) => (*/}
-            {/*  <a*/}
-            {/*    className={styles.link}*/}
-            {/*    // activeClassName={styles.active}*/}
-            {/*    href="https://viridianexchange.com"*/}
-            {/*    // key={index}*/}
-            {/*  >*/}
-            {/*    {x.title}*/}
-            {/*  </a>*/}
-            {/*))}*/}
-          </nav>
-          <form
-            className={styles.search}
-            action=""
-            onSubmit={() => handleSubmit()}
-          >
-            <input
-                autoComplete="off"
-              className={styles.input}
-              type="text"
-              onChange={(e) => {
-                handleChange(e.target.value);
-              }}
-              value={searchString}
-              name="search"
-              placeholder="Search"
-              required
-            />
-            <SearchDropdown //className={styles.dropdown}
-                            //value={option}
-                            //setValue={setOption}
-                            options={dropdownOptions}
-                            visible={visible}
-                            setVisible={setVisible}
+              {/*{nav.map((x, index) => (*/}
+              {/*  <a*/}
+              {/*    className={styles.link}*/}
+              {/*    // activeClassName={styles.active}*/}
+              {/*    href="https://viridianexchange.com"*/}
+              {/*    // key={index}*/}
+              {/*  >*/}
+              {/*    {x.title}*/}
+              {/*  </a>*/}
+              {/*))}*/}
+            </nav>
+            <form
+                className={styles.search}
+                action=""
+                onSubmit={() => handleSubmit()}
+            >
+              <input
+                  autoComplete="off"
+                  className={styles.input}
+                  type="text"
+                  onChange={(e) => {
+                    handleChange(e.target.value);
+                  }}
+                  value={searchString}
+                  name="search"
+                  placeholder="Search"
+                  required
+              />
+              <SearchDropdown //className={styles.dropdown}
+                  //value={option}
+                  //setValue={setOption}
+                  options={dropdownOptions}
+                  visible={visible}
+                  setVisible={setVisible}
 
-            />
-            <button className={styles.result}>
-              <Icon name="search" size="20" />
-            </button>
-          </form>
-          <Link
-            className={cn("button-small", styles.button)}
-            to="/upload-variants"
-          >
-            Upload
-          </Link>
-        </div>
+              />
+              <button className={styles.result}>
+                <Icon name="search" size="20" />
+              </button>
+            </form>
+          </div>
 
 
         {/*<Notification className={styles.notification} />*/}
@@ -221,11 +330,9 @@ const Headers = (props) => {
         {/*  Buy $VEXT*/}
         {/*</Link>*/}
         {/*TODO: Change to "LINK"*/}
-        <a
-            className={cn("button-small", styles.button)}
+        <a className={cn("button-small", styles.button)}
             //to="/BuyCrypto"
-            href="https://faucet.dimensions.network"
-        >
+            href="https://faucet.dimensions.network">
           Get ETH (Faucet)
         </a>
         {/* <Link
@@ -242,6 +349,8 @@ const Headers = (props) => {
         </button>
       </div>
     </header>
+      </Breakpoint>
+      </>
   );
 };
 
