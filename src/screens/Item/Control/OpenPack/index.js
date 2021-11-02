@@ -298,7 +298,7 @@ const OpenPack = (props, { className }) => {
                     <span> Skip </span>
                     <Icon name="arrow-next" size="16" />
                 </button>
-            <video autoPlay muted style={{maxWidth: '100ex', cursor: 'pointer', marginLeft: '20%'}}>
+            <video autoPlay muted playsInline style={{maxWidth: '100ex', cursor: 'pointer', marginLeft: '20%'}}>
                 <source src='https://viridian-images.s3.us-east-2.amazonaws.com/OPEN+BAG+GOLD.mp4' type="video/mp4"/>
             </video>
                 </>

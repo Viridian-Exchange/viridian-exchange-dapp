@@ -120,7 +120,7 @@ const Item = (props) => {
                   </div>
                 </Carousel>}
               {location.state.isPack &&
-              <video autoPlay loop muted style={{maxWidth: '100ex', marginBottom: '12ex'}}>
+              <video autoPlay loop muted playsInline style={{maxWidth: '100ex', marginBottom: '12ex'}}>
                 <source src={location.state.uri.image} type="video/mp4"/>
               </video> }
             </div>

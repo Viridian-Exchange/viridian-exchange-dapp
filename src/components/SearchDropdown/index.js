@@ -59,7 +59,7 @@ const SearchDropdown = ({ className, value, setValue, options, visible, setVisib
                               key={index}
                           >
                             {x.image.includes('.mp4') ?
-                                <video autoPlay loop muted style={{maxWidth: '10ex', marginRight: '2ex'}}>
+                                <video autoPlay loop muted playsInline style={{maxWidth: '10ex', marginRight: '2ex'}}>
                                   <source src={x.image} type="video/mp4"/>
                                 </video> :
                                 <img src={x.image} alt={""} style={{maxWidth: '4ex', marginRight: '2ex'}}/>}
