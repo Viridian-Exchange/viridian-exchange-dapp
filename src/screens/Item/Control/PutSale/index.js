@@ -157,25 +157,25 @@ const PutSale = (props, { className }) => {
             if (!props.isPack) {
                 //alert("NFT Sale: " + props.state.id);
                 if (isETH) {
-                    await putUpForSale(props.account, props.state.id, price.toString(), 0, 0, false);
+                    await putUpForSale(props.account, props.state.id, price.toString(), 0, 0, '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e');
                     setSaleLoading(true);
 
                 }
                 else {
-                    await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, true);
+                    await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, '0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e');
                     await setSaleLoading(true);
                 }
             }
             else {
                 //alert("Pack Sale: " + props.state.id);
                 if (isETH) {
-                    await putPackUpForSale(props.account, props.state.id, price.toString(), 0, 0, false).then((e) => {
+                    await putPackUpForSale(props.account, props.state.id, price.toString(), 0, 0, '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e').then((e) => {
                         //alert("E: " + JSON.stringify(e));
                         setSaleLoading(false);
                     });
                 }
                 else {
-                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, true).then((e) => {
+                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, '0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e').then((e) => {
                         //alert("E: " + JSON.stringify(e));
                         setSaleLoading(false);
                     });

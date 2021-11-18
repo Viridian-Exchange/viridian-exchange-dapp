@@ -44,7 +44,7 @@ let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https
 //     return users;
 // }
 
-export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
+export async function acceptOfferWithERC20(from, _offerId, _toAmount) {
     const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     //alert(from);
@@ -62,49 +62,7 @@ export async function acceptOfferWithVEXT(from, _offerId, _toAmount) {
     let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
     //alert(JSON.stringify(e));
     //alert(web3.eth.accounts[0]);
-    batch.add(await voABI.methods.acceptOfferWithVEXT(_offerId).send.request({from: from}));
-
-    return batch.execute();
-}
-
-export async function acceptOfferWithETH(from, _offerId, _toAmount) {
-    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
-
-    //alert(from);
-
-    const batch = new web3.BatchRequest();
-
-    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
-        if (!isApproved) {
-            batch.add(await setApprovalForAll(from, voContractAddress));
-        }});
-
-    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
-    //alert(JSON.stringify(e));
-    //alert(web3.eth.accounts[0]);
-    batch.add(await voABI.methods.acceptOfferWithETH(_offerId).send.request({from: from, value: _toAmount}));
-
-    return batch.execute();
-}
-
-export async function finalApprovalWithETH(from, _offerId, _fromAmount) {
-    const voContractAddress = config.ropsten_contract_addresses.vo_contract;
-
-    //alert(from);
-
-    const batch = new web3.BatchRequest();
-
-    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
-        if (!isApproved) {
-            batch.add(await setApprovalForAll(from, voContractAddress));
-        }});
-
-    let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
-    //alert(JSON.stringify(e));
-    //alert(web3.eth.accounts[0]);
-    batch.add(await voABI.methods.finalApprovalWithETH(_offerId).send.request({from: from, value: _fromAmount}));
+    batch.add(await voABI.methods.acceptOfferWithERC20(_offerId).send.request({from: from}));
 
     return batch.execute();
 }
@@ -131,7 +89,7 @@ export async function getOffersFromUser(_account) {
     return offers;
 }
 
-export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isVEXT) {
+export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _erc20Address) {
     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
     const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
@@ -141,9 +99,9 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
 
     //alert("ALLOW: " + allowance);
 
-    if (isVEXT) {
+    //if (isVEXT) {
         batch.add(await approve(from, veContractAddress, toFixedBetter(Number.parseInt(allowance) + Number.parseInt(_price))));
-    }
+    //}
     const web3Socket = await getWeb3Socket(web3);
     //alert(await isApprovedForAll(from, veContractAddress));
     await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
@@ -160,18 +118,18 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
 
     //alert(web3.eth.accounts[0]);
     try {
-        if (!isVEXT) {
-            batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, true).send.request({from: from}));
-            await veABI.events.ItemListed({}).on('data', async function(event) {
-                //console.log(event.returnValues);
-                // Do something here
-            }).on('err', console.error);
-
-
-
-        }
-        else {
-            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, isVEXT, true).send.request({from: from}));
+        // if (!isVEXT) {
+        //     batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, _erc20Address, true).send.request({from: from}));
+        //     await veABI.events.ItemListed({}).on('data', async function(event) {
+        //         //console.log(event.returnValues);
+        //         // Do something here
+        //     }).on('err', console.error);
+        //
+        //
+        //
+        // }
+        // else {
+            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, _erc20Address, true).send.request({from: from}));
             await veABI.events.ItemListed(function (err, result) {
                 if (err) {
                     alert(err);
@@ -188,7 +146,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
             //
             //     //console.log("LISTING SDFSD: " + JSON.stringify(result.returnValues));
             // });
-        }
+        //}
         batch.execute();
 
 
@@ -204,7 +162,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, isV
 
 }
 
-export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime, isVEXT) {
+export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime, _erc20Address) {
     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
     const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
@@ -217,9 +175,9 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
     //
     // alert(toFixedBetter(Number.parseInt(allowance) + Number.parseInt( _price)));
 
-    if (isVEXT) {
+    //if (isVEXT) {
         batch.add(await approve(from, veContractAddress, toFixedBetter(Number.parseInt(allowance) + Number.parseInt(_price))));
-    }
+    //}
     //alert(await isApprovedForAll(from, veContractAddress));
     await isPackApprovedForAll(from, veContractAddress).then(async (isApproved) => {
         //alert("APPR: " + JSON.stringify(isApproved));
@@ -233,12 +191,12 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
     //alert(web3.eth.accounts[0]);
     try {
         //alert("PACC: " + _nftId);
-        if (!isVEXT) {
-            batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, false).send.request({from: from}));
-        }
-        else {
-            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, isVEXT, false).send.request({from: from}));
-        }
+        // if (!isVEXT) {
+        //     batch.add(await veABI.methods.putUpForSale(_nftId, web3.utils.toWei(_price), _royalty, _endTime, isVEXT, false).send.request({from: from}));
+        // }
+        // else {
+            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, _erc20Address, false).send.request({from: from}));
+        //}
         batch.execute().then(async (e) => {
             //alert(e);
         })
@@ -249,7 +207,7 @@ export async function putPackUpForSale(from, _nftId, _price, _royalty, _endTime,
     }
 }
 
-export async function buyNFTWithVEXT(from, _listingId, amount) {
+export async function buyNFTWithERC20(from, _listingId, amount) {
     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
     const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
     const batch = new web3.BatchRequest();
@@ -275,38 +233,7 @@ export async function buyNFTWithVEXT(from, _listingId, amount) {
     //alert(JSON.stringify(e));
     //alert(web3.eth.accounts[0]);
     //alert(from);
-    batch.add(await veABI.methods.buyNFTWithVEXT(_listingId).send.request({from: from}));
-
-    return batch.execute();
-}
-
-export async function buyNFTWithETH(from, _listingId, amount) {
-    const veContractAddress = config.ropsten_contract_addresses.ve_contract;
-    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
-    const batch = new web3.BatchRequest();
-    //alert(from);
-
-    await isApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
-        if (!isApproved) {
-            batch.add(await setApprovalForAll(from, veContractAddress));
-        }});
-
-    await isPackApprovedForAll(from, veContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
-        if (!isApproved) {
-            batch.add(await setPackApprovalForAll(from, veContractAddress));
-        }});
-
-    //batch.add(await approve(from, veContractAddress, amount));
-
-    let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
-    //alert(await vtABI.methods.balanceOf(from) + " vs. " + amount);
-    //alert(JSON.stringify(e));
-    //alert(web3.eth.accounts[0]);
-    //alert(from);
-    batch.add(await veABI.methods.buyNFTWithETH(_listingId).send.request({from: from, value: amount}));
+    batch.add(await veABI.methods.buyNFTWithERC20(_listingId).send.request({from: from}));
 
     return batch.execute();
 }
@@ -336,7 +263,7 @@ export async function pullFromSale(from, _listingId, price, isETH) {
     return batch.execute();
 }
 
-export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, _isVEXT, expirationTime) {
+export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftIds, _recPackIds, _recAmount, _erc20Address, expirationTime) {
     const voContractAddress = config.ropsten_contract_addresses.vo_contract;
 
     //alert(1);
@@ -363,16 +290,16 @@ export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftId
 
     //alert(4);
 
-    if (_isVEXT) {
+    //if (_isVEXT) {
         batch.add(await approve(from, voContractAddress, toFixedBetter(_amount)));
-    }
+    //}
 
     //alert(from);
-    if (_isVEXT) {
-        batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, _amount, _recNftIds, _packIds, _recAmount, _isVEXT, expirationTime).send.request({from: from}));
-    } else {
-        batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, web3.utils.toWei(_amount), _recNftIds, _packIds, web3.utils.toWei(_recAmount), _isVEXT, expirationTime).send.request({from: from}));
-    }
+   // if (_isVEXT) {
+        batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, _amount, _recNftIds, _packIds, _recAmount, _erc20Address, expirationTime).send.request({from: from}));
+    // } else {
+    //     batch.add(await voABI.methods.makeOffer(_to, _nftIds, _packIds, web3.utils.toWei(_amount), _recNftIds, _packIds, web3.utils.toWei(_recAmount), _isVEXT, expirationTime).send.request({from: from}));
+    // }
 
     //alert(6);
 

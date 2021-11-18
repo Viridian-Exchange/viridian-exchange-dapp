@@ -4,7 +4,7 @@ import styles from "./Checkout.module.sass";
 import Icon from "../../../../components/Icon";
 import web3 from 'web3';
 import LoaderCircle from "../../../../components/LoaderCircle";
-import {buyNFTWithVEXT, buyNFTWithETH} from "../../../../smartContracts/ViridianExchangeMethods";
+import {buyNFTWithERC20, buyNFTWithETH} from "../../../../smartContracts/ViridianExchangeMethods";
 import Web3 from "web3";
 import config from "../../../../local-dev-config";
 import veJSON from "../../../../abis/ViridianExchange.json";
@@ -127,17 +127,17 @@ const Checkout = (props, { className }) => {
                }).on('err', console.error);
             setPurchasing(true);
 
-            if (props.isETH) {
-                //alert("buying nft with eth")
-                await buyNFTWithETH(props.account, props.tokenId, props.price).then((e) => {
+            // if (props.isETH) {
+            //     //alert("buying nft with eth")
+            //     await buyNFTWithETH(props.account, props.tokenId, props.price).then((e) => {
+            //         //alert("E: " + JSON.stringify(e));
+            //     });
+            // }
+            // else {
+                await buyNFTWithERC20(props.account, props.tokenId, props.price).then((e) => {
                     //alert("E: " + JSON.stringify(e));
                 });
-            }
-            else {
-                await buyNFTWithVEXT(props.account, props.tokenId, props.price).then((e) => {
-                    //alert("E: " + JSON.stringify(e));
-                });
-            }
+            // }
         }}>
           I understand, continue
         </button>

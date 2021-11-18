@@ -172,10 +172,10 @@ const OfferBuilder = (props) => {
           await setLoading(true);
 
             if (isETH) {
-                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, giveAmount.toString(), selectedRecIds, selectedRecPackIds, recAmount.toString(), false, 7);
+                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, giveAmount.toString(), selectedRecIds, selectedRecPackIds, recAmount.toString(), '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e', 7);
             }
             else {
-                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), true, 7);
+                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), '0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e', 7);
             }
         }
         }> Send Offer </button>}

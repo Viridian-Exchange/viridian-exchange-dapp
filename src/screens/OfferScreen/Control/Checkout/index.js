@@ -3,7 +3,7 @@ import cn from "classnames";
 import styles from "./Checkout.module.sass";
 import Icon from "../../../../components/Icon";
 import LoaderCircle from "../../../../components/LoaderCircle";
-import {buyNFTWithVEXT} from "../../../../smartContracts/ViridianExchangeMethods";
+import {buyNFTWithERC20} from "../../../../smartContracts/ViridianExchangeMethods";
 
 
 const Checkout = (props, { className }) => {
@@ -81,7 +81,7 @@ const Checkout = (props, { className }) => {
       {/*</div>*/}
       <div className={styles.btns}>
           {/*{JSON.stringify(props)}*/}
-        <button className={cn("button", styles.button)} onClick={async () => await buyNFTWithVEXT(props.account, props.tokenId, props.price)}>
+        <button className={cn("button", styles.button)} onClick={async () => await buyNFTWithERC20(props.account, props.tokenId, props.price)}>
           I understand, continue
         </button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>

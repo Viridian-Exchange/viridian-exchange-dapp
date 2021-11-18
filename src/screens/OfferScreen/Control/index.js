@@ -8,7 +8,7 @@ import Accept from "./Accept";
 import PutSale from "./PutSale";
 import SuccessfullyPurchased from "./SuccessfullyPurchased";
 import Modal from "../../../components/Modal";
-import { acceptOfferWithVEXT, acceptOfferWithETH, finalApprovalWithETH } from "../../../smartContracts/ViridianExchangeMethods";
+import { acceptOfferWithERC20 } from "../../../smartContracts/ViridianExchangeMethods";
 import web3 from 'web3';
 import Web3 from "web3";
 import config from "../../../local-dev-config";
@@ -163,18 +163,18 @@ const Control = (props, { className }) => {
                       await setLoading(true);
 
 
-                      if (props.isETH) {
-                          //alert(props.toVEXT)
-                          if (props.toAccepted && !props.fromAccepted) {
-                              await finalApprovalWithETH(props.account, props.offerId, props.fromVEXT);
-                          }
-                          else {
-                              await acceptOfferWithETH(props.account, props.offerId, props.toVEXT);
-                          }
-                      }
-                      else {
-                          await acceptOfferWithVEXT(props.account, props.offerId, props.toVEXT);
-                      }
+                      // if (props.isETH) {
+                      //     //alert(props.toVEXT)
+                      //     if (props.toAccepted && !props.fromAccepted) {
+                      //         await finalApprovalWithETH(props.account, props.offerId, props.fromVEXT);
+                      //     }
+                      //     else {
+                      //         await acceptOfferWithETH(props.account, props.offerId, props.toVEXT);
+                      //     }
+                      // }
+                      // else {
+                          await acceptOfferWithERC20(props.account, props.offerId, props.toVEXT);
+                      //}
                   }}
               >
                   Accept
