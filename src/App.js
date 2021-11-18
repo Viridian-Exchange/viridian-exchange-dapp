@@ -32,13 +32,26 @@ import {
 import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
 import posthog from 'posthog-js';
 import  { Breakpoint, BreakpointProvider } from 'react-socks';
+import { ImmutableXClient, Link } from '@imtbl/imx-sdk';
+import {findPrivateKey} from "./apis/imxPublicKey";
+
 posthog.init("phc_xnVfYWTOySi1xgfxvO4GQR4HaJi2ZSI156QXjxHVdh1", {api_host: 'https://app.posthog.com'});
 
 let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
+// Mainnet
+// const linkAddress = 'https://link.x.immutable.com';
+// const apiAddress = 'https://api.x.immutable.com/v1';
 
+// Ropsten
+const linkAddress = 'https://link.ropsten.x.immutable.com';
+const apiAddress = 'https://api.ropsten.x.immutable.com/v1';
 
+// Link SDK
+const link = new Link(linkAddress);
 
+// IMX Client
+const client = async () => await ImmutableXClient.build({ publicApiUrl: apiAddress });
 
 //TODO: show address, list of followers, description, etc on profile page
 // function in the smart contract to add a user that is followed
@@ -443,6 +456,18 @@ function App() {
     //     window.scrollTo(0, 0);
     // }, [])
 
+    async function setupAccount() {
+        const {address, starkPublicKey } = await link.setup({});
+
+        alert(address);
+        alert(starkPublicKey);
+        //… save user session data
+    }
+
+    useEffect(async () => {
+        //findPrivateKey();
+        await setupAccount();
+    }, [])
 
     useEffect(async () => {
         //alert(JSON.stringify(props));
@@ -459,6 +484,9 @@ function App() {
             if (Web3.givenProvider) {
                 //alert("Connecting wallet")
                 await connectWallet();
+
+                //TODO: Figure out good place to call immutable x
+                //await setupAccount();
 
                 //await alert(connected);
                 //connect().then(() => setConnected(true));
