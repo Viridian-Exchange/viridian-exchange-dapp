@@ -108,7 +108,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
 
   async function getVEXTBalance() {
 
-    const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
+    const vtContractAddress = config.mumbai_contract_addresses.vt_contract;
     ////console.log(JSON.stringify(vNFTJSON));
     let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
     return await vtABI.methods.balanceOf(account).call();

@@ -312,7 +312,7 @@ const Profile = (props) => {
     ////console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
-    const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vnftContractAddress = config.mumbai_contract_addresses.vnft_contract;
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
@@ -369,7 +369,7 @@ const Profile = (props) => {
     ////console.log(JSON.stringify(vNFTJSON));
 
     // NFT Contract Calls
-    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
     //alert(JSON.stringify(vnftABI.methods));
     //alert(location.state.account)
@@ -644,8 +644,8 @@ const Profile = (props) => {
 
 
   async function ownerOf(tokenId, isPack) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
-    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);

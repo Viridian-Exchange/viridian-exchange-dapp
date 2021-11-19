@@ -118,7 +118,7 @@ const Checkout = (props, { className }) => {
           {/*{JSON.stringify(props)}*/}
            <button className={cn("button", styles.button)} onClick={async () => {
                const web3Socket = await getWeb3Socket(web3);
-               const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+               const veContractAddress = config.mumbai_contract_addresses.ve_contract;
                let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 
                await veABI.events.PurchasedListing({filter: {to: props.account}}).on('data', async function(event) {

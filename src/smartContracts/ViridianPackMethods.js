@@ -1,10 +1,10 @@
 import config from "../local-dev-config";
 import vpJSON from "../abis/ViridianPack.json";
 import Web3 from "web3";
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 export async function openPack(packId, account, setRevealing, setCards) {
-    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
     await vpABI.methods.openPack(packId).send({from: account});
@@ -28,7 +28,7 @@ export async function openPack(packId, account, setRevealing, setCards) {
 }
 
 export async function tokenPackURI(tokenId) {
-    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
     //console.log("ABIMETHODS: " + tokenId);
@@ -40,7 +40,7 @@ export async function tokenPackURI(tokenId) {
 }
 
 export async function ownerOfPack(tokenId) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     //console.log("THIS IS BEING CALLED")
 
@@ -55,7 +55,7 @@ export async function ownerOfPack(tokenId) {
 
 export async function ownerOfPackNoReq(tokenId) {
     //console.log("THIS IS BEING CALLED")
-    const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
     //console.log("ABIMETHODS6: " + tokenId);
@@ -69,14 +69,14 @@ export async function ownerOfPackNoReq(tokenId) {
 
 export async function setPackApprovalForAll(from, exchangeAddress) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
     return await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send.request({from: from});
 }
 
 export async function isPackApprovedForAll(owner, operator) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
 
@@ -85,7 +85,7 @@ export async function isPackApprovedForAll(owner, operator) {
 
 export async function safeTransferPackFrom(from, to, tokenId) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
 
@@ -94,7 +94,7 @@ export async function safeTransferPackFrom(from, to, tokenId) {
 
 export async function burnPack(from, tokenId) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    const vNFTContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
 

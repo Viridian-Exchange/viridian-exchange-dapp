@@ -183,7 +183,7 @@ const OpenPack = (props, { className }) => {
                         // setGetEvents(true);
                         //setOpenLoading(true);
 
-                        const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+                        const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
                         let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
 
                         const web3Socket = await getWeb3Socket(web3);

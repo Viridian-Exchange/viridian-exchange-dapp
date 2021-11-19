@@ -152,7 +152,7 @@ const Control = (props, { className }) => {
                   className={cn("button", styles.button)}
                   onClick={async () => {//setVisibleModalAccept(true)
                       const web3Socket = await getWeb3Socket(web3);
-                      const voContractAddress = config.ropsten_contract_addresses.vo_contract;
+                      const voContractAddress = config.mumbai_contract_addresses.vo_contract;
                       let voABI = new web3Socket.eth.Contract(voJSON['abi'], voContractAddress);
 
                       await voABI.events.AcceptedOffer({filter: {to: props.account}}).on('data', async function(event) {
