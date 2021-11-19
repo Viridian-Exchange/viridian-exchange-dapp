@@ -21,7 +21,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
   const { pathname } = useLocation();
   const location = useLocation();
   const history = useHistory();
-  let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+  let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
     // console.log(networkName === "ropsten");
     // if(networkName === "ropsten") {
 
@@ -30,9 +30,37 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
     clearAllBodyScrollLocks();
 
     setNetworkName(await web3.eth.net.getNetworkType());
-    if (await web3.eth.net.getNetworkType() !== "ropsten") {
-        setVisibleModalWrongNetwork(true);
-    }
+
+      // try {
+      //     // check if the chain to connect to is installed
+      //     await window.ethereum.request({
+      //         method: 'wallet_switchEthereumChain',
+      //         params: [{ chainId: '0x61' }], // chainId must be in hexadecimal numbers
+      //     });
+      // } catch (error) {
+      //     // This error code indicates that the chain has not been added to MetaMask
+      //     // if it is not, then install it into the user MetaMask
+      //     if (error.code === 4902) {
+      //         try {
+      //             await window.ethereum.request({
+      //                 method: 'wallet_addEthereumChain',
+      //                 params: [
+      //                     {
+      //                         chainId: '0x61',
+      //                         rpcUrl: 'https://data-seed-prebsc-1-s1.binance.org:8545/',
+      //                     },
+      //                 ],
+      //             });
+      //         } catch (addError) {
+      //             console.error(addError);
+      //         }
+      //     }
+      //     console.error(error);
+      // }
+
+    // if (await web3.eth.net.getNetworkType() !== "ropsten") {
+    //     setVisibleModalWrongNetwork(true);
+    // }
 
     //alert("PAGE: " + pathname);
 

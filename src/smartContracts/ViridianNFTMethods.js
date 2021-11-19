@@ -1,10 +1,10 @@
 import config from "../local-dev-config";
 import vNFTJSON from "../abis/ViridianNFT.json";
 import Web3 from "web3";
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 export async function tokenURI(tokenId) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     //console.log("ABIMETHODS: " + tokenId);
@@ -16,7 +16,7 @@ export async function tokenURI(tokenId) {
 }
 
 export async function ownerOf(tokenId) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     //console.log("ABIMETHODS1: " + tokenId);
@@ -28,7 +28,7 @@ export async function ownerOf(tokenId) {
 }
 
 export async function ownerOfNoReq(tokenId) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     //console.log("ABIMETHODS2: " + tokenId);
@@ -41,14 +41,14 @@ export async function ownerOfNoReq(tokenId) {
 
 export async function setApprovalForAll(from, exchangeAddress) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     return await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send.request({from: from});
 }
 
 export async function isApprovedForAll(owner, operator) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
 
@@ -57,7 +57,7 @@ export async function isApprovedForAll(owner, operator) {
 
 export async function safeTransferFrom(from, to, tokenId) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
 
@@ -66,7 +66,7 @@ export async function safeTransferFrom(from, to, tokenId) {
 
 export async function burn(from, tokenId) {
     //alert("Setting approval to " + from + " for " + exchangeAddress);
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
 

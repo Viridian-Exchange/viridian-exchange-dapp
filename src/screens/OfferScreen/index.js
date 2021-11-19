@@ -70,10 +70,10 @@ const OfferScreen = (props) => {
     setToNFTsC(location.state.toNFTs);
     setToPacksC(location.state.toPacks);
 
-    const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vnftContractAddress = config.mumbai_contract_addresses.vnft_contract;
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
 
-    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
     if (toNFTsC) {
@@ -108,10 +108,10 @@ const OfferScreen = (props) => {
     setFromNFTsC(location.state.fromNFTs);
     setFromPacksC(location.state.fromPacks);
 
-    const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
+    const vnftContractAddress = config.mumbai_contract_addresses.vnft_contract;
     let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
 
-    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
     if (fromNFTsC) {
@@ -140,8 +140,8 @@ const OfferScreen = (props) => {
   }
 
   async function ownerOf(tokenId, isPack) {
-    const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
-    const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+    const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);

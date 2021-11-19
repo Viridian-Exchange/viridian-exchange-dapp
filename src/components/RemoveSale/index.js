@@ -44,7 +44,7 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
           {/*{"   " + id}*/}
           {/*{"   " + isETH}*/}
           {!cancelled && !loading && <div className={styles.btns}><button className={cn("button", styles.button)} onClick={async () => {
-            const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+            const veContractAddress = config.mumbai_contract_addresses.ve_contract;
             const web3Socket = await getWeb3Socket(web3);
             let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 

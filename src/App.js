@@ -187,7 +187,7 @@ function App() {
 
     async function getVEXTBalance() {
         //alert("2")
-        const vtContractAddress = config.ropsten_contract_addresses.vt_contract;
+        const vtContractAddress = config.mumbai_contract_addresses.vt_contract;
         ////console.log(JSON.stringify(vNFTJSON));
         let vtABI = new web3.eth.Contract(vTJSON['abi'], vtContractAddress);
         return await vtABI.methods.balanceOf(account).call();
@@ -218,7 +218,7 @@ function App() {
     }
 
     async function getListings() {
-        const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+        const veContractAddress = config.mumbai_contract_addresses.ve_contract;
         ////console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
         //console.log("ABIMETHODS");
@@ -227,7 +227,7 @@ function App() {
     }
 
     async function getListingFromId(listingId) {
-        const veContractAddress = config.ropsten_contract_addresses.ve_contract;
+        const veContractAddress = config.mumbai_contract_addresses.ve_contract;
         ////console.log(JSON.stringify(vNFTJSON));
         let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
         // await //console.log("ABIMETHODS");
@@ -236,7 +236,7 @@ function App() {
     }
 
     async function tokenURI(tokenId) {
-        const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+        const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
         //console.log("ABIMETHODS: " + tokenId);
@@ -248,7 +248,7 @@ function App() {
     }
 
     async function packURI(tokenId) {
-        const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+        const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
         let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
         //alert(JSON.stringify(vnftABI.methods));
         let nft = vpABI.methods.tokenURI(tokenId).call();
@@ -259,7 +259,7 @@ function App() {
     }
 
     async function ownerOf(tokenId) {
-        const vNFTContractAddress = config.ropsten_contract_addresses.vnft_contract;
+        const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
         let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
         //console.log("ABIMETHODSAPP: " + tokenId);
@@ -277,7 +277,7 @@ function App() {
         //alert(account);
 
         // NFT Contract Calls
-        const vnftContractAddress = config.ropsten_contract_addresses.vnft_contract;
+        const vnftContractAddress = config.mumbai_contract_addresses.vnft_contract;
         let vnftABI = new web3.eth.Contract(vNFTJSON['abi'], vnftContractAddress);
         //alert(JSON.stringify(vnftABI.methods));
         //alert(account)
@@ -322,7 +322,7 @@ function App() {
         //alert(account);
 
         // NFT Contract Calls
-        const vpContractAddress = config.ropsten_contract_addresses.vp_contract;
+        const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
         let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
         //alert(JSON.stringify(vnftABI.methods));
         let nftIds = await vpABI.methods.getOwnedNFTs().call({from: account});
