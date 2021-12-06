@@ -22,7 +22,7 @@ import LoaderCircle from "../LoaderCircle";
 
 const royaltiesOptions = ["10%", "20%", "30%"];
 
-let web3 = new Web3( new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 const items = [
   {
@@ -172,10 +172,10 @@ const OfferBuilder = (props) => {
           await setLoading(true);
 
             if (isETH) {
-                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, giveAmount.toString(), selectedRecIds, selectedRecPackIds, recAmount.toString(), '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e', 7);
+                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, giveAmount.toString(), selectedRecIds, selectedRecPackIds, recAmount.toString(), config.mumbai_contract_addresses.vt_contract, 7);
             }
             else {
-                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), '0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e', 7);
+                await makeOffer(props.account, props.to, selectedGiveIds, selectedGivePackIds, parseAmountToVext(giveAmount), selectedRecIds, selectedRecPackIds, parseAmountToVext(recAmount), config.mumbai_contract_addresses.vt_contract, 7);
             }
         }
         }> Send Offer </button>}

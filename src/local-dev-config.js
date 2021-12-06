@@ -2,7 +2,7 @@ module.exports = {
     mumbai_contract_addresses: {
         vnft_contract: "0xd647bC7841669295847b3572368540771dFc927B",
         ve_contract: "0x438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
-        vt_contract: "0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e",
+        vt_contract: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
         vp_contract: "0x58738E2658f98D7f8B21d3e6D724996F69df012d",
         vo_contract: "0x80f94a614DBaF2374A98F4cE6FEC97DCc1E30764"
     },

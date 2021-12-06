@@ -32,9 +32,24 @@ import {
 import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
 import posthog from 'posthog-js';
 import  { Breakpoint, BreakpointProvider } from 'react-socks';
+import Fortmatic from 'fortmatic';
+
+// const customNodeOptions = {
+//     rpcUrl: 'https://matic-mumbai.chainstacklabs.com/', // your own node url
+//     chainId: 80001 // chainId of your own node
+// }
+//
+// const fm = new Fortmatic('pk_test_D8DEF2FF56CA7957');//, customNodeOptions);
+//
+// let web3Fort = new Web3(fm.getProvider());
+//
+// web3Fort.currentProvider.enable();
+
 posthog.init("phc_xnVfYWTOySi1xgfxvO4GQR4HaJi2ZSI156QXjxHVdh1", {api_host: 'https://app.posthog.com'});
 
-let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+
+
+let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 
 
@@ -149,6 +164,63 @@ function App() {
                 // }
                 //alert(JSON.stringify(account));
             });
+
+            //TODO: Figure out a way to cleanly prompt adding these assets
+            // const wasAdded = await ethereum.request({
+            //     method: 'wallet_watchAsset',
+            //     params: {
+            //         type: 'ERC20', // Initially only supports ERC20, but eventually more!
+            //         options: {
+            //             address: tokenAddress, // The address that the token is at.
+            //             symbol: tokenSymbol, // A ticker symbol or shorthand, up to 5 chars.
+            //             decimals: tokenDecimals, // The number of decimals in the token
+            //             image: tokenImage, // A string url of the token logo
+            //         },
+            //     },
+            // });
+
+            // Check if MetaMask is installed
+            // MetaMask injects the global API into window.ethereum
+            if (window.ethereum) {
+                try {
+                    // check if the chain to connect to is installed
+                    await window.ethereum.request({
+                        method: 'wallet_switchEthereumChain',
+                        params: [{ chainId: '0x13881' }], // chainId must be in hexadecimal numbers
+                    });
+                } catch (error) {
+                    // This error code indicates that the chain has not been added to MetaMask
+                    // if it is not, then install it into the user MetaMask
+                    if (error.code === 4902) {
+                        //alert('hi')
+                        try {
+                            await window.ethereum.request({
+                                method: 'wallet_addEthereumChain',
+                                params: [
+                                    {
+                                        chainName: 'Polygon Testnet Mumbai',
+                                        chainId: '0x13881',
+                                        nativeCurrency: {
+                                            name: 'Polygon',
+                                            symbol: 'MATIC',
+                                            decimals: 18
+                                        },
+                                        rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
+                                        blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+                        },
+                                ],
+                            });
+                        } catch (addError) {
+                            console.log("ADD ERROR:")
+                            console.error(addError);
+                        }
+                    }
+                    console.error(error);
+                }
+            } else {
+                // if no window.ethereum then MetaMask is not installed
+                alert('MetaMask is not installed. Please consider installing it: https://metamask.io/download.html');
+            }
 
 
             //alert(JSON.stringify(web3));

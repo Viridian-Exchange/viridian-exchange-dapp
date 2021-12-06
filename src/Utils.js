@@ -53,11 +53,11 @@ export function toFixedBetter(x) {
 export const getWeb3Socket = (web3) => new Promise( async (resolve, reject) => {
     try {
         let web3Socket = web3;
-        const networkName = await web3.eth.net.getNetworkType();
-        console.log(networkName === "ropsten");
-        if(networkName === "ropsten") {
-            web3Socket = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6"));
-        }
+        //const networkName = await web3.eth.net.getNetworkType();
+        // console.log(networkName === "ropsten");
+        // if(networkName === "ropsten") {
+            web3Socket = new Web3(new Web3.providers.WebsocketProvider("wss://ws-mumbai.matic.today/"));
+        //}
         resolve(web3Socket);
     }
     catch(error) {
