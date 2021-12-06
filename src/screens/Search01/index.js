@@ -18,7 +18,7 @@ import Fuse from "fuse.js";
 import Pack from "../../components/Pack";
 import Loader from "../../components/Loader";
 
-let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 const navLinks = ["All items", "Cards", "Packs"];//, "Promotional Items"];
 

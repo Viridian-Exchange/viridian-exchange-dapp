@@ -13,7 +13,7 @@ import {parseAmountToVext} from "../../../../Utils";
 import vNFTJSON from "../../../../abis/ViridianPack.json";
 import {getWeb3Socket} from "../../../../Utils";
 
-let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 const items = [
   {
@@ -157,7 +157,8 @@ const PutSale = (props, { className }) => {
             if (!props.isPack) {
                 //alert("NFT Sale: " + props.state.id);
                 if (isETH) {
-                    await putUpForSale(props.account, props.state.id, price.toString(), 0, 0, '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e');
+                    alert(price.toString() + " vs. " + parseAmountToVext(price).toString());
+                    await putUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e');
                     setSaleLoading(true);
 
                 }
@@ -169,7 +170,8 @@ const PutSale = (props, { className }) => {
             else {
                 //alert("Pack Sale: " + props.state.id);
                 if (isETH) {
-                    await putPackUpForSale(props.account, props.state.id, price.toString(), 0, 0, '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e').then((e) => {
+                    alert(price.toString() + " vs. " + parseAmountToVext(price).toString());
+                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e').then((e) => {
                         //alert("E: " + JSON.stringify(e));
                         setSaleLoading(false);
                     });
