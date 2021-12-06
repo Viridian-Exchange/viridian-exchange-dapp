@@ -10,8 +10,9 @@ import config from "../../../../local-dev-config";
 import {putUpForSale} from "../../../../smartContracts/ViridianExchangeMethods";
 import Loader from "../../../../components/Loader";
 import {parseAmountToVext} from "../../../../Utils";
+import {mumbai_contract_addresses} from "../../../../local-dev-config";
 
-let web3 = new Web3(new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 const items = [
   {
@@ -77,7 +78,7 @@ const PutSale = (props, { className }) => {
         <button className={cn("button", styles.button)} onClick = {async () => {
             //alert("PARSE 2 VEXT: " + parseAmountToVext(price));
 
-            await setSaleLoading(true); await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, true).then((e) => {
+            await setSaleLoading(true); await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, mumbai_contract_addresses.vt_contract).then((e) => {
                 //alert(JSON.stringify(e));
                 setSaleLoading(false);
             });

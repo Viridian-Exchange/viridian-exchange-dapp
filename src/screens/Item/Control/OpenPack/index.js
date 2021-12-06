@@ -15,7 +15,7 @@ import { SwishSpinner } from "react-spinners-kit";
 import {getWeb3Socket} from "../../../../Utils";
 import Icon from "../../../../components/Icon";
 
-let web3 = new Web3( new Web3.providers.HttpProvider("https://ropsten.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
 
 const OpenPack = (props, { className }) => {
     const [opened, setOpened] = useState(false);

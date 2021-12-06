@@ -221,8 +221,8 @@ const Headers = (props) => {
               {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
                   //to="/BuyCrypto"
-                 href="https://faucet.dimensions.network">
-                Get ETH (Faucet)
+                 href="https://faucets.chain.link/mumbai">
+                Get Polygon ETH (Faucet)
               </a>
               {/* <Link
           className={cn("button-stroke button-small", styles.button)}
@@ -332,8 +332,8 @@ const Headers = (props) => {
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
             //to="/BuyCrypto"
-            href="https://faucet.dimensions.network">
-          Get ETH (Faucet)
+            href="https://faucets.chain.link/mumbai">
+          Get Polygon ETH (Faucet)
         </a>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}
