@@ -51,7 +51,7 @@ const items = [
     title: "VE Physical logistics",
     icon: "bulb",
     items: [
-      {learnMore: "https://viridianexchange.com", question: "How to properly ship a card to be minted as a NFT", answer: "The card should be put in a penny sleeve and either a Card Saver I or a Toploader with some painters tape closing the top. Then before putting it in the envolope or bubble mailer place two pieces or cardboard on each side to add extra protection for the card."},
+      {learnMore: "https://viridianexchange.com", question: "How to properly ship a card to be minted as an NFT", answer: "The card should be put in a penny sleeve and either a Card Saver I or a Toploader with some painters tape closing the top. Then before putting it in the envolope or bubble mailer place two pieces or cardboard on each side to add extra protection for the card."},
       {learnMore: "https://viridianexchange.com", question: "How to withdraw your NFTs?", answer: "Press the withdraw button on the card and fill in your shipping information. Then approve the NFT burn with your wallet and the card will be shipped to you by us."},
       {learnMore: "https://viridianexchange.com", question: "How do we back the NFTs?", answer: "While all NFTs are up on the site, we have them secured in our Viridian Vault and the cards will not move from that location until the owner burns the NFT associated with the card. \n" +
             "Due to the fact that we send the phyiscal card, this allows the value to be backed at all times."},

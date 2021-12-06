@@ -1,7 +1,7 @@
 import config from "../local-dev-config";
 import vpJSON from "../abis/ViridianPack.json";
 import Web3 from "web3";
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.infura.io/v3/c2ccaf282d324e8983bcb0c6ffaa05a6") || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 export async function openPack(packId, account, setRevealing, setCards) {
     const vpContractAddress = config.mumbai_contract_addresses.vp_contract;

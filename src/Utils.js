@@ -56,7 +56,7 @@ export const getWeb3Socket = (web3) => new Promise( async (resolve, reject) => {
         //const networkName = await web3.eth.net.getNetworkType();
         // console.log(networkName === "ropsten");
         // if(networkName === "ropsten") {
-            web3Socket = new Web3(new Web3.providers.WebsocketProvider("wss://ws-mumbai.matic.today/"));
+            web3Socket = new Web3(new Web3.providers.WebsocketProvider("wss://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
         //}
         resolve(web3Socket);
     }
