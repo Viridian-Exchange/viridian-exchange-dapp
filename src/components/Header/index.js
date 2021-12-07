@@ -209,7 +209,7 @@ const Headers = (props) => {
                 </div>
 
 
-              {/*<Notification className={styles.notification} />*/}
+              <Notification className={styles.notification} account = {props.account} />
 
 
               {/*<Link*/}
@@ -219,11 +219,12 @@ const Headers = (props) => {
               {/*  Buy $VEXT*/}
               {/*</Link>*/}
               {/*TODO: Change to "LINK"*/}
-              <a className={cn("button-small", styles.button)}
-                  //to="/BuyCrypto"
-                 href="https://faucets.chain.link/mumbai">
+              <Link className={cn("button-small", styles.button)}
+                  to="/BuyCrypto"
+                 //href="https://faucets.chain.link/mumbai"
+                  >
                 Get Polygon ETH (Faucet)
-              </a>
+              </Link>
               {/* <Link
           className={cn("button-stroke button-small", styles.button)}
           to="/connect-wallet"
@@ -320,7 +321,7 @@ const Headers = (props) => {
           </div>
 
 
-        {/*<Notification className={styles.notification} />*/}
+        <Notification className={styles.notification} account = {props.account}/>
 
 
         {/*<Link*/}
@@ -330,11 +331,12 @@ const Headers = (props) => {
         {/*  Buy $VEXT*/}
         {/*</Link>*/}
         {/*TODO: Change to "LINK"*/}
-        <a className={cn("button-small", styles.button)}
-            //to="/BuyCrypto"
-            href="https://faucets.chain.link/mumbai">
+        <Link className={cn("button-small", styles.button)}
+            to="/BuyCrypto"
+            //href="https://faucets.chain.link/mumbai"
+            >
           Get Polygon ETH (Faucet)
-        </a>
+        </Link>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}
           to="/connect-wallet"
