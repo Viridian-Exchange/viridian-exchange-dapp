@@ -163,14 +163,14 @@ const Upload = (props) => {
           {/*      });*/}
           {/*    }}*/}
           {/*/>*/}
-          <a
-              href={"https://buy.ramp.network/?userAddress=" + props.account}
-              target="_blank" rel="noreferrer"
-          >
-            Buy Crypto for wallet {props.account} with USD
-          </a>
+          {/*<a*/}
+          {/*    href={"https://buy.ramp.network/?userAddress=" + props.account}*/}
+          {/*    target="_blank" rel="noreferrer"*/}
+          {/*>*/}
+          {/*  Buy Crypto for wallet {props.account} with USD*/}
+          {/*</a>*/}
           <div className={styles.note}>
-            There may not be enough $VEXT for your order depending on the size, try again later when our stores are restored or trade on Quickswap in the meantime.
+            All companies listed are externals services and are not directly partnered with Viridian Exchange Inc.
           </div>
         </div>
       </div>

@@ -138,7 +138,7 @@ const Footers = () => {
         </div>
         <div className={styles.foot}>
           <div className={styles.copyright}>
-            Copyright © 2021 Viridian Exchange LLC. All rights reserved
+            Copyright © 2021 Viridian Exchange Inc. All rights reserved
           </div>
           <div className={styles.note}>
             We use cookies for better service. <a href="/#">Accept</a>
