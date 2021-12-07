@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
@@ -40,8 +40,35 @@ const items = [
   },
 ];
 
-const Notification = ({ className }) => {
+const Notification = ({ className, account}) => {
   const [visible, setVisible] = useState(false);
+
+  useEffect(async () => {
+
+    //alert(account)
+
+    try {
+      // check if the chain to connect to is installed
+      let result = await window.ethereum.request({
+        method: 'eth_getLogs',
+        params: [
+          {
+            "fromBlock": "0x0",
+            "toBlock": "current",
+            "address": "0x438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
+            "topics": [
+              account
+            ]
+          }
+        ], // chainId must be in hexadecimal numbers
+      });
+
+      //alert(JSON.stringify(result));
+    } catch (error) {
+      //alert(JSON.stringify(error));
+    }
+
+  }, [account]);
 
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
