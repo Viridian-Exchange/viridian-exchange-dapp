@@ -223,7 +223,7 @@ const Headers = (props) => {
                   to="/BuyCrypto"
                  //href="https://faucets.chain.link/mumbai"
                   >
-                Get Polygon ETH (Faucet)
+                Buy/Sell Crypto
               </Link>
               {/* <Link
           className={cn("button-stroke button-small", styles.button)}
@@ -335,7 +335,7 @@ const Headers = (props) => {
             to="/BuyCrypto"
             //href="https://faucets.chain.link/mumbai"
             >
-          Get Polygon ETH (Faucet)
+          Buy/Sell Crypto
         </Link>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}
