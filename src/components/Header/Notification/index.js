@@ -53,19 +53,23 @@ const Notification = ({ className, account}) => {
         method: 'eth_getLogs',
         params: [
           {
-            "fromBlock": "0x0",
-            "toBlock": "current",
-            "address": "0x438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
+            //"fromBlock": '0x1',
+            //"toBlock": "latest",
+            "address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
             "topics": [
-              account
+                //"0x000000000000000000000000438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
+                null,
+                null,
+                "0x000000000000000000000000" + account.substring(2)
             ]
           }
         ], // chainId must be in hexadecimal numbers
       });
 
-      //alert(JSON.stringify(result));
+      alert("RES: " + JSON.stringify(result));
     } catch (error) {
       //alert(JSON.stringify(error));
+
     }
 
   }, [account]);

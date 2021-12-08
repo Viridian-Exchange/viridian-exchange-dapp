@@ -98,6 +98,7 @@ const Upload = (props) => {
       <Control className={styles.control} item={breadcrumbs} />
       <div className={cn("section-pt80", styles.section)}>
         <div className={cn("container", styles.container)}>
+          <a href='https://faucets.chain.link/mumbai' className={cn("button")} style={{cursor: 'pointer', marginBottom: '5ex'}}>Get LINK (Treated as ETH on testnet) From Faucet</a>
           <div className={styles.top}>
             <h1 className={cn("h1", styles.title)}>Buy Polygon Crypto with USD</h1>
             <h1 className={cn("h3", styles.title)}><img src='images/content/moonpay_logo.png' /></h1>
@@ -129,9 +130,9 @@ const Upload = (props) => {
                   </a>
               ))}
             </div>
-            <div className={styles.info}>
-              Use <span>Ramp</span> to purchase <span>Crypto</span> tokens with <span>USD</span> to convert to <span>$VEXT</span>
-            </div>
+            {/*<div className={styles.info}>*/}
+            {/*  Use <span>Ramp</span> to purchase <span>Crypto</span> tokens with <span>USD</span> to convert to <span>$VEXT</span>*/}
+            {/*</div>*/}
           </div>
           {/*<PayPalButton*/}
           {/*    createOrder={(data, actions) => {*/}
