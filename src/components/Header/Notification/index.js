@@ -2,8 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
+import veJSON from "../../../abis/ViridianExchange.json";
+import config from "../../../local-dev-config"
 import styles from "./Notification.module.sass";
 import Icon from "../../Icon";
+import {getWeb3Socket} from "../../../Utils";
+import Web3 from "web3";
 
 const items = [
   {
@@ -40,46 +44,72 @@ const items = [
   },
 ];
 
+let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+
 const Notification = ({ className, account}) => {
   const [visible, setVisible] = useState(false);
+  const [eventsRaw, setEventsRaw] = useState([]);
 
   useEffect(async () => {
 
-    //alert(account)
+    //alert(account.substring(2))
 
-    try {
-      // check if the chain to connect to is installed
-      let result = await window.ethereum.request({
-        method: 'eth_getLogs',
-        params: [
-          {
-            //"fromBlock": '0x1',
-            //"toBlock": "latest",
-            "address": "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
-            "topics": [
-                //"0x000000000000000000000000438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
-                null,
-                null,
-                "0x000000000000000000000000" + account.substring(2)
-            ]
-          }
-        ], // chainId must be in hexadecimal numbers
-      });
+    //let web3S = getWeb3Socket(web3);
 
-      alert("RES: " + JSON.stringify(result));
-    } catch (error) {
-      //alert(JSON.stringify(error));
 
+
+    if (account && visible) {
+      let veABI = new web3.eth.Contract(veJSON['abi'], config.mumbai_contract_addresses.ve_contract);
+
+      await veABI.getPastEvents("allEvents", {fromBlock: 0,
+            toBlock: "22334050", topics: []},
+          (errors, events) => {
+            //console.log("getting past events")
+            if (!errors) {
+              //console.log(events);
+              //alert(JSON.stringify(events[0].event));
+              //alert(events[0].returnValues["0"]);
+              setEventsRaw(events);
+            }
+            else {
+              //alert(JSON.stringify(errors));
+            }
+          })
     }
 
-  }, [account]);
+    // try {
+    //   // check if the chain to connect to is installed
+    //   let result = await window.ethereum.request({
+    //     method: 'eth_getLogs',
+    //     params: [
+    //       {
+    //         //"fromBlock": '21638735',
+    //         //"toBlock": "latest",
+    //         "address": "0x438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
+    //         "topics": [
+    //             "0x000000000000000000000000" + account.substring(2)
+    //         ]
+    //       }
+    //     ], // chainId must be in hexadecimal numbers
+    //   });
+    //
+    //   alert("RES: " + JSON.stringify(result));
+    // } catch (error) {
+    //   alert(JSON.stringify(error));
+    //
+    // }
+
+  }, [account, visible]);
 
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
       <div className={cn(styles.notification, className)}>
         <button
           className={cn(styles.head, styles.active)}
-          onClick={() => setVisible(!visible)}
+          onClick={() => {
+            setVisible(!visible)
+
+          }}
         >
           <Icon name="notification" size="24" />
         </button>
@@ -87,10 +117,10 @@ const Notification = ({ className, account}) => {
           <div className={styles.body}>
             <div className={cn("h4", styles.title)}>Notification</div>
             <div className={styles.list}>
-              {items.map((x, index) => (
+              {eventsRaw.map((x, index) => (
                 <Link
                   className={styles.item}
-                  to={x.url}
+                  to="/activity"
                   onClick={() => setVisible(!visible)}
                   key={index}
                 >
@@ -98,8 +128,8 @@ const Notification = ({ className, account}) => {
                     <img src={x.image} alt="Notification" />
                   </div>
                   <div className={styles.details}>
-                    <div className={styles.subtitle}>{x.title}</div>
-                    <div className={styles.price}>{x.price}</div>
+                    <div className={styles.subtitle}>{x.event}</div>
+                    <div className={styles.price}>{x.returnValues.listingId}</div>
                     <div className={styles.date}>{x.date}</div>
                   </div>
                   <div

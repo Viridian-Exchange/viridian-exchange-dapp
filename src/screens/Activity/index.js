@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import cn from "classnames";
 import styles from "./Activity.module.sass";
 import Control from "../../components/Control";
 import Loader from "../../components/Loader";
 import Icon from "../../components/Icon";
 import Filters from "./Filters";
+import veJSON from "../../abis/ViridianExchange.json";
+import config from "../../local-dev-config";
+import Web3 from "web3";
 
 const breadcrumbs = [
   {
@@ -88,13 +91,66 @@ const filters = [
 
 const navLinks = ["My activity", "Following", "All activity"];
 
-const Activity = () => {
+let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+
+const Activity = (account) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [selectedFilters, setSelectedFilters] = useState([]);
   const [visible, setVisible] = useState(0);
+  const [eventsRaw, setEventsRaw] = useState([]);
+
+  useEffect(async () => {
+
+    //alert(account.substring(2))
+
+    //let web3S = getWeb3Socket(web3);
+
+    if (account) {
+      let veABI = new web3.eth.Contract(veJSON['abi'], config.mumbai_contract_addresses.ve_contract);
+
+      await veABI.getPastEvents("allEvents", {fromBlock: 0,
+            toBlock: "22334050", topics: []},
+          (errors, events) => {
+            //console.log("getting past events")
+            if (!errors) {
+              ////console.log(events);
+              //alert(JSON.stringify(events[0].event));
+              //alert(events[0].returnValues["0"]);
+              setEventsRaw(events);
+            }
+            else {
+              //alert(JSON.stringify(errors));
+            }
+          })
+    }
+
+    // try {
+    //   // check if the chain to connect to is installed
+    //   let result = await window.ethereum.request({
+    //     method: 'eth_getLogs',
+    //     params: [
+    //       {
+    //         //"fromBlock": '21638735',
+    //         //"toBlock": "latest",
+    //         "address": "0x438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
+    //         "topics": [
+    //             "0x000000000000000000000000" + account.substring(2)
+    //         ]
+    //       }
+    //     ], // chainId must be in hexadecimal numbers
+    //   });
+    //
+    //   alert("RES: " + JSON.stringify(result));
+    // } catch (error) {
+    //   alert(JSON.stringify(error));
+    //
+    // }
+
+  }, [account]);
 
   return (
     <div className={styles.page}>
+      {JSON.stringify(eventsRaw)}
       <Control className={styles.control} item={breadcrumbs} />
       <div className={cn("section-pt80", styles.body)}>
         <div className={cn("container", styles.container)}>
@@ -148,7 +204,7 @@ const Activity = () => {
                       </div>
                     </div>
                     <div className={styles.details}>
-                      <div className={styles.subtitle}>{x.title}</div>
+                      <div className={styles.subtitle}>{x.event}</div>
                       <div className={styles.description}>{x.description}</div>
                       <div className={styles.date}>{x.date}</div>
                     </div>
