@@ -1,13 +1,43 @@
 import config from "../local-dev-config";
 import vpJSON from "../abis/ViridianPack.json";
 import Web3 from "web3";
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+import {Biconomy} from "@biconomy/mexa";
+
+// const biconomy = new Biconomy(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "-nNjhfDOJ.9faedf33-0521-4590-b5a6-9dec5319d742", debug: true});
+//
+// let web3 = new Web3(biconomy);
+
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
 
 export async function openPack(packId, account, setRevealing, setCards) {
     const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
     await vpABI.methods.openPack(packId).send({from: account});
+    //     .then(async transaction => {
+    //     ////console.log("transaction: " + JSON.stringify(transaction));
+    //
+    //     //let uris = [];
+    //     await vpABI.getPastEvents("Open", {},
+    //         (errors, events) => {
+    //             if (!errors) {
+    //                 ////console.log(events);
+    //                 //alert(JSON.stringify(events[0]));
+    //                 //alert(events[0].returnValues["0"]);
+    //                 return events[0].returnValues["0"];
+    //             }
+    //         })
+    //
+    //     //setCards(uris);
+    //     //setRevealing(true);
+    // });
+}
+
+export async function lockInPackResult(packId, account, setRevealing, setCards) {
+    const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
+    let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
+
+    await vpABI.methods.lockInPackResult(packId).send({from: account});
     //     .then(async transaction => {
     //     ////console.log("transaction: " + JSON.stringify(transaction));
     //

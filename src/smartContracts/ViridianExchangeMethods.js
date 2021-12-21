@@ -7,9 +7,21 @@ import {approve} from "./ViridianTokenMethods";
 import { isApprovedForAll, setApprovalForAll } from "./ViridianNFTMethods";
 import { isPackApprovedForAll, setPackApprovalForAll } from "./ViridianPackMethods";
 import {getWeb3Socket, toFixedBetter} from "../Utils";
+import {Biconomy} from "@biconomy/mexa";
 
+//const biconomy = new Biconomy(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "-nNjhfDOJ.9faedf33-0521-4590-b5a6-9dec5319d742", debug: true});
 
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+//let web3 = new Web3(biconomy);
+let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
+
+// biconomy.onEvent(biconomy.READY, () => {
+//     // Initialize your dapp here like getting user accounts etc
+//     console.log("initialized");
+// }).onEvent(biconomy.ERROR, (error, message) => {
+//     // Handle error while initializing mexa
+//     alert(error);
+// });
+
 
 // export async function getUsers() {
 //     const veContractAddress = config.ropsten_contract_addresses.ve_contract;
@@ -228,7 +240,7 @@ export async function buyNFTWithERC20(from, _listingId, amount) {
     batch.add(await approve(from, veContractAddress, amount));
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
-    let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
+    //let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
     //alert(await vtABI.methods.balanceOf(from) + " vs. " + amount);
     //alert(JSON.stringify(e));
     //alert(web3.eth.accounts[0]);
