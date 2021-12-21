@@ -8,9 +8,10 @@ import Loader from "../../../../components/Loader";
 import cn from "classnames";
 import {Link} from "react-router-dom";
 import Reveal from 'react-reveal/Reveal';
-import {openPack} from "../../../../smartContracts/ViridianPackMethods";
+import {openPack, lockInPackResult} from "../../../../smartContracts/ViridianPackMethods";
 import config from "../../../../local-dev-config";
 import vNFTJSON from "../../../../abis/ViridianPack.json";
+import vrfJSON from "../../../../abis/RandomNumberConsumer.json";
 import { SwishSpinner } from "react-spinners-kit";
 import {getWeb3Socket} from "../../../../Utils";
 import Icon from "../../../../components/Icon";
@@ -186,9 +187,13 @@ const OpenPack = (props, { className }) => {
                         const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
                         let vpABI = new web3.eth.Contract(vNFTJSON['abi'], vpContractAddress);
 
+                        const vrfContractAddress = config.mumbai_contract_addresses.vrf_contract;
+                        let vrfABI = new web3.eth.Contract(vrfJSON['abi'], vrfContractAddress);
+
                         const web3Socket = await getWeb3Socket(web3);
 
                         let vpABIWebSocket = new web3Socket.eth.Contract(vNFTJSON['abi'], vpContractAddress);
+                        let vrfABIWebSocket = new web3Socket.eth.Contract(vrfJSON['abi'], vrfContractAddress);
 
                         await vpABIWebSocket.events.Open({filter: {to: props.account}}).on('data', async function (event) {
                             if (event) {
@@ -230,24 +235,50 @@ const OpenPack = (props, { className }) => {
                         });
 
                         setOpenLoading(true);
-                        await openPack(props.packId, props.account, setRevealing, setCards);
-                            // setTimeout(() => {
-                            //     //alert("revealing");
-                            //     setRevealing(true);
-                            // }, 10000);
-                                    //if (images !== []) {
-                                        //if (getEvents && openLoading) {
+                        await lockInPackResult(props.packId, props.account, setRevealing, setCards);
+
+                        await vrfABIWebSocket.events.RandomnessFulfilled({filter: {tokenId: props.packId}}).on('data', async function (event) {
+                            if (event) {
+                                await openPack(props.packId, props.account, setRevealing, setCards);
+                                setTimeout(() => {
+                                    //alert("revealing");
+                                    setRevealing(true);
+                                }, 10000);
+                                if (images !== []) {
+                                    if (getEvents && openLoading) {
 
 
-                                                //alert("Image copy: " + JSON.stringify(imgCopy));
+                                        alert("Image copy: " + JSON.stringify(imgCopy));
 
-                                                //setImages(imgCopy);
+                                        setImages(imgCopy);
 
-                                                //alert("Images: " + JSON.stringify(images));
+                                        alert("Images: " + JSON.stringify(images));
 
-                                                //setGetEvents(true);
-                                            //}
-                                        //}
+                                        setGetEvents(true);
+                                    }
+                                }
+                            }
+
+                        });
+
+                        // await openPack(props.packId, props.account, setRevealing, setCards);
+                        //     setTimeout(() => {
+                        //         //alert("revealing");
+                        //         setRevealing(true);
+                        //     }, 10000);
+                        //             if (images !== []) {
+                        //                 if (getEvents && openLoading) {
+                        //
+                        //
+                        //                         alert("Image copy: " + JSON.stringify(imgCopy));
+                        //
+                        //                         setImages(imgCopy);
+                        //
+                        //                         alert("Images: " + JSON.stringify(images));
+                        //
+                        //                         setGetEvents(true);
+                        //                     }
+                        //                 }
 
 
 
