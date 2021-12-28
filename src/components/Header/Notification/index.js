@@ -61,15 +61,41 @@ const Notification = ({ className, account}) => {
     if (account && visible) {
       let veABI = new web3.eth.Contract(veJSON['abi'], config.mumbai_contract_addresses.ve_contract);
 
-      await veABI.getPastEvents("allEvents", {fromBlock: 0,
-            toBlock: "22334050", topics: []},
-          (errors, events) => {
+      await veABI.getPastEvents("allEvents", {fromBlock: 0, topics: []},
+          async (errors, events) => {
             //console.log("getting past events")
             if (!errors) {
               //console.log(events);
-              //alert(JSON.stringify(events[0].event));
+              //console.log(JSON.stringify(events[1].returnValues.uri));
               //alert(events[0].returnValues["0"]);
-              setEventsRaw(events);
+
+              let eventsParsedRaw = [];
+
+              await events.map(async (e, i) => {
+
+                if (e.returnValues.uri) {
+                  //console.log(e.returnValues.uri)
+
+                  await fetch(e.returnValues.uri, {
+                    mode: "cors",
+                    method: "GET"
+                  }).then(async res => {
+                    //alert(res.ok)
+                    const resJson = await res.json();
+                    if (res.ok) {
+                      await console.log(resJson);
+                      eventsParsedRaw[i] = {...e};
+                      eventsParsedRaw[i].returnValues.uri = resJson;
+                    }
+                  });
+                }
+
+
+              });
+
+              if (eventsRaw.length === 0) {
+                await setEventsRaw(eventsParsedRaw);
+              }
             }
             else {
               //alert(JSON.stringify(errors));
@@ -125,10 +151,13 @@ const Notification = ({ className, account}) => {
                   key={index}
                 >
                   <div className={styles.preview}>
-                    <img src={x.image} alt="Notification" />
+                    <img src={x.returnValues.uri.image} alt="Notification" />
                   </div>
                   <div className={styles.details}>
-                    <div className={styles.subtitle}>{x.event}</div>
+                    {x.event.toString() === 'ItemListed' &&<div style={{color: '#3772FF'}}>Listed</div>}
+                    {x.event.toString() === 'ItemListed' && <div className={styles.subtitle}>{x.returnValues.uri.name}</div>}
+                    {x.event.toString() === 'PurchasedListing' &&<div style={{color: '#3772FF'}}>Purchased</div>}
+                    {x.event.toString() === 'PurchasedListing' && <div className={styles.subtitle}>{x.returnValues.uri.name}</div>}
                     <div className={styles.price}>{x.returnValues.listingId}</div>
                     <div className={styles.date}>{x.date}</div>
                   </div>
