@@ -247,7 +247,6 @@ const OpenPack = (props, { className }) => {
                                 if (images !== []) {
                                     if (getEvents && openLoading) {
 
-
                                         alert("Image copy: " + JSON.stringify(imgCopy));
 
                                         setImages(imgCopy);
