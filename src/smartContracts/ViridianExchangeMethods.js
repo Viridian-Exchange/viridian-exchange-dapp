@@ -141,6 +141,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _er
         //
         // }
         // else {
+            //alert(_erc20Address);
             batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, _erc20Address, true).send.request({from: from}));
             await veABI.events.ItemListed(function (err, result) {
                 if (err) {
