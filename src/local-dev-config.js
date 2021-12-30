@@ -1,11 +1,11 @@
 module.exports = {
     mumbai_contract_addresses: {
-        vnft_contract: "0x17c0776C71Ab3edF8FEf934896F1307Df9910e86",
-        ve_contract: "0xD271f9b8063e9d120B000cA84A4E5b63A3eF638D",
+        vnft_contract: "0xEFa1c7324165033258886012686925DC77857b35",
+        ve_contract: "0x5eC1E4aac083638bE5F752d7c5EAA8192856695e",
         vt_contract: "0x326C977E6efc84E512bB9C30f76E30c160eD06FB",
-        vp_contract: "0x5E0D86DAF324520545aF4d63C9d584ddB4A6B376",
-        vo_contract: "0xe93082b21D6311928D82EAFC6c4A9612e061E99F",
-        vrf_contract: "0x13883f6AD046741DDe63Cd9eC8912f0ABA9C36B4"
+        vp_contract: "0x68725a6273188Aa10f60325DE1666AE24822fBF1",
+        vo_contract: "0x35e5d45c17fEeCfC9669a314d83D8c58D1152B07",
+        vrf_contract: "0x8B4017ed3e709C4A601fD5AAC54eD064159e37Ed"
     },
 
     ropsten_contract_addresses_old: {
