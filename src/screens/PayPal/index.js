@@ -20,13 +20,13 @@ const breadcrumbs = [
 const items = [
   {
     url: "https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true",
-    buttonText: "Swap any Crypto for $VEXT",
+    buttonText: "Swap any Crypto",
     image: "images/content/eth-circle-logo.png",
     image2x: "/images/content/swap_logos_colors_white.png",
   },
   {
     url: "https://buy.moonpay.com/?currencyCode=usdc_polygon&singleCurrencyMode=true",
-    buttonText: "Swap $ETH for $VEXT",
+    buttonText: "Swap Crypto",
     image: "images/content/usd-coin-usdc-logo.png",
     image2x: "/images/content/swap_logos_colors.png",
   }
@@ -35,13 +35,13 @@ const items = [
 const items1 = [
   {
     url: "https://www.dharma.io/?chainId=137&toTokenAddress=0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
-    buttonText: "Swap any Crypto for $VEXT",
+    buttonText: "Swap any Crypto",
     image: "images/content/eth-circle-logo.png",
     image2x: "/images/content/swap_logos_colors_white.png",
   },
   {
     url: "https://www.dharma.io/?chainId=137&toTokenAddress=0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
-    buttonText: "Swap $ETH for $VEXT",
+    buttonText: "Swap Crypto",
     image: "images/content/usd-coin-usdc-logo.png",
     image2x: "/images/content/swap_logos_colors.png",
   }

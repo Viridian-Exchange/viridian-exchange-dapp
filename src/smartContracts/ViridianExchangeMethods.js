@@ -9,18 +9,37 @@ import { isPackApprovedForAll, setPackApprovalForAll } from "./ViridianPackMetho
 import {getWeb3Socket, toFixedBetter} from "../Utils";
 import {Biconomy} from "@biconomy/mexa";
 
-//const biconomy = new Biconomy(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "-nNjhfDOJ.9faedf33-0521-4590-b5a6-9dec5319d742", debug: true});
+// import {
+//     helperAttributes,
+//     getDomainSeperator,
+//     getDataToSignForPersonalSign,
+//     getDataToSignForEIP712,
+//     buildForwardTxRequest,
+//     getBiconomyForwarderConfig
+// } from './biconomyForwarderHelpers';
 
-//let web3 = new Web3(biconomy);
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
+//let sigUtil = require("eth-sig-util"); // additional dependency
+
+// This web3 instance is used to get user signature from connected wallet
+let walletWeb3 = new Web3(window.ethereum);
+
+
+let userAddress = '0x4A680E6c256efe9DDA9aC19A96e205f7791158Ee';
+let networkId = '80001';
+
+const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "O5RPM2y3A.bab3f010-10fb-47e4-8fa7-1efae42ab1b5", debug: true});
+
+let web3 = new Web3(biconomy);
 
 // biconomy.onEvent(biconomy.READY, () => {
 //     // Initialize your dapp here like getting user accounts etc
-//     console.log("initialized");
+//     alert("initialized");
 // }).onEvent(biconomy.ERROR, (error, message) => {
 //     // Handle error while initializing mexa
 //     alert(error);
 // });
+
+//Web3.givenProviderlet web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
 
 
 // export async function getUsers() {
@@ -142,7 +161,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _er
         // }
         // else {
             //alert(_erc20Address);
-            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, _erc20Address, true).send.request({from: from}));
+            batch.add(await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, _erc20Address, true).send.request({from: from, signatureType: biconomy.EIP712_SIGN}));
             await veABI.events.ItemListed(function (err, result) {
                 if (err) {
                     alert(err);
@@ -271,7 +290,7 @@ export async function pullFromSale(from, _listingId, price, isETH) {
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
-    batch.add(await veABI.methods.pullFromSale(_listingId).send.request({from: from}));
+    batch.add(await veABI.methods.pullFromSale(_listingId).send.request({from: from, signatureType: biconomy.EIP712_SIGN}));
 
     return batch.execute();
 }
