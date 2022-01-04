@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, withRouter } from "react-router-dom";
 import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
+import veJSON from "../../../abis/ViridianExchange.json";
+import config from "../../../local-dev-config"
 import styles from "./Notification.module.sass";
 import Icon from "../../Icon";
+import {getWeb3Socket} from "../../../Utils";
+import Web3 from "web3";
 
 const items = [
   {
@@ -40,15 +44,98 @@ const items = [
   },
 ];
 
-const Notification = ({ className }) => {
+let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+
+const Notification = ({ className, account}) => {
   const [visible, setVisible] = useState(false);
+  const [eventsRaw, setEventsRaw] = useState([]);
+
+  useEffect(async () => {
+
+    //alert(account.substring(2))
+
+    //let web3S = getWeb3Socket(web3);
+
+
+
+    if (account && visible) {
+      let veABI = new web3.eth.Contract(veJSON['abi'], config.mumbai_contract_addresses.ve_contract);
+
+      await veABI.getPastEvents("allEvents", {fromBlock: 0, topics: []},
+          async (errors, events) => {
+            //console.log("getting past events")
+            if (!errors) {
+              //console.log(events);
+              //console.log(JSON.stringify(events[1].returnValues.uri));
+              //alert(events[0].returnValues["0"]);
+
+              let eventsParsedRaw = [];
+
+              await events.map(async (e, i) => {
+
+                if (e.returnValues.uri) {
+                  //console.log(e.returnValues.uri)
+
+                  await fetch(e.returnValues.uri, {
+                    mode: "cors",
+                    method: "GET"
+                  }).then(async res => {
+                    //alert(res.ok)
+                    const resJson = await res.json();
+                    if (res.ok) {
+                      await console.log(resJson);
+                      eventsParsedRaw[i] = {...e};
+                      eventsParsedRaw[i].returnValues.uri = resJson;
+                    }
+                  });
+                }
+
+
+              });
+
+              if (eventsRaw.length === 0) {
+                await setEventsRaw(eventsParsedRaw);
+              }
+            }
+            else {
+              //alert(JSON.stringify(errors));
+            }
+          })
+    }
+
+    // try {
+    //   // check if the chain to connect to is installed
+    //   let result = await window.ethereum.request({
+    //     method: 'eth_getLogs',
+    //     params: [
+    //       {
+    //         //"fromBlock": '21638735',
+    //         //"toBlock": "latest",
+    //         "address": "0x438adaD3D3894CE1f6Bb4896FB88e42c3B71eDDe",
+    //         "topics": [
+    //             "0x000000000000000000000000" + account.substring(2)
+    //         ]
+    //       }
+    //     ], // chainId must be in hexadecimal numbers
+    //   });
+    //
+    //   alert("RES: " + JSON.stringify(result));
+    // } catch (error) {
+    //   alert(JSON.stringify(error));
+    //
+    // }
+
+  }, [account, visible]);
 
   return (
     <OutsideClickHandler onOutsideClick={() => setVisible(false)}>
       <div className={cn(styles.notification, className)}>
         <button
           className={cn(styles.head, styles.active)}
-          onClick={() => setVisible(!visible)}
+          onClick={() => {
+            setVisible(!visible)
+
+          }}
         >
           <Icon name="notification" size="24" />
         </button>
@@ -56,19 +143,22 @@ const Notification = ({ className }) => {
           <div className={styles.body}>
             <div className={cn("h4", styles.title)}>Notification</div>
             <div className={styles.list}>
-              {items.map((x, index) => (
+              {eventsRaw.map((x, index) => (
                 <Link
                   className={styles.item}
-                  to={x.url}
+                  to="/activity"
                   onClick={() => setVisible(!visible)}
                   key={index}
                 >
                   <div className={styles.preview}>
-                    <img src={x.image} alt="Notification" />
+                    <img src={x.returnValues.uri.image} alt="Notification" />
                   </div>
                   <div className={styles.details}>
-                    <div className={styles.subtitle}>{x.title}</div>
-                    <div className={styles.price}>{x.price}</div>
+                    {x.event.toString() === 'ItemListed' &&<div style={{color: '#3772FF'}}>Listed</div>}
+                    {x.event.toString() === 'ItemListed' && <div className={styles.subtitle}>{x.returnValues.uri.name}</div>}
+                    {x.event.toString() === 'PurchasedListing' &&<div style={{color: '#3772FF'}}>Purchased</div>}
+                    {x.event.toString() === 'PurchasedListing' && <div className={styles.subtitle}>{x.returnValues.uri.name}</div>}
+                    <div className={styles.price}>{x.returnValues.listingId}</div>
                     <div className={styles.date}>{x.date}</div>
                   </div>
                   <div

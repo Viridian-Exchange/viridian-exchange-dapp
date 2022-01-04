@@ -18,11 +18,11 @@ const Description = () => {
             Bringing the <span className='text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
           </h1>
           <div className={styles.text}>
-            Your Premiere Marketplace for Physically-Backed NFTs
+            The Premiere Marketplace for Physically-Backed NFTs
           </div>
           <div className={styles.btns}>
-            <Link className={cn("button", styles.button)} to="/upload-variants">
-              Submit cards
+            <Link className={cn("button", styles.button)} to="/faq">
+              How it works
             </Link>
             <Link className={cn("button-stroke", styles.button)} to="/search01">
               Discover more

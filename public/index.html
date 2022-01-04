@@ -5,18 +5,17 @@
   <title>Viridian Exchange</title>
 
   <meta
-    content="Epic NFT Marketplace UI Design Kit"
+    content="Bringing Physical Collectibles to the Digital World"
     name="description">
-  <meta content="Crypter - NFT Marketplace UI Kit" property="og:title">
+  <meta content="Viridian Exchange" property="og:title">
   <meta
-    content="Epic NFT Marketplace UI Design Kit"
+    content="Bringing Physical Collectibles to the Digital World via NFTs"
     property="og:description">
-  <meta content="%PUBLIC_URL%/fb-og-image.png" property="og:image">
-  <meta property="og:url" content="https://ui8.net/ui8/products/crypter-nft-marketplace-ui-kit">
-  <meta property="og:site_name" content="crypter-nft-marketplace-ui-kit">
-  <meta content="Crypter - NFT Marketplace UI Kit" property="twitter:title">
+  <meta content="%PUBLIC_URL%/logo.svg" property="og:image">
+  <meta property="og:site_name" content="Viridian Exchange">
+  <meta content="Viridian Exchange" property="twitter:title">
   <meta
-    content="Premium Web UI Kit for Fitness Experience"
+    content="Bringing Physical Collectibles to the Digital World via NFTs"
     property="twitter:description">
   <meta content="%PUBLIC_URL%/twitter-card.png" property="twitter:image">
   <meta property="og:type" content="website">
@@ -27,7 +26,7 @@
   <link rel="icon" href="%PUBLIC_URL%/logo.svg" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#000000" />
-  <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/logo.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="%PUBLIC_URL%/logo.svg">
   <link rel="icon" type="image/png" sizes="16x16" href="%PUBLIC_URL%/logo.svg">
   <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest">
@@ -44,6 +43,11 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
+
+  <script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_xnVfYWTOySi1xgfxvO4GQR4HaJi2ZSI156QXjxHVdh1',{api_host:'https://app.posthog.com'})
+  </script>
 </head>
 <body>
   <script>
@@ -57,35 +61,42 @@
       var classNameLight = 'light-mode';
 
       function setClassOnDocumentBody(darkMode) {
-        document.body.classList.add(darkMode ? classNameDark : classNameLight);
-        document.body.classList.remove(darkMode ? classNameLight : classNameDark);
+        document.body.classList.add(classNameDark);
+        document.body.classList.remove(classNameLight);
       }
 
       var preferDarkQuery = '(prefers-color-scheme: dark)';
       var mql = window.matchMedia(preferDarkQuery);
       var supportsColorSchemeQuery = mql.media === preferDarkQuery;
-      var localStorageTheme = null;
+      var localStorageTheme = true;
       try {
-        localStorageTheme = localStorage.getItem(storageKey);
+        //localStorageTheme = localStorage.getItem(storageKey);
+        //alert(JSON.stringify(localStorageTheme))
       } catch (err) { }
-      var localStorageExists = localStorageTheme !== null;
-      if (localStorageExists) {
+      //var localStorageExists = localStorageTheme !== null;
+      //if (localStorageExists) {
         localStorageTheme = JSON.parse(localStorageTheme);
-      }
+      //}
+
+      var isDarkMode = true; //document.body.classList.contains(classNameDark);
+      localStorage.setItem(storageKey, JSON.stringify(isDarkMode));
+
+      setClassOnDocumentBody(localStorageTheme);
 
       // Determine the source of truth
-      if (localStorageExists) {
-        // source of truth from localStorage
-        setClassOnDocumentBody(localStorageTheme);
-      } else if (supportsColorSchemeQuery) {
-        // source of truth from system
-        setClassOnDocumentBody(mql.matches);
-        localStorage.setItem(storageKey, mql.matches);
-      } else {
-        // source of truth from document.body
-        var isDarkMode = document.body.classList.contains(classNameDark);
-        localStorage.setItem(storageKey, JSON.stringify(isDarkMode));
-      }
+      // if (localStorageExists) {
+      //   // source of truth from localStorage
+      //   setClassOnDocumentBody(localStorageTheme);
+      // } else if (supportsColorSchemeQuery) {
+      //   // source of truth from system
+      //   setClassOnDocumentBody(mql.matches);
+      //   localStorage.setItem(storageKey, JSON.stringify(isDarkMode));
+      // } else {
+      //   // source of truth from document.body
+      //   setClassOnDocumentBody(mql.matches);
+      //   var isDarkMode = document.body.classList.contains(classNameDark);
+      //   localStorage.setItem(storageKey, JSON.stringify(isDarkMode));
+      // }
     })();
   </script>
   <div id="root"></div>

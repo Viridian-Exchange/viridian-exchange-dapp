@@ -19,17 +19,32 @@ const breadcrumbs = [
 
 const items = [
   {
-    url: "https://app.uniswap.org/#/swap?outputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    buttonText: "Swap $ETH for $VEXT",
-    image: "/images/content/swap_logos_colors.png",
-    image2x: "/images/content/swap_logos_colors.png",
-  },
-  {
-    url: "https://app.uniswap.org/#/swap?outputCurrency=0xdAC17F958D2ee523a2206206994597C13D831ec7",
-    buttonText: "Swap any Crypto for $VEXT",
-    image: "/images/content/swap_logos_colors_white.png",
+    url: "https://buy.moonpay.com/?currencyCode=eth_polygon&singleCurrencyMode=true",
+    buttonText: "Swap any Crypto",
+    image: "images/content/eth-circle-logo.png",
     image2x: "/images/content/swap_logos_colors_white.png",
   },
+  {
+    url: "https://buy.moonpay.com/?currencyCode=usdc_polygon&singleCurrencyMode=true",
+    buttonText: "Swap Crypto",
+    image: "images/content/usd-coin-usdc-logo.png",
+    image2x: "/images/content/swap_logos_colors.png",
+  }
+];
+
+const items1 = [
+  {
+    url: "https://www.dharma.io/?chainId=137&toTokenAddress=0x7ceb23fd6bc0add59e62ac25578270cff1b9f619",
+    buttonText: "Swap any Crypto",
+    image: "images/content/eth-circle-logo.png",
+    image2x: "/images/content/swap_logos_colors_white.png",
+  },
+  {
+    url: "https://www.dharma.io/?chainId=137&toTokenAddress=0x2791bca1f2de4661ed88a30c99a7a9449aa84174",
+    buttonText: "Swap Crypto",
+    image: "images/content/usd-coin-usdc-logo.png",
+    image2x: "/images/content/swap_logos_colors.png",
+  }
 ];
 
 // function WalletPage(props) {
@@ -83,28 +98,41 @@ const Upload = (props) => {
       <Control className={styles.control} item={breadcrumbs} />
       <div className={cn("section-pt80", styles.section)}>
         <div className={cn("container", styles.container)}>
+          <a href='https://faucets.chain.link/mumbai' className={cn("button")} style={{cursor: 'pointer', marginBottom: '5ex'}}>Get LINK (Treated as ETH on testnet) From Faucet</a>
           <div className={styles.top}>
-            <h1 className={cn("h1", styles.title)}>Buy $VEXT</h1>
-            <h1 className={cn("h3", styles.title)}>On Uniswap</h1>
+            <h1 className={cn("h1", styles.title)}>Buy Polygon Crypto with USD</h1>
+            <h1 className={cn("h3", styles.title)}><img src='images/content/moonpay_logo.png' /></h1>
             {/*<div><img src={UniLogo} /> <a href="https://app.uniswap.org/#/swap?outputCurrency=0xeAABfaf18b60fEcc299631c77E2FBB03507cfF99" rel="noreferrer">*/}
             {/*  app.uniswap.org*/}
             {/*</a></div>*/}
             <div className={styles.list}>
               {items.map((x, index) => (
-                  <div className={styles.item} key={index}>
-                    <div className={styles.preview}>
-                      <img srcSet={`${x.image2x} 2x`} src={x.image} alt="Upload" />
-                    </div>
-                    <Link className={cn("button-stroke", styles.button)} to={x.url}>
-                      {x.buttonText}
-                    </Link>
-                  </div>
+                  <a href={x.url} style={{marginRight: '5ex', cursor: 'pointer'}}>
+                    <img src={x.image} style={{maxWidth: '100px'}}/>
+                  </a>
               ))}
             </div>
-            <h1 className={cn("h3", styles.title)}>With USD</h1>
-            <div className={styles.info}>
-              Use <span>Ramp</span> to purchase <span>Crypto</span> tokens with <span>USD</span> to convert to <span>$VEXT</span>
+
+            <h1 className={cn("h3", styles.title)}><img style={{maxWidth: '120px', marginRight: '20px'}} src='images/content/dharma_logo_no_shadow.png' /><img style={{minWidth: '80px'}} src='images/content/dharma_logo_text_inverted.png' /></h1>
+            <div className={styles.list}>
+              {items1.map((x, index) => (
+                  <a href={x.url} style={{marginRight: '5ex', cursor: 'pointer'}}>
+                    <img src={x.image} style={{maxWidth: '100px'}}/>
+                  </a>
+              ))}
             </div>
+            <h1 className={cn("h1", styles.title)}>Sell Polygon Crypto for USD</h1>
+            <h1 className={cn("h3", styles.title)}><img style={{maxWidth: '120px', marginRight: '20px'}} src='images/content/dharma_logo_no_shadow.png' /><img style={{minWidth: '80px'}} src='images/content/dharma_logo_text_inverted.png' /></h1>
+            <div className={styles.list}>
+              {items1.map((x, index) => (
+                  <a href={x.url} style={{marginRight: '5ex', cursor: 'pointer'}}>
+                    <img src={x.image} style={{maxWidth: '100px'}}/>
+                  </a>
+              ))}
+            </div>
+            {/*<div className={styles.info}>*/}
+            {/*  Use <span>Ramp</span> to purchase <span>Crypto</span> tokens with <span>USD</span> to convert to <span>$VEXT</span>*/}
+            {/*</div>*/}
           </div>
           {/*<PayPalButton*/}
           {/*    createOrder={(data, actions) => {*/}
@@ -136,14 +164,14 @@ const Upload = (props) => {
           {/*      });*/}
           {/*    }}*/}
           {/*/>*/}
-          <a
-              href={"https://buy.ramp.network/?userAddress=" + props.account}
-              target="_blank"
-          >
-            Buy Crypto for wallet {props.account} with USD
-          </a>
+          {/*<a*/}
+          {/*    href={"https://buy.ramp.network/?userAddress=" + props.account}*/}
+          {/*    target="_blank" rel="noreferrer"*/}
+          {/*>*/}
+          {/*  Buy Crypto for wallet {props.account} with USD*/}
+          {/*</a>*/}
           <div className={styles.note}>
-            There may not be enough $VEXT for your order depending on the size, try again later when our stores are restored or trade on Uniswap in the meantime.
+            All companies listed are externals services and are not directly partnered with Viridian Exchange Inc.
           </div>
         </div>
       </div>

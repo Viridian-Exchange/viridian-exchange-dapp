@@ -4,6 +4,8 @@ import Slider from "react-slick";
 import styles from "./HotBid.module.sass";
 import Icon from "../Icon";
 import NFT from "../NFT";
+import Pack from "../Pack";
+import Loader from "../Loader";
 
 // data
 
@@ -60,11 +62,21 @@ const Hot = (props, { classSection }) => {
         <div className={styles.wrapper}>
           <h3 className={cn("h3", styles.title)}>Hot listings</h3>
           <div className={styles.inner}>
-            <Slider className="bid-slider" {...settings}>
-              {props.nfts.map((x, index) => (
-                <NFT key={index} className={styles.card} item={x} isListing={true} account={props.account} />
-              ))}
-            </Slider>
+            {props.nfts[0] ? <Slider className="bid-slider" {...settings}>
+              {props.nfts.map((x, index) => {
+                if (index <= 10) {
+                  if (x.isVNFT) {
+                    return (
+                        <NFT key={index} isHotBid={true} className={styles.card} item={x} isListing={true} account={props.account}/>);
+                  } else {
+                    return (
+                        <Pack key={index} isHotBid={true} className={styles.card} item={x} isListing={true} account={props.account}/>);
+                  }
+                }
+              })}
+            </Slider> : <div style={{margin: 'auto',
+              width: '-150%',
+              padding: '10px'}}><Loader/></div>}
           </div>
         </div>
       </div>

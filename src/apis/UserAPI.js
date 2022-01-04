@@ -38,9 +38,9 @@ export const HandleAddUser = async (setUserInfo, address, displayName, bio, webs
         });
         // user.users = [...user.users, user.newUser];
         // user.newUser = { "userID": "", "username": "", "email": "", "collection": [] };
-        //console.log("UPLOAD SUCCESS: " + params);
+        ////console.log("UPLOAD SUCCESS: " + params);
     } catch (err) {
-        console.log(`An error has occurred: ${err}`);
+        //console.log(`An error has occurred: ${err}`);
     }
 };
 
@@ -66,12 +66,12 @@ export const HandleAddUserSimple = async (setUserInfo, address) => {
     try {
         const params = {
             "username": address,
-            "displayName": "",
+            "displayName": "Unnamed",
             "bio": "",
             "website": "",
             "twitter": "",
             "profilePhotoURL": "https://source.boringavatars.com/marble/120/" + address,
-            "coverPhotoURL": "",
+            "coverPhotoURL": "https://viridian-images.s3.us-east-2.amazonaws.com/bg-profile.jpg",
             "following": [],
             "followers": [],
             "likes": []
@@ -87,9 +87,9 @@ export const HandleAddUserSimple = async (setUserInfo, address) => {
 
         // user.users = [...user.users, user.newUser];
         // user.newUser = { "userID": "", "username": "", "email": "", "collection": [] };
-        //console.log("UPLOAD SUCCESS: " + params);
+        ////console.log("UPLOAD SUCCESS: " + params);
     } catch (err) {
-        console.log(`An error has occurred: ${err}`);
+        //console.log(`An error has occurred: ${err}`);
     }
 };
 
@@ -112,22 +112,170 @@ export const HandleUpdateUser = async (setUserInfo, address, displayName, bio, w
         //
         // alert(JSON.stringify(params));
         //alert(JSON.stringify(params));
-        await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
-            //alert(JSON.parse(res.config.data));
-            //TODO: Figure out why this causes problems!!!
+        // await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
+        //     //alert(JSON.parse(res.config.data));
+        //     //TODO: Figure out why this causes problems!!!
+        //
+        //     if (res.data.Item) {
+        //         await setUserInfo(res.data.Item);
+        //     }
+        //     params['username'] = address
+        //     setUserInfo(params);
+        //     return res;
+        // });
 
-            if (res.data.Item) {
-                await setUserInfo(res.data.Item);
-            }
-            params['username'] = address
-            setUserInfo(params);
-            return res;
-        });
+        let res = await axios.patch(`${config.api.invokeUrl}/user/${address}`, params);
+        if (res.data.Item) {
+            await setUserInfo(res.data.Item);
+        }
+        params['username'] = address
+        setUserInfo(params);
+        return res;
+
 
     }catch (err) {
-        console.log(`Error updating user: ${err}`);
+        //console.log(`Error updating user: ${err}`);
     }
 };
+
+export const HandleAddFollowing = async (setUserInfo, userInfo, following) => {
+
+    // add call to AWS API Gateway update user endpoint here
+    try {
+
+        const params = {
+            "username": userInfo.username,
+            "displayName": userInfo.displayName,
+            "bio": userInfo.bio,
+            "website": userInfo.website,
+            "twitter": userInfo.twitter,
+            "profilePhotoURL": userInfo.profilePhotoURL,
+            "coverPhotoURL": userInfo.coverPhotoURL,
+            "following": following,
+            "followers": userInfo.followers,
+            "likes": userInfo.likes
+        };
+        //
+        // alert(JSON.stringify(params));
+        //alert(JSON.stringify(params));
+        // await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
+        //     //alert(JSON.parse(res.config.data));
+        //     //TODO: Figure out why this causes problems!!!
+        //
+        //     if (res.data.Item) {
+        //         await setUserInfo(res.data.Item);
+        //     }
+        //     params['username'] = address
+        //     setUserInfo(params);
+        //     return res;
+        // });
+
+        let res = await axios.patch(`${config.api.invokeUrl}/user/${userInfo.username}`, params);
+        if (res.data.Item) {
+            await setUserInfo(res.data.Item);
+        }
+        params['username'] = userInfo.address
+        setUserInfo(params);
+        return res;
+
+
+    }catch (err) {
+        //console.log(`Error updating user: ${err}`);
+    }
+};
+
+export const HandleAddFollower = async (userInfo, followers) => {
+
+    // add call to AWS API Gateway update user endpoint here
+    try {
+
+        const params = {
+            "username": userInfo.username,
+            "displayName": userInfo.displayName,
+            "bio": userInfo.bio,
+            "website": userInfo.website,
+            "twitter": userInfo.twitter,
+            "profilePhotoURL": userInfo.profilePhotoURL,
+            "coverPhotoURL": userInfo.coverPhotoURL,
+            "following": userInfo.following,
+            "followers": followers,
+            "likes": userInfo.likes
+        };
+        //
+        // alert(JSON.stringify(params));
+        //alert(JSON.stringify(params));
+        // await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
+        //     //alert(JSON.parse(res.config.data));
+        //     //TODO: Figure out why this causes problems!!!
+        //
+        //     if (res.data.Item) {
+        //         await setUserInfo(res.data.Item);
+        //     }
+        //     params['username'] = address
+        //     setUserInfo(params);
+        //     return res;
+        // });
+
+        let res = await axios.patch(`${config.api.invokeUrl}/user/${userInfo.username}`, params);
+        if (res.data.Item) {
+            // await setUserInfo(res.data.Item);
+        }
+        params['username'] = userInfo.address
+        // setUserInfo(params);
+        return res;
+
+
+    }catch (err) {
+        //console.log(`Error updating user: ${err}`);
+    }
+};
+
+export const HandleAddLikes = async (setUserInfo, userInfo, likes) => {
+
+    // add call to AWS API Gateway update user endpoint here
+    try {
+
+        const params = {
+            "username": userInfo.username,
+            "displayName": userInfo.displayName,
+            "bio": userInfo.bio,
+            "website": userInfo.website,
+            "twitter": userInfo.twitter,
+            "profilePhotoURL": userInfo.profilePhotoURL,
+            "coverPhotoURL": userInfo.coverPhotoURL,
+            "following": userInfo.following,
+            "followers": userInfo.followers,
+            "likes": likes
+        };
+        //
+        // alert(JSON.stringify(params));
+        //alert(JSON.stringify(params));
+        // await axios.patch(`${config.api.invokeUrl}/user/${address}`, params).then(async(res) => {
+        //     //alert(JSON.parse(res.config.data));
+        //     //TODO: Figure out why this causes problems!!!
+        //
+        //     if (res.data.Item) {
+        //         await setUserInfo(res.data.Item);
+        //     }
+        //     params['username'] = address
+        //     setUserInfo(params);
+        //     return res;
+        // });
+
+        let res = await axios.patch(`${config.api.invokeUrl}/user/${userInfo.username}`, params);
+        if (res.data.Item) {
+            await setUserInfo(res.data.Item);
+        }
+        params['username'] = userInfo.address
+        setUserInfo(params);
+        return res;
+
+
+    }catch (err) {
+        //console.log(`Error updating user: ${err}`);
+    }
+};
+
 
 export const HandleDeleteUser = async (username, event) => {
     const user = {
@@ -144,9 +292,9 @@ export const HandleDeleteUser = async (username, event) => {
         await axios.delete(`${config.api.invokeUrl}/user/${username}`);
         //const updatedUsers = [...user.users].filter(user => user.username !== username);
         //user.users = updatedUsers;
-        console.log('DELETE SUCCESSFUL')
+        //console.log('DELETE SUCCESSFUL')
     } catch (err) {
-        console.log(`Unable to delete user: ${err}`);
+        //console.log(`Unable to delete user: ${err}`);
     }
 };
 
@@ -161,23 +309,103 @@ export const FetchUser = async (setUserInfo, address) => {
     // add call to AWS API Gateway to fetch users here
     // then set them in state
     try {
-        await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
-            alert("address from fetch:" + address);
-            if (res.data.Item) {
-                await setUserInfo(res.data.Item);
-            }
-            alert(JSON.stringify("FETCH: " + res.data.Item));
-            return res.status;
-        });
+        // await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
+        //     alert("address from fetch:" + address);
+        //     // if (!res.data.Item) {
+        //     //     alert("FAILLL" + JSON.stringify(res.data.Item));
+        //     // }
+        //
+        //
+        // });
+
+        let res = await axios.get(`${config.api.invokeUrl}/user/${address}`);
+        if (res.data.Item) {
+            //alert(JSON.stringify("FETCHAU: " + JSON.stringify(res.data.Item)));
+            await setUserInfo(res.data.Item);
+            return res;
+        }
+
         // const res_user = res.data;
         // user.users = res_user;
         // alert("Success: " + JSON.stringify(res));
-        //console.log (JSON.stringify(user));
+        ////console.log (JSON.stringify(user));
         // alert("auth user: " + JSON.stringify(user.users.Item));
 
 
 
     } catch (err) {
-        alert(`An error has occurred: ${err}`);
+        //alert(`An error has occurred: ${err}`);
+    }
+};
+
+export const FetchUserRet = async (address) => {
+    const user = {
+        newUser: {
+            "username": ""
+        },
+        users: []
+    };
+
+    // add call to AWS API Gateway to fetch users here
+    // then set them in state
+    try {
+        // await axios.get(`${config.api.invokeUrl}/user/${address}`).then(async(res) => {
+        //     alert("address from fetch:" + address);
+        //     // if (!res.data.Item) {
+        //     //     alert("FAILLL" + JSON.stringify(res.data.Item));
+        //     // }
+        //
+        //
+        // });
+
+        let res = await axios.get(`${config.api.invokeUrl}/user/${address}`);
+        if (res.data.Item) {
+            //alert(JSON.stringify("FETCHAU: " + JSON.stringify(res.data.Item)));
+            return await res.data.Item;
+            //return res;
+        }
+
+        // const res_user = res.data;
+        // user.users = res_user;
+        // alert("Success: " + JSON.stringify(res));
+        ////console.log (JSON.stringify(user));
+        // alert("auth user: " + JSON.stringify(user.users.Item));
+
+
+
+    } catch (err) {
+        //alert(`An error has occurred: ${err}`);
+    }
+};
+
+export const FetchAllUsers = async(setUsers) => {
+    const user = {
+        newUser: {
+            "username": ""
+        },
+        users: []
+    };
+
+    // add call to AWS API Gateway to fetch users here
+    // then set them in state
+    try {
+        await axios.get(`${config.api.invokeUrl}/user`).then(async(res) => {
+            //console.log(JSON.stringify(res));
+            if (res.data.Items) {
+                await setUsers(res.data.Items);
+            }
+            // alert(JSON.stringify("FETCHAU: " + res.data.Items));
+            return res.status;
+        });
+        // const res_user = res.data;
+        // user.users = res_user;
+        // alert("Success: " + JSON.stringify(res));
+        ////console.log (JSON.stringify(user));
+        // alert("auth user: " + JSON.stringify(user.users.Item));
+
+
+
+    } catch (err) {
+        //alert(`An error has occurred: ${err}`);
     }
 };

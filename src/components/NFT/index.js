@@ -3,18 +3,28 @@ import cn from "classnames";
 import { Link } from "react-router-dom";
 import styles from "./Card.module.sass";
 import Icon from "../Icon";
+import VideoLooper from 'react-video-looper'
+import {parseVextAmount} from '../../Utils';
+import Web3 from 'web3';
+import {useCryptoPrices} from "react-realtime-crypto-prices";
 
-const NFT = ({ className, item, account, isListing }, props) => {
+const NFT = ({ className, item, account, isListing, isETH, curProfilePhoto, isHotBid }, props) => {
   const [visible, setVisible] = useState(false);
+  const prices = useCryptoPrices(["eth"]);
 
   //srcSet={`${item.image2x} 2x`} Put this back in img when ready
 
   //useEffect(async () => {alert(JSON.stringify(item))}, []);
   return (
     <div className={cn(styles.card, className)}>
+      <Link className={styles.link} to={{ pathname: `/item/vnft/${item.id}`, state: { userInfo: props.userInfo, curProfilePhoto: curProfilePhoto, listingId: item.listingId, isVNFT: item.isVNFT, price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: (isListing && item.price), isPack: false, isETH: item.isETH } }}>
       <div className={styles.preview}>
-        {/*{uri.image}*/}
-        <img src={item.uri.image} alt="Card" />
+        {item.uri.image ? <img src={item.uri.image} alt='card' /> : <img src="/images/content/gradient-2.png" alt='card' style={{opacity: '0.2'}}/>}
+
+
+        {/*<video autoPlay loop muted style={{maxWidth: '30ex'}}>*/}
+        {/*  <source src={item.uri.image} type="video/mp4"/>*/}
+        {/*</video>*/}
         <div className={styles.control}>
           <div
             className={cn(
@@ -30,18 +40,18 @@ const NFT = ({ className, item, account, isListing }, props) => {
           >
             <Icon name="heart" size="20" />
           </button>
-          <button className={cn("button-small", styles.button)}>
-            <span>Place a bid</span>
-            <Icon name="scatter-up" size="16" />
-          </button>
+          {/*<button className={cn("button-small", styles.button)}>*/}
+          {/*  <span>Place a bid</span>*/}
+          {/*  <Icon name="scatter-up" size="16" />*/}
+          {/*</button>*/}
         </div>
       </div>
-      {/*{JSON.stringify(item.listingId)}*/}
-      <Link className={styles.link} to={{ pathname: `/item/${item.id}`, state: { listingId: item.listingId , price: item.price, uri: item.uri, id: item.id, nftOwner: item.owner, account: account, isListing: isListing } }}>
+      {/*{JSON.stringify(item.isListing)}*/}
+      {/*{curProfilePhoto}*/}
         <div className={styles.body}>
           <div className={styles.line}>
+            {/*{JSON.stringify(isETH)}*/}
             <div className={styles.title}>{item.uri.name}</div>
-            <div className={styles.price}>{item.price} VEXT</div>
           </div>
           <div className={styles.line}>
             <div className={styles.users}>
@@ -54,11 +64,23 @@ const NFT = ({ className, item, account, isListing }, props) => {
             <div className={styles.counter}>{item.counter}</div>
           </div>
         </div>
+        {/*TODO: Figure out how to handle bids on specific items*/}
         <div className={styles.foot}>
-          <div className={styles.status}>
-            <Icon name="candlesticks-up" size="20" />
-            Highest bid <span>{item.highestBid}</span>
-          </div>
+          {/*<div className={styles.status}>*/}
+          {/*  <Icon name="candlesticks-up" size="20" />*/}
+          {/*  Highest bid <span>{item.highestBid}</span>*/}
+          {/*</div>*/}
+          {(isListing && item.price) &&
+          <div>{item.isETH ? [<div className={styles.price}>
+                <img style={{width: '3ex', marginTop: '.3ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
+
+            {!isHotBid ? <div style={{marginTop: '-3.7ex', marginLeft: '2ex'}}>
+              {Web3.utils.fromWei(item.price)}</div> :  <div style={{marginTop: '-3.2ex', marginLeft: '2ex'}}>
+              {Web3.utils.fromWei(item.price)} </div>}
+              </div>,
+                <>{prices.eth && <div style={{fontSize: '14.5px', float: 'right', marginLeft: '2ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div>}</>]
+              : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
+          }
           <div
             className={styles.bid}
             dangerouslySetInnerHTML={{ __html: item.bid }}

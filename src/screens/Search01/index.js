@@ -6,6 +6,7 @@ import Icon from "../../components/Icon";
 import Card from "../../components/Card";
 import Dropdown from "../../components/Dropdown";
 import VEJSON from '../../abis/ViridianExchange.json';
+import { useLocation, useHistory } from "react-router-dom";
 import Web3 from "web3";
 // data
 import { bids } from "../../mocks/bids";
@@ -13,11 +14,13 @@ import NFT from "../../components/NFT";
 import vNFTJSON from "../../abis/ViridianNFT.json";
 import veJSON from "../../abis/ViridianExchange.json";
 import config from "../../local-dev-config";
+import Fuse from "fuse.js";
+import Pack from "../../components/Pack";
+import Loader from "../../components/Loader";
 
-let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
-
-const navLinks = ["All items", "Cards", "Packs", "Promotional Items"];
+const navLinks = ["All items", "Cards", "Packs"];//, "Promotional Items"];
 
 const dateOptions = ["Newest", "Oldest"];
 const likesOptions = ["Most liked", "Least liked", "Most to Least Expensive"];
@@ -31,45 +34,110 @@ const Search = (props) => {
   const [likes, setLikes] = useState(likesOptions[0]);
   const [color, setColor] = useState(colorOptions[0]);
   const [creator, setCreator] = useState(creatorOptions[0]);
-  const [prices, setPrices] = useState(colorOptions[0]);
+  const [prices, setPrices] = useState("Sort Price");
+  const [filteredNFTs, setFilteredNFTs] = useState([]);
 
   const [search, setSearch] = useState("");
 
-  const [values, setValues] = useState([5]);
+  const [filters, setFilters] = useState([""]);
 
-  //alert(props.listings)
+  const [values, setValues] = useState([500000]);
 
-  const handleSubmit = (e) => {
-    alert();
-  };
+  const location = useLocation();
+  const history = useHistory();
 
-  const STEP = 0.1;
-  const MIN = 0.01;
-  const MAX = 10;
+  const options = {
+        // isCaseSensitive: false,
+        // includeScore: false,
+        // shouldSort: true,
+        // includeMatches: false,
+        // findAllMatches: false,
+        // minMatchCharLength: 1,
+        // location: 0,
+        // threshold: 0.6,
+        // distance: 100,
+        // useExtendedSearch: false,
+        // ignoreLocation: false,
+        // ignoreFieldNorm: false,
+        keys: [
+            "uri.name",
+            "uri.year",
+            "uri.grade",
+            "uri.set",
+            "uri.grade",
+            "id"
+        ]
+    };
+
+
+
+    useEffect(async () => {
+
+        if(location.search) {
+            if (location.search.split('=')[1] !== search) {
+                await setSearch(location.search.split('=')[1]);
+            }
+
+            //alert(location.search.split('=')[1])
+
+            if (props.nfts) {
+                const fuse = new Fuse(props.nfts, options);
+
+                //alert(JSON.stringify(props.nfts));
+
+                //alert(search);
+
+                const result = fuse.search(search);
+
+                //alert("RES: " + JSON.stringify(result));
+
+                let tempNFTs = [];
+
+                result.map((item) => {
+                    tempNFTs.push(item.item);
+                });
+
+                //alert("TNFT: " + JSON.stringify(tempNFTs));
+
+
+                setFilteredNFTs(tempNFTs);
+            }
+
+        }
+        else {
+            await setFilteredNFTs(props.nfts);
+
+            //alert(filteredNFTs)
+        }
+    }, [search, props.nfts]);
+
+  const STEP = 50;
+  const MIN = 1;
+  const MAX = 1000000;
 
   return (
-    <div className={cn("section-pt80", styles.section)}>
+    <div className={cn("section-pt80", styles.section)} style={{marginTop: '4ex'}}>
       <div className={cn("container", styles.container)}>
         <div className={styles.top}>
           <div className={styles.title}>Explore the Marketplace</div>
-          <form
-            className={styles.search}
-            action=""
-            onSubmit={() => handleSubmit()}
-          >
-            <input
-              className={styles.input}
-              type="text"
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              name="search"
-              placeholder="Search ..."
-              required
-            />
-            <button className={styles.result}>
-              <Icon name="search" size="16" />
-            </button>
-          </form>
+          {/*<form*/}
+          {/*  className={styles.search}*/}
+          {/*  action=""*/}
+          {/*  //onSubmit={() => handleSubmit()}*/}
+          {/*>*/}
+          {/*  <input*/}
+          {/*    className={styles.input}*/}
+          {/*    type="text"*/}
+          {/*    value={search}*/}
+          {/*    onChange={(e) => setSearch(e.target.value)}*/}
+          {/*    name="search"*/}
+          {/*    placeholder="Search ..."*/}
+          {/*    required*/}
+          {/*  />*/}
+          {/*  <button className={styles.result}>*/}
+          {/*    <Icon name="search" size="16" />*/}
+          {/*  </button>*/}
+          {/*</form>*/}
         </div>
         <div className={styles.sorting}>
           <div className={styles.dropdown}>
@@ -103,7 +171,7 @@ const Search = (props) => {
                 step={STEP}
                 min={MIN}
                 max={MAX}
-                onChange={(values) => setValues(values)}
+                onChange={(values) => {setValues(values);}}
                 renderTrack={({ props, children }) => (
                   <div
                     onMouseDown={props.onMouseDown}
@@ -169,8 +237,8 @@ const Search = (props) => {
                 )}
               />
               <div className={styles.scale}>
-                <div className={styles.number}>0.01 ETH</div>
-                <div className={styles.number}>10 ETH</div>
+                <div className={styles.number}>$1</div>
+                <div className={styles.number}>$1M</div>
               </div>
             </div>
             <div className={styles.group}>
@@ -183,42 +251,92 @@ const Search = (props) => {
                   options={pricesOptions}
                 />
               </div>
-                <div className={styles.item}>
-                    <div className={styles.label}>Popularity</div>
-                    <Dropdown
-                        className={styles.dropdown}
-                        value={likes}
-                        setValue={setLikes}
-                        options={likesOptions}
-                    />
-                </div>
-              <div className={styles.item}>
-                <div className={styles.label}>Collector</div>
-                <Dropdown
-                  className={styles.dropdown}
-                  value={creator}
-                  setValue={setCreator}
-                  options={creatorOptions}
-                />
-              </div>
+                {/*<div className={styles.item}>*/}
+                {/*    <div className={styles.label}>Popularity</div>*/}
+                {/*    <Dropdown*/}
+                {/*        className={styles.dropdown}*/}
+                {/*        value={likes}*/}
+                {/*        setValue={setLikes}*/}
+                {/*        options={likesOptions}*/}
+                {/*    />*/}
+                {/*</div>*/}
+              {/*<div className={styles.item}>*/}
+              {/*  <div className={styles.label}>Collector</div>*/}
+              {/*  <Dropdown*/}
+              {/*    className={styles.dropdown}*/}
+              {/*    value={creator}*/}
+              {/*    setValue={setCreator}*/}
+              {/*    options={creatorOptions}*/}
+              {/*  />*/}
+              {/*</div>*/}
             </div>
-            <div className={styles.reset}>
+            <div className={styles.reset} onClick={() => {//setFilters([]); setPrices("Sort Price");
+                history.push("/search01");}}>
               <Icon name="close-circle-fill" size="24" />
               <span>Reset filter</span>
             </div>
           </div>
-          <div className={styles.wrapper}>
-            <div className={styles.list}>
-              {props.nfts.map((x, index) => [
-                  <NFT className={styles.card} item={x} key={index} isListing={true} account={props.account}/>
-              ])}
-            </div>
+            {filteredNFTs.length > 0 ? <div className={styles.wrapper}>
+              {/*{JSON.stringify(filteredNFTs[0].price)}*/}
+              {(prices === "Most to Least Expensive") ? <div className={styles.list}>
+              {[].concat(filteredNFTs)
+                  .sort((a, b) => a.price < b.price ? 1 : -1).map((x, index) => {
+                      if (x.price <= (values[0] * 1000000000000000000)) {
+                          if (x.isVNFT) {
+                              if (activeIndex === 0 || activeIndex === 1) {
+                                  return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                               account={props.account}/>);
+                              }
+                          } else {
+                              if (activeIndex === 0 || activeIndex === 2) {
+                                  return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                                account={props.account}/>);
+                              }
+                          }
+                      }
+              })}
+            </div> : <div>{(prices === "Least to Most Expensive") ? <div className={styles.list}>
+                  {[].concat(filteredNFTs)
+                      .sort((a, b) => a.price > b.price ? 1 : -1).map((x, index) => {
+                          if (x.price <= (values[0] * 1000000000000000000)) {
+                              if (x.isVNFT) {
+                                  if (activeIndex === 0 || activeIndex === 1) {
+                                      return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                                   account={props.account}/>);
+                                  }
+                              } else {
+                                  if (activeIndex === 0 || activeIndex === 2) {
+                                      return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                                    account={props.account}/>);
+                                  }
+                              }
+                          }
+                  })}
+              </div> : <div className={styles.list}>
+                  {filteredNFTs.map((x, index) => {
+                      if (x.price <= (values[0] * 1000000000000000000)) {
+                          if (x.isVNFT) {
+                              if (activeIndex === 0 || activeIndex === 1) {
+                                  return (<NFT className={styles.card} item={x} key={index} isListing={true}
+                                               account={props.account}/>);
+                              }
+                          } else {
+                              if (activeIndex === 0 || activeIndex === 2) {
+                                  return (<Pack className={styles.card} item={x} key={index} isListing={true}
+                                                account={props.account}/>);
+                              }
+                          }
+                      }
+                  })}
+              </div>} </div> }
             <div className={styles.btns}>
               <button className={cn("button-stroke", styles.button)}>
                 <span>Load more</span>
               </button>
             </div>
-          </div>
+            </div>: <div style={{margin: 'auto',
+                width: '-50%',
+                padding: '10px'}}><Loader/></div>}
         </div>
       </div>
     </div>

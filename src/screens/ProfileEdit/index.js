@@ -10,6 +10,7 @@ import ImageUpload from "../../ImageUpload";
 import S3FileUpload from "react-s3";
 import config from "../../config";
 import {HandleAddUserSimple, HandleUpdateUser, FetchUser} from "../../apis/UserAPI";
+import {set, update} from "immutable";
 
 const breadcrumbs = [
   {
@@ -45,15 +46,16 @@ const ProfileEdit = (props) => {
   // USER INFO IS ALSO NOT SETTING
 
   const s3Upload = async (files) => {
-      alert(files);
+
       let file = files[0];
       let blob = file.slice(0, file.size, 'image/png');
       let newFile = new File([blob], props.account + '.png', {type: 'image/png'});
-      if (JSON.stringify(props.userInfo) == "{}") {
-        await HandleAddUserSimple(props.setUserInfo, props.account);
-      }
-      await S3FileUpload.uploadFile(newFile, config.s3)
-          .then(async(data) => {setProfilePhotoURL(data.location); alert((data));});
+      // if (JSON.stringify(props.userInfo) == "{}") {
+      //   await HandleAddUserSimple(props.setUserInfo, props.account);
+      // }
+      let data = await S3FileUpload.uploadFile(newFile, config.s3);
+      setProfilePhotoURL(data.location);
+      return data.location;
 
     }
 
@@ -61,18 +63,30 @@ const ProfileEdit = (props) => {
 
   const addCardToS3PlusDB = async () => {
     if (files.length != 0) {
-      await s3Upload(files).then(async () => {
-        await updateUser();
+      //alert("there is a file here!!");
+      await s3Upload(files).then(async(res) => {
+        setProfilePhotoURL(res);
+        await updateUser(profilePhotoURL);
       });
+      // await s3Upload(files).then(async () => {
+      //   await updateUser();
+      // });
     }
     else {
-      await updateUser();
+      await updateUser(props.userInfo.profilePhotoURL);
     }
   };
 
-  const updateUser = async () => {
-      await HandleUpdateUser(props.setUserInfo, props.account, displayName, bio, website, twitter, profilePhotoURL,
+  const updateUser = async (profilePhotoURL) => {
+      let res = await HandleUpdateUser(props.setUserInfo, props.account, displayName, bio, website, twitter, "https://viridian-images.s3.us-east-2.amazonaws.com/" + props.account + ".png",
           props.userInfo.coverPhotoURL, props.userInfo.following, props.userInfo.followers, props.userInfo.likes);
+
+      if (res) {
+        if (res.status === 204) {
+          setSuccessMessage(true);
+        }
+      }
+      //alert("Success!:" + JSON.stringify(res));
 
   }
 
@@ -109,15 +123,26 @@ const ProfileEdit = (props) => {
 
 
   useEffect(async () => {
+
+    if (props.userInfo) {
+      setDisplayName(props.userInfo.displayName);
+      setBio(props.userInfo.bio);
+      setWebsite(props.userInfo.website);
+      setProfilePhotoURL(props.userInfo.profilePhotoURL);
+      setTwitter(props.userInfo.twitter);
+    }
+
     // await updateUser();
-    await FetchUser(props.setUserInfo, props.account).then(async () => {
-      alert("userinfo from fetch: "+ JSON.stringify(props.userInfo));
-    });
+    // if (props.setUserInfo !== "{}") {
+    //     alert("userinfo from fetch: "+ JSON.stringify(props.userInfo));
+    //   });
+    // }
+
     // alert(JSON.stringify(props.userInfo));
 
     // alert(JSON.stringify(userInfo.displayName));
 
-  }, []);
+  }, [props.userInfo]);
 
 
 
@@ -129,6 +154,7 @@ const ProfileEdit = (props) => {
         <div className={cn("container", styles.container)}>
           <div className={styles.top}>
             <h1 className={cn("h2", styles.title)}>Edit profile</h1>
+            {/*{JSON.stringify(props.userInfo)}*/}
             <div className={styles.info}>
               You can set preferred display name, create{" "}
               <strong>your profile URL</strong> and manage other personal
@@ -139,12 +165,13 @@ const ProfileEdit = (props) => {
             <div className={styles.col}>
               <div className={styles.user}>
                 <div className={styles.avatar}>
-                  <img src={props.userInfo.profilePhotoURL} alt="Avatar" />
+                  <img src={props.userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
                 </div>
                 <div className={styles.details}>
                   <div className={styles.stage}>Profile photo</div>
                   <div className={styles.text}>
                     We recommend an image of at least 400x400.{" "}
+                    {}
                     <span role="img" aria-label="hooray">
                       🙌
                     </span>
@@ -165,9 +192,12 @@ const ProfileEdit = (props) => {
                         )}
                     >
                       Upload
+
                     </button>
 
+
                     <input className={styles.load} type="file" onChange = { (e) => {setFiles(e.target.files);}}/>
+                    {(files.length != 0) ? files[0].name:  ""}
 
                     {/*{JSON.stringify(files)}*/}
                     {/*<ImageUpload fileName = {props.account + 'png'} files = {files} setFiles = {setFiles} />*/}
@@ -186,14 +216,14 @@ const ProfileEdit = (props) => {
                       name="Name"
                       type="text"
                       onChange = {e => setDisplayName(e.target.value)}
-                      placeholder={(displayName !== "") ? displayName: "Enter your desired display name"}
+                      placeholder={(props.userInfo.displayName === "") ? "Enter your desired display name" : props.userInfo.displayName}
                       required
                     />
                     <TextArea
                       className={styles.field}
                       label="Bio"
                       name="Bio"
-                      placeholder={(bio !== "") ? bio: "About yourself in a few words"}
+                      placeholder={(props.userInfo.bio !== "") ? props.userInfo.bio: "About yourself in a few words"}
                       onChange = {e => setBio(e.target.value)}
                       required="required"
                     />
@@ -208,7 +238,7 @@ const ProfileEdit = (props) => {
                       name="Portfolio"
                       type="text"
                       onChange={e => setWebsite(e.target.value)}
-                      placeholder={(website !== "") ? website: "Enter URL"}
+                      placeholder={(props.userInfo.website !== "") ? props.userInfo.website: "Enter URL"}
                       required
                     />
                     <div className={styles.box}>

@@ -7,89 +7,7 @@ import Add from "./Add";
 import Icon from "../../../components/Icon";
 import Dropdown from "../../../components/Dropdown";
 import DropdownEmpty from "../../../components/DropdownEmpty";
-
-const items = [
-  {
-    name: "Edd Harris",
-    sign: "/images/content/cup.svg",
-    number: "1",
-    url: "/profile",
-    color: "#3772FF",
-    avatar: "/images/content/avatar-5.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-  {
-    name: "Odell Hane",
-    sign: "/images/content/donut.svg",
-    number: "2",
-    url: "/profile",
-    color: "#9757D7",
-    avatar: "/images/content/avatar-6.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-  {
-    name: "Marlee Kuphal",
-    sign: "/images/content/lightning.svg",
-    number: "3",
-    url: "/profile",
-    color: "#45B26B",
-    avatar: "/images/content/avatar-7.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-  {
-    name: "Payton Kunde",
-    sign: "/images/content/donut.svg",
-    number: "4",
-    url: "/profile",
-    color: "#23262F",
-    avatar: "/images/content/avatar-8.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-  {
-    name: "Payton Buckridge",
-    sign: "/images/content/donut.svg",
-    number: "5",
-    url: "/profile",
-    color: "#777E90",
-    avatar: "/images/content/avatar-9.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-  {
-    name: "Edd Harris",
-    sign: "/images/content/cup.svg",
-    number: "1",
-    url: "/profile",
-    color: "#3772FF",
-    avatar: "/images/content/avatar-5.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-  {
-    name: "Odell Hane",
-    sign: "/images/content/donut.svg",
-    number: "2",
-    url: "/profile",
-    color: "#9757D7",
-    avatar: "/images/content/avatar-6.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-  {
-    name: "Marlee Kuphal",
-    sign: "/images/content/lightning.svg",
-    number: "3",
-    url: "/profile",
-    color: "#45B26B",
-    avatar: "/images/content/avatar-7.jpg",
-    reward: "/images/content/reward-1.svg",
-    price: "<span>2.456</span> ETH",
-  },
-];
+import Loader from "../../../components/Loader";
 
 const SlickArrow = ({ currentSlide, slideCount, children, ...props }) => (
   <button {...props}>{children}</button>
@@ -100,7 +18,7 @@ const directionOptions = ["Sellers", "Buyers"];
 
 const Popular = (props) => {
   const settings = {
-    infinite: false,
+    infinite: true,
     speed: 500,
     slidesToShow: 5,
     slidesToScroll: 1,
@@ -138,6 +56,171 @@ const Popular = (props) => {
     ],
   };
 
+  const items = [
+    {
+      name: "Edd Harris",
+      sign: "/images/content/cup.svg",
+      number: "1",
+      url: "/profile",
+      color: "#3772FF",
+      avatar: "/images/content/avatar-5.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Odell Hane",
+      sign: "/images/content/donut.svg",
+      number: "2",
+      url: "/profile",
+      color: "#9757D7",
+      avatar: "/images/content/avatar-6.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Marlee Kuphal",
+      sign: "/images/content/lightning.svg",
+      number: "3",
+      url: "/profile",
+      color: "#45B26B",
+      avatar: "/images/content/avatar-7.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Payton Kunde",
+      sign: "/images/content/donut.svg",
+      number: "4",
+      url: "/profile",
+      color: "#23262F",
+      avatar: "/images/content/avatar-8.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Payton Buckridge",
+      sign: "/images/content/donut.svg",
+      number: "5",
+      url: "/profile",
+      color: "#777E90",
+      avatar: "/images/content/avatar-9.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Edd Harris",
+      sign: "/images/content/cup.svg",
+      number: "1",
+      url: "/profile",
+      color: "#3772FF",
+      avatar: "/images/content/avatar-5.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Odell Hane",
+      sign: "/images/content/donut.svg",
+      number: "2",
+      url: "/profile",
+      color: "#9757D7",
+      avatar: "/images/content/avatar-6.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Marlee Kuphal",
+      sign: "/images/content/lightning.svg",
+      number: "3",
+      url: "/profile",
+      color: "#45B26B",
+      avatar: "/images/content/avatar-7.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Edd Harris",
+      sign: "/images/content/cup.svg",
+      number: "1",
+      url: "/profile",
+      color: "#3772FF",
+      avatar: "/images/content/avatar-5.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Odell Hane",
+      sign: "/images/content/donut.svg",
+      number: "2",
+      url: "/profile",
+      color: "#9757D7",
+      avatar: "/images/content/avatar-6.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Marlee Kuphal",
+      sign: "/images/content/lightning.svg",
+      number: "3",
+      url: "/profile",
+      color: "#45B26B",
+      avatar: "/images/content/avatar-7.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Payton Kunde",
+      sign: "/images/content/donut.svg",
+      number: "4",
+      url: "/profile",
+      color: "#23262F",
+      avatar: "/images/content/avatar-8.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Payton Buckridge",
+      sign: "/images/content/donut.svg",
+      number: "5",
+      url: "/profile",
+      color: "#777E90",
+      avatar: "/images/content/avatar-9.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Edd Harris",
+      sign: "/images/content/cup.svg",
+      number: "1",
+      url: "/profile",
+      color: "#3772FF",
+      avatar: "/images/content/avatar-5.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Odell Hane",
+      sign: "/images/content/donut.svg",
+      number: "2",
+      url: "/profile",
+      color: "#9757D7",
+      avatar: "/images/content/avatar-6.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+    {
+      name: "Marlee Kuphal",
+      sign: "/images/content/lightning.svg",
+      number: "3",
+      url: "/profile",
+      color: "#45B26B",
+      avatar: "/images/content/avatar-7.jpg",
+      reward: "/images/content/reward-1.svg",
+      price: "<span>2.456</span> ETH",
+    },
+  ];
+
+
+
   const [date, setDate] = useState(dateOptions[0]);
   const [direction, setDirection] = useState(directionOptions[0]);
 
@@ -155,56 +238,74 @@ const Popular = (props) => {
               options={directionOptions}
             />
           </div>
-          <div className={styles.field}>
-            <div className={styles.label}>timeframe</div>
-            <Dropdown
-              className={styles.dropdown}
-              value={date}
-              setValue={setDate}
-              options={dateOptions}
-            />
-          </div>
+          {/*<div className={styles.field}>*/}
+          {/*  <div className={styles.label}>timeframe</div>*/}
+          {/*  <Dropdown*/}
+          {/*    className={styles.dropdown}*/}
+          {/*    value={date}*/}
+          {/*    setValue={setDate}*/}
+          {/*    options={dateOptions}*/}
+          {/*  />*/}
+          {/*</div>*/}
         </div>
-        <div className={styles.wrapper}>
+        {/*{JSON.stringify(props.users)}*/}
+        {props.users ? <div className={styles.wrapper}>
+          {/*{"ONTE: " + JSON.stringify(props.ownedNFTs)}*/}
+          {/*{JSON.stringify(props.users.length)}*/}
           <Slider className="popular-slider" {...settings}>
+            {/*{JSON.stringify(items[2])}*/}
             {props.users.map((x, index) => (
               <div className={styles.slide} key={index}>
                 <div className={styles.item}>
                   <div className={styles.head}>
-                    <div
-                      className={styles.rating}
-                      style={{ backgroundColor: items[index].color }}
-                    >
-                      <div className={styles.icon}>
-                        <img src={items[index].sign} alt="Rating" />
-                      </div>
-                      <div className={styles.number}>#{items[index].number}</div>
-                    </div>
+                    {/*<div*/}
+                    {/*  className={styles.rating}*/}
+                    {/*  //style={{ backgroundColor: items[index].color }}*/}
+                    {/*>*/}
+                    {/*  <div className={styles.icon}>*/}
+                    {/*    <img src={items[index].sign} alt="Rating" />*/}
+                    {/*  </div>*/}
+                    {/*  <div className={styles.number}>#{items[index].number}</div>*/}
+                    {/*</div>*/}
                     <div className={styles.control}>
                       <Add className={styles.button} />
-                      <Link className={styles.button} to={items[index].url}>
+                      <Link className={styles.button} to={{ pathname: `/profile/${x.username}`,
+                        state: {
+                          nfts: props.nfts,
+                          userInfo: JSON.stringify(props.userInfo),
+                          //setUserInfo: props.setUserInfo,
+                          ownedNFTs: props.ownedNFTs,
+                          ownedPacks: props.ownedPacks,
+                          //setOwnedNFTs: props.setOwnedNFTs,
+                          users: props.users,
+
+                        curAccount: props.account, profilePhotoURL: x.profilePhotoURL, bio: x.bio, coverPhotoURL: x.coverPhotoURL, website: x.website, twitter: x.twitter,
+                          username: x.username, account: x.username, displayName: x.displayName, following: x.following, followers: x.followers, likes: x.likes} }}>
                         <Icon name="arrow-expand" size="24" />
                       </Link>
                     </div>
                   </div>
                   <div className={styles.body}>
                     <div className={styles.avatar}>
-                      <img src={items[index].avatar} alt="Avatar" />
+                      <img src={x.profilePhotoURL+ "?" + new Date().getTime()} alt="Avatar" />
                       <div className={styles.reward}>
-                        <img src={items[index].reward} alt="Reward" />
+                        {/*<img src={items[index].reward} alt="Reward" />*/}
                       </div>
                     </div>
-                    <div className={styles.name}>{props.users[index]}</div>
-                    <div
-                      className={styles.price}
-                      dangerouslySetInnerHTML={{ __html: items[index].price }}
-                    />
+                    <div className={styles.name}>{x.displayName}</div>
+                    {/*<div*/}
+                    {/*  className={styles.price}*/}
+                    {/*  dangerouslySetInnerHTML={{ __html: items[index].price }}*/}
+                    {/*/>*/}
                   </div>
                 </div>
               </div>
             ))}
           </Slider>
-        </div>
+          {/*</Slider> : <div style={{margin: 'auto',*/}
+          {/*  width: '-50%',*/}
+          {/*  padding: '10px'}}><Loader/></div>}*/}
+        </div> : <div><Loader className={styles.loader} color="white" /></div>}
       </div>
     </div>
   );

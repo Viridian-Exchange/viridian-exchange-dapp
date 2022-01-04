@@ -1,18 +1,40 @@
-import {React, useState} from "react";
+import React, {useState, useEffect} from "react";
 import cn from "classnames";
 import styles from "./Checkout.module.sass";
 import Icon from "../../../../components/Icon";
+import web3 from 'web3';
 import LoaderCircle from "../../../../components/LoaderCircle";
-import {buyNFTWithVEXT} from "../../../../smartContracts/ViridianExchangeMethods";
+import {buyNFTWithERC20, buyNFTWithETH} from "../../../../smartContracts/ViridianExchangeMethods";
+import Web3 from "web3";
+import config from "../../../../local-dev-config";
+import veJSON from "../../../../abis/ViridianExchange.json";
+import {getWeb3Socket} from "../../../../Utils";
 
 
 const Checkout = (props, { className }) => {
     const [purchasing, setPurchasing] = useState(false);
+    const [purchased, setPurchased] = useState(false);
+    const [eventData, setEventData] = useState({});
+
+    let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+
+    useEffect(async () => {
+
+        //alert("EVENT DATA" + JSON.stringify(eventData));
+
+        if (eventData[0]) {
+            setPurchased(true);
+            setPurchasing(false);
+        }
+
+
+
+    }, [eventData])
 
     const items = [
         {
             title: props.price,
-            value: "VEXT",
+            value: "USDT",
         },
         {
             title: "Your balance",
@@ -34,10 +56,9 @@ const Checkout = (props, { className }) => {
     <div className={cn(className, styles.checkout)}>
       <div className={cn("h4", styles.title)}>Checkout</div>
       <div className={styles.info}>
-        You are about to purchase a <strong>Viridian NFT</strong> from{" "}
-        <strong>UI8</strong>
+        You are about to purchase a <strong>Viridian NFT</strong>
       </div>
-      <div className={styles.table}>
+      <div className={styles.table} style={{marginBottom: '2ex'}}>
         {items.map((x, index) => (
           <div className={styles.row} key={index}>
             <div className={styles.col}>{x.title}</div>
@@ -63,10 +84,24 @@ const Checkout = (props, { className }) => {
         <div className={styles.details}>
           <div className={styles.subtitle}>Purchasing</div>
           <div className={styles.text}>
-            Sending transaction with your wallet
+            Please confirm the necessary transactions through MetaMask
           </div>
         </div>
       </div> }
+
+        {purchased &&
+        <div className={styles.line}>
+            {/*<div className={styles.icon}>*/}
+            {/*    <LoaderCircle className={styles.loader} />*/}
+            {/*</div>*/}
+            <div className={styles.details}>
+                <Icon name="check" size="18" fill={"#BF9A36"} />
+                <div className={styles.subtitle}>Purchase Successful!</div>
+                <div className={styles.text}>
+                    Refresh your inventory to view your new items
+                </div>
+            </div>
+        </div> }
       {/*<div className={styles.attention}>*/}
       {/*  <div className={styles.preview}>*/}
       {/*    <Icon name="info-circle" size="32" />*/}
@@ -79,13 +114,35 @@ const Checkout = (props, { className }) => {
       {/*    <img src="/images/content/avatar-3.jpg" alt="Avatar" />*/}
       {/*  </div>*/}
       {/*</div>*/}
-      <div className={styles.btns}>
+        {!purchased && !purchasing && <div className={styles.btns}>
           {/*{JSON.stringify(props)}*/}
-        <button className={cn("button", styles.button)} onClick={async () => await buyNFTWithVEXT(props.account, props.tokenId, props.price)}>
+           <button className={cn("button", styles.button)} onClick={async () => {
+               const web3Socket = await getWeb3Socket(web3);
+               const veContractAddress = config.mumbai_contract_addresses.ve_contract;
+               let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
+
+               await veABI.events.PurchasedListing({filter: {to: props.account}}).on('data', async function(event) {
+                   setEventData(event.returnValues);
+                   // Do something here
+               }).on('err', console.error);
+            setPurchasing(true);
+
+            // if (props.isETH) {
+            //     //alert("buying nft with eth")
+            //     await buyNFTWithETH(props.account, props.tokenId, props.price).then((e) => {
+            //         //alert("E: " + JSON.stringify(e));
+            //     });
+            // }
+            // else {
+                await buyNFTWithERC20(props.account, props.tokenId, props.price).then((e) => {
+                    //alert("E: " + JSON.stringify(e));
+                });
+            // }
+        }}>
           I understand, continue
         </button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>
-      </div>
+      </div>}
     </div>
   );
 };

@@ -9,13 +9,15 @@ import Web3 from "web3";
 import config from "../../../../local-dev-config";
 import {putUpForSale} from "../../../../smartContracts/ViridianExchangeMethods";
 import Loader from "../../../../components/Loader";
+import {parseAmountToVext} from "../../../../Utils";
+import {mumbai_contract_addresses} from "../../../../local-dev-config";
 
-let web3 = new Web3(Web3.givenProvider || "HTTP://127.0.0.1:7545");
+let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 const items = [
   {
     title: "Enter your price",
-    value: "VEXT",
+    value: "USDT",
   },
   {
     title: "Service fee",
@@ -37,6 +39,7 @@ const PutSale = (props, { className }) => {
 
   return (
     <div className={cn(className, styles.sale)}>
+        {/*{JSON.stringify(price)}*/}
       <div className={cn("h4", styles.title)}>Put on sale</div>
       <div className={styles.line}>
         <div className={styles.icon}>
@@ -56,7 +59,7 @@ const PutSale = (props, { className }) => {
                 return (
                     <div className={styles.row} key={index}>
                         <div className={styles.col}>{x.title}</div>
-                        <TextInput placeholder={"VEXT"} onChange={handlePriceChance} className={styles.col}/>
+                        <TextInput placeholder={"USDT"} onChange={handlePriceChance} className={styles.col}/>
                     </div>
                 );
             }
@@ -72,12 +75,11 @@ const PutSale = (props, { className }) => {
       </div>
       <div className={styles.btns}>
           {/*{props.account}*/}
-          {/*{props.id}*/}
         <button className={cn("button", styles.button)} onClick = {async () => {
-            alert("Hi");
+            //alert("PARSE 2 VEXT: " + parseAmountToVext(price));
 
-            await setSaleLoading(true); await putUpForSale(props.account, props.state.id, price, 0, 0, true).then((e) => {
-                alert(JSON.stringify(e));
+            await setSaleLoading(true); await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, mumbai_contract_addresses.vt_contract).then((e) => {
+                //alert(JSON.stringify(e));
                 setSaleLoading(false);
             });
             }}>
