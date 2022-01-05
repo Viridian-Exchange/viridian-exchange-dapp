@@ -219,12 +219,12 @@ const Headers = (props) => {
               {/*  Buy $VEXT*/}
               {/*</Link>*/}
               {/*TODO: Change to "LINK"*/}
-              <Link className={cn("button-small", styles.button)}
-                  to="/BuyCrypto"
-                 //href="https://faucets.chain.link/mumbai"
+              <a className={cn("button-small", styles.button)}
+                    href="https://faucets.chain.link/mumbai"
+                  //to="/BuyCrypto"
                   >
-                Buy/Sell Crypto
-              </Link>
+                Get Crypto
+              </a>
               {/* <Link
           className={cn("button-stroke button-small", styles.button)}
           to="/connect-wallet"
@@ -331,12 +331,12 @@ const Headers = (props) => {
         {/*  Buy $VEXT*/}
         {/*</Link>*/}
         {/*TODO: Change to "LINK"*/}
-        <Link className={cn("button-small", styles.button)}
-            to="/BuyCrypto"
-            //href="https://faucets.chain.link/mumbai"
+        <a className={cn("button-small", styles.button)}
+              href="https://faucets.chain.link/mumbai"
+            //to="/BuyCrypto"
             >
-          Buy/Sell Crypto
-        </Link>
+          Get Crypto
+        </a>
         {/* <Link
           className={cn("button-stroke button-small", styles.button)}
           to="/connect-wallet"
