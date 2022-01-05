@@ -8,7 +8,7 @@ import {buyNFTWithERC20, buyNFTWithETH} from "../../../../smartContracts/Viridia
 import Web3 from "web3";
 import config from "../../../../local-dev-config";
 import veJSON from "../../../../abis/ViridianExchange.json";
-import {getWeb3Socket} from "../../../../Utils";
+import {getWeb3Socket, parseAmountToVext, parseVextAmount} from "../../../../Utils";
 
 
 const Checkout = (props, { className }) => {
@@ -33,20 +33,20 @@ const Checkout = (props, { className }) => {
 
     const items = [
         {
-            title: props.price,
-            value: "USDT",
+            title: parseVextAmount(props.price),
+            value: "ETH",
         },
         {
             title: "Your balance",
-            value: "8.498 VEXT",
+            value: "0 ETH",
         },
         {
             title: "Service fee",
-            value: "0 VEXT",
+            value: "0 ETH",
         },
         {
             title: "You will pay",
-            value: props.price + " VEXT",
+            value: parseVextAmount(props.price) + " ETH",
         },
     ];
 

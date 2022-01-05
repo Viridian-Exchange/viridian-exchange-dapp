@@ -171,13 +171,13 @@ const PutSale = (props, { className }) => {
                 //alert("Pack Sale: " + props.state.id);
                 if (isETH) {
                     //alert(price.toString() + " vs. " + parseAmountToVext(price).toString());
-                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, '0x062f24cb618e6ba873ec1c85fd08b8d2ee9bf23e').then((e) => {
+                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, config.mumbai_contract_addresses.vt_contract).then((e) => {
                         //alert("E: " + JSON.stringify(e));
                         setSaleLoading(false);
                     });
                 }
                 else {
-                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, '0x2058A9D7613eEE744279e3856Ef0eAda5FCbaA7e').then((e) => {
+                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, config.mumbai_contract_addresses.vt_contract).then((e) => {
                         //alert("E: " + JSON.stringify(e));
                         setSaleLoading(false);
                     });
