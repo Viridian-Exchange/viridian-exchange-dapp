@@ -1,5 +1,5 @@
 import config from "../local-dev-config";
-import vTJSON from "../abis/ViridianToken.json";
+import vTJSON from "../abis/MetaTransactionTokenABI.json";
 import Web3 from "web3";
 import {Biconomy} from "@biconomy/mexa";
 //let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
@@ -17,9 +17,28 @@ let web3 = new Web3(biconomy);
 // });
 
 export async function approve(from, exchangeAddress, amount) {
+    //const vTContractAddress = config.mumbai_contract_addresses.vt_contract;
+
     const vTContractAddress = config.mumbai_contract_addresses.vt_contract;
 
-    let vTABI = new web3.eth.Contract(vTJSON['abi'], vTContractAddress);
+    let vTABI = new web3.eth.Contract(vTJSON, vTContractAddress);
 
-    return await vTABI.methods.approve(exchangeAddress, amount.toString()).send.request({from: from, signatureType: biconomy.EIP712_SIGN});
+
+    //TODO: Figure out why from is wrong
+    alert(from);
+
+    alert(await vTABI.methods.allowance('0x9399BB24DBB5C4b782C70c2969F58716Ebbd6a3b', exchangeAddress).call());
+
+    //let tx = await vTABI.methods.approve(exchangeAddress, '1000000000000000000000000000000000000000').send({from: from, signatureType: biconomy.EIP712_SIGN});
+
+    // await tx.on("transactionHash", function (hash) {
+    //     console.log(`Transaction hash is ${hash}`);
+    //     alert(`Transaction sent. Waiting for confirmation ..`);
+    // }).once("confirmation", function (confirmationNumber, receipt) {
+    //     console.log(receipt);
+    //     console.log(receipt.transactionHash);
+    //     //do something with transaction hash
+    // });
+
+    //await console.log(JSON.stringify(tx))
 }
