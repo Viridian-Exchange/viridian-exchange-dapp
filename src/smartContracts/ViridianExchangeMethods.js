@@ -266,7 +266,7 @@ export async function buyNFTWithERC20(from, _listingId, amount) {
 
     //alert("buy nft")
 
-    //await veABI.methods.buyNFTWithERC20(_listingId).send({from: from, signatureType: biconomy.EIP712_SIGN});
+    await veABI.methods.buyNFTWithERC20(_listingId).send({from: from, signatureType: biconomy.EIP712_SIGN});
 
     //return batch.execute();
 }
@@ -286,7 +286,7 @@ export async function pullFromSale(from, _listingId, price, isETH) {
     //alert("NEW ALLOW " + toFixedBetter(Number.parseInt(allowance)) - toFixedBetter(Number.parseInt(price)));
 
     if (!isETH) {
-        await approve(from, veContractAddress, toFixedBetter(toFixedBetter(allowance) - toFixedBetter(price)));
+        //await approve(from, veContractAddress, toFixedBetter(toFixedBetter(allowance) - toFixedBetter(price)));
     }
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
