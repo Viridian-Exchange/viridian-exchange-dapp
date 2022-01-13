@@ -4,11 +4,11 @@ import Web3 from "web3";
 
 import {Biconomy} from "@biconomy/mexa";
 
-// const biconomy = new Biconomy(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "-nNjhfDOJ.9faedf33-0521-4590-b5a6-9dec5319d742", debug: true});
-//
-// let web3 = new Web3(biconomy);
+const biconomy = new Biconomy(Web3.givenProvider || new Web3.providers.HttpProvider( "https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "O5RPM2y3A.bab3f010-10fb-47e4-8fa7-1efae42ab1b5", debug: true});
 
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
+let web3 = new Web3(biconomy);
+
+//let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
 
 export async function tokenURI(tokenId) {
     const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
@@ -27,7 +27,7 @@ export async function ownerOf(tokenId) {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
     //console.log("ABIMETHODS1: " + tokenId);
-    let owner = await vNFTABI.methods.ownerOf(tokenId).call.request();
+    let owner = await vNFTABI.methods.ownerOf(tokenId).call();
 
     //alert(nft);
 
@@ -51,7 +51,7 @@ export async function setApprovalForAll(from, exchangeAddress) {
     const vNFTContractAddress = config.mumbai_contract_addresses.vnft_contract;
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
-    return await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send.request({from: from});
+    return await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send({from: from, signatureType: biconomy.EIP712_SIGN});
 }
 
 export async function isApprovedForAll(owner, operator) {
@@ -68,7 +68,7 @@ export async function safeTransferFrom(from, to, tokenId) {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
 
-    return await vNFTABI.methods.safeTransferFrom(from, to, tokenId).send({from: from});
+    return await vNFTABI.methods.safeTransferFrom(from, to, tokenId).send({from: from, signatureType: biconomy.EIP712_SIGN});
 }
 
 export async function burn(from, tokenId) {
@@ -77,5 +77,5 @@ export async function burn(from, tokenId) {
 
     let vNFTABI = new web3.eth.Contract(vNFTJSON['abi'], vNFTContractAddress);
 
-    return await vNFTABI.methods.burn(tokenId).send({from: from});
+    return await vNFTABI.methods.burn(tokenId).send({from: from, signatureType: biconomy.EIP712_SIGN});
 }
