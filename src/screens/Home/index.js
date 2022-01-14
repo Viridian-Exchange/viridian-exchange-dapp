@@ -5,6 +5,7 @@ import Popular from "./Popular";
 import HotBid from "../../components/HotBid";
 import Collections from "./Collections";
 import Discover from "./Discover";
+import AnimatedPopup from "../../components/AnimatedPopup";
 import Description from "./Description";
 import Modal from "../../components/Modal";
 import SignupPrompt from "../../components/SignupPrompt";

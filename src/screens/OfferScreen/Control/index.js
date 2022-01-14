@@ -17,12 +17,14 @@ import styles1 from "../../Item/Control/Checkout/Checkout.module.sass";
 import LoaderCircle from "../../../components/LoaderCircle";
 import Icon from "../../../components/Icon";
 import {getWeb3Socket, parseVextAmount} from "../../../Utils";
+import OfferBuilder from "../../../components/OfferBuilder";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
   const [visibleModalBid, setVisibleModalBid] = useState(false);
   const [visibleModalAccept, setVisibleModalAccept] = useState(false);
   const [visibleModalSale, setVisibleModalSale] = useState(false);
+  const [visibleModalCO, setVisibleModalCO] = useState(false);
   //const [currentUser, setCurrentUser] = useState(false);
   const [isListing, setIsListing] = useState(false);
   const [offers, setOffers] = useState([]);
@@ -128,9 +130,9 @@ const Control = (props, { className }) => {
           <div className={styles.details}>
               {/*{JSON.stringify(props)}*/}
               {(props.isETH && props.toAccepted && !props.fromAccepted) ? <div className={styles.info}>
-              Approve accepted offer
+              Approve Offer
             </div> : <div className={styles.info}>
-                  Accept offer
+                  Offer
               </div>}
             <div className={styles.cost}>
                 {props.isETH ? [<div className={styles.price}>{web3.utils.fromWei(props.fromVEXT)} ETH</div>,
@@ -178,6 +180,13 @@ const Control = (props, { className }) => {
                   }}
               >
                   Accept
+              </button>
+
+              <button
+                  className={cn("button", styles.button)}
+                  onClick={async () => {setVisibleModalCO(true)}}
+              >
+                  Counter Offer
               </button>
           </div>}
 
@@ -245,8 +254,15 @@ const Control = (props, { className }) => {
       >
         <PutSale account={props.account} state={props.state} price={props.price} />
       </Modal>
+        <Modal
+            visible={visibleModalCO}
+            onClose={() => setVisibleModalCO(false)}
+        >
+            <OfferBuilder class={styles.items} nfts={props.toNFTs} packs={props.toPacks} otherNFTs={props.fromNFTs} otherPacks={props.fromPacks} account={props.account} curAccount={props.account}
+                          to={props.account}/>
+        </Modal>
     </>
   );
-};
+}
 
 export default Control;

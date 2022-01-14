@@ -4,7 +4,7 @@ import cn from "classnames";
 import OutsideClickHandler from "react-outside-click-handler";
 import veJSON from "../../../abis/ViridianExchange.json";
 import config from "../../../local-dev-config"
-import styles from "./Notification.module.sass";
+import styles from "./NotificationBell.module.sass";
 import Icon from "../../Icon";
 import {getWeb3Socket} from "../../../Utils";
 import Web3 from "web3";
@@ -46,7 +46,7 @@ const items = [
 
 let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
-const Notification = ({ className, account}) => {
+const NotificationBell = ({ className, account}) => {
   const [visible, setVisible] = useState(false);
   const [eventsRaw, setEventsRaw] = useState([]);
 
@@ -182,4 +182,4 @@ const Notification = ({ className, account}) => {
   );
 };
 
-export default Notification;
+export default NotificationBell;

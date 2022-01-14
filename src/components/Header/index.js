@@ -4,7 +4,7 @@ import cn from "classnames";
 import styles from "./Header.module.sass";
 import Icon from "../Icon";
 import Image from "../Image";
-import Notification from "./Notification";
+import NotificationBell from "./NotificationBell";
 import User from "./User";
 import { useLocation, useHistory } from "react-router-dom";
 import Fuse from "fuse.js";
@@ -209,7 +209,7 @@ const Headers = (props) => {
                 </div>
 
 
-              <Notification className={styles.notification} account = {props.account} />
+              <NotificationBell className={styles.notification} account = {props.account} />
 
 
               {/*<Link*/}
@@ -220,7 +220,7 @@ const Headers = (props) => {
               {/*</Link>*/}
               {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
-                    href="https://faucets.chain.link/mumbai"
+                    href="https://faucet.polygon.technology/"
                   //to="/BuyCrypto"
                   >
                 Get Crypto
@@ -321,7 +321,7 @@ const Headers = (props) => {
           </div>
 
 
-        <Notification className={styles.notification} account = {props.account}/>
+        <NotificationBell className={styles.notification} account = {props.account}/>
 
 
         {/*<Link*/}
@@ -332,7 +332,7 @@ const Headers = (props) => {
         {/*</Link>*/}
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
-              href="https://faucets.chain.link/mumbai"
+              href="https://faucet.polygon.technology/"
             //to="/BuyCrypto"
             >
           Get Crypto

@@ -5,6 +5,10 @@
   "dependencies": {
     "@biconomy/mexa": "^2.0.24",
     "@imtbl/imx-sdk": "^1.1.0",
+    "@progress/kendo-licensing": "^1.2.1",
+    "@progress/kendo-react-animation": "^4.13.0",
+    "@progress/kendo-react-notification": "^4.13.0",
+    "@progress/kendo-theme-default": "^4.43.0",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",

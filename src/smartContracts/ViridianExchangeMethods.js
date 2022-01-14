@@ -80,8 +80,6 @@ export async function acceptOfferWithERC20(from, _offerId, _toAmount) {
 
     //alert(from);
 
-    
-
     await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
         //alert("APPR: " + JSON.stringify(isApproved));
         if (!isApproved) {
@@ -120,7 +118,7 @@ export async function getOffersFromUser(_account) {
     return offers;
 }
 
-export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _erc20Address) {
+export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _erc20Address, setSuccess, setError) {
     const veContractAddress = config.mumbai_contract_addresses.ve_contract;
     const vtContractAddress = config.mumbai_contract_addresses.vt_contract;
     let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
@@ -161,11 +159,17 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _er
         // }
         // else {
             //alert(_erc20Address);
-            await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, _erc20Address, true).send({from: from, signatureType: biconomy.EIP712_SIGN});
+            await veABI.methods.putUpForSale(_nftId, _price, _royalty, _endTime, _erc20Address, true).send({
+                from: from,
+                signatureType: biconomy.EIP712_SIGN
+            });
+
             await veABI.events.ItemListed(function (err, result) {
                 if (err) {
                     alert(err);
                 }
+
+                //setSuccess(true);
 
                 //console.log("LISTING SDFSD: " + JSON.stringify(result.returnValues));
                 event_res = result.returnValues.listed;
@@ -255,7 +259,7 @@ export async function buyNFTWithERC20(from, _listingId, amount) {
     //         await setPackApprovalForAll(from, veContractAddress);
     //     }});
 
-    await approve(from, veContractAddress, amount);
+    //await approve(from, veContractAddress, amount);
 
     let veABI = new web3.eth.Contract(veJSON['abi'], veContractAddress);
     //let vtABI = new web3.eth.Contract(vtJSON['abi'], vtContractAddress);
@@ -318,17 +322,17 @@ export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftId
 
     //alert(3);
 
-    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
-        if (!isApproved) {
-            await setApprovalForAll(from, voContractAddress);
-        }});
-
-    await isPackApprovedForAll(from, voContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
-        if (!isApproved) {
-            await setPackApprovalForAll(from, voContractAddress);
-        }});
+    // await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
+    //     //alert("APPR: " + JSON.stringify(isApproved));
+    //     if (!isApproved) {
+    //         await setApprovalForAll(from, voContractAddress);
+    //     }});
+    //
+    // await isPackApprovedForAll(from, voContractAddress).then(async (isApproved) => {
+    //     //alert("APPR: " + JSON.stringify(isApproved));
+    //     if (!isApproved) {
+    //         await setPackApprovalForAll(from, voContractAddress);
+    //     }});
 
     //alert(4);
 

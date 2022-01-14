@@ -85,7 +85,7 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
             //           console.log(events);
             //           //setEventData(events[0].returnValues);
             //       })
-            //       .catch(function(e) { throw new Error(e) })
+            //       .catch(function(e) { throw new AnimatedPopup(e) })
             //alert(price);
             await setLoading(true);
 
