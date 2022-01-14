@@ -84,7 +84,7 @@ function App() {
     const [users, setUsers] = useState([]);
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [filteredNfts, setFilteredNFTs] = useState([]);
-    const [success, setSuccess] = useState(true);
+    const [success, setSuccess] = useState(false);
     const [error, setError] = useState(false);
     //const [nftsSet, setNftsSet] = useState(false);
     let nftsSet = false;

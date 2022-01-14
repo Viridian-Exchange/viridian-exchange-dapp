@@ -1,5 +1,4 @@
-import * as React from "react";
-import * as ReactDOM from "react-dom";
+import React, { useState, useEffect } from "react";
 import {
     Notification,
     NotificationGroup,
@@ -16,6 +15,24 @@ const AnimatedPopup = ({success, setSuccess, error, setError}) => {
     // });
     //
     // const onToggle = (flag) => setState({ ...state, [flag]: !state[flag] });
+
+    useEffect(async () => {
+        if (success) {
+            let delayInMilliseconds = 5000; //1 second
+
+            setTimeout(function() {
+                setSuccess(false);
+            }, delayInMilliseconds);
+        }
+
+        if (error) {
+            let delayInMilliseconds = 5000; //1 second
+
+            setTimeout(function() {
+                setError(false);
+            }, delayInMilliseconds);
+        }
+    }, [success, error]);
 
     //const { success, error, warning, info, none } = state;
     return (
@@ -57,7 +74,7 @@ const AnimatedPopup = ({success, setSuccess, error, setError}) => {
                             closable={true}
                             onClose={() => setSuccess(false)}
                         >
-                            <span>Transaction has succeeded!</span>
+                            <span style={{fontSize: 18}}>Transaction has succeeded!</span>
                         </Notification>
                     )}
                 </Slide>
@@ -71,7 +88,7 @@ const AnimatedPopup = ({success, setSuccess, error, setError}) => {
                             closable={true}
                             onClose={() => setError(false)}
                         >
-                            <span style={{fontSize: 14}}>Transaction has failed, please retry.</span>
+                            <span style={{fontSize: 18}}>Transaction has failed, please retry.</span>
                         </Notification>
                     )}
                 </Slide>
