@@ -260,7 +260,7 @@ const Profile = (props) => {
 
       if (followers) {
         userList.reduce((acc, val) => {
-          if (!!followers.find(user => user === val.username)) {
+          if (!followers.find(user => user === val.username)) {
             acc.push(val);
           }
           setFollowersInfo(acc);

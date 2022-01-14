@@ -20,11 +20,11 @@ const AnimatedPopup = ({success, setSuccess, error, setError}) => {
     //const { success, error, warning, info, none } = state;
     return (
         <React.Fragment>
-            {/*<button className="k-button" onClick={() => onToggle("success")}>*/}
+            {/*<button className="k-button" onClick={() => setSuccess(true)}>*/}
             {/*    {(success ? "hide " : "show ") + "Success"}*/}
             {/*</button>*/}
             {/*&nbsp;*/}
-            {/*<button className="k-button" onClick={() => onToggle("error")}>*/}
+            {/*<button className="k-button" onClick={() => setError(true)}>*/}
             {/*    {(error ? "hide " : "show ") + "Error"}*/}
             {/*</button>*/}
             {/*&nbsp;*/}
@@ -40,14 +40,14 @@ const AnimatedPopup = ({success, setSuccess, error, setError}) => {
             {/*</button>*/}
             <NotificationGroup
                 style={{
-                    right: 0,
-                    bottom: 0,
+                    right: 10,
+                    top: 100,
                     alignItems: "flex-start",
                     flexWrap: "wrap-reverse",
                 }}
             >
                 {/*{JSON.stringify(success)}*/}
-                <Slide direction={success ? "up" : "down"}>
+                <Slide direction={success ? "down" : "up"}>
                     {success && (
                         <Notification
                             type={{
@@ -61,7 +61,7 @@ const AnimatedPopup = ({success, setSuccess, error, setError}) => {
                         </Notification>
                     )}
                 </Slide>
-                <Slide direction={error ? "up" : "down"}>
+                <Slide direction={error ? "down" : "up"}>
                     {error && (
                         <Notification
                             type={{
@@ -71,7 +71,7 @@ const AnimatedPopup = ({success, setSuccess, error, setError}) => {
                             closable={true}
                             onClose={() => setError(false)}
                         >
-                            <span style={{fontSize: 14}}>Transaction has errored, please retry.</span>
+                            <span style={{fontSize: 14}}>Transaction has failed, please retry.</span>
                         </Notification>
                     )}
                 </Slide>
