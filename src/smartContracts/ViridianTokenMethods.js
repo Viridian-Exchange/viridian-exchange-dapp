@@ -43,5 +43,7 @@ export async function approve(from, exchangeAddress, amount) {
     // });
 
     await console.log(JSON.stringify(tx))
+
+    return tx;
     //await console.log(JSON.stringify(tx))
 }
