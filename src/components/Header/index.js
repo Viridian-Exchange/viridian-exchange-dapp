@@ -178,6 +178,15 @@ const Headers = (props) => {
                     >
                       Discover
                     </Link>
+                    <Link
+                        style={{marginTop: '2ex'}}
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/drops"
+                        key={1}
+                    >
+                      Drops
+                    </Link>
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
@@ -261,11 +270,19 @@ const Headers = (props) => {
               >
                 Discover
               </Link>
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/drops"
+                  key={1}
+              >
+                Drops
+              </Link>
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
                   href="https://viridianexchange.com"
-                  // key={0}
+                  key={2}
               >
                 About
               </a>
@@ -273,7 +290,7 @@ const Headers = (props) => {
                   className={styles.link}
                   activeClassName={styles.active}
                   to="/faq"
-                  key={1}
+                  key={3}
               >
                 Help
               </Link>
@@ -312,7 +329,6 @@ const Headers = (props) => {
                   options={dropdownOptions}
                   visible={visible}
                   setVisible={setVisible}
-
               />
               <button className={styles.result}>
                 <Icon name="search" size="20" />

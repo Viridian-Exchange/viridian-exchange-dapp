@@ -16,6 +16,7 @@ import Search02 from "./screens/Search02";
 import OfferScreen from "./screens/OfferScreen";
 import Profile from "./screens/Profile";
 import ProfileEdit from "./screens/ProfileEdit";
+import Drops from "./screens/Drops";
 import Item from "./screens/Item";
 import PageList from "./screens/PageList";
 import config from "./local-dev-config";
@@ -688,6 +689,15 @@ function App() {
             </Page>
           )}
         />
+      <Route
+          exact
+          path="/drops"
+          render={() => (
+              <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                  <Drops />
+              </Page>
+          )}
+      />
         <Route
           exact
           path="/faq"
