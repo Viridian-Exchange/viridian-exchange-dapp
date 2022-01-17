@@ -34,7 +34,7 @@ const Control = (props, { className }) => {
   const [accepted, setAccepted] = useState(false);
   const [eventData, setEventData] = useState({});
 
-  let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+  let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
   useEffect(async () => {
 
@@ -124,6 +124,7 @@ const Control = (props, { className }) => {
     <>
       <div className={cn(styles.control, className)}>
         <div className={styles.head}>
+            {JSON.stringify(props.nfts)}
           {/*<div className={styles.avatar}>*/}
           {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
           {/*</div>*/}
@@ -182,12 +183,12 @@ const Control = (props, { className }) => {
                   Accept
               </button>
 
-              <button
+              {props.rec && <button
                   className={cn("button", styles.button)}
                   onClick={async () => {setVisibleModalCO(true)}}
               >
                   Counter Offer
-              </button>
+              </button>}
           </div>}
 
           {loading &&
@@ -258,11 +259,12 @@ const Control = (props, { className }) => {
             visible={visibleModalCO}
             onClose={() => setVisibleModalCO(false)}
         >
-            <OfferBuilder class={styles.items} nfts={props.toNFTs} packs={props.toPacks} otherNFTs={props.fromNFTs} otherPacks={props.fromPacks} account={props.account} curAccount={props.account}
+            <OfferBuilder class={styles.items} toNFTsPreSel={props.toNFTs} fromNFTsPreSel={props.fromNFTs} toAmount={props.toVEXT} fromAmount={props.fromVEXT}
+                          nfts={props.ntfs} packs={props.packs} otherNFTs={props.otherNFTs} otherPacks={props.otherPacks} account={props.account} curAccount={props.account}
                           to={props.account}/>
         </Modal>
     </>
   );
-}
+};
 
 export default Control;

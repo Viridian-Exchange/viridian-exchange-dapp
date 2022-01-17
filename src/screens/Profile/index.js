@@ -844,7 +844,7 @@ const Profile = (props) => {
                               options={options}
                           />,
                             <Items dropDownOption={option} users={props.users} class={styles.items} offers={offers} account={props.account} curProfilePhoto = {props.userInfo.profilePhotoURL}
-                            curDisplayName={props.userInfo.displayName} userInfo = {props.userInfo}/>
+                            curDisplayName={props.userInfo.displayName} userInfo = {props.userInfo} offerNFTs={props.ownedNFTs} offerPacks={props.ownedPacks} otherOfferNFTs={otherNFTs} otherOfferPacks={otherPacks}/>
                         ]}
                         {activeIndex === 4 && (
                             <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>
@@ -969,8 +969,8 @@ const Profile = (props) => {
                           <Items class={styles.items} nfts={ownedListings} isListing={true} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 3 && [
-                          // <div>HIHIHI{"USRS: " + JSON.stringify(props.users)}</div>,
-                          <Items account={props.account} account={props.account} class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo}/>
+                          //<div>HIHIHI{"NFTS: " + JSON.stringify(props.ownedNFTs)}</div>,
+                          <Items account={props.account} account={props.account} class={styles.items} users={props.users} offers={offers} curProfilePhoto = {props.userInfo.profilePhotoURL} userInfo = {props.userInfo} nfts={props.ownedNFTs} packs={props.ownedPacks} otherNFTs={otherNFTs} otherPacks={otherPacks}/>
                         ]}
                         {activeIndex === 4 && (
                             <Items class={styles.items} items={[]} userInfo = {props.userInfo}/>
