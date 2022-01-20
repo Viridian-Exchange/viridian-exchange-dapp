@@ -124,7 +124,7 @@ const Control = (props, { className }) => {
     <>
       <div className={cn(styles.control, className)}>
         <div className={styles.head}>
-            {JSON.stringify(props.nfts)}
+            {"NFTz: " + JSON.stringify(props.otherNFTs)}
           {/*<div className={styles.avatar}>*/}
           {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
           {/*</div>*/}
@@ -259,6 +259,7 @@ const Control = (props, { className }) => {
             visible={visibleModalCO}
             onClose={() => setVisibleModalCO(false)}
         >
+            {JSON.stringify(props.nfts)}
             <OfferBuilder class={styles.items} toNFTsPreSel={props.toNFTs} fromNFTsPreSel={props.fromNFTs} toAmount={props.toVEXT} fromAmount={props.fromVEXT}
                           nfts={props.ntfs} packs={props.packs} otherNFTs={props.otherNFTs} otherPacks={props.otherPacks} account={props.account} curAccount={props.account}
                           to={props.account}/>

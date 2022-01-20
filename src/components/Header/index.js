@@ -178,15 +178,15 @@ const Headers = (props) => {
                     >
                       Discover
                     </Link>
-                    <Link
-                        style={{marginTop: '2ex'}}
-                        className={styles.link}
-                        activeClassName={styles.active}
-                        to="/drops"
-                        key={1}
-                    >
-                      Drops
-                    </Link>
+                    {/*<Link*/}
+                    {/*    style={{marginTop: '2ex'}}*/}
+                    {/*    className={styles.link}*/}
+                    {/*    activeClassName={styles.active}*/}
+                    {/*    to="/drops"*/}
+                    {/*    key={1}*/}
+                    {/*>*/}
+                    {/*  Drops*/}
+                    {/*</Link>*/}
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
@@ -270,14 +270,14 @@ const Headers = (props) => {
               >
                 Discover
               </Link>
-              <Link
-                  className={styles.link}
-                  activeClassName={styles.active}
-                  to="/drops"
-                  key={1}
-              >
-                Drops
-              </Link>
+              {/*<Link*/}
+              {/*    className={styles.link}*/}
+              {/*    activeClassName={styles.active}*/}
+              {/*    to="/drops"*/}
+              {/*    key={1}*/}
+              {/*>*/}
+              {/*  Drops*/}
+              {/*</Link>*/}
               <a
                   className={styles.link}
                   // activeClassName={styles.active}

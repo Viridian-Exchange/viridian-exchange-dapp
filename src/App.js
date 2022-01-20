@@ -689,15 +689,15 @@ function App() {
             </Page>
           )}
         />
-      <Route
-          exact
-          path="/drops"
-          render={() => (
-              <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                  <Drops />
-              </Page>
-          )}
-      />
+      {/*<Route*/}
+      {/*    exact*/}
+      {/*    path="/drops"*/}
+      {/*    render={() => (*/}
+      {/*        <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>*/}
+      {/*            <Drops />*/}
+      {/*        </Page>*/}
+      {/*    )}*/}
+      {/*/>*/}
         <Route
           exact
           path="/faq"
