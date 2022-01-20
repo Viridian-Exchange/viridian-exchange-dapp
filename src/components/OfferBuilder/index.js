@@ -63,12 +63,26 @@ const OfferBuilder = (props) => {
   useEffect(async () => {
 
     //alert("EVENT DATA" + JSON.stringify(eventData));
+    alert("PROPS: " + JSON.stringify(props))
 
     if (eventData[0]) {
       setOffered(true);
       setLoading(false);
     }
 
+    if (props.toNFTsPreSel) {
+      alert(props.toNFTsPreSel);
+      setGiveSelectedIds(props.toNFTsPreSel);
+    }
+    if (props.toPacksPreSel) {
+      setGiveSelectedPackIds(props.toPacksPreSel);
+    }
+    if (props.fromNFTsPreSel) {
+      setRecSelectedIds(props.fromNFTsPreSel);
+    }
+    if (props.fromPacksPreSel) {
+      setRecSelectedPackIds(props.fromPacksPreSel);
+    }
 
 
   }, [eventData])

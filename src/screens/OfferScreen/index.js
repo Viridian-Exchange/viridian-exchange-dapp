@@ -210,7 +210,7 @@ const OfferScreen = (props) => {
 
   useEffect(async () => {
     //alert(JSON.stringify(toNFTs) === JSON.stringify([]));
-    //alert(JSON.stringify(fromNFTs));
+    //alert(JSON.stringify(location.state));
 
     if (!(JSON.stringify(location.state.toNFTs) === JSON.stringify([])) || !(JSON.stringify(location.state.fromNFTs) === JSON.stringify([]))) {
 
@@ -243,7 +243,7 @@ const OfferScreen = (props) => {
 
         toNFTsCopy.map(async (nft, i) => await extractMetadata(tnc, nft, i, false, true));
 
-        // alert("FETCHED: " + JSON.stringify(tnc));
+        //alert("FETCHED: " + JSON.stringify(tnc));
 
         let fnc = [];
 
