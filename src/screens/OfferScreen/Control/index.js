@@ -259,10 +259,10 @@ const Control = (props, { className }) => {
             visible={visibleModalCO}
             onClose={() => setVisibleModalCO(false)}
         >
-            {JSON.stringify(props.nfts)}
-            <OfferBuilder class={styles.items} toNFTsPreSel={props.toNFTs} fromNFTsPreSel={props.fromNFTs} toAmount={props.toVEXT} fromAmount={props.fromVEXT}
-                          nfts={props.ntfs} packs={props.packs} otherNFTs={props.otherNFTs} otherPacks={props.otherPacks} account={props.account} curAccount={props.account}
-                          to={props.account}/>
+            {/*{JSON.stringify(props.nfts)}*/}
+            <OfferBuilder class={styles.items} toNFTsPreSel={props.toNFTs} toPacksPreSel={props.toPacks} fromNFTsPreSel={props.fromNFTs} fromPacksPreSel={props.fromPacks} toAmount={props.toVEXT} fromAmount={props.fromVEXT}
+                          nfts={props.otherNFTs} packs={props.otherPacks} otherNFTs={props.nfts} otherPacks={props.packs} account={props.account} curAccount={props.account}
+                          to={props.to} from={props.from} counterOffer={true} />
         </Modal>
     </>
   );

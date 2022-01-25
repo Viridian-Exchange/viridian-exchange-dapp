@@ -46,7 +46,7 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
     //TODO: Will likely have to flip how the to and from NFTs and VEXT are displayed as the
   return (
       // TODO: REMINDER THIS IS FLIPPED, MAKE SURE PEOPLE KNOW THIS MIGHT HAVE TO REFACTOR BECAUSE IT IS CONFUSING
-      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {send: sent, offerId: item.offerId, toVEXT: item.fromAmt, toNFTs: item.fromNftIds, toPacks: item.fromPackIds,
+      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {send: sent, to: item.to, from: item.from, offerId: item.offerId, toVEXT: item.fromAmt, toNFTs: item.fromNftIds, toPacks: item.fromPackIds,
               fromVEXT: item.toAmt, fromNFTs: item.toNftIds, fromPacks: item.toPackIds, otherUser: otherUser, isETH: !item.isVEXT, toAccepted: item.toAccepted, fromAccepted: item.fromAccepted, rec: rec,
               nfts: nfts, packs: packs, otherNFTs: otherNFTs, otherPacks: otherPacks}}}>
     <div className={cn(styles.card, className)}>

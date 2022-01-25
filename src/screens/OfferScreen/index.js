@@ -373,8 +373,8 @@ const OfferScreen = (props) => {
             {/*{JSON.stringify(location.state)}*/}
             {/*<Users className={styles.users} style={{marginBottom: '5ex'}} items={users} owner={1}/>*/}
             {JSON.stringify(location.state)}
-            <Control account={props.account} offerId={location.state.offerId} toNFTs={location.state.toNFTs} fromNFTs={location.state.fromNFTs}
-              toVEXT={location.state.toVEXT} fromVEXT={location.state.fromVEXT} isETH={location.state.isETH} toAccepted={location.state.toAccepted} fromAccepted={location.state.fromAccepted}
+            <Control account={props.account} offerId={location.state.offerId} toNFTs={location.state.toNFTs} fromNFTs={location.state.fromNFTs} toPacks={location.state.toPacks} fromPacks={location.state.fromPacks}
+              toVEXT={location.state.toVEXT} to={location.state.to} from={location.state.from} fromVEXT={location.state.fromVEXT} isETH={location.state.isETH} toAccepted={location.state.toAccepted} fromAccepted={location.state.fromAccepted}
                 nfts={location.state.nfts} packs={location.state.packs} otherNFTs={location.state.otherNFTs} otherPacks={location.state.otherPacks} rec={location.state.rec} />
           </div>
         </div>
