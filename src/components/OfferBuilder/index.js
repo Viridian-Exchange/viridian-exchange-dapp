@@ -209,7 +209,7 @@ const OfferBuilder = (props) => {
       for (let i = 0; i < props.packs.length; i++) {
         for (let j = 0; j < props.toPacksPreSel.length; j++) {
           //alert(JSON.stringify(props.fromNFTsPreSel[j]) + ' === ' + JSON.stringify(nftc[i].id));
-          if (props.toNFTsPreSel[j] === props.packs[i].id && props.toPacksPreSel.includes(props.packs[i].id)) {
+          if (props.toPacksPreSel[j] === props.packs[i].id && props.toPacksPreSel.includes(props.packs[i].id)) {
             setGiveSelectedNFTs([].concat(selectedGiveNFTs).concat([props.packs[i]]));
           }
         }
