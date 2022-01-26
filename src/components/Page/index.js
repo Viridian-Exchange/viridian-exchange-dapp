@@ -92,7 +92,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                   //setInitialLoaded(true);
               } else {
                   //alert("ACT2: " + account);
-                  alert(JSON.stringify(users));
+                  //alert(JSON.stringify(users));
                   users.map((x) => {
                       if (savedPath.split("/")[2] === x.username) {
                           setInitialLoaded(true);

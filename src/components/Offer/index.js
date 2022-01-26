@@ -51,7 +51,7 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
               nfts: nfts, packs: packs, otherNFTs: otherNFTs, otherPacks: otherPacks}}}>
     <div className={cn(styles.card, className)}>
         {/*{"ITM: " + JSON.stringify(otherUser.profilePhotoURL)}*/}
-        {JSON.stringify(nfts) + " " + JSON.stringify(packs)}
+        {/*{JSON.stringify(nfts) + " " + JSON.stringify(packs)}*/}
         {/*{JSON.stringify(item)}*/}
         <Users items={users} toVEXT={item.toAmt} toNFTs={item.toNftIds} toPacks={item.toPackIds} fromVEXT={item.fromAmt} fromNFTs={item.fromNftIds} fromPacks={item.fromPackIds} curProfilePhoto={fromUser.profilePhotoURL} isETH={!item.isVEXT}
                                                                                           otherProfilePhoto={toUser.profilePhotoURL} account={account}/>

@@ -71,7 +71,7 @@ const Items = ({ className, items, nfts, isListing, account, offers, give, selec
                         } else {
                             if (give) {
                                 return (<button onClick={() => {
-                                    alert("XX: " + JSON.stringify(x))
+                                    //alert("XX: " + JSON.stringify(x))
                                     if (!giveSelectedNFTs.includes(x)) {
                                         setGiveSelectedNFTs([...giveSelectedNFTs].concat(x));
                                     }
