@@ -321,8 +321,8 @@ const OfferBuilder = (props) => {
               placeholder="USDT Amount"
               required
           />}
-          {JSON.stringify(selectedGiveIds)}
-          {JSON.stringify(selectedGivePackIds)}
+          {/*{JSON.stringify(selectedGiveIds)}*/}
+          {/*{JSON.stringify(selectedGivePackIds)}*/}
           <div className={styles.list} style={{marginBottom: '1ex'}}>
           <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} nfts={selectedGiveNFTs} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                  recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs} give={true} selected={true} isListing={false} account={props.curAccount} selectedRecPackIds={selectedRecPackIds}
@@ -349,8 +349,8 @@ const OfferBuilder = (props) => {
               placeholder="USDT Amount"
               required
           />}
-          {JSON.stringify(selectedRecIds)}
-          {JSON.stringify(selectedRecPackIds)}
+          {/*{JSON.stringify(selectedRecIds)}*/}
+          {/*{JSON.stringify(selectedRecPackIds)}*/}
           <div className={styles.list}>
             <Items selectedGiveIds={selectedGiveIds} selectedRecIds={selectedRecIds} setGiveSelectedIds={setGiveSelectedIds} setRecSelectedIds={setRecSelectedIds} class={props.class} giveSelectedNFTs={selectedGiveNFTs} setGiveSelectedNFTs={setGiveSelectedNFTs}
                    recSelectedNFTs={selectedRecNFTs} setRecSelectedNFTs={setRecSelectedNFTs}
