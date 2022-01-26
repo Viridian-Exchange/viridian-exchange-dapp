@@ -497,7 +497,8 @@ const Profile = (props) => {
   useEffect(async () => {
     //alert(JSON.stringify(props.ownedNFTs));
     //alert("BREH1")
-    if(props.ownedNFTs.length > 0) {
+    //alert("ONFTSP: " + JSON.stringify(props.ownedNFTs));
+    if(props.ownedNFTs.length > 0 || otherPacks.length > 0) {
       //if (!props.ownedNFTs[0].uri.name) {
         if (location.state) {
           //alert("breh1")
@@ -522,21 +523,25 @@ const Profile = (props) => {
 
           //alert("BREH")
           //alert(JSON.stringify(props.ownedNFTs))
-          if (props.ownedNFTs.length > 0) {
-            for (let i = 0; i < props.ownedNFTs.length; i++) {
-              //alert(JSON.stringify(props.ownedNFTs));
-              await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
-            }
+          if (props.ownedNFTs[0]) {
+            if (!props.ownedNFTs[0].uri.image) {
+              if (props.ownedNFTs.length > 0) {
+                for (let i = 0; i < props.ownedNFTs.length; i++) {
+                  //alert(JSON.stringify(props.ownedNFTs));
+                  await extractMetadata(nftsCopy, props.ownedNFTs[i], i, false);
+                }
 
-            if (nftsCopy[0]) {
-              if (nftsCopy[0].uri.image) {
-                //alert("NFTC " + JSON.stringify(nftsCopy))
-                // if (!props.ownedNFTs[0].owner) {
-                //alert("hi")
-                await props.setOwnedNFTs(nftsCopy);
-                // if NFT.value > 2 {
-                // SEND TO LIAM }
-                //}
+                if (nftsCopy[0]) {
+                  if (nftsCopy[0].uri.image) {
+                    //alert("NFTC " + JSON.stringify(nftsCopy))
+                    // if (!props.ownedNFTs[0].owner) {
+                    //alert("hi")
+                    await props.setOwnedNFTs(nftsCopy);
+                    // if NFT.value > 2 {
+                    // SEND TO LIAM }
+                    //}
+                  }
+                }
               }
             }
           }
@@ -548,45 +553,64 @@ const Profile = (props) => {
           //alert(ownedNFTs);
 
           //alert(JSON.stringify(otherNFTs))
-          if (otherNFTs.length > 0) {
-            for (let i = 0; i < otherNFTs.length; i++) {
-              // await ownedNFTs.forEach((nft, i) => {
-              //   extractMetadata(nft, i)
-              // });
-              //alert(JSON.stringify(ownedNFTs[i]));
-              await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
+          if(otherNFTs[0]) {
+            if (!otherNFTs[0].uri.image) {
+              if (otherNFTs.length > 0) {
+                for (let i = 0; i < otherNFTs.length; i++) {
+                  // await ownedNFTs.forEach((nft, i) => {
+                  //   extractMetadata(nft, i)
+                  // });
+                  //alert(JSON.stringify(ownedNFTs[i]));
+                  await extractMetadata(oNftsCopy, otherNFTs[i], i, false);
 
-              //console.log(oNftsCopy);
+                  //console.log(oNftsCopy);
+                }
+                await setOtherNFTs(oNftsCopy);
+
+              }
             }
-            await setOtherNFTs(oNftsCopy);
           }
           //alert("BREH2")
 
-            if (otherPacks.length > 0) {
-              for (let i = 0; i < otherPacks.length; i++) {
-                // await ownedNFTs.forEach((nft, i) => {
-                //   extractMetadata(nft, i)
-                // });
-                //alert(JSON.stringify(ownedNFTs[i]));
-                await extractMetadata(oPacksCopy, otherPacks[i], i, true);
+          //alert("OOPACKZ: " + JSON.stringify(otherPacks));
+          if (otherPacks[0]) {
+            if (!otherPacks[0].uri.image) {
+              if (otherPacks.length > 0) {
+                for (let i = 0; i < otherPacks.length; i++) {
+                  // await ownedNFTs.forEach((nft, i) => {
+                  //   extractMetadata(nft, i)
+                  // });
+                  //alert(JSON.stringify(ownedNFTs[i]));
+                  //alert("EXTRACT METADATA")
+                  await extractMetadata(oPacksCopy, otherPacks[i], i, true);
 
-                //await alert(JSON.stringify(oPacksCopy));
+                  //await alert("oPacks" + JSON.stringify(oPacksCopy));
+
+
+                  await setOtherPacks(oPacksCopy);
+                }
+                //await alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
+
               }
-              await setOtherPacks(oPacksCopy);
-            //await alert("OTHERNFTS: " + JSON.stringify(oNftsCopy));
-
+            }
           }
 
-          if (props.ownedPacks.length > 0) {
-            //alert("EXTRACT")
-            for (let i = 0; i < props.ownedPacks.length; i++) {
-              await extractMetadata(packsCopy, props.ownedPacks[i], i, true);
-            }
+          if (props.ownedPacks[0]) {
+            if (!props.ownedPacks[0].uri.image) {
+              if (props.ownedPacks.length > 0) {
+                //alert("EXTRACT")
+                for (let i = 0; i < props.ownedPacks.length; i++) {
+                  await extractMetadata(packsCopy, props.ownedPacks[i], i, true);
+                }
 
-            if (packsCopy[0]) {
-              if (packsCopy[0].uri.image) {
-                //alert("PC " + JSON.stringify(packsCopy))
-                await props.setOwnedPacks(packsCopy);
+                if (packsCopy[0]) {
+                  if (packsCopy[0].uri.image) {
+                    //alert("PC " + JSON.stringify(packsCopy))
+
+                    await props.setOwnedPacks(packsCopy);
+
+                  }
+                }
               }
             }
           }
@@ -605,7 +629,9 @@ const Profile = (props) => {
 
             //console.log(oNftsCopy);
           }
-          await setOtherNFTs(oNftsCopy);
+          if (!otherNFTs[0].uri.image) {
+            await setOtherNFTs(oNftsCopy);
+          }
         }
       }
 
@@ -619,7 +645,9 @@ const Profile = (props) => {
           if (packsCopy[0]) {
             if (packsCopy[0].uri.image) {
               //alert("PC " + JSON.stringify(packsCopy))
-              await props.setOwnedPacks(packsCopy);
+              if (!props.ownedPacks[0].uri.image) {
+                await props.setOwnedPacks(packsCopy);
+              }
             }
           }
         }
@@ -674,14 +702,22 @@ const Profile = (props) => {
       //console.log(res.status);
       await ownerOf(nft.id, isPack).then(async (owner) => {
         if (res.ok) {
-          //alert("Owner OF: " + owner);
-          const resJson = await res.json();
-          //console.log(JSON.stringify(resJson));
-          //alert(JSON.stringify(resJson));
-          const newNFT = {id: nft.id, uri: resJson, owner: owner}
-          //console.log(newNFT);
 
-          await nftc.push(newNFT);
+          //alert("Owner OF: " + JSON.stringify(res));
+
+          //if (JSON.stringify(res) !== "{}") {
+          try {
+            const resJson = await res.json();
+            //console.log(JSON.stringify(resJson));
+            //alert(JSON.stringify(resJson));
+            const newNFT = {id: nft.id, uri: resJson, owner: owner}
+            //console.log(newNFT);
+
+            await nftc.push(newNFT);
+          } catch (e) {
+            //alert(e);
+          }
+          //}
         }
       });
     });
@@ -963,6 +999,7 @@ const Profile = (props) => {
                             <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 1 && [
+                          <>{JSON.stringify(otherPacks)}</>,
                           <Items class={styles.items} packs={otherPacks} isListing={false} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 2 && [

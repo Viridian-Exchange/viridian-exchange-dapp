@@ -99,26 +99,26 @@ const Item = (props) => {
                   </div>
                   <div>
                     <div className={styles.categories}>
-                    {showCategories && categories.map((x, index) => (
-                        <div
-                            className={cn(
-                                { "status-black": x.category === "black" },
-                                { "status-purple": x.category === "purple" },
-                                { "status-gold": x.category === "gold" },
-                                { "status-blue": x.category === "blue" },
-                                styles.category
-                            )}
-                            key={index}
-                        >
-                          {x.content}
-                        </div>
-                    ))}
-                  </div>
-                  <img
-                      //srcSet="/images/content/item-pic@2x.jpg 2x"
-                      src={location.state.uri.imageBack}
-                      alt="Item2"
-                  />
+                      {showCategories && categories.map((x, index) => (
+                          <div
+                              className={cn(
+                                  { "status-black": x.category === "black" },
+                                  { "status-purple": x.category === "purple" },
+                                  { "status-gold": x.category === "gold" },
+                                  { "status-blue": x.category === "blue" },
+                                  styles.category
+                              )}
+                              key={index}
+                          >
+                            {x.content}
+                          </div>
+                      ))}
+                    </div>
+                    <img
+                        //srcSet="/images/content/item-pic@2x.jpg 2x"
+                        src={location.state.uri.imageBack}
+                        alt="Item2"
+                    />
                   </div>
                 </Carousel>}
               {location.state.isPack &&

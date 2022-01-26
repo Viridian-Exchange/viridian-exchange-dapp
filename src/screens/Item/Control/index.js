@@ -60,6 +60,9 @@ const Control = (props, { className }) => {
                     </button>
                 </div>);
         }
+        else {
+            return <div>{JSON.stringify(props.isListing)}</div>
+        }
     }
 
     function putOnSaleButton() {

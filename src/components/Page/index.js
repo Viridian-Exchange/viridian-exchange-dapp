@@ -172,7 +172,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                                   id: item.id,
                                   nftOwner: item.owner,
                                   account: account,
-                                  isListing: false,
+                                  isListing: true,
                                   isPack: true
                               }
                           );
@@ -217,7 +217,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                                   id: item.id,
                                   nftOwner: item.owner,
                                   account: account,
-                                  isListing: false,
+                                  isListing: true,
                                   isPack: false
                               }
                           );

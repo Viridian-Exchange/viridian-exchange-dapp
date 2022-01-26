@@ -7,7 +7,7 @@ import Items from "./Items";
 import Control from "./Control";
 import Options from "./Options";
 //import {ownerOf} from "../../smartContracts/ViridianNFTMethods"
-import { useLocation } from "react-router-dom";
+import { useLocation, useHistory } from "react-router-dom";
 import config from "../../local-dev-config";
 import vNFTJSON from "../../abis/ViridianNFT.json";
 import vpJSON from "../../abis/ViridianPack.json";
@@ -59,6 +59,7 @@ const OfferScreen = (props) => {
   const [startParse, setStartParse] = useState(false);
   //const {passedState} = props.location.state
   const location = useLocation();
+  const history = useHistory();
 
 
   let [toNFTsCopy, setToNFTsCopy] = useState([]);
@@ -203,14 +204,30 @@ const OfferScreen = (props) => {
     // nftCopy[i] = nft;
   }
 
+  const otherUser = () => {
+    if (location.state) return location.state.otherUser.displayName;
+  }
+
+  const send = () => {
+    if (location.state) return location.state.send;
+  }
+
+  const isETH = () => {
+    if (location.state) return location.state.isETH;
+  }
+
   const navLinks = [
     "You Receive",
-    location.state.otherUser.displayName + " Receives",
+    otherUser() + " Receives",
   ];
 
   useEffect(async () => {
     //alert(JSON.stringify(toNFTs) === JSON.stringify([]));
     //alert(JSON.stringify(location.state));
+
+    if (!location.state) {
+      history.push("/");
+    }
 
     if (!(JSON.stringify(location.state.toNFTs) === JSON.stringify([])) || !(JSON.stringify(location.state.fromNFTs) === JSON.stringify([]))) {
 
@@ -266,7 +283,7 @@ const OfferScreen = (props) => {
 
   return (
     <>
-      <div className={cn("section", styles.section)}>
+      {location.state && <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
 
           <div className={styles.nav} style={{marginTop: '3.5ex'}}>
@@ -284,12 +301,12 @@ const OfferScreen = (props) => {
           </div>
 
           <div className={styles.body} style={{marginRight: '50ex'}}>
-            {location.state.send ? <div className={styles.group}>
+            {send() ? <div className={styles.group}>
               {/*<div>{JSON.stringify(location.state.otherUser)}</div>*/}
               <div style={{marginLeft: '-40ex'}}>
                 {activeIndex === 0 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
-                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
+                    {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
                     {/*{JSON.stringify(toNFTs)}*/}
                   </div>,
@@ -297,7 +314,7 @@ const OfferScreen = (props) => {
                 ]}
                 {activeIndex === 1 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
-                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
+                    {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
                   </div>,
                   <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
@@ -308,14 +325,14 @@ const OfferScreen = (props) => {
               <div style={{marginLeft: '-40ex'}}>
                 {activeIndex === 0 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
-                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
+                    {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
                   </div>,
                   <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
                 ]}
                 {activeIndex === 1 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
-                    {location.state.isETH ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
+                    {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
                         <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
                     {/*{JSON.stringify(toNFTs)}*/}
                   </div>,
@@ -378,9 +395,9 @@ const OfferScreen = (props) => {
                 nfts={location.state.nfts} packs={location.state.packs} otherNFTs={location.state.otherNFTs} otherPacks={location.state.otherPacks} rec={location.state.rec} />
           </div>
         </div>
-      </div>
+      </div>}
     </>
   );
-};
+}
 
 export default OfferScreen;
