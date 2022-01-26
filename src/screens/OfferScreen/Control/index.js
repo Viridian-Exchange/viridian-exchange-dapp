@@ -124,7 +124,7 @@ const Control = (props, { className }) => {
     <>
       <div className={cn(styles.control, className)}>
         <div className={styles.head}>
-            {"NFTz: " + JSON.stringify(props.otherNFTs)}
+            {/*{"NFTz: " + JSON.stringify(props.otherNFTs)}*/}
           {/*<div className={styles.avatar}>*/}
           {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
           {/*</div>*/}

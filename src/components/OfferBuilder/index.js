@@ -91,7 +91,7 @@ const OfferBuilder = (props) => {
     }
 
     if (props.counterOffer) {
-      alert("TAMT: " + props.from);
+      //alert("TAMT: " + props.from);
       setGiveAmount(props.toAmount);
       setRecAmount(props.fromAmount);
 
@@ -121,7 +121,7 @@ const OfferBuilder = (props) => {
           nfts.push({id: nftId, uri: uri});
         }
 
-        alert(JSON.stringify(nfts));
+        //alert(JSON.stringify(nfts));
       }
 
       if (packIds) {
@@ -133,7 +133,7 @@ const OfferBuilder = (props) => {
           packs.push({id: nftId, uri: uri});
         }
 
-        alert(JSON.stringify(packs));
+       // alert(JSON.stringify(packs));
       }
 
       if (nfts.length > 0) {
@@ -144,7 +144,7 @@ const OfferBuilder = (props) => {
 
         if (nftc[0]) {
           if (nftc[0].uri.image) {
-            alert("NFTC " + JSON.stringify(nftc))
+            //alert("NFTC " + JSON.stringify(nftc))
             // if (!props.ownedNFTs[0].owner) {
             //alert("hi")
             await setOtherNFTs(nftc);
@@ -173,7 +173,7 @@ const OfferBuilder = (props) => {
 
         if (packc[0]) {
           if (packc[0].uri.image) {
-            alert("packs " + JSON.stringify(packc));
+            //alert("packs " + JSON.stringify(packc));
             // if (!props.ownedNFTs[0].owner) {
             //alert("hi")
             await setOtherPacks(packc);

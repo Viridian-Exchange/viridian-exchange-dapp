@@ -999,7 +999,7 @@ const Profile = (props) => {
                             <Items class={styles.items} nfts={otherNFTs} isListing={false} account={location.state.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 1 && [
-                          <>{JSON.stringify(otherPacks)}</>,
+                          // <>{JSON.stringify(otherPacks)}</>,
                           <Items class={styles.items} packs={otherPacks} isListing={false} account={props.account} userInfo = {props.userInfo}/>
                         ]}
                         {activeIndex === 2 && [
