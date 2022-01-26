@@ -12,6 +12,7 @@ import Web3 from "web3";
 import Transfer from "../Transfer";
 import Modal from "../Modal";
 import WrongNetworkPrompt from "../WrongNetworkPrompt";
+import AnimatedPopup from "../AnimatedPopup";
 
 const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, filteredNfts, setFilteredNFTs, children, account, setAccount, connected, setConnected, userInfo, setUserInfo, ethBalance, setEthBalance, vextBalance, setVextBalance }) => {
     const [initialLoaded, setInitialLoaded] = useState(false);
@@ -69,7 +70,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
       //     history.replace(pathname, { state: "penis"});
       // }
 
-      if (!location.state && account) {
+      if (!location.state) {
 
           let savedPath = pathname;
 
@@ -91,6 +92,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                   //setInitialLoaded(true);
               } else {
                   //alert("ACT2: " + account);
+                  //alert(JSON.stringify(users));
                   users.map((x) => {
                       if (savedPath.split("/")[2] === x.username) {
                           setInitialLoaded(true);
@@ -170,7 +172,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                                   id: item.id,
                                   nftOwner: item.owner,
                                   account: account,
-                                  isListing: false,
+                                  isListing: true,
                                   isPack: true
                               }
                           );
@@ -215,7 +217,7 @@ const Page = ({ setPromptInstallMetamask, users, ownedNFTs, ownedPacks, nfts, fi
                                   id: item.id,
                                   nftOwner: item.owner,
                                   account: account,
-                                  isListing: false,
+                                  isListing: true,
                                   isPack: false
                               }
                           );

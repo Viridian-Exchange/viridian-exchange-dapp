@@ -134,7 +134,7 @@ export const HandleUpdateUser = async (setUserInfo, address, displayName, bio, w
 
 
     }catch (err) {
-        //console.log(`Error updating user: ${err}`);
+        //console.log(`AnimatedPopup updating user: ${err}`);
     }
 };
 
@@ -180,7 +180,7 @@ export const HandleAddFollowing = async (setUserInfo, userInfo, following) => {
 
 
     }catch (err) {
-        //console.log(`Error updating user: ${err}`);
+        //console.log(`AnimatedPopup updating user: ${err}`);
     }
 };
 
@@ -226,7 +226,7 @@ export const HandleAddFollower = async (userInfo, followers) => {
 
 
     }catch (err) {
-        //console.log(`Error updating user: ${err}`);
+        //console.log(`AnimatedPopup updating user: ${err}`);
     }
 };
 
@@ -272,7 +272,7 @@ export const HandleAddLikes = async (setUserInfo, userInfo, likes) => {
 
 
     }catch (err) {
-        //console.log(`Error updating user: ${err}`);
+        //console.log(`AnimatedPopup updating user: ${err}`);
     }
 };
 

@@ -3,11 +3,11 @@ import vpJSON from "../abis/ViridianPack.json";
 import Web3 from "web3";
 import {Biconomy} from "@biconomy/mexa";
 
-// const biconomy = new Biconomy(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "-nNjhfDOJ.9faedf33-0521-4590-b5a6-9dec5319d742", debug: true});
-//
-// let web3 = new Web3(biconomy);
+const biconomy = new Biconomy(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"),{apiKey: "-nNjhfDOJ.9faedf33-0521-4590-b5a6-9dec5319d742", debug: true});
 
-let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
+let web3 = new Web3(biconomy);
+
+//let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b"));
 
 export async function openPack(packId, account, setRevealing, setCards) {
     const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
@@ -38,7 +38,7 @@ export async function lockInPackResult(packId, account, setRevealing, setCards) 
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
     alert('opening pack ' + packId.toString())
-    await vpABI.methods.lockInPackResult(packId).send({from: account});
+    await vpABI.methods.lockInPackResult(packId).send({from: account, signatureType: biconomy.EIP712_SIGN});
     //     .then(async transaction => {
     //     ////console.log("transaction: " + JSON.stringify(transaction));
     //
@@ -77,7 +77,7 @@ export async function ownerOfPack(tokenId) {
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
     //console.log("ABIMETHODS5: " + tokenId);
-    let owner = await vNFTABI.methods.ownerOf(tokenId).call.request();
+    let owner = await vNFTABI.methods.ownerOf(tokenId).call();
 
     //alert(owner);
 
@@ -103,7 +103,7 @@ export async function setPackApprovalForAll(from, exchangeAddress) {
     const vNFTContractAddress = config.mumbai_contract_addresses.vp_contract;
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
-    return await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send.request({from: from});
+    return await vNFTABI.methods.setApprovalForAll(exchangeAddress, true).send({from: from, signatureType: biconomy.EIP712_SIGN});
 }
 
 export async function isPackApprovedForAll(owner, operator) {
@@ -120,7 +120,7 @@ export async function safeTransferPackFrom(from, to, tokenId) {
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
 
-    return await vNFTABI.methods.safeTransferFrom(from, to, tokenId).send({from: from});
+    return await vNFTABI.methods.safeTransferFrom(from, to, tokenId).send({from: from, signatureType: biconomy.EIP712_SIGN});
 }
 
 export async function burnPack(from, tokenId) {
@@ -129,5 +129,5 @@ export async function burnPack(from, tokenId) {
 
     let vNFTABI = new web3.eth.Contract(vpJSON['abi'], vNFTContractAddress);
 
-    return await vNFTABI.methods.burn(tokenId).send({from: from});
+    return await vNFTABI.methods.burn(tokenId).send({from: from, signatureType: biconomy.EIP712_SIGN});
 }

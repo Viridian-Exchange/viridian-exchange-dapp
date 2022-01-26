@@ -56,7 +56,7 @@ export const HandleAddNFTLike = async (id, numLikes) => {
         //card.cards = updatedCards;
         ////console.log("UPLOAD SUCCESS: " + JSON.stringify(params));
     }catch (err) {
-        //console.log(`Error updating card: ${err}`);
+        //console.log(`AnimatedPopup updating card: ${err}`);
     }
 };
 

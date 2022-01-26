@@ -60,6 +60,9 @@ const Control = (props, { className }) => {
                     </button>
                 </div>);
         }
+        else {
+            return <div>{JSON.stringify(props.isListing)}</div>
+        }
     }
 
     function putOnSaleButton() {
@@ -134,7 +137,7 @@ const Control = (props, { className }) => {
         visible={visibleModalPurchase}
         onClose={() => setVisibleModalPurchase(false)}
       >
-        <Checkout price={props.price} account={props.account} tokenId={props.state.listingId} isETH={props.isETH} />
+        <Checkout setSuccess={props.setSuccess} setError={props.setError} price={props.price} account={props.account} tokenId={props.state.listingId} isETH={props.isETH} />
           {purchased &&
               <SuccessfullyPurchased/>
           }
@@ -147,7 +150,7 @@ const Control = (props, { className }) => {
             }
             }
         >
-            <OpenPack account={props.account} packId={props.state.id} />
+            <OpenPack setSuccess={props.setSuccess} setError={props.setError} account={props.account} packId={props.state.id} />
         </Modal>
       <Modal
         visible={visibleModalBid}
@@ -166,7 +169,7 @@ const Control = (props, { className }) => {
         visible={visibleModalSale}
         onClose={() => setVisibleModalSale(false)}
       >
-        <PutSale account={props.account} state={props.state} price={props.price} isPack={props.isPack} isVNFT={props.isVNFT} />
+        <PutSale setSuccess={props.setSuccess} setError={props.setError} account={props.account} state={props.state} price={props.price} isPack={props.isPack} isVNFT={props.isVNFT} />
       </Modal>
     </>
   );

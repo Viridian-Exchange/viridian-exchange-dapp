@@ -121,12 +121,14 @@ const PutSale = (props, { className }) => {
             let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
 
             //console.log(veABI.events);
+
             await veABI.events.ItemListed({filter: {to: props.account}}).on('data', async function(event) {
                 //alert("event fired 1");
                 setEventData(event.returnValues);
+                props.setSuccess(true);
                 // Do something here
                 //console.log("event fired");
-            }).on('err', console.error);
+            }).on('err', () => props.setError(false));
 
             //let veABIw3 = new web3.eth.Contract(veJSON['abi'], veContractAddress);
 
@@ -154,34 +156,36 @@ const PutSale = (props, { className }) => {
             await setSaleLoading(true);
 
 
-            if (!props.isPack) {
-                //alert("NFT Sale: " + props.state.id);
-                if (isETH) {
-                    //alert(price.toString() + " vs. " + parseAmountToVext(price).toString());
-                    await putUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, config.mumbai_contract_addresses.vt_contract);
-                    setSaleLoading(true);
+            try {
+                if (!props.isPack) {
+                    //alert("NFT Sale: " + props.state.id);
+                    if (isETH) {
+                        //alert(price.toString() + " vs. " + parseAmountToVext(price).toString());
+                        await putUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, config.mumbai_contract_addresses.vt_contract);
+                        setSaleLoading(true);
 
-                }
-                else {
-                    await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, config.mumbai_contract_addresses.vt_contract);
-                    await setSaleLoading(true);
+                    } else {
+                        await putUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, config.mumbai_contract_addresses.vt_contract);
+                        await setSaleLoading(true);
+                    }
+                } else {
+                    //alert("Pack Sale: " + props.state.id);
+                    if (isETH) {
+                        //alert(price.toString() + " vs. " + parseAmountToVext(price).toString());
+                        await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, config.mumbai_contract_addresses.vt_contract).then((e) => {
+                            //alert("E: " + JSON.stringify(e));
+                            setSaleLoading(false);
+                        });
+                    } else {
+                        await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, config.mumbai_contract_addresses.vt_contract).then((e) => {
+                            //alert("E: " + JSON.stringify(e));
+                            setSaleLoading(false);
+                        });
+                    }
                 }
             }
-            else {
-                //alert("Pack Sale: " + props.state.id);
-                if (isETH) {
-                    //alert(price.toString() + " vs. " + parseAmountToVext(price).toString());
-                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price).toString(), 0, 0, config.mumbai_contract_addresses.vt_contract).then((e) => {
-                        //alert("E: " + JSON.stringify(e));
-                        setSaleLoading(false);
-                    });
-                }
-                else {
-                    await putPackUpForSale(props.account, props.state.id, parseAmountToVext(price), 0, 0, config.mumbai_contract_addresses.vt_contract).then((e) => {
-                        //alert("E: " + JSON.stringify(e));
-                        setSaleLoading(false);
-                    });
-                }
+            catch (e) {
+                props.setError(true);
             }
             }}>
             {!saleLoading && !listed && "Continue"} {saleLoading &&

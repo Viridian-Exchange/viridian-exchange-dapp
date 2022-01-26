@@ -4,7 +4,7 @@ import styles from "./Item.module.sass";
 import Users from "./Users";
 import Control from "./Control";
 import Options from "./Options";
-import { useLocation, withRouter } from 'react-router-dom';
+import { useLocation, withRouter, useHistory } from 'react-router-dom';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { Carousel } from 'react-responsive-carousel';
 import {parseVextAmount} from "../../Utils";
@@ -22,10 +22,12 @@ const Item = (props) => {
   const [ownerUser, setOwnerUser] = useState({});
   //const {passedState} = props.location.state
   const location = useLocation();
+
   const prices = useCryptoPrices(["eth"]);
 
   useEffect(async () => {
-    //alert(location.state.nftOwner)
+    //alert(JSON.stringify(location));
+    //history.push(location.pathname);
     if(location.state) {
       if (location.state.nftOwner) {
         let res = await FetchUserRet(location.state.nftOwner.toLowerCase());
@@ -63,7 +65,7 @@ const Item = (props) => {
 
   return (
     <>
-      {/*<div>{JSON.stringify(props)}</div>*/}
+      {/*<div>{JSON.stringify(location.state)}</div>*/}
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
           <div className={styles.bg}>
@@ -97,26 +99,26 @@ const Item = (props) => {
                   </div>
                   <div>
                     <div className={styles.categories}>
-                    {showCategories && categories.map((x, index) => (
-                        <div
-                            className={cn(
-                                { "status-black": x.category === "black" },
-                                { "status-purple": x.category === "purple" },
-                                { "status-gold": x.category === "gold" },
-                                { "status-blue": x.category === "blue" },
-                                styles.category
-                            )}
-                            key={index}
-                        >
-                          {x.content}
-                        </div>
-                    ))}
-                  </div>
-                  <img
-                      //srcSet="/images/content/item-pic@2x.jpg 2x"
-                      src={location.state.uri.imageBack}
-                      alt="Item2"
-                  />
+                      {showCategories && categories.map((x, index) => (
+                          <div
+                              className={cn(
+                                  { "status-black": x.category === "black" },
+                                  { "status-purple": x.category === "purple" },
+                                  { "status-gold": x.category === "gold" },
+                                  { "status-blue": x.category === "blue" },
+                                  styles.category
+                              )}
+                              key={index}
+                          >
+                            {x.content}
+                          </div>
+                      ))}
+                    </div>
+                    <img
+                        //srcSet="/images/content/item-pic@2x.jpg 2x"
+                        src={location.state.uri.imageBack}
+                        alt="Item2"
+                    />
                   </div>
                 </Carousel>}
               {location.state.isPack &&
@@ -170,7 +172,7 @@ const Item = (props) => {
             {/*{JSON.stringify(ownerUser)}*/}
 
             <Users account={props.account} className={styles.users} items={users} owner={location.state.nftOwner} ownerUser={ownerUser} />
-            <Control isETH={location.state.isETH} isVNFT={location.state.isVNFT} isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
+            <Control setSuccess={props.setSuccess} setError={props.setError} isETH={location.state.isETH} isVNFT={location.state.isVNFT} isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
           </div>
         </div>
       </div>

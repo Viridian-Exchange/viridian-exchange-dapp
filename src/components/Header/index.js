@@ -4,7 +4,7 @@ import cn from "classnames";
 import styles from "./Header.module.sass";
 import Icon from "../Icon";
 import Image from "../Image";
-import Notification from "./Notification";
+import NotificationBell from "./NotificationBell";
 import User from "./User";
 import { useLocation, useHistory } from "react-router-dom";
 import Fuse from "fuse.js";
@@ -178,6 +178,15 @@ const Headers = (props) => {
                     >
                       Discover
                     </Link>
+                    {/*<Link*/}
+                    {/*    style={{marginTop: '2ex'}}*/}
+                    {/*    className={styles.link}*/}
+                    {/*    activeClassName={styles.active}*/}
+                    {/*    to="/drops"*/}
+                    {/*    key={1}*/}
+                    {/*>*/}
+                    {/*  Drops*/}
+                    {/*</Link>*/}
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
@@ -209,7 +218,7 @@ const Headers = (props) => {
                 </div>
 
 
-              <Notification className={styles.notification} account = {props.account} />
+              <NotificationBell className={styles.notification} account = {props.account} />
 
 
               {/*<Link*/}
@@ -220,7 +229,7 @@ const Headers = (props) => {
               {/*</Link>*/}
               {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
-                    href="https://faucets.chain.link/mumbai"
+                    href="https://faucet.polygon.technology/"
                   //to="/BuyCrypto"
                   >
                 Get Crypto
@@ -261,11 +270,19 @@ const Headers = (props) => {
               >
                 Discover
               </Link>
+              {/*<Link*/}
+              {/*    className={styles.link}*/}
+              {/*    activeClassName={styles.active}*/}
+              {/*    to="/drops"*/}
+              {/*    key={1}*/}
+              {/*>*/}
+              {/*  Drops*/}
+              {/*</Link>*/}
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
                   href="https://viridianexchange.com"
-                  // key={0}
+                  key={2}
               >
                 About
               </a>
@@ -273,7 +290,7 @@ const Headers = (props) => {
                   className={styles.link}
                   activeClassName={styles.active}
                   to="/faq"
-                  key={1}
+                  key={3}
               >
                 Help
               </Link>
@@ -312,7 +329,6 @@ const Headers = (props) => {
                   options={dropdownOptions}
                   visible={visible}
                   setVisible={setVisible}
-
               />
               <button className={styles.result}>
                 <Icon name="search" size="20" />
@@ -321,7 +337,7 @@ const Headers = (props) => {
           </div>
 
 
-        <Notification className={styles.notification} account = {props.account}/>
+        <NotificationBell className={styles.notification} account = {props.account}/>
 
 
         {/*<Link*/}
@@ -332,7 +348,7 @@ const Headers = (props) => {
         {/*</Link>*/}
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
-              href="https://faucets.chain.link/mumbai"
+              href="https://faucet.polygon.technology/"
             //to="/BuyCrypto"
             >
           Get Crypto

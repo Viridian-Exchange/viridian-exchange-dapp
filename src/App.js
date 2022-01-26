@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import '@progress/kendo-theme-default/dist/all.css';
 import "./styles/app.sass";
 import Page from "./components/Page";
 import Home from "./screens/Home";
@@ -15,6 +16,7 @@ import Search02 from "./screens/Search02";
 import OfferScreen from "./screens/OfferScreen";
 import Profile from "./screens/Profile";
 import ProfileEdit from "./screens/ProfileEdit";
+import Drops from "./screens/Drops";
 import Item from "./screens/Item";
 import PageList from "./screens/PageList";
 import config from "./local-dev-config";
@@ -33,6 +35,7 @@ import {ownerOfPackNoReq} from "./smartContracts/ViridianPackMethods";
 import posthog from 'posthog-js';
 import  { Breakpoint, BreakpointProvider } from 'react-socks';
 import Fortmatic from 'fortmatic';
+import AnimatedPopup from "./components/AnimatedPopup";
 
 // const customNodeOptions = {
 //     rpcUrl: 'https://matic-mumbai.chainstacklabs.com/', // your own node url
@@ -82,6 +85,8 @@ function App() {
     const [users, setUsers] = useState([]);
     const [initialLoaded, setInitialLoaded] = useState(false);
     const [filteredNfts, setFilteredNFTs] = useState([]);
+    const [success, setSuccess] = useState(false);
+    const [error, setError] = useState(false);
     //const [nftsSet, setNftsSet] = useState(false);
     let nftsSet = false;
 
@@ -630,6 +635,7 @@ function App() {
       <CryptoPriceProvider >
           <BreakpointProvider>
     <Router forceRefresh={true}>
+        <AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>
         {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
         <Route
@@ -683,6 +689,15 @@ function App() {
             </Page>
           )}
         />
+      {/*<Route*/}
+      {/*    exact*/}
+      {/*    path="/drops"*/}
+      {/*    render={() => (*/}
+      {/*        <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>*/}
+      {/*            <Drops />*/}
+      {/*        </Page>*/}
+      {/*    )}*/}
+      {/*/>*/}
         <Route
           exact
           path="/faq"
@@ -725,7 +740,7 @@ function App() {
           render={() => (
             <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
                 {/*{JSON.stringify(users)}*/}
-                <Profile users={users} cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed}/>
+                <Profile users={users} cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed} setSuccess={setSuccess} setError={setError} />
             </Page>
           )}
         />
@@ -743,7 +758,7 @@ function App() {
           path="/item/:type/:id"
           render={() => (
             <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Item account={account}/>
+              <Item account={account} setSuccess={setSuccess} setError={setError} />
             </Page>
           )}
         />
@@ -752,7 +767,7 @@ function App() {
               path="/offer/:id"
               render={() => (
                   <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                      <OfferScreen account={account}/>
+                      <OfferScreen account={account} setSuccess={setSuccess} setError={setError} />
                   </Page>
               )}
           />

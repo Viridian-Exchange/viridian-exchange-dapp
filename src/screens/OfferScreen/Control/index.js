@@ -17,12 +17,14 @@ import styles1 from "../../Item/Control/Checkout/Checkout.module.sass";
 import LoaderCircle from "../../../components/LoaderCircle";
 import Icon from "../../../components/Icon";
 import {getWeb3Socket, parseVextAmount} from "../../../Utils";
+import OfferBuilder from "../../../components/OfferBuilder";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
   const [visibleModalBid, setVisibleModalBid] = useState(false);
   const [visibleModalAccept, setVisibleModalAccept] = useState(false);
   const [visibleModalSale, setVisibleModalSale] = useState(false);
+  const [visibleModalCO, setVisibleModalCO] = useState(false);
   //const [currentUser, setCurrentUser] = useState(false);
   const [isListing, setIsListing] = useState(false);
   const [offers, setOffers] = useState([]);
@@ -32,7 +34,7 @@ const Control = (props, { className }) => {
   const [accepted, setAccepted] = useState(false);
   const [eventData, setEventData] = useState({});
 
-  let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
+  let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
   useEffect(async () => {
 
@@ -122,15 +124,16 @@ const Control = (props, { className }) => {
     <>
       <div className={cn(styles.control, className)}>
         <div className={styles.head}>
+            {/*{"NFTz: " + JSON.stringify(props.otherNFTs)}*/}
           {/*<div className={styles.avatar}>*/}
           {/*  <img src="/images/content/avatar-4.jpg" alt="Avatar" />*/}
           {/*</div>*/}
           <div className={styles.details}>
               {/*{JSON.stringify(props)}*/}
               {(props.isETH && props.toAccepted && !props.fromAccepted) ? <div className={styles.info}>
-              Approve accepted offer
+              Approve Offer
             </div> : <div className={styles.info}>
-                  Accept offer
+                  Offer
               </div>}
             <div className={styles.cost}>
                 {props.isETH ? [<div className={styles.price}>{web3.utils.fromWei(props.fromVEXT)} ETH</div>,
@@ -179,6 +182,13 @@ const Control = (props, { className }) => {
               >
                   Accept
               </button>
+
+              {props.rec && <button
+                  className={cn("button", styles.button)}
+                  onClick={async () => {setVisibleModalCO(true)}}
+              >
+                  Counter Offer
+              </button>}
           </div>}
 
           {loading &&
@@ -245,6 +255,15 @@ const Control = (props, { className }) => {
       >
         <PutSale account={props.account} state={props.state} price={props.price} />
       </Modal>
+        <Modal
+            visible={visibleModalCO}
+            onClose={() => setVisibleModalCO(false)}
+        >
+            {/*{JSON.stringify(props.nfts)}*/}
+            <OfferBuilder class={styles.items} toNFTsPreSel={props.toNFTs} toPacksPreSel={props.toPacks} fromNFTsPreSel={props.fromNFTs} fromPacksPreSel={props.fromPacks} toAmount={props.toVEXT} fromAmount={props.fromVEXT}
+                          nfts={props.otherNFTs} packs={props.otherPacks} otherNFTs={props.nfts} otherPacks={props.packs} account={props.account} curAccount={props.account}
+                          to={props.to} from={props.from} counterOffer={true} />
+        </Modal>
     </>
   );
 };

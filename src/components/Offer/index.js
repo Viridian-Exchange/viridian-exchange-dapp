@@ -9,7 +9,8 @@ import oStyles from "./Card.module.sass";
 import {FetchUserRet} from "../../apis/UserAPI";
 
 
-const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProfilePhoto, otherUser, sent }, props) => {
+const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProfilePhoto, otherUser, sent, rec,
+                   nfts, packs, otherNFTs, otherPacks}, props) => {
   const [visible, setVisible] = useState(false);
   const [toUser, setToUser] = useState({});
   const [fromUser, setFromUser] = useState({});
@@ -45,11 +46,12 @@ const Offer = ({ className, item, account, isListing, curProfilePhoto, otherProf
     //TODO: Will likely have to flip how the to and from NFTs and VEXT are displayed as the
   return (
       // TODO: REMINDER THIS IS FLIPPED, MAKE SURE PEOPLE KNOW THIS MIGHT HAVE TO REFACTOR BECAUSE IT IS CONFUSING
-      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {send: sent, offerId: item.offerId, toVEXT: item.fromAmt, toNFTs: item.fromNftIds, toPacks: item.fromPackIds,
-              fromVEXT: item.toAmt, fromNFTs: item.toNftIds, fromPacks: item.toPackIds, otherUser: otherUser, isETH: !item.isVEXT, toAccepted: item.toAccepted, fromAccepted: item.fromAccepted}}}>
+      <Link className={styles.link} to={{ pathname: `/offer/${1}`, state: {send: sent, to: item.to, from: item.from, offerId: item.offerId, toVEXT: item.fromAmt, toNFTs: item.fromNftIds, toPacks: item.fromPackIds,
+              fromVEXT: item.toAmt, fromNFTs: item.toNftIds, fromPacks: item.toPackIds, otherUser: otherUser, isETH: !item.isVEXT, toAccepted: item.toAccepted, fromAccepted: item.fromAccepted, rec: rec,
+              nfts: nfts, packs: packs, otherNFTs: otherNFTs, otherPacks: otherPacks}}}>
     <div className={cn(styles.card, className)}>
         {/*{"ITM: " + JSON.stringify(otherUser.profilePhotoURL)}*/}
-        {/*{JSON.stringify((item.to.toLowerCase())) + " " + JSON.stringify(account.toLowerCase())}*/}
+        {/*{JSON.stringify(nfts) + " " + JSON.stringify(packs)}*/}
         {/*{JSON.stringify(item)}*/}
         <Users items={users} toVEXT={item.toAmt} toNFTs={item.toNftIds} toPacks={item.toPackIds} fromVEXT={item.fromAmt} fromNFTs={item.fromNftIds} fromPacks={item.fromPackIds} curProfilePhoto={fromUser.profilePhotoURL} isETH={!item.isVEXT}
                                                                                           otherProfilePhoto={toUser.profilePhotoURL} account={account}/>

@@ -7,7 +7,7 @@ import Pack from "../../../components/Pack";
 import Loader from "../../../components/Loader";
 import Offer from "../../../components/Offer";
 
-const Items = ({ className, items, nfts, packs, isListing, account, offers, curProfilePhoto, users, dropDownOption }, props) => {
+const Items = ({ className, items, nfts, packs, otherNFTs, otherPacks, offerNFTs, offerPacks, otherOfferNFTs, otherOfferPacks, isListing, account, offers, curProfilePhoto, users, dropDownOption }, props) => {
 
     if (nfts) {
         return (
@@ -71,11 +71,13 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                                 if (x.pending) {
                                     if (dropDownOption === "Sent Offers" && account.toLowerCase() === x.from.toLowerCase()) {
                                         return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                                       account={account} curProfilePhoto={curProfilePhoto} sent={true} />);
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={true} rec={false} />);
                                     }
                                     else if (dropDownOption === "Received Offers" && account.toLowerCase() === x.to.toLowerCase()) {
                                         return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                                       account={account} curProfilePhoto={curProfilePhoto} sent={false}/>);
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={false}
+                                                       rec={true}
+                                                       userInfo = {props.userInfo} nfts={offerNFTs} packs={offerPacks} otherNFTs={otherOfferNFTs} otherPacks={otherOfferPacks} />);
                                     }
                                 }
                             }
@@ -84,11 +86,14 @@ const Items = ({ className, items, nfts, packs, isListing, account, offers, curP
                                 if (x.pending) {
                                     if (dropDownOption === "Sent Offers" && account.toLowerCase() === x.from.toLowerCase()) {
                                         return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                                       account={account} curProfilePhoto={curProfilePhoto} sent={true} />);
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={true}
+                                                       rec={false} />);
                                     }
                                     else if (dropDownOption === "Received Offers" && account.toLowerCase() === x.to.toLowerCase()) {
                                         return (<Offer className={styles.card} item={x} otherUser={user} key={index}
-                                                       account={account} curProfilePhoto={curProfilePhoto} sent={false}/>);
+                                                       account={account} curProfilePhoto={curProfilePhoto} sent={false}
+                                                       rec={true}
+                                                       userInfo = {props.userInfo} nfts={offerNFTs} packs={offerPacks} otherNFTs={otherOfferNFTs} otherPacks={otherOfferPacks} />);
                                     }
                                 }
                             }
