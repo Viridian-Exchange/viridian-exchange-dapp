@@ -169,24 +169,24 @@ const Headers = (props) => {
                         <Icon name="search" size="20" />
                       </button>
                     </form>
-                    <Link
-                        style={{marginTop: '2ex'}}
-                        className={styles.link}
-                        activeClassName={styles.active}
-                        to="/search01"
-                        key={0}
-                    >
-                      Discover
-                    </Link>
                     {/*<Link*/}
                     {/*    style={{marginTop: '2ex'}}*/}
                     {/*    className={styles.link}*/}
                     {/*    activeClassName={styles.active}*/}
-                    {/*    to="/drops"*/}
-                    {/*    key={1}*/}
+                    {/*    to="/search01"*/}
+                    {/*    key={0}*/}
                     {/*>*/}
-                    {/*  Drops*/}
+                    {/*  Discover*/}
                     {/*</Link>*/}
+                    <Link
+                        style={{marginTop: '2ex'}}
+                        className={styles.link}
+                        activeClassName={styles.active}
+                        to="/mint"
+                        key={1}
+                    >
+                      Mint
+                    </Link>
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
@@ -262,22 +262,22 @@ const Headers = (props) => {
         </Link>
           <div className={cn(styles.wrapper, { [styles.active]: visibleNav })}>
             <nav className={styles.nav}>
-              <Link
-                  className={styles.link}
-                  activeClassName={styles.active}
-                  to="/search01"
-                  key={0}
-              >
-                Discover
-              </Link>
               {/*<Link*/}
               {/*    className={styles.link}*/}
               {/*    activeClassName={styles.active}*/}
-              {/*    to="/drops"*/}
-              {/*    key={1}*/}
+              {/*    to="/search01"*/}
+              {/*    key={0}*/}
               {/*>*/}
-              {/*  Drops*/}
+              {/*  Discover*/}
               {/*</Link>*/}
+              <Link
+                  className={styles.link}
+                  activeClassName={styles.active}
+                  to="/mint"
+                  key={1}
+              >
+                Mint
+              </Link>
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
@@ -306,38 +306,38 @@ const Headers = (props) => {
               {/*  </a>*/}
               {/*))}*/}
             </nav>
-            <form
-                className={styles.search}
-                action=""
-                onSubmit={() => handleSubmit()}
-            >
-              <input
-                  autoComplete="off"
-                  className={styles.input}
-                  type="text"
-                  onChange={(e) => {
-                    handleChange(e.target.value);
-                  }}
-                  value={searchString}
-                  name="search"
-                  placeholder="Search"
-                  required
-              />
-              <SearchDropdown //className={styles.dropdown}
-                  //value={option}
-                  //setValue={setOption}
-                  options={dropdownOptions}
-                  visible={visible}
-                  setVisible={setVisible}
-              />
-              <button className={styles.result}>
-                <Icon name="search" size="20" />
-              </button>
-            </form>
+            {/*<form*/}
+            {/*    className={styles.search}*/}
+            {/*    action=""*/}
+            {/*    onSubmit={() => handleSubmit()}*/}
+            {/*>*/}
+            {/*  <input*/}
+            {/*      autoComplete="off"*/}
+            {/*      className={styles.input}*/}
+            {/*      type="text"*/}
+            {/*      onChange={(e) => {*/}
+            {/*        handleChange(e.target.value);*/}
+            {/*      }}*/}
+            {/*      value={searchString}*/}
+            {/*      name="search"*/}
+            {/*      placeholder="Search"*/}
+            {/*      required*/}
+            {/*  />*/}
+            {/*  <SearchDropdown //className={styles.dropdown}*/}
+            {/*      //value={option}*/}
+            {/*      //setValue={setOption}*/}
+            {/*      options={dropdownOptions}*/}
+            {/*      visible={visible}*/}
+            {/*      setVisible={setVisible}*/}
+            {/*  />*/}
+            {/*  <button className={styles.result}>*/}
+            {/*    <Icon name="search" size="20" />*/}
+            {/*  </button>*/}
+            {/*</form>*/}
           </div>
 
 
-        <NotificationBell className={styles.notification} account = {props.account}/>
+        {/*<NotificationBell className={styles.notification} account = {props.account}/>*/}
 
 
         {/*<Link*/}

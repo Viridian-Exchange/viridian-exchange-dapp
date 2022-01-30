@@ -191,7 +191,7 @@ function App() {
                     // check if the chain to connect to is installed
                     await window.ethereum.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x13881' }], // chainId must be in hexadecimal numbers
+                        params: [{ chainId: '0x4' }], // chainId must be in hexadecimal numbers
                     });
                 } catch (error) {
                     // This error code indicates that the chain has not been added to MetaMask
@@ -203,15 +203,8 @@ function App() {
                                 method: 'wallet_addEthereumChain',
                                 params: [
                                     {
-                                        chainName: 'Polygon Testnet Mumbai',
-                                        chainId: '0x13881',
-                                        nativeCurrency: {
-                                            name: 'Polygon',
-                                            symbol: 'MATIC',
-                                            decimals: 18
-                                        },
-                                        rpcUrls: ['https://matic-mumbai.chainstacklabs.com'],
-                                        blockExplorerUrls: ['https://mumbai.polygonscan.com/']
+                                        chainName: 'Rinkeby Test Network',
+                                        chainId: '0x4'
                         },
                                 ],
                             });
@@ -638,145 +631,27 @@ function App() {
         <AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>
         {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
-        <Route
-          exact
-          path="/"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                {/*{"ON: " + JSON.stringify(users)}*/}
-                <Home nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts}
-                      ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks}
-                  users = {users} listings={listings} setListings={setListings} nfts={nfts}
-                    account={account} isListing={true} promptSetup = {promptSetup} setPromptSetup = {setPromptSetup} promptInstallMetamask = {promptInstallMetamask} setPromptInstallMetamask = {setPromptInstallMetamask}
-              userInfo = {userInfo} setUserInfo = {setUserInfo} connected = {connected}/>
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/upload-variants"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <UploadVariants />
-            </Page>
-          )}
-        />
           <Route
               exact
-              path="/BuyCrypto"
-              render={() => (
-
-                  <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                      <PayPal/>
-                  </Page>
-              )}
-          />
-        <Route
+              path="/"
+          >
+              <Redirect to="/mint" />
+          </Route>
+      <Route
           exact
-          path="/upload-details"
+          path="/mint"
           render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <UploadDetails />
-            </Page>
+              <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
+                  <Drops account={account}/>
+              </Page>
           )}
-        />
-        <Route
-          exact
-          path="/connect-wallet"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <ConnectWallet vextBalance={vextBalance}/>
-            </Page>
-          )}
-        />
-      {/*<Route*/}
-      {/*    exact*/}
-      {/*    path="/drops"*/}
-      {/*    render={() => (*/}
-      {/*        <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>*/}
-      {/*            <Drops />*/}
-      {/*        </Page>*/}
-      {/*    )}*/}
-      {/*/>*/}
+      />
         <Route
           exact
           path="/faq"
           render={() => (
             <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
               <Faq />
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/activity"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Activity />
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/search01"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Search01 listings={listings} setListings={setListings} nfts={filteredNfts} account={account} />
-            </Page>
-          )}
-        />
-        {/*<Route*/}
-        {/*  exact*/}
-        {/*  path="/search02"*/}
-        {/*  render={() => (*/}
-        {/*    <Page users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>*/}
-        {/*      <Search02 listings={listings} setListings={setListings} nfts={nfts} account={account} />*/}
-        {/*    </Page>*/}
-        {/*  )}*/}
-        {/*/>*/}
-        <Route
-          exact
-          path="/profile/:address"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} setOwnedNFTs={setOwnedPacks} setOwnedPacks={setOwnedNfts} users={users} ownedPacks={ownedPacks} ownedNFTs={ownedNfts} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                {/*{JSON.stringify(users)}*/}
-                <Profile users={users} cameFromHome={true} nfts={nfts} account={account} userInfo = {userInfo} setUserInfo = {setUserInfo} ownedNFTs = {ownedNfts} setOwnedNFTs = {setOwnedNfts} ownedPacks = {ownedPacks} setOwnedPacks = {setOwnedPacks} setFetchedAndParsed={setFetchedAndParsed} setSuccess={setSuccess} setError={setError} />
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/profile-edit"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <ProfileEdit account = {account} userInfo = {userInfo} setUserInfo = {setUserInfo} users = {users}/>
-            </Page>
-          )}
-        />
-        <Route
-          exact
-          path="/item/:type/:id"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <Item account={account} setSuccess={setSuccess} setError={setError} />
-            </Page>
-          )}
-        />
-          <Route
-              exact
-              path="/offer/:id"
-              render={() => (
-                  <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-                      <OfferScreen account={account} setSuccess={setSuccess} setError={setError} />
-                  </Page>
-              )}
-          />
-        <Route
-          exact
-          path="/pagelist"
-          render={() => (
-            <Page setPromptInstallMetamask = {setPromptInstallMetamask} users={users} nfts={nfts} filteredNfts={filteredNfts} setFilteredNFTs={setFilteredNFTs} ethBalance={ethBalance} setEthBalance={setEthBalance} vextBalance={vextBalance} setVextBalance={setVextBalance} account = {account} setAccount = {setAccount} connected = {connected} setConnected = {setConnected} userInfo = {userInfo} setUserInfo = {setUserInfo}>
-              <PageList />
             </Page>
           )}
         />

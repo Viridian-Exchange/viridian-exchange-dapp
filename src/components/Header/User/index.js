@@ -22,11 +22,6 @@ let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.al
 //TODO: Instead of account, pass in user with all info through to profile/user
 const items = (account) => [
   {
-    title: "My profile",
-    icon: "user",
-    url: `/profile/${account}`,
-  },
-  {
     title: "Disconnect",
     icon: "exit",
     url: "/",

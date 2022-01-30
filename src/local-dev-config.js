@@ -8,6 +8,10 @@ module.exports = {
         vrf_contract: "0x7CA32d69BEa36B32c2f00943013971Ed5432e49f"
     },
 
+    rinkeby_contract_addresses: {
+        v1ep_contract: "0xf9a03E84343EA660fDc2b5f716EE64298F39F513"
+    },
+
     ropsten_contract_addresses_old: {
         vnft_contract: "0x0aA44A28c8694a24C981fcC45708C984391604F0",
         ve_contract: "0x1794455224a6426006a951a04C878C0A3406163B",
