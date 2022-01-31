@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route, Redirect, useHistory } from "react-router-dom";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import '@progress/kendo-theme-default/dist/all.css';
+// import '@progress/kendo-theme-default/dist/all.css';
 import "./styles/app.sass";
 import Page from "./components/Page";
 import Home from "./screens/Home";
@@ -628,7 +628,7 @@ function App() {
       <CryptoPriceProvider >
           <BreakpointProvider>
     <Router forceRefresh={true}>
-        <AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>
+        {/*<AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>*/}
         {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
           <Route
