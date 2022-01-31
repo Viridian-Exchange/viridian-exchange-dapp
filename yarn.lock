@@ -2788,11 +2788,6 @@
   dependencies:
     prop-types "^15.6.0"
 
-"@progress/kendo-theme-default@^5.1.1":
-  version "5.1.1"
-  resolved "https://registry.yarnpkg.com/@progress/kendo-theme-default/-/kendo-theme-default-5.1.1.tgz#5d4839d92aea569b601f39246a6580d313c0e75c"
-  integrity sha512-cDab0761NyX1JiF9Iuv+bdavjFALF1ROqP+qPKK0QCxx89/n/qJNBCKGaWe8lCRm3dwpyN0PGyAeQ/Os8sbyMA==
-
 "@ramonak/react-progress-bar@^4.2.0":
   version "4.2.0"
   resolved "https://registry.yarnpkg.com/@ramonak/react-progress-bar/-/react-progress-bar-4.2.0.tgz#010a31a740cdb906556cebc9d8534f6e6a571587"
