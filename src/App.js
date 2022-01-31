@@ -17,15 +17,12 @@ import OfferScreen from "./screens/OfferScreen";
 import Profile from "./screens/Profile";
 import ProfileEdit from "./screens/ProfileEdit";
 import Drops from "./screens/Drops";
-import Item from "./screens/Item";
-import PageList from "./screens/PageList";
 import config from "./local-dev-config";
 import veJSON from "./abis/ViridianExchange.json";
 import vNFTJSON from "./abis/ViridianNFT.json";
 import Web3 from "web3";
 import vTJSON from "./abis/ViridianToken.json";
 import BigNumber from "bignumber.js";
-import Modal from "./components/Modal";
 import {FetchAllUsers, FetchUser, HandleAddUser, HandleAddUserSimple, HandleUpdateUser} from "./apis/UserAPI";
 import {
     useCryptoPrices,
