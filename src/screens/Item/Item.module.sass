@@ -43,7 +43,7 @@
         width: 100%
 
 .preview
-    position: relative
+    float: right
     img
         width: 100%
         border-radius: 16px
@@ -53,13 +53,14 @@
 
 .options
     position: absolute
-    top: auto
     left: 50%
-    bottom: 24px
+    bottom: 10px
     transform: translateX(-50%)
 
 .title
     margin-bottom: 8px
+    +m
+        margin-top: 4ex
 
 .cost
     display: flex

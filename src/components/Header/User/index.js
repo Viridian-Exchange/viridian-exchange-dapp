@@ -161,7 +161,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
             <img src={userInfo.profilePhotoURL + "?" + new Date().getTime()} alt="Avatar" />
             </div>,
                 <div>{(ethBalance === 0) && (parseVextBalance(vextBalance) !== "0.00") ? <div className={styles.wallet}>
-          {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
+          {parseVextBalance(vextBalance)} <span className={styles.currency}>USDC</span>
             </div> : <div className={styles.wallet}>
                   <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                   {ethBalance}
@@ -191,7 +191,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                       <div className={styles.details} style={{marginLeft: '-1ex'}}>
                         <div className={styles.info}>Balance</div>
                         <div>{(ethBalance === 0) ? <div className={styles.price}>
-                          {parseVextBalance(vextBalance)} <span className={styles.currency}>USDT</span>
+                          {parseVextBalance(vextBalance)} <span className={styles.currency}>USDC</span>
                         </div> : <div className={styles.price}>
                           <img style={{width: '2ex', marginTop: '-.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
                           {ethBalance}

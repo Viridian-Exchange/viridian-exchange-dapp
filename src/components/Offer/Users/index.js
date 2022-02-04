@@ -38,11 +38,11 @@ const Users = ({ className, items, owner, fromNFTs, toNFTs, fromPacks, toPacks, 
         trade = [
             {
                 NFTs: (fromNFTs.length + fromPacks.length) + " NFTs",
-                VEXT: parseVextAmount(fromVEXT) + " USDT",
+                VEXT: parseVextAmount(fromVEXT) + " USDC",
             },
             {
                 NFTs: (toNFTs.length + toPacks.length) + " NFTs",
-                VEXT: parseVextAmount(toVEXT) + " USDT",
+                VEXT: parseVextAmount(toVEXT) + " USDC",
             },
         ];
     }

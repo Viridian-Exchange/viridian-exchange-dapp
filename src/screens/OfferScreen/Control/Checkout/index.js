@@ -12,19 +12,19 @@ const Checkout = (props, { className }) => {
     const items = [
         {
             title: props.price,
-            value: "USDT",
+            value: "USDC",
         },
         {
             title: "Your balance",
-            value: "8.498 USDT",
+            value: "8.498 USDC",
         },
         {
             title: "Service fee",
-            value: "0 USDT",
+            value: "0 USDC",
         },
         {
             title: "You will pay",
-            value: props.price + " USDT",
+            value: props.price + " USDC",
         },
     ];
 

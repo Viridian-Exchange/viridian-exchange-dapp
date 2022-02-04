@@ -13,6 +13,7 @@ import {
   useCryptoPrices,
   CryptoPriceProvider
 } from "react-realtime-crypto-prices";
+import ReactImageMagnify from 'react-image-magnify';
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
@@ -69,11 +70,11 @@ const Item = (props) => {
       <div className={cn("section", styles.section)}>
         <div className={cn("container", styles.container)}>
           <div className={styles.bg}>
-            <div className={styles.preview} onMouseEnter={() => setShowCategories(true)}
+            <div style={{maxWidth: '55ex'}} className={styles.preview} onMouseEnter={() => setShowCategories(true)}
                  onMouseLeave={() => setShowCategories(false)}>
               {!location.state.isPack &&
-                <Carousel>
-                    <div>
+                <Carousel style={{maxWidth: '55ex', textAlign: 'center'}}>
+                    <div style={{maxWidth: '55ex', textAlign: 'center'}}>
                       <div className={styles.categories} >
                     {showCategories && categories.map((x, index) => (
                         <div
@@ -91,13 +92,27 @@ const Item = (props) => {
 
                     ))}
                   </div>
-                  <img
-                      //srcSet="/images/content/item-pic@2x.jpg 2x"
-                      src={location.state.uri.image}
-                      alt="Item"
-                  />
+                  {/*<img style={{maxWidth: '10ex'}}*/}
+                  {/*    //srcSet="/images/content/item-pic@2x.jpg 2x"*/}
+                  {/*    src={location.state.uri.image}*/}
+                  {/*    alt="Item"*/}
+                  {/*/>*/}
+                  <ReactImageMagnify {...{
+                    enlargedImagePosition: 'over',
+                    smallImage: {
+                      alt: 'Item',
+                      isFluidWidth: true,
+                      src: location.state.uri.image
+                    },
+                    largeImage: {
+                      src: location.state.uri.image,
+                      width: 1600,
+                      height: 2200
+                    }
+                  }} />
+
                   </div>
-                  <div>
+                  <div style={{maxWidth: '55ex'}}>
                     <div className={styles.categories}>
                       {showCategories && categories.map((x, index) => (
                           <div
@@ -114,11 +129,25 @@ const Item = (props) => {
                           </div>
                       ))}
                     </div>
-                    <img
-                        //srcSet="/images/content/item-pic@2x.jpg 2x"
-                        src={location.state.uri.imageBack}
-                        alt="Item2"
-                    />
+                    {/*<img style={{maxWidth: '10ex'}}*/}
+                    {/*    //srcSet="/images/content/item-pic@2x.jpg 2x"*/}
+                    {/*    src={location.state.uri.imageBack}*/}
+                    {/*    alt="Item2"*/}
+                    {/*/>*/}
+
+                    <ReactImageMagnify {...{
+                      enlargedImagePosition: 'over',
+                      smallImage: {
+                        alt: 'Item',
+                        isFluidWidth: true,
+                        src: location.state.uri.imageBack
+                      },
+                      largeImage: {
+                        src: location.state.uri.imageBack,
+                        width: 1200,
+                        height: 1800
+                      }
+                    }} />
                   </div>
                 </Carousel>}
               {location.state.isPack &&
@@ -127,14 +156,15 @@ const Item = (props) => {
               </video> }
             </div>
             {/*{JSON.stringify(location.state)}*/}
-            <Options className={styles.options} isETH={location.state.isETH} price={location.state.price} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo} isListing={location.state.isListing} isPack = {location.state.isPack} />
           </div>
-          <div className={styles.details}>
+          <div style={{marginLeft: '10ex', marginTop: '5ex'}}>
+          </div>
+            <div className={styles.details}>
             <h1 className={cn("h3", styles.title)}>{location.state.uri.name}</h1>
             <div className={styles.cost}>
               {location.state.price && [<div className={cn("status-stroke-green", styles.price)}>
                 {location.state.isETH ?
-                    <div>{parseVextAmount(location.state.price)} ETH </div> : <div>{parseVextAmount(location.state.price)} USDT </div>
+                    <div>{parseVextAmount(location.state.price)} ETH </div> : <div>{parseVextAmount(location.state.price)} USDC </div>
                 }
               </div>,
                 <div>{location.state.isETH && <div className={cn("status-stroke-black", styles.price)}>
@@ -173,7 +203,9 @@ const Item = (props) => {
 
             <Users account={props.account} className={styles.users} items={users} owner={location.state.nftOwner} ownerUser={ownerUser} />
             <Control setSuccess={props.setSuccess} setError={props.setError} isETH={location.state.isETH} isVNFT={location.state.isVNFT} isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
-          </div>
+              <Options className={styles.options} isETH={location.state.isETH} price={location.state.price} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo} isListing={location.state.isListing} isPack = {location.state.isPack} />
+
+            </div>
         </div>
       </div>
     </>

@@ -35,20 +35,20 @@ const Checkout = (props, { className }) => {
 
     const items = [
         {
-            title: parseVextAmount(props.price),
-            value: "ETH",
+            title: "SDTPrice",
+            value: parseVextAmount(props.price) + " ETH",
         },
-        {
-            title: "Your balance",
-            value: "0 ETH",
-        },
+        // {
+        //     title: "Your balance",
+        //     value: "0 ETH",
+        // },
         {
             title: "Service fee",
-            value: "0 ETH",
+            value: parseVextAmount(props.price) * 0.05 + " ETH",
         },
         {
             title: "You will pay",
-            value: parseVextAmount(props.price) + " ETH",
+            value:  parseFloat(parseVextAmount(props.price))+ parseFloat(parseVextAmount(props.price) * 0.05) + " ETH",
         },
     ];
 

@@ -22,7 +22,7 @@ const items = [
             + {metamaskLink} + ". Once your account is set up, you're ready to get started! Relaunch our app, and after clicking \"Connect Wallet\", MetaMask should automatically prompt you to connect your wallet on the correct network \"Rompten Test Network\". Now, you can set up your profile and get started on our platform!\n" +
             "\n" +
             "If you are still having issues setting up your wallet , please refer to this instructional video [here](https://www.youtube.com/watch?v=WAStJtjYI_c&ab_channel=CryptoJumpstart)."},
-      {learnMore: "https://viridianexchange.com", question: "What Cryptocurrencies does Viridian Exchange Support?", answer: "To start off, Viridian Exchange will offer support for Ether and USDT (a stable cryptocurrency which is backed by the US dollar) for payments. Later on, we plan on adding support for a wide variety of ERC-20 tokens so users can have numerous choices for payment when transacting our NFTs. "},
+      {learnMore: "https://viridianexchange.com", question: "What Cryptocurrencies does Viridian Exchange Support?", answer: "To start off, Viridian Exchange will offer support for Ether and USDC (a stable cryptocurrency which is backed by the US dollar) for payments. Later on, we plan on adding support for a wide variety of ERC-20 tokens so users can have numerous choices for payment when transacting our NFTs. "},
     ],
   },
   {
@@ -33,7 +33,7 @@ const items = [
       {learnMore: "https://ethereum.org/en/dapps/", question: "What is a wallet?", answer: "A cryptocurrency wallet is a device, physical medium, program or a service which stores the public and/or private keys for cryptocurrency transactions. In addition to this basic function of storing the keys, a cryptocurrency wallet more often also offers the functionality of encrypting and/or signing information."},
       {learnMore: "https://ethereum.org/en/dapps/", question: "How to get a wallet?", answer: "There are many wallet providers but for Viridian Exchange we recommend you use Metamask, you can get a metamask account by downloading the chrome extension or downloading the app from the metamask website."},
       {learnMore: "https://ethereum.org/en/dapps/", question: "How to connect a wallet?", answer: "The wallet will either connect automatically or the \"connect wallet\" button needs to be pressed. Assure that the Ropsten Testnet is selected in the metamask network selection section."},
-      {learnMore: "https://ethereum.org/en/dapps/", question: "How to interact with the dapp?", answer: "Every interaction is facilitated by the wallet, if you have the proper ETH balance (or USDT in certain instances) you can purchase, list, offer, and open nfts/packs on the site. \n" +
+      {learnMore: "https://ethereum.org/en/dapps/", question: "How to interact with the dapp?", answer: "Every interaction is facilitated by the wallet, if you have the proper ETH balance (or USDC in certain instances) you can purchase, list, offer, and open nfts/packs on the site. \n" +
             "Changes from various interactions will be reflected in the dapp and the wallet itself, if they don't line up either wait or refresh the page."},
     ],
   },
@@ -44,7 +44,7 @@ const items = [
       {learnMore: "https://ethereum.org/en/nft/#:~:text=NFTs%20are%20tokens%20that%20we,represent%20ownership%20of%20unique%20items.&text=They%20can%20only%20have%20one,stands%20for%20non%2Dfungible%20token.", question: "What is an NFT?", answer: "NFT stands for non-fungible token – a digital token that's a type of cryptocurrency, much like Bitcoin or Ethereum. But unlike a standard coin in the Bitcoin blockchain, an NFT is unique and can't be exchanged like-for-like (hence, non-fungible)."},
       {learnMore: "https://ethereum.org/en/nft/#:~:text=NFTs%20are%20tokens%20that%20we,represent%20ownership%20of%20unique%20items.&text=They%20can%20only%20have%20one,stands%20for%20non%2Dfungible%20token.", question: "What is a Viridian Pack?", answer: "Viridian packs are nfts themselves which when opened mint a certain number of randomly selected cards to the user's inventory."},
       {learnMore: "https://ethereum.org/en/nft/#:~:text=NFTs%20are%20tokens%20that%20we,represent%20ownership%20of%20unique%20items.&text=They%20can%20only%20have%20one,stands%20for%20non%2Dfungible%20token.", question: "How do I get NFTs and Packs?", answer: "NFTs and Packs can be bought or traded for on the exchange using your wallet."},
-      {learnMore: "https://ethereum.org/en/nft/#:~:text=NFTs%20are%20tokens%20that%20we,represent%20ownership%20of%20unique%20items.&text=They%20can%20only%20have%20one,stands%20for%20non%2Dfungible%20token.", question: "How do I sell NFTs and Packs?", answer: "NFTs and Packs can be sold or offered on the exchange for ETH or USDT using your wallet."},
+      {learnMore: "https://ethereum.org/en/nft/#:~:text=NFTs%20are%20tokens%20that%20we,represent%20ownership%20of%20unique%20items.&text=They%20can%20only%20have%20one,stands%20for%20non%2Dfungible%20token.", question: "How do I sell NFTs and Packs?", answer: "NFTs and Packs can be sold or offered on the exchange for ETH or USDC using your wallet."},
     ],
   },
   {

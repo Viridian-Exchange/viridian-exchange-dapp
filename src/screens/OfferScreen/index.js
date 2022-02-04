@@ -307,7 +307,7 @@ const OfferScreen = (props) => {
                 {activeIndex === 0 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
                     {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
-                        <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
+                        <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDC"}</div>}
                     {/*{JSON.stringify(toNFTs)}*/}
                   </div>,
                   <Items class={styles.items} nfts={toNFTs} isListing={false} account={props.account}/>
@@ -315,7 +315,7 @@ const OfferScreen = (props) => {
                 {activeIndex === 1 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
                     {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
-                        <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
+                        <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDC"}</div>}
                   </div>,
                   <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
                 ]}
@@ -326,14 +326,14 @@ const OfferScreen = (props) => {
                 {activeIndex === 0 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
                     {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.fromVEXT)} {" ETH"}</div> :
-                        <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDT"}</div>}
+                        <div className={styles.price}>{parseVextAmount(location.state.fromVEXT)} {" USDC"}</div>}
                   </div>,
                   <Items class={styles.items} nfts={fromNFTs} isListing={false} account={location.state.account}/>
                 ]}
                 {activeIndex === 1 && [
                   <div className={styles.line} style={{marginTop: '5ex'}}>
                     {isETH() ? <div className={styles.price}>{Web3.utils.fromWei(location.state.toVEXT)} {" ETH"}</div> :
-                        <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDT"}</div>}
+                        <div className={styles.price}>{parseVextAmount(location.state.toVEXT)} {" USDC"}</div>}
                     {/*{JSON.stringify(toNFTs)}*/}
                   </div>,
                   <Items class={styles.items} nfts={toNFTs} isListing={false} account={props.account}/>

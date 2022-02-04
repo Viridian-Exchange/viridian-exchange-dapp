@@ -68,7 +68,7 @@ const Pack = ({ className, item, account, isETH, isListing, curProfilePhoto, isH
               </div>,
                 <>{prices.eth && <>{!isHotBid ? <div style={{fontSize: '14.5px', float: 'right', marginLeft: '4ex', marginTop: '-3ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div> :
                     <div style={{fontSize: '14.5px', float: 'right', marginLeft: '4ex', marginTop: '-1.5ex'}}>${Math.round((prices.eth * Web3.utils.fromWei(item.price)) * 100) / 100}</div>}</>}</>]
-              : <div className={styles.price}>{parseVextAmount(item.price)} USDT</div>}</div>
+              : <div className={styles.price}>{parseVextAmount(item.price)} USDC</div>}</div>
           }
           <div
               className={styles.bid}

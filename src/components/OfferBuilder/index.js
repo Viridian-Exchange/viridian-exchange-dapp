@@ -318,7 +318,7 @@ const OfferBuilder = (props) => {
               label="They Receive"
               name="Twitter"
               type="text"
-              placeholder="USDT Amount"
+              placeholder="USDC Amount"
               required
           />}
           {/*{JSON.stringify(selectedGiveIds)}*/}
@@ -346,7 +346,7 @@ const OfferBuilder = (props) => {
               label="You Receive"
               name="Twitter"
               type="text"
-              placeholder="USDT Amount"
+              placeholder="USDC Amount"
               required
           />}
           {/*{JSON.stringify(selectedRecIds)}*/}

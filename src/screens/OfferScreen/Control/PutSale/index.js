@@ -17,7 +17,7 @@ let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.al
 const items = [
   {
     title: "Enter your price",
-    value: "USDT",
+    value: "USDC",
   },
   {
     title: "Service fee",
@@ -59,7 +59,7 @@ const PutSale = (props, { className }) => {
                 return (
                     <div className={styles.row} key={index}>
                         <div className={styles.col}>{x.title}</div>
-                        <TextInput placeholder={"USDT"} onChange={handlePriceChance} className={styles.col}/>
+                        <TextInput placeholder={"USDC"} onChange={handlePriceChance} className={styles.col}/>
                     </div>
                 );
             }

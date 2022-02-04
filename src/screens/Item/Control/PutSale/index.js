@@ -18,7 +18,7 @@ let web3 = new Web3( new Web3.providers.HttpProvider("https://polygon-mumbai.g.a
 const items = [
   {
     title: "Enter your price",
-    value: "USDT",
+    value: "USDC",
   },
   {
     title: "Service Fee",
@@ -77,7 +77,7 @@ const PutSale = (props, { className }) => {
         <div className={styles.details}>
           <div className={styles.info}>Pick Crypto</div>
           <div className={styles.text}>
-            Toggle whether you'd like the listing in ETH or USDT
+            Toggle whether you'd like the listing in ETH or USDC
           </div>
         </div>
         <Switch className={styles.switch} value={isETH} setValue={setIsETH} />
@@ -97,7 +97,7 @@ const PutSale = (props, { className }) => {
                     return (
                         <div className={styles.row} key={index}>
                             <div className={styles.col}>{x.title}</div>
-                            <TextInput placeholder={"USDT"} onChange={handlePriceChance} className={styles.col}/>
+                            <TextInput placeholder={"USDC"} onChange={handlePriceChance} className={styles.col}/>
                         </div>
                     );
                 }

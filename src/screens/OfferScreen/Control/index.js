@@ -137,8 +137,8 @@ const Control = (props, { className }) => {
               </div>}
             <div className={styles.cost}>
                 {props.isETH ? [<div className={styles.price}>{web3.utils.fromWei(props.fromVEXT)} ETH</div>,
-              <div className={styles.price}>{web3.utils.fromWei(props.toVEXT)} ETH</div>] : [<div className={styles.price}>{parseVextAmount(props.fromVEXT)} USDT</div>,
-                        <div className={styles.price}>{parseVextAmount(props.toVEXT)} USDT</div>]}
+              <div className={styles.price}>{web3.utils.fromWei(props.toVEXT)} ETH</div>] : [<div className={styles.price}>{parseVextAmount(props.fromVEXT)} USDC</div>,
+                        <div className={styles.price}>{parseVextAmount(props.toVEXT)} USDC</div>]}
             </div>
               <div className={styles.cost}>
               <div className={styles.price}>{props.fromNFTs.length} NFTS</div>
