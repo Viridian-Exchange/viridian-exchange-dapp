@@ -5,6 +5,9 @@
   "email_add_api": {
     "invokeUrl": "https://bb6bpg0kl0.execute-api.us-east-2.amazonaws.com/PROD"
   },
+  "email_api": {
+    "invokeUrl": "https://wcfwmmtf2k.execute-api.us-east-2.amazonaws.com/Prod"
+  },
   "s3": {
     "bucketName": "viridian-images",
     "dirName": "",
