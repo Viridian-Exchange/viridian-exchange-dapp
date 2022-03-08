@@ -13,7 +13,7 @@ const Description = () => {
     <div className={styles.section}>
       <div className={cn("container", styles.container)}>
         <div className={styles.wrap}>
-          <div className={styles.stage}>Secured by the Ethereum Blockchain</div>
+          <div className={styles.stage}>Secured by Polygon</div>
           <h1 className={cn("h1", styles.title)}>
             Bringing the <span className='text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
           </h1>

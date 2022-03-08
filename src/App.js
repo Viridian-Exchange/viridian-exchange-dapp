@@ -191,7 +191,7 @@ function App() {
                     // check if the chain to connect to is installed
                     await window.ethereum.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x13881' }], // chainId must be in hexadecimal numbers
+                        params: [{ chainId: '0x89' }], // chainId must be in hexadecimal numbers
                     });
                 } catch (error) {
                     // This error code indicates that the chain has not been added to MetaMask
@@ -203,8 +203,8 @@ function App() {
                                 method: 'wallet_addEthereumChain',
                                 params: [
                                     {
-                                        chainName: 'Polygon Testnet Mumbai',
-                                        chainId: '0x13881',
+                                        chainName: 'Polygon Mainnet',
+                                        chainId: '0x89',
                                         nativeCurrency: {
                                             name: 'Polygon',
                                             symbol: 'MATIC',
@@ -529,6 +529,8 @@ function App() {
 
         //alert("hi")
 
+        //console.log("USEEFF")
+
 
         if (!checkUserPrompt) {
 
@@ -545,25 +547,31 @@ function App() {
         isMetaMaskInstalled();
 
             ////console.log('Getting owned NFTs');
+
+        // if (!listings) {
+        //
+        //     await getListings().then(async (e) => {
+        //         //alert("Listings: " + JSON.stringify(e));
+        //         await setListings(e);
+        //
+        //         //setFetchedAndParsed(false);
+        //         //alert(listings);
+        //     });
+        // }
+
+            //await parseListing(listings[0]);
+
+        //
+            //console.log('Getting owned NFTs');
+
             await getListings().then(async (e) => {
-                //alert("Listings: " + JSON.stringify(e));
+                //console.log("Listings: " + JSON.stringify(e));
                 await setListings(e);
 
                 //setFetchedAndParsed(false);
                 //alert(listings);
             });
-
-            //await parseListing(listings[0]);
-
-
-        ////console.log('Getting owned NFTs');
-        await getListings().then(async (e) => {
-            //console.log("Listings: " + JSON.stringify(e));
-            await setListings(e);
-
-            //setFetchedAndParsed(false);
-            //alert(listings);
-        });
+        //}
 
         if (ownedNfts.length === 0) {
             //await getOwnedNFTs();
@@ -636,7 +644,6 @@ function App() {
           <BreakpointProvider>
     <Router forceRefresh={true}>
         <AnimatedPopup success={success} setSuccess={setSuccess} error={error} setError={setError}/>
-        {/*{JSON.stringify(fetchedAndParsed)}*/}
       <Switch>
         <Route
           exact

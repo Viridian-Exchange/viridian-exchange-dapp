@@ -13,10 +13,9 @@ const SignupPrompt = ({ className, account, setPromptSetup, setUserInfo}) => {
 
   return (
     <div className={cn(className, styles.transfer)}>
-      <div className={cn("h4", styles.title)}>Welcome to the Viridian Exchange TestNet!</div>
+      <div className={cn("h4", styles.title)}>Welcome to Viridian Exchange!</div>
       <div className={styles.text}>
-        Experience the future of physical collectibles trade, powered by Ethereum and ImmutableX.
-          The NFTs and Ether utilized in this beta are not real assets and hence don't hold any value -- they are used for the sole purpose of testing the functionality on our platform.
+        Collect Physical. Trade Digital. Powered by Polygon.
       </div>
       <div className={styles.btns}>
         {/*<Link className={cn("button", styles.button)} onClick={async () => {*/}

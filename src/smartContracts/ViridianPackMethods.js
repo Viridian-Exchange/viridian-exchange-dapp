@@ -37,7 +37,7 @@ export async function lockInPackResult(packId, account, setRevealing, setCards) 
     const vpContractAddress = config.mumbai_contract_addresses.vp_contract;
     let vpABI = new web3.eth.Contract(vpJSON['abi'], vpContractAddress);
 
-    alert('opening pack ' + packId.toString())
+    //alert('opening pack ' + packId.toString())
     await vpABI.methods.lockInPackResult(packId).send({from: account, signatureType: biconomy.EIP712_SIGN});
     //     .then(async transaction => {
     //     ////console.log("transaction: " + JSON.stringify(transaction));

@@ -190,6 +190,7 @@ const Headers = (props) => {
                     <a
                         className={styles.link}
                         // activeClassName={styles.active}
+                        target="_blank" rel="noopener noreferrer"
                         href="https://viridianexchange.com"
                         // key={0}
                     >
@@ -229,6 +230,7 @@ const Headers = (props) => {
               {/*</Link>*/}
               {/*TODO: Change to "LINK"*/}
               <a className={cn("button-small", styles.button)}
+                 target="_blank" rel="noopener noreferrer"
                     href="https://faucet.polygon.technology/"
                   //to="/BuyCrypto"
                   >
@@ -281,6 +283,7 @@ const Headers = (props) => {
               <a
                   className={styles.link}
                   // activeClassName={styles.active}
+                  target="_blank" rel="noopener noreferrer"
                   href="https://viridianexchange.com"
                   key={2}
               >
@@ -348,6 +351,7 @@ const Headers = (props) => {
         {/*</Link>*/}
         {/*TODO: Change to "LINK"*/}
         <a className={cn("button-small", styles.button)}
+           target="_blank" rel="noopener noreferrer"
               href="https://faucet.polygon.technology/"
             //to="/BuyCrypto"
             >

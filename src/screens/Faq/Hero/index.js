@@ -5,7 +5,7 @@ import Dropdown from "../../../components/Dropdown";
 import Icon from "../../../components/Icon";
 import Item from "./Item";
 
-let metamaskLink = <a href='https://blog.wetrust.io/how-to-install-and-use-metamask-7210720ca047'>here</a>;
+let metamaskLink = <a target="_blank" rel="noopener noreferrer" href='https://blog.wetrust.io/how-to-install-and-use-metamask-7210720ca047'>here</a>;
 
 const items = [
   {
@@ -75,7 +75,7 @@ const Hero = () => {
           <h1 className={cn("h2", styles.title)}>Frequently asked questions</h1>
           <div className={styles.info}>
             Join Viridian Exchange's community if you have questions not covered here, or to follow immediate updates on the product! {" "}
-            <a href="https://t.me/viridian_exchange" rel="noopener noreferrer">
+            <a target="_blank" rel="noopener noreferrer" href="https://t.me/viridian_exchange" rel="noopener noreferrer">
               Telegram
             </a>
           </div>

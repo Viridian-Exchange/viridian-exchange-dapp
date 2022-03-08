@@ -49,15 +49,16 @@ const Control = (props, { className }) => {
                     <button
                         className={cn("button", styles.button)}
                         onClick={() => setVisibleModalPurchase(true)}
+                        style={{minWidth: '100%'}}
                     >
                         Purchase now
                     </button>
-                    <button
-                        className={cn("button-stroke", styles.button)}
-                        onClick={() => setVisibleModalBid(true)}
-                    >
-                        Place a bid
-                    </button>
+                    {/*<button*/}
+                    {/*    className={cn("button-stroke", styles.button)}*/}
+                    {/*    onClick={() => setVisibleModalBid(true)}*/}
+                    {/*>*/}
+                    {/*    Place a bid*/}
+                    {/*</button>*/}
                 </div>);
         }
         else {

@@ -57,7 +57,6 @@ const NotificationBell = ({ className, account}) => {
     //let web3S = getWeb3Socket(web3);
 
 
-
     if (account && visible) {
       let veABI = new web3.eth.Contract(veJSON['abi'], config.mumbai_contract_addresses.ve_contract);
 
@@ -76,12 +75,14 @@ const NotificationBell = ({ className, account}) => {
                 if (e.returnValues.uri) {
                   //console.log(e.returnValues.uri)
 
+                  //alert(JSON.stringify(e));
                   await fetch(e.returnValues.uri, {
                     mode: "cors",
                     method: "GET"
                   }).then(async res => {
                     //alert(res.ok)
                     const resJson = await res.json();
+                    //alert(JSON.stringify(res))
                     if (res.ok) {
                       await console.log(resJson);
                       eventsParsedRaw[i] = {...e};
@@ -101,6 +102,11 @@ const NotificationBell = ({ className, account}) => {
               //alert(JSON.stringify(errors));
             }
           })
+    }
+
+    if (!account) {
+      let acct = account;
+      account = acct;
     }
 
     // try {
@@ -144,9 +150,11 @@ const NotificationBell = ({ className, account}) => {
             <div className={cn("h4", styles.title)}>Notification</div>
             <div className={styles.list}>
               {eventsRaw.map((x, index) => (
-                <Link
+                <a
                   className={styles.item}
-                  to="/activity"
+                  href={"https://mumbai.polygonscan.com/tx/" + x.transactionHash} //TODO: Remove the mumbai at the start once production site is launched
+                  target="_blank"
+                  rel="noopener noreferrer"
                   onClick={() => setVisible(!visible)}
                   key={index}
                 >
@@ -165,16 +173,16 @@ const NotificationBell = ({ className, account}) => {
                     className={styles.status}
                     style={{ backgroundColor: x.color }}
                   ></div>
-                </Link>
+                </a>
               ))}
             </div>
-            <Link
-              className={cn("button-small", styles.button)}
-              to="/activity"
-              onClick={() => setVisible(!visible)}
-            >
-              See all
-            </Link>
+            {/*<Link*/}
+            {/*  className={cn("button-small", styles.button)}*/}
+            {/*  to="/activity"*/}
+            {/*  onClick={() => setVisible(!visible)}*/}
+            {/*>*/}
+            {/*  See all*/}
+            {/*</Link>*/}
           </div>
         )}
       </div>

@@ -18,7 +18,7 @@ const InstallMetamaskPrompt = ({ className, account, setPromptSetup, setUserInfo
             <img src='/images/content/metamask-fox.svg' style={{maxWidth: '50ex'}}/>
         </div>
         <div>
-      <a className={styles.text} href='https://metamask.io'>
+      <a className={styles.text} target="_blank" rel="noopener noreferrer" href='https://metamask.io'>
         What is a Metamask Wallet?
       </a>
         </div>
@@ -27,7 +27,7 @@ const InstallMetamaskPrompt = ({ className, account, setPromptSetup, setUserInfo
         {/*    await HandleAddUserSimple(setUserInfo, account, setPromptSetup).then(() => {*/}
         {/*        setPromptSetup(false);});*/}
         {/*}} to="/profile">Go to Profile</Link>*/}
-        <a className={cn("button-stroke", styles.button)} href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'>Install Chrome Extension</a>
+        <a className={cn("button-stroke", styles.button)} target="_blank" rel="noopener noreferrer" href='https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'>Install Chrome Extension</a>
       </div>
     </div>
   );

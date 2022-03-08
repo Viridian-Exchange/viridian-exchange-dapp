@@ -34,21 +34,22 @@ const Checkout = (props, { className }) => {
     }, [eventData])
 
     const items = [
-        {
-            title: "SDTPrice",
-            value: parseVextAmount(props.price) + " ETH",
-        },
+        // {
+        //     title: "SDTPrice",
+        //     value: parseVextAmount(props.price) + " ETH",
+        // },
         // {
         //     title: "Your balance",
         //     value: "0 ETH",
         // },
         {
             title: "Service fee",
-            value: parseVextAmount(props.price) * 0.05 + " ETH",
+            value: "5%"
+            //value: parseVextAmount(props.price) * 0.05 + " ETH",
         },
         {
             title: "You will pay",
-            value:  parseFloat(parseVextAmount(props.price))+ parseFloat(parseVextAmount(props.price) * 0.05) + " ETH",
+            value:  parseFloat(parseVextAmount(props.price)) + " ETH",
         },
     ];
 
@@ -144,7 +145,8 @@ const Checkout = (props, { className }) => {
                     // }
                     // else {
                     if (!tokenApproved) {
-                        await approve(props.account, config.mumbai_contract_addresses.ve_contract, props.price)
+                        //TODO change the exchangeaddress BACK to config.mumbai_contract_addresses.ve_contract
+                        await approve(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047', props.price)
                             .then(() =>
                                 setTokenApproved(true));
                     }

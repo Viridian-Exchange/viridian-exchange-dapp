@@ -21,7 +21,7 @@ const InstallMetamaskPrompt = ({ className, network, history, setVisibleModalWro
             </video>
         </div>
         <div>
-      <a className={styles.text} style={{marginBottom: '5ex'}} href='https://metamask.zendesk.com/hc/en-us/articles/360056196151-Using-custom-networks-with-MetaMask'>
+      <a className={styles.text} target="_blank" rel="noopener noreferrer" style={{marginBottom: '5ex'}} href='https://metamask.zendesk.com/hc/en-us/articles/360056196151-Using-custom-networks-with-MetaMask'>
         What is a Network?
       </a>
             <button className={cn("button-stroke", styles.button)} style={{marginTop: '2ex'}} onClick={() => {

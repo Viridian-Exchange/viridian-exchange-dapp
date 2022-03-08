@@ -73,7 +73,7 @@ const Item = (props) => {
             <div style={{maxWidth: '55ex'}} className={styles.preview} onMouseEnter={() => setShowCategories(true)}
                  onMouseLeave={() => setShowCategories(false)}>
               {!location.state.isPack &&
-                <Carousel style={{maxWidth: '55ex', textAlign: 'center'}}>
+                <Carousel showThumbs={false} style={{maxWidth: '55ex', textAlign: 'center'}}>
                     <div style={{maxWidth: '55ex', textAlign: 'center'}}>
                       <div className={styles.categories} >
                     {showCategories && categories.map((x, index) => (
