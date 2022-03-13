@@ -85,6 +85,14 @@ const Headers = (props) => {
 
     setFuse(new Fuse(combined, options));
 
+    if (location) {
+      if (location.search.length >= 0) {
+        if (searchString.length === 0) {
+          setSearchString(location.search.split("?search=")[1]);
+        }
+      }
+    }
+
     //alert(JSON.stringify(fuse));
   }, [props.nfts, props.users]);
 
