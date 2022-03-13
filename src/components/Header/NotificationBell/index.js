@@ -8,6 +8,7 @@ import styles from "./NotificationBell.module.sass";
 import Icon from "../../Icon";
 import {getWeb3Socket} from "../../../Utils";
 import Web3 from "web3";
+import Loader from "../../Loader";
 
 const items = [
   {
@@ -148,6 +149,9 @@ const NotificationBell = ({ className, account}) => {
         {visible && (
           <div className={styles.body}>
             <div className={cn("h4", styles.title)}>Notification</div>
+            {(eventsRaw.length === 0) && <div style={{textAlign: 'center', marginLeft: '1ex'}}>
+              <Loader />
+            </div>}
             <div className={styles.list}>
               {eventsRaw.map((x, index) => (
                 <a

@@ -205,7 +205,7 @@ export async function approve(fromAddr, exchangeAddress, amount) {
 // // replace the chainId 42 if network is not kovan
 //     // TODO: Make sure replacing verifyingContract with the WETH contract is correct
 //     let domainData = {
-//         name: "WETH POS",
+//         name: "Wrapped Ether",
 //         version: "1",
 //         verifyingContract: vTContractAddress,
 //         // converts Number to bytes32. Use your chainId instead of 42 if network is not Kovan
