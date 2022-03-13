@@ -15,7 +15,8 @@ const Description = () => {
         <div className={styles.wrap}>
           <div className={styles.stage}>Secured by Polygon</div>
           <h1 className={cn("h1", styles.title)}>
-            Bringing the <span className='text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
+            Collect <span className='text-color-gold'>Physical.</span>
+            Trade <span className='text-color-gold'>Digital.</span>
           </h1>
           <div className={styles.text}>
             The Premiere Marketplace for Physically-Backed NFTs

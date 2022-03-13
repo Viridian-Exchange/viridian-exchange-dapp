@@ -13,12 +13,17 @@ const Description = () => {
     <div className={styles.section}>
       <div className={cn("container", styles.container)}>
         <div className={styles.wrap}>
-          <div className={styles.stage}>Secured by Polygon</div>
+          <div className={styles.stage}>Secured by <span className='text-color-purple'>Polygon</span></div>
           <h1 className={cn("h1", styles.title)}>
-            Bringing the <span className='text-color-gold'>physical</span> back to <span className='text-color-gold'>digital</span> collectibles.
+            <div style={{minWidth: '100ex'}}>
+            Collect <span className='text-color-gold'>Physical.</span>
+            </div>
+            <div>
+            Trade <span className='text-color-gold'>Digital.</span>
+            </div>
           </h1>
           <div className={styles.text}>
-            The Premiere Marketplace for Physically-Backed NFTs
+            The Premiere Marketplace for Physically-Backed <span className='text-color-purple'>NFTs</span>
           </div>
           <div className={styles.btns}>
             <Link className={cn("button", styles.button)} to="/faq">
