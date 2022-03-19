@@ -5,7 +5,7 @@ import Icon from "../../../../components/Icon";
 import web3 from 'web3';
 import LoaderCircle from "../../../../components/LoaderCircle";
 import {buyNFTWithERC20, buyNFTWithETH} from "../../../../smartContracts/ViridianExchangeMethods";
-import {approve} from "../../../../smartContracts/ViridianTokenMethods";
+import {approve, allowance} from "../../../../smartContracts/ViridianTokenMethods";
 import Web3 from "web3";
 import config from "../../../../local-dev-config";
 import veJSON from "../../../../abis/ViridianExchange.json";
@@ -29,6 +29,10 @@ const Checkout = (props, { className }) => {
         if (eventData[0]) {
             setPurchased(true);
             setPurchasing(false);
+        }
+
+        if (await allowance(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047') > 0) {
+            setTokenApproved(true);
         }
 
     }, [eventData])

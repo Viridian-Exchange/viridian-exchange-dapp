@@ -80,13 +80,14 @@ export async function acceptOfferWithERC20(from, _offerId, _toAmount) {
 
     //alert(from);
 
-    await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
-        //alert("APPR: " + JSON.stringify(isApproved));
-        if (!isApproved) {
-            await setApprovalForAll(from, voContractAddress);
-        }});
+    // await isApprovedForAll(from, voContractAddress).then(async (isApproved) => {
+    //     //alert("APPR: " + JSON.stringify(isApproved));
+    //     if (!isApproved) {
+    //         await setApprovalForAll(from, voContractAddress);
+    //     }});
 
-    await approve(from, voContractAddress, _toAmount);
+    //TODO: get this approval all straight
+    //await approve(from, voContractAddress, _toAmount);
 
     let voABI = new web3.eth.Contract(voJSON['abi'], voContractAddress);
     //alert(JSON.stringify(e));
@@ -191,6 +192,7 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _er
 
     } catch(e) {
         //alert(e);
+        setError(true);
     }
 
 
@@ -337,7 +339,7 @@ export async function makeOffer(from, _to, _nftIds, _packIds, _amount, _recNftId
     //alert(4);
 
     //if (_isVEXT) {
-        await approve(from, voContractAddress, toFixedBetter(_amount));
+        //await approve(from, voContractAddress, toFixedBetter(_amount));
     //}
 
     //alert(from);

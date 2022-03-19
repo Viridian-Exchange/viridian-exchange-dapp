@@ -111,9 +111,9 @@ const Search = (props) => {
         }
     }, [search, props.nfts]);
 
-  const STEP = 50;
+  const STEP = 0.1;
   const MIN = 1;
-  const MAX = 1000000;
+  const MAX = 10;
 
   return (
     <div className={cn("section-pt80", styles.section)} style={{marginTop: '4ex'}}>

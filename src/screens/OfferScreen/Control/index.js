@@ -18,6 +18,9 @@ import LoaderCircle from "../../../components/LoaderCircle";
 import Icon from "../../../components/Icon";
 import {getWeb3Socket, parseVextAmount} from "../../../Utils";
 import OfferBuilder from "../../../components/OfferBuilder";
+import veJSON from "../../../abis/ViridianExchange.json";
+import vtJSON from "../../../abis/MetaTransactionTokenABI.json";
+import {approve} from "../../../smartContracts/ViridianTokenMethods";
 
 const Control = (props, { className }) => {
   const [visibleModalPurchase, setVisibleModalPurchase] = useState(false);
@@ -33,6 +36,9 @@ const Control = (props, { className }) => {
   const [loading, setLoading] = useState(false);
   const [accepted, setAccepted] = useState(false);
   const [eventData, setEventData] = useState({});
+
+  const [tokenApproved, setTokenApproved] = useState(false);
+  const [approving, setApproving] = useState(false);
 
   let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
@@ -147,6 +153,39 @@ const Control = (props, { className }) => {
           </div>
         </div>
           {/*{"OID: " + JSON.stringify(props.offerId)}*/}
+          {tokenApproved && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
+              Approve Currency
+          </button>}
+          {!tokenApproved && <button className={cn("button-stroke", styles.button)} onClick={async () => {
+              const web3Socket = await getWeb3Socket(web3);
+              const veContractAddress = config.mumbai_contract_addresses.ve_contract;
+              let veABI = new web3Socket.eth.Contract(veJSON['abi'], veContractAddress);
+              let vtABI = new web3Socket.eth.Contract(vtJSON, config.mumbai_contract_addresses.ve_contract);
+
+              await vtABI.events.Approval({filter: {from: props.account}}).on('data', async function (event) {
+                  setTokenApproved(true);
+                  // Do something here
+              }).on('err', console.error);
+              //TODO: ADD THIS BACK WITH APPROVING ANIMATION SOMEWHERE
+              //setApproving(true);
+
+              // if (props.isETH) {
+              //     //alert("buying nft with eth")
+              //     await buyNFTWithETH(props.account, props.tokenId, props.price).then((e) => {
+              //         //alert("E: " + JSON.stringify(e));
+              //     });
+              // }
+              // else {
+              if (!tokenApproved) {
+                  //TODO change the exchangeaddress BACK to config.mumbai_contract_addresses.ve_contract
+                  await approve(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047', props.price)
+                      .then(() =>
+                          setTokenApproved(true));
+              }
+              // }
+          }}>
+              Approve Currency
+          </button>}
           {!accepted && !loading && <div className={styles.btns}>
               {/*<button className={cn("button-stroke", styles.button)}>*/}
               {/*    View all*/}
@@ -189,6 +228,19 @@ const Control = (props, { className }) => {
               >
                   Counter Offer
               </button>}
+          </div>}
+
+          {approving && !tokenApproved &&
+          <div className={styles1.line}>
+              <div className={styles1.icon}>
+                  <LoaderCircle className={styles1.loader} />
+              </div>
+              <div className={styles1.details}>
+                  <div className={styles1.subtitle}>Approving</div>
+                  <div className={styles1.text}>
+                      Please confirm the necessary transactions through MetaMask
+                  </div>
+              </div>
           </div>}
 
           {loading &&

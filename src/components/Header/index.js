@@ -87,8 +87,11 @@ const Headers = (props) => {
 
     if (location) {
       if (location.search.length >= 0) {
-        if (searchString.length === 0) {
-          setSearchString(location.search.split("?search=")[1]);
+        //TODO : Figure out how to avoid undefined searchString error while still checking length
+        if (searchString) {
+          if (searchString.length === 0) {
+            setSearchString(location.search.split("?search=")[1]);
+          }
         }
       }
     }

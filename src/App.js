@@ -191,7 +191,7 @@ function App() {
                     // check if the chain to connect to is installed
                     await window.ethereum.request({
                         method: 'wallet_switchEthereumChain',
-                        params: [{ chainId: '0x89' }], // chainId must be in hexadecimal numbers
+                        params: [{ chainId: '0x13881' }], // chainId must be in hexadecimal numbers
                     });
                 } catch (error) {
                     // This error code indicates that the chain has not been added to MetaMask
@@ -203,8 +203,8 @@ function App() {
                                 method: 'wallet_addEthereumChain',
                                 params: [
                                     {
-                                        chainName: 'Polygon Mainnet',
-                                        chainId: '0x89',
+                                        chainName: 'Polygon Mumbai Testnet',
+                                        chainId: '0x13881',
                                         nativeCurrency: {
                                             name: 'Polygon',
                                             symbol: 'MATIC',
