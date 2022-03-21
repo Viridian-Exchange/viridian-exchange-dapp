@@ -278,7 +278,7 @@ const Search = (props) => {
           </div>
             {filteredNFTs.length > 0 ? <div className={styles.wrapper}>
               {/*{JSON.stringify(filteredNFTs[0].price)}*/}
-              {(prices === "Most to Least Expensive") ? <div className={styles.list}>
+              {(prices === "Least to Most Expensive") ? <div className={styles.list}>
               {[].concat(filteredNFTs)
                   .sort((a, b) => a.price < b.price ? 1 : -1).map((x, index) => {
                       if (x.price <= (values[0] * 1000000000000000000)) {
@@ -295,7 +295,7 @@ const Search = (props) => {
                           }
                       }
               })}
-            </div> : <div>{(prices === "Least to Most Expensive") ? <div className={styles.list}>
+            </div> : <div>{(prices === "Most to Least Expensive") ? <div className={styles.list}>
                   {[].concat(filteredNFTs)
                       .sort((a, b) => a.price > b.price ? 1 : -1).map((x, index) => {
                           if (x.price <= (values[0] * 1000000000000000000)) {
