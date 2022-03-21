@@ -41,7 +41,7 @@ const Search = (props) => {
 
   const [filters, setFilters] = useState([""]);
 
-  const [values, setValues] = useState([500000]);
+  const [values, setValues] = useState([5]);
 
   const location = useLocation();
   const history = useHistory();
@@ -112,7 +112,7 @@ const Search = (props) => {
     }, [search, props.nfts]);
 
   const STEP = 0.1;
-  const MIN = 1;
+  const MIN = 0.1;
   const MAX = 10;
 
   return (
@@ -140,14 +140,14 @@ const Search = (props) => {
           {/*</form>*/}
         </div>
         <div className={styles.sorting}>
-          <div className={styles.dropdown}>
-            <Dropdown
-              className={styles.dropdown}
-              value={date}
-              setValue={setDate}
-              options={dateOptions}
-            />
-          </div>
+          {/*<div className={styles.dropdown}>*/}
+          {/*  <Dropdown*/}
+          {/*    className={styles.dropdown}*/}
+          {/*    value={date}*/}
+          {/*    setValue={setDate}*/}
+          {/*    options={dateOptions}*/}
+          {/*  />*/}
+          {/*</div>*/}
           <div className={styles.nav}>
             {navLinks.map((x, index) => (
               <button
@@ -237,8 +237,8 @@ const Search = (props) => {
                 )}
               />
               <div className={styles.scale}>
-                <div className={styles.number}>$1</div>
-                <div className={styles.number}>$1M</div>
+                <div className={styles.number}>0.1 ETH</div>
+                <div className={styles.number}>10 ETH</div>
               </div>
             </div>
             <div className={styles.group}>
