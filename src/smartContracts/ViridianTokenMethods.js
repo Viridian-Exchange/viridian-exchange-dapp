@@ -135,7 +135,7 @@ export async function allowance(from, exchangeAddress) {
 
 
     //TODO: Figure out why from is wrong
-    alert(from);
+    //alert(from);
 
     //alert(await vTABI.methods.allowance(from, exchangeAddress).call());
     //alert(await vTABI.methods.allowance(from, exchangeAddress).call());
@@ -143,6 +143,33 @@ export async function allowance(from, exchangeAddress) {
     let infinite_approve_amount = '115792089237316195423570985008687907853269984665640564039457584007913129639935'; //(2^256 - 1 )
 
     let tx = await vTABI.methods.allowance(from, exchangeAddress).call();
+
+    // await tx.on("transactionHash", function (hash) {
+    //     console.log(`Transaction hash is ${hash}`);
+    //     alert(`Transaction sent. Waiting for confirmation ..`);
+    // }).once("confirmation", function (confirmationNumber, receipt) {
+    //     console.log(receipt);
+    //     console.log(receipt.transactionHash);
+    //     //do something with transaction hash
+    // });
+
+    await console.log(JSON.stringify(tx))
+
+    return tx;
+    //await console.log(JSON.stringify(tx))
+}
+
+export async function balanceOf(from) {
+    //const vTContractAddress = config.mumbai_contract_addresses.vt_contract;
+
+    const vTContractAddress = '0x7ceb23fd6bc0add59e62ac25578270cff1b9f619';
+
+    let vTABI = new walletWeb3.eth.Contract(vTJSON, vTContractAddress);
+
+
+    //TODO: Figure out why from is wrong
+
+    let tx = await vTABI.methods.balanceOf(from).call();
 
     // await tx.on("transactionHash", function (hash) {
     //     console.log(`Transaction hash is ${hash}`);

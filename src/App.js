@@ -232,14 +232,14 @@ function App() {
             await setConnected(true);
             // await web3.eth.getBalance(account).then(async (balance) =>
             //     await setEthBalance(round(balance * .000000000000000001, 4)));
-            await web3.eth.getBalance(account, function(err, result) {
+            await web3.eth.getBalance(account, async function(err, result) {
                 if (err) {
                     //console.log(err)
                 } else {
                     //alert(web3.utils.fromWei(result, "ether"))
                     //alert('fetchingData');
                     //fetchCurrencyData();
-                    setEthBalance(round(web3.utils.fromWei(result, "ether"), 4));
+                    setEthBalance(await getVEXTBalance());
                 }
             })
 

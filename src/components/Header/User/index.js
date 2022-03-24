@@ -17,6 +17,7 @@ import {
   CryptoPriceProvider
 } from "react-realtime-crypto-prices";
 import {CopyToClipboard} from "react-copy-to-clipboard";
+import {balanceOf} from "../../../smartContracts/ViridianTokenMethods";
 let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 //TODO: Instead of account, pass in user with all info through to profile/user
@@ -85,10 +86,14 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
 
 
       //alert(JSON.stringify(web3));
-      await web3.eth.getBalance(account).then(async (balance) => {
+
+
+      //await web3.eth.balanceOf(account).then(async (balance) => {
         //alert(balance);
-          await setEthBalance(round(balance * .000000000000000001, 4))});
-      await setVextBalance(await getVEXTBalance());
+          //await setEthBalance(round( balance * .000000000000000001, 4))
+      //});
+      await setEthBalance(await getWETHBalance());
+      await setVextBalance(await getWETHBalance());
       await setConnected(true);
 
       //alert("setting connected from user/index");
@@ -106,7 +111,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
     }
   }
 
-  async function getVEXTBalance() {
+  async function getWETHBalance() {
 
     const vtContractAddress = config.mumbai_contract_addresses.vt_contract;
     ////console.log(JSON.stringify(vNFTJSON));
@@ -164,7 +169,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
           {parseVextBalance(vextBalance)} <span className={styles.currency}>USDC</span>
             </div> : <div className={styles.wallet}>
                   <img style={{width: '3ex', marginTop: '-.5ex', marginLeft: '-1ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-                  {ethBalance}
+                  {parseVextBalance(ethBalance)}
                 </div>}</div>]}
         </div>
             {visible && (
@@ -194,8 +199,8 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
                           {parseVextBalance(vextBalance)} <span className={styles.currency}>USDC</span>
                         </div> : <div className={styles.price}>
                           <img style={{width: '2ex', marginTop: '-.4ex'}} src='https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg' alt='ETH' />
-                          {ethBalance}
-                          <>{prices.eth && <div style={{color: 'grey', fontSize: '5'}}>${Math.round((prices.eth * ethBalance) * 100) / 100}</div>}</>
+                          {parseVextBalance(ethBalance)}
+                          <>{prices.eth && <div style={{color: 'grey', fontSize: '5'}}>${Math.round((prices.eth * parseVextBalance(ethBalance)) * 100) / 100}</div>}</>
                           {/*<span className={styles.currency}>ETH</span>*/}
                         </div>}</div>
                       </div>
