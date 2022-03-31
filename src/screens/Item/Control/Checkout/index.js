@@ -17,8 +17,7 @@ const Checkout = (props, { className }) => {
     const [purchasing, setPurchasing] = useState(false);
     const [purchased, setPurchased] = useState(false);
     const [approving, setApproving] = useState(false);
-    //TODO: Change this back to false later
-    const [tokenApproved, setTokenApproved] = useState(true);
+    const [tokenApproved, setTokenApproved] = useState(false);
     const [eventData, setEventData] = useState({});
 
     let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
@@ -164,7 +163,7 @@ const Checkout = (props, { className }) => {
                 {!tokenApproved && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
                     Sign Final Purchase
                 </button>}
-                {JSON.stringify(props)}
+                {/*{JSON.stringify(props)}*/}
                 {tokenApproved && <button className={cn("button", styles.button)} onClick={async () => {
                     const web3Socket = await getWeb3Socket(web3);
                     const veContractAddress = config.mumbai_contract_addresses.ve_contract;
