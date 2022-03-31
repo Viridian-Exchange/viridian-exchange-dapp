@@ -221,7 +221,7 @@ const Profile = (props) => {
   const [otherNFTs, setOtherNFTs] = useState([]);
   const [otherPacks, setOtherPacks] = useState([]);
   const [files, setFiles] = useState([]);
-  const [coverPhotoURL, setCoverPhotoURL] = useState(props.userInfo.coverPhotoURL);
+  const [coverPhotoURL, setCoverPhotoURL] = useState("");
   const [isCurrentUser, setIsCurrentUser] = useState(false);
   const [followed, setFollowed] = useState(false);
   const [showRec, setShowRec] = useState(false);
@@ -514,6 +514,8 @@ const Profile = (props) => {
           //   await getOtherOwnedPacks();
           // }
 
+          setCoverPhotoURL("url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() + ")");
+
           if (!location.state) {
             // await setInitialLoaded(true);
             // await history.push("/");
@@ -781,14 +783,13 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + props.userInfo.coverPhotoURL + "?" + new Date().getTime() + ")",
-                    webkitBackfaceVisibility: 'hidden',
-                    mozBackfaceVisibility:    'hidden',
-                    msBackfaceVisibility:     'hidden'
+                    backgroundImage: coverPhotoURL,
+                    position: 'static'
                   }}
               >
                 <div className={cn("container", styles.container)}>
                   <div className={styles.btns}>
+                    {/*{JSON.stringify(coverPhotoURL)}*/}
                     <button
                         className={cn("button-stroke button-small", styles.button)}
                         onClick={() => setVisible(true)}
@@ -917,10 +918,7 @@ const Profile = (props) => {
               <div
                   className={cn(styles.head, {[styles.active]: visible})}
                   style={{
-                    backgroundImage: "url(" + location.state.coverPhotoURL + "?" + new Date().getTime() +")",
-                    webkitBackfaceVisibility: 'hidden',
-                    mozBackfaceVisibility:    'hidden',
-                    msBackfaceVisibility:     'hidden'
+                    backgroundImage: coverPhotoURL
                   }}
               >
                 <div className={cn("container", styles.container)}>

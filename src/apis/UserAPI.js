@@ -14,7 +14,8 @@ export const HandleAddUser = async (setUserInfo, address, displayName, bio, webs
             "coverPhotoURL": "",
             "following": [],
             "followers": [],
-            "likes": []
+            "likes": [],
+            //"email": ""
         },
         users: []
     };
@@ -30,7 +31,8 @@ export const HandleAddUser = async (setUserInfo, address, displayName, bio, webs
             "coverPhotoURL": coverPhotoURL,
             "following": [],
             "followers": [],
-            "likes": []
+            "likes": [],
+            //"email": ""
         };
         await axios.post(`${config.api.invokeUrl}/user/${address}`, params).then(res => {
             setUserInfo(params);

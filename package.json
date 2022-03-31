@@ -80,7 +80,9 @@
       "last 1 safari version"
     ]
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "gulp-sass": "^5.1.0"
+  },
   "main": "index.js",
   "repository": "https://github.com/Viridian-Exchange/viridian-exchange-dapp.git",
   "author": "Blake Hatch <blakewihatch@gmail.com>",

@@ -272,6 +272,7 @@ export async function buyNFTWithERC20(from, _listingId, amount) {
 
     //alert("buy nft")
 
+    alert(JSON.stringify(_listingId));
     await veABI.methods.buyNFTWithERC20(_listingId).send({from: from, signatureType: biconomy.EIP712_SIGN});
 
     //return batch.execute();
