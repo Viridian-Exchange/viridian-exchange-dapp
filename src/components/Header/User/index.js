@@ -18,8 +18,48 @@ import {
 } from "react-realtime-crypto-prices";
 import {CopyToClipboard} from "react-copy-to-clipboard";
 import {balanceOf} from "../../../smartContracts/ViridianTokenMethods";
+import { Web3Auth } from "@web3auth/web3auth";
+import { CHAIN_NAMESPACES, CONNECTED_EVENT_DATA, ADAPTER_EVENTS } from "@web3auth/base";
+
+
 let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
+const web3auth = new Web3Auth({
+  chainConfig: { chainNamespace: CHAIN_NAMESPACES.EIP155, chainId: "0x3" },
+  authType: "DAPP",
+  clientId: "BOzJf6F7G6NFxxEtZhqllZ4fWkjpMk-GcwsV_TsJyB_4jI7uxiyMrKnTbVX4wLKVGh1u_XU11agzo41jhU-oGas", // get your client id from developer dashboard
+});
+
+// ⭐️ subscribe to lifecycle events emitted by web3auth
+const subscribeAuthEvents = (web3auth) => {
+  web3auth.on(ADAPTER_EVENTS.CONNECTED, (data) => {
+    console.log("connected to wallet", data);
+    // web3auth.provider will be available here after user is connected
+  });
+  web3auth.on(ADAPTER_EVENTS.CONNECTING, () => {
+    console.log("connecting");
+  });
+  web3auth.on(ADAPTER_EVENTS.DISCONNECTED, () => {
+    console.log("disconnected");
+  });
+  web3auth.on(ADAPTER_EVENTS.ERRORED, (error) => {
+    console.log("error", error);
+  });
+};
+
+// ⭐️ initialize modal on page mount.
+const initializeModal = async () => {
+  subscribeAuthEvents(web3auth);
+  await web3auth.initModal();
+};
+
+// call login on login action like on your login button click
+const login = async () => {
+  // returns a wallet provider which can be used with various chain libraries like web3.js, ethers js etc.
+  const provider = await web3auth.connect();
+  console.log("open modal")
+  await web3auth.connect()
+};
 //TODO: Instead of account, pass in user with all info through to profile/user
 const items = (account) => [
   {
@@ -38,7 +78,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   const [visible, setVisible] = useState(false);
   const [balance, setBalance] = useState(0);
   const prices = useCryptoPrices(["eth"]);
-
+  const [hasMetamask, setHasMetamask] = useState(false);
 
 
   //ABI Stuff
@@ -48,7 +88,7 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
   //const [ethBalance, setEthBalance] = useState(0);
   //const [vextBalance, setVextBalance] = useState(0);
 
-  useEffect(() => {
+  useEffect(async () => {
     if (Web3.givenProvider) {
       const connect = async () => {
         //alert("connecting wallet")
@@ -58,14 +98,19 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
       }
       //connect().then(() => setConnected(true));
     }
+
+    await initializeModal();
   }, [web3.givenProvider]);
 
 
-  const isMetaMaskInstalled = () => {
+  const isMetaMaskInstalled = async () => {
     //Have to check the ethereum binding on the window object to see if it's installed
     const {ethereum} = window;
     if (!Boolean(ethereum && ethereum.isMetaMask)) {
-      setPromptInstallMetamask(true);
+      await login();
+    }
+    else {
+      setHasMetamask(true);
     }
   };
 
@@ -261,9 +306,11 @@ const User = ({ className, account, setAccount, connected, setConnected, userInf
         <OutsideClickHandler onOutsideClick={() => {}}>
           <div className={cn(styles.user, className)}>
             <div className={styles.head} onClick={async () => {isMetaMaskInstalled(); await connectWallet()}}>
-              <div className={styles.disconnectedWallet}>
+              {hasMetamask ? <div className={styles.disconnectedWallet}>
                 Connect Wallet
-              </div>
+              </div> : <div className={styles.disconnectedWallet}>
+                Log In
+                </div>}
             </div>
           </div>
         </OutsideClickHandler>

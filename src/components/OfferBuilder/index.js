@@ -398,7 +398,7 @@ const OfferBuilder = (props) => {
         }}>
           Approve Currency
         </button>}
-        {!offered && !loading && <button className={cn("button", styles.button)} onClick={async () => {
+        {!offered && !loading && <button className={cn("button", styles.button)} style={{marginLeft: '2ex'}} onClick={async () => {
           const web3Socket = await getWeb3Socket(web3);
           const voContractAddress = config.mumbai_contract_addresses.vo_contract;
           let voABI = new web3Socket.eth.Contract(voJSON['abi'], voContractAddress);

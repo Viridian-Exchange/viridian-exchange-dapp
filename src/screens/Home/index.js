@@ -28,14 +28,14 @@ const Home = (props) => {
   return (
     <>
         {/*{JSON.stringify(props.promptInstallMetamask)}*/}
-        <Modal
-            visible={props.promptInstallMetamask}
-            onClose={async () => {
-                props.setPromptInstallMetamask(false);
-            }}
-        >
-            <InstallMetamaskPrompt />
-        </Modal>
+        {/*<Modal*/}
+        {/*    visible={props.promptInstallMetamask}*/}
+        {/*    onClose={async () => {*/}
+        {/*        props.setPromptInstallMetamask(false);*/}
+        {/*    }}*/}
+        {/*>*/}
+        {/*    <InstallMetamaskPrompt />*/}
+        {/*</Modal>*/}
         <Modal
             visible={props.promptSetup}
             onClose={async () => {
