@@ -6,6 +6,10 @@
     --green: #21ce99;
 }
 
+:global(.w3a-modal) {
+    z-index: 10 !important;
+}
+
 body {
     font-family: Poppins;
     background: var(--dark);
