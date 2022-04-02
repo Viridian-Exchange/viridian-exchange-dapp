@@ -25,6 +25,11 @@ import { CHAIN_NAMESPACES, CONNECTED_EVENT_DATA, ADAPTER_EVENTS } from "@web3aut
 let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
 const web3auth = new Web3Auth({
+  uiConfig: {
+    appLogo: "https://d4xub33rt3s5u.cloudfront.net/logo.svg",
+    theme: "dark",
+    loginMethodsOrder: []
+  },
   chainConfig: { chainNamespace: CHAIN_NAMESPACES.EIP155, chainId: "0x3" },
   authType: "DAPP",
   clientId: "BOzJf6F7G6NFxxEtZhqllZ4fWkjpMk-GcwsV_TsJyB_4jI7uxiyMrKnTbVX4wLKVGh1u_XU11agzo41jhU-oGas", // get your client id from developer dashboard
