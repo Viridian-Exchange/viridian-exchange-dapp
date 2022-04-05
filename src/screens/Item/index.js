@@ -203,7 +203,7 @@ const Item = (props) => {
 
             <Users account={props.account} className={styles.users} items={users} owner={location.state.nftOwner} ownerUser={ownerUser} />
             <Control setSuccess={props.setSuccess} setError={props.setError} isETH={location.state.isETH} isVNFT={location.state.isVNFT} isPack={location.state.isPack} price={location.state.price} className={styles.control} state={location.state} owner={location.state.nftOwner} account={props.account} isListing={location.state.isListing} />
-              <Options className={styles.options} isETH={location.state.isETH} price={location.state.price} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo} isListing={location.state.isListing} isPack = {location.state.isPack} />
+              <Options setSuccess={props.setSuccess} setError={props.setError} className={styles.options} isETH={location.state.isETH} price={location.state.price} tokenId={location.state.id} id={location.state.listingId} owner={location.state.nftOwner} account={props.account} userInfo = {props.userInfo} setUserInfo = {props.setUserInfo} isListing={location.state.isListing} isPack = {location.state.isPack} />
 
             </div>
         </div>

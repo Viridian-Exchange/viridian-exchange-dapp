@@ -11,7 +11,7 @@ import {HandleAddNFTLike, FetchCards} from "../../../apis/CardsAPI";
 
 
 
-const Options = ({ className, items, tokenId, id, account, owner, isListing, userInfo, setUserInfo, price, isPack, isETH }) => {
+const Options = ({ className, items, tokenId, id, account, owner, isListing, userInfo, setUserInfo, price, isPack, isETH, setSuccess, setError }) => {
     const [liked, setLiked] = useState(false);
     const [likes, setLikes] = useState([]);
 
@@ -65,7 +65,7 @@ const Options = ({ className, items, tokenId, id, account, owner, isListing, use
             {liked ? <Icon name="heart-fill" size="24" /> : <Icon name="heart" size="24" />}
         </button>
         {/*{tokenId + 'breh'}*/}
-      <Actions isETH={isETH} price={price} className={styles.actions} tokenId={tokenId} id={id} account={account} owner={owner} isListing={isListing} isPack={isPack} />
+      <Actions setSuccess={setSuccess} setError={setError} isETH={isETH} price={price} className={styles.actions} tokenId={tokenId} id={id} account={account} owner={owner} isListing={isListing} isPack={isPack} />
     </div>
   );
 };

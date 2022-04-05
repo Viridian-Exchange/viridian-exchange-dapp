@@ -69,6 +69,7 @@ const OfferBuilder = (props) => {
   const [otherPacks, setOtherPacks] = useState([]);
   const [otherNFTs, setOtherNFTs] = useState([]);
   const [tokenApproved, setTokenApproved] = useState(false);
+  const [tokenAlreadyApproved, setTokenAlreadyApproved] = useState(false);
   const [approving, setApproving] = useState(false);
 
   useEffect(async () => {
@@ -365,7 +366,7 @@ const OfferBuilder = (props) => {
         </Flexbox>
       </Flexbox>
       <div className={styles.btns}>
-        {tokenApproved && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
+        {(tokenApproved && !tokenAlreadyApproved) && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
           Approve Currency
         </button>}
         {!tokenApproved && <button className={cn("button-stroke", styles.button)} onClick={async () => {
@@ -391,8 +392,10 @@ const OfferBuilder = (props) => {
           if (!tokenApproved) {
             //TODO change the exchangeaddress BACK to config.mumbai_contract_addresses.ve_contract
             await approve(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047', props.price)
-                .then(() =>
-                    setTokenApproved(true));
+                .then(() => {
+                    setTokenApproved(true);
+                    setTokenAlreadyApproved(true);
+                });
           }
           // }
         }}>

@@ -18,6 +18,7 @@ const Checkout = (props, { className }) => {
     const [purchased, setPurchased] = useState(false);
     const [approving, setApproving] = useState(false);
     const [tokenApproved, setTokenApproved] = useState(false);
+    const [tokenAlreadyApproved, setTokenAlreadyApproved] = useState(false);
     const [eventData, setEventData] = useState({});
 
     let web3 = new Web3(new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
@@ -33,6 +34,7 @@ const Checkout = (props, { className }) => {
 
         if (await allowance(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047') > 0) {
             setTokenApproved(true);
+            setTokenAlreadyApproved(true);
         }
 
     }, [eventData])
@@ -125,7 +127,7 @@ const Checkout = (props, { className }) => {
 
             {!purchased && !purchasing && <div className={styles.btns}>
                 {/*{JSON.stringify(props)}*/}
-                {tokenApproved && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
+                {(tokenApproved && !tokenAlreadyApproved) && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
                     Approve Currency
                 </button>}
 
@@ -137,8 +139,9 @@ const Checkout = (props, { className }) => {
 
                     await vtABI.events.Approval({filter: {from: props.account}}).on('data', async function (event) {
                         setTokenApproved(true);
+                        props.setSuccess(true);
                         // Do something here
-                    }).on('err', console.error);
+                    }).on('err', props.setError(true));
                     setApproving(true);
 
                     // if (props.isETH) {
@@ -150,9 +153,14 @@ const Checkout = (props, { className }) => {
                     // else {
                     if (!tokenApproved) {
                         //TODO change the exchangeaddress BACK to config.mumbai_contract_addresses.ve_contract
-                        await approve(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047', props.price)
-                            .then(() =>
-                                setTokenApproved(true));
+                        try {
+                            await approve(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047', props.price)
+                                .then(() =>
+                                    setTokenApproved(true));
+                        } catch (e) {
+                            props.setError(true);
+                            setTokenApproved(false);
+                        }
                     }
                     // }
                 }}>
@@ -160,7 +168,7 @@ const Checkout = (props, { className }) => {
                 </button>}
 
 
-                {!tokenApproved && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
+                {(tokenApproved && !tokenAlreadyApproved) && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
                     Sign Final Purchase
                 </button>}
                 {/*{JSON.stringify(props)}*/}
@@ -171,8 +179,9 @@ const Checkout = (props, { className }) => {
 
                     await veABI.events.PurchasedListing({filter: {to: props.account}}).on('data', async function (event) {
                         setEventData(event.returnValues);
+                        props.setSuccess(true);
                         // Do something here
-                    }).on('err', console.error);
+                    }).on('err', props.setError(true));
                     setPurchasing(true);
 
                     // if (props.isETH) {
@@ -183,9 +192,16 @@ const Checkout = (props, { className }) => {
                     // }
                     // else {
                     if (tokenApproved && !purchased) {
-                        await buyNFTWithERC20(props.account, props.tokenId, props.price).then((e) => {
-                            //alert("E: " + JSON.stringify(e));
-                        });
+                        try {
+                            await buyNFTWithERC20(props.account, props.tokenId, props.price).then((e) => {
+                                //alert("E: " + JSON.stringify(e));
+                            });
+                        } catch (error) {
+                            console.error(error);
+                            setPurchasing(false);
+                            setPurchased(false);
+                            setApproving(false);
+                        }
                     }
                     // }
                 }}>

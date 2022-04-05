@@ -4,10 +4,10 @@ import styles from "./Options.module.sass";
 import Icon from "../../../components/Icon";
 import Actions from "../../../components/Actions";
 
-const Options = ({ className, items, id, account }) => {
+const Options = ({ className, items, id, account, setSuccess, setError }) => {
   return (
     <div className={cn(styles.options, className)}>
-      <Actions className={styles.actions} id={id} account={account} />
+      <Actions className={styles.actions} id={id} account={account} setSuccess={setSuccess} setError={setError} />
     </div>
   );
 };

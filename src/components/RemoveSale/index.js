@@ -12,7 +12,7 @@ import {getWeb3Socket} from "../../Utils";
 
 let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
 
-const RemoveSale = ({ className, id, account, price, isETH }) => {
+const RemoveSale = ({ className, id, account, price, isETH, setSuccess, setError }) => {
 
     const [loading, setLoading] = useState(false);
     const [cancelled, setCancelled] = useState(false);
@@ -55,9 +55,10 @@ const RemoveSale = ({ className, id, account, price, isETH }) => {
 
             await veABI.events.ItemUnlisted({filter: {to: account}}).on('data', async function(event) {
                 setEventData(event.returnValues);
+                setSuccess(true);
                 // Do something here
                 console.log("ITEM UNLISTED")
-            }).on('err', console.error);
+            }).on('err', setError(true));
 
             //   await veABI.events.ItemUnlisted({
             //       fromBlock: 0,

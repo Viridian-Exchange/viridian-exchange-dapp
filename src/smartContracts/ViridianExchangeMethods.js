@@ -168,9 +168,10 @@ export async function putUpForSale(from, _nftId, _price, _royalty, _endTime, _er
             await veABI.events.ItemListed(function (err, result) {
                 if (err) {
                     alert(err);
+                    setError(true);
                 }
 
-                //setSuccess(true);
+                setSuccess(true);
 
                 //console.log("LISTING SDFSD: " + JSON.stringify(result.returnValues));
                 event_res = result.returnValues.listed;

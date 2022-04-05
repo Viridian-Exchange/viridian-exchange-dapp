@@ -38,6 +38,7 @@ const Control = (props, { className }) => {
   const [eventData, setEventData] = useState({});
 
   const [tokenApproved, setTokenApproved] = useState(false);
+    const [tokenAlreadyApproved, setTokenAlreadyApproved] = useState(false);
   const [approving, setApproving] = useState(false);
 
   let web3 = new Web3(Web3.givenProvider || new Web3.providers.HttpProvider("https://polygon-mumbai.g.alchemy.com/v2/XvPpXkhm8UtkGw9b8tIMcR3vr1zTZd3b") || "HTTP://127.0.0.1:7545");
@@ -153,7 +154,7 @@ const Control = (props, { className }) => {
           </div>
         </div>
           {/*{"OID: " + JSON.stringify(props.offerId)}*/}
-          {tokenApproved && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
+          {(tokenApproved && !tokenAlreadyApproved) && <button disabled className={cn("buttonFaded", styles.buttonFaded)}>
               Approve Currency
           </button>}
           {!tokenApproved && <button className={cn("button-stroke", styles.button)} onClick={async () => {
@@ -179,8 +180,10 @@ const Control = (props, { className }) => {
               if (!tokenApproved) {
                   //TODO change the exchangeaddress BACK to config.mumbai_contract_addresses.ve_contract
                   await approve(props.account, '0xE88F4ae472687ce2026eb2d587C5C0c42a5F2047', props.price)
-                      .then(() =>
-                          setTokenApproved(true));
+                      .then(() => {
+                          setTokenApproved(true);
+                          setTokenAlreadyApproved(true);
+                      });
               }
               // }
           }}>
@@ -283,7 +286,7 @@ const Control = (props, { className }) => {
         visible={visibleModalPurchase}
         onClose={() => setVisibleModalPurchase(false)}
       >
-        <Checkout price={props.price} account={props.account} />
+        <Checkout setSuccess={props.setSuccess} setError={props.setError} price={props.price} account={props.account} />
           {purchased &&
               <SuccessfullyPurchased/>
           }

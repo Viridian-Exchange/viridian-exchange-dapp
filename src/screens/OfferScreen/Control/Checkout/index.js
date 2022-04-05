@@ -81,7 +81,13 @@ const Checkout = (props, { className }) => {
       {/*</div>*/}
       <div className={styles.btns}>
           {/*{JSON.stringify(props)}*/}
-        <button className={cn("button", styles.button)} onClick={async () => await buyNFTWithERC20(props.account, props.tokenId, props.price)}>
+        <button className={cn("button", styles.button)} onClick={async () => {
+            try {
+                await buyNFTWithERC20(props.account, props.tokenId, props.price)
+            } catch (error) {
+                setPurchasing(false);
+            }
+        }}>
           I understand, continue
         </button>
         <button className={cn("button-stroke", styles.button)}>Cancel</button>
