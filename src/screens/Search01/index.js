@@ -41,7 +41,7 @@ const Search = (props) => {
 
   const [filters, setFilters] = useState([""]);
 
-  const [values, setValues] = useState([5]);
+  const [values, setValues] = useState([25]);
 
   const location = useLocation();
   const history = useHistory();
@@ -113,7 +113,7 @@ const Search = (props) => {
 
   const STEP = 0.1;
   const MIN = 0.1;
-  const MAX = 10;
+  const MAX = 50;
 
   return (
     <div className={cn("section-pt80", styles.section)} style={{marginTop: '4ex'}}>
@@ -238,7 +238,7 @@ const Search = (props) => {
               />
               <div className={styles.scale}>
                 <div className={styles.number}>0.1 ETH</div>
-                <div className={styles.number}>10 ETH</div>
+                <div className={styles.number}>50 ETH</div>
               </div>
             </div>
             <div className={styles.group}>

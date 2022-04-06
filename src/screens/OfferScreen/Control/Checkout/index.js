@@ -83,7 +83,7 @@ const Checkout = (props, { className }) => {
           {/*{JSON.stringify(props)}*/}
         <button className={cn("button", styles.button)} onClick={async () => {
             try {
-                await buyNFTWithERC20(props.account, props.tokenId, props.price)
+                await buyNFTWithERC20(props.account, props.tokenId, props.price);
             } catch (error) {
                 setPurchasing(false);
             }
