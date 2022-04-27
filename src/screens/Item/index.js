@@ -14,6 +14,7 @@ import {
   CryptoPriceProvider
 } from "react-realtime-crypto-prices";
 import ReactImageMagnify from 'react-image-magnify';
+import CardInspector from "../../components/3DViewer";
 
 const navLinks = ["Info", "Owners", "History", "Bids"];
 
@@ -72,84 +73,88 @@ const Item = (props) => {
           <div className={styles.bg}>
             <div style={{maxWidth: '55ex'}} className={styles.preview} onMouseEnter={() => setShowCategories(true)}
                  onMouseLeave={() => setShowCategories(false)}>
-              {!location.state.isPack &&
-                <Carousel showThumbs={false} style={{maxWidth: '55ex', textAlign: 'center'}}>
-                    <div style={{maxWidth: '55ex', textAlign: 'center'}}>
-                      <div className={styles.categories} >
-                    {showCategories && categories.map((x, index) => (
-                        <div
-                            className={cn(
-                                { "status-black": x.category === "black" },
-                                { "status-purple": x.category === "purple" },
-                                { "status-gold": x.category === "gold" },
-                                { "status-blue": x.category === "blue" },
-                                styles.category
-                            )}
-                            key={index}
-                        >
-                          {x.content}
-                        </div>
+              {/*{!location.state.isPack &&*/}
+              {/*  <Carousel showThumbs={false} style={{maxWidth: '55ex', textAlign: 'center'}}>*/}
+              {/*      <div style={{maxWidth: '55ex', textAlign: 'center'}}>*/}
+              {/*        <div className={styles.categories} >*/}
+              {/*      {showCategories && categories.map((x, index) => (*/}
+              {/*          <div*/}
+              {/*              className={cn(*/}
+              {/*                  { "status-black": x.category === "black" },*/}
+              {/*                  { "status-purple": x.category === "purple" },*/}
+              {/*                  { "status-gold": x.category === "gold" },*/}
+              {/*                  { "status-blue": x.category === "blue" },*/}
+              {/*                  styles.category*/}
+              {/*              )}*/}
+              {/*              key={index}*/}
+              {/*          >*/}
+              {/*            {x.content}*/}
+              {/*          </div>*/}
 
-                    ))}
-                  </div>
-                  {/*<img style={{maxWidth: '10ex'}}*/}
-                  {/*    //srcSet="/images/content/item-pic@2x.jpg 2x"*/}
-                  {/*    src={location.state.uri.image}*/}
-                  {/*    alt="Item"*/}
-                  {/*/>*/}
-                  <ReactImageMagnify {...{
-                    enlargedImagePosition: 'over',
-                    smallImage: {
-                      alt: 'Item',
-                      isFluidWidth: true,
-                      src: location.state.uri.image
-                    },
-                    largeImage: {
-                      src: location.state.uri.image,
-                      width: 1600,
-                      height: 2200
-                    }
-                  }} />
+              {/*      ))}*/}
+              {/*    </div>*/}
+              {/*    /!*<img style={{maxWidth: '10ex'}}*!/*/}
+              {/*    /!*    //srcSet="/images/content/item-pic@2x.jpg 2x"*!/*/}
+              {/*    /!*    src={location.state.uri.image}*!/*/}
+              {/*    /!*    alt="Item"*!/*/}
+              {/*/>*/}
+              {/*    <ReactImageMagnify {...{*/}
+              {/*      enlargedImagePosition: 'over',*/}
+              {/*      smallImage: {*/}
+              {/*        alt: 'Item',*/}
+              {/*        isFluidWidth: true,*/}
+              {/*        src: location.state.uri.image*/}
+              {/*      },*/}
+              {/*      largeImage: {*/}
+              {/*        src: location.state.uri.image,*/}
+              {/*        width: 1600,*/}
+              {/*        height: 2200*/}
+              {/*      }*/}
+              {/*    }} />*/}
 
-                  </div>
-                  <div style={{maxWidth: '55ex'}}>
-                    <div className={styles.categories}>
-                      {showCategories && categories.map((x, index) => (
-                          <div
-                              className={cn(
-                                  { "status-black": x.category === "black" },
-                                  { "status-purple": x.category === "purple" },
-                                  { "status-gold": x.category === "gold" },
-                                  { "status-blue": x.category === "blue" },
-                                  styles.category
-                              )}
-                              key={index}
-                          >
-                            {x.content}
-                          </div>
-                      ))}
-                    </div>
-                    {/*<img style={{maxWidth: '10ex'}}*/}
-                    {/*    //srcSet="/images/content/item-pic@2x.jpg 2x"*/}
-                    {/*    src={location.state.uri.imageBack}*/}
-                    {/*    alt="Item2"*/}
+              {/*    </div>*/}
+              {/*    <div style={{maxWidth: '55ex'}}>*/}
+              {/*      <div className={styles.categories}>*/}
+              {/*        {showCategories && categories.map((x, index) => (*/}
+              {/*            <div*/}
+              {/*                className={cn(*/}
+              {/*                    { "status-black": x.category === "black" },*/}
+              {/*                    { "status-purple": x.category === "purple" },*/}
+              {/*                    { "status-gold": x.category === "gold" },*/}
+              {/*                    { "status-blue": x.category === "blue" },*/}
+              {/*                    styles.category*/}
+              {/*                )}*/}
+              {/*                key={index}*/}
+              {/*            >*/}
+              {/*              {x.content}*/}
+              {/*            </div>*/}
+              {/*        ))}*/}
+              {/*      </div>*/}
+              {/*      /!*<img style={{maxWidth: '10ex'}}*!/*/}
+              {/*      /!*    //srcSet="/images/content/item-pic@2x.jpg 2x"*!/*/}
+              {/*      /!*    src={location.state.uri.imageBack}*!/*/}
+              {/*      /!*    alt="Item2"*!/*/}
                     {/*/>*/}
 
-                    <ReactImageMagnify {...{
-                      enlargedImagePosition: 'over',
-                      smallImage: {
-                        alt: 'Item',
-                        isFluidWidth: true,
-                        src: location.state.uri.imageBack
-                      },
-                      largeImage: {
-                        src: location.state.uri.imageBack,
-                        width: 1200,
-                        height: 1800
-                      }
-                    }} />
-                  </div>
-                </Carousel>}
+              {/*      <ReactImageMagnify {...{*/}
+              {/*        enlargedImagePosition: 'over',*/}
+              {/*        smallImage: {*/}
+              {/*          alt: 'Item',*/}
+              {/*          isFluidWidth: true,*/}
+              {/*          src: location.state.uri.imageBack*/}
+              {/*        },*/}
+              {/*        largeImage: {*/}
+              {/*          src: location.state.uri.imageBack,*/}
+              {/*          width: 1200,*/}
+              {/*          height: 1800*/}
+              {/*        }*/}
+              {/*      }} />*/}
+              {/*    </div>*/}
+              {/*  </Carousel>}*/}
+
+              {!location.state.isPack && <div id='CI' style={{maxWidth: '55ex', maxHeight: '10ex', marginLeft:'-10ex'}}>
+                    <CardInspector />
+              </div>}
               {location.state.isPack &&
               <video autoPlay loop muted playsInline style={{maxWidth: '100ex', marginBottom: '12ex'}}>
                 <source src={location.state.uri.image} type="video/mp4"/>

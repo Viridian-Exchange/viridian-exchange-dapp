@@ -1,0 +1,11 @@
+Model Information:
+* title:	Pokemon TCG Charizard 1st Edition
+* source:	https://sketchfab.com/3d-models/pokemon-tcg-charizard-1st-edition-e58563af6b134aee9753585bb8587c5e
+* author:	rtql8d (https://sketchfab.com/rtql8d)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Pokemon TCG Charizard 1st Edition" (https://sketchfab.com/3d-models/pokemon-tcg-charizard-1st-edition-e58563af6b134aee9753585bb8587c5e) by rtql8d (https://sketchfab.com/rtql8d) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
